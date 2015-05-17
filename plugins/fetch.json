@@ -1,0 +1,34 @@
+{
+    "org.apache.cordova.inappbrowser": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.inappbrowser"
+        }
+    },
+    "nl.x-services.plugins.socialsharing": {
+        "source": {
+            "type": "registry",
+            "id": "nl.x-services.plugins.socialsharing"
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.ionic.keyboard": {
+        "source": {
+            "type": "registry",
+            "id": "com.ionic.keyboard"
+        }
+    },
+    "org.apache.cordova.console": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.console"
+        }
+    },
+    "org.apache.cordova.device": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.device"
+        }
+    }
+}

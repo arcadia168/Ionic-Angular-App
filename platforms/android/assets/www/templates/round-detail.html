@@ -1,0 +1,27 @@
+<ion-view view-title="Round Fixtures">
+    <ion-content no-scroll>
+        <td-cards>
+            <td-card id="td-card" ng-repeat="fixture in fixtures track by fixture._id" on-destroy="cardDestroyed($index)"
+                     on-swipe-left="predictAwayWin(fixture._id)"
+                     on-swipe-right="predictHomeWin(fixture._id)"
+                     on-swipe-up="predictDraw(fixture._id, $index)"
+                     on-partial-swipe="cardPartialSwipe(amt)">
+                <div class="title">
+                    {{card.title}}
+                </div>
+                <div>
+                    <div class="no-text overlayBox"><div class="noBox boxed">Home Win</div></div>
+
+                    <i class="icon ion-tshirt-outline"></i>
+                    <p>{{fixture.homeTeam}} <em>vs</em> {{fixture.awayTeam}}<br><em>{{fixture.fixDate | date: 'dd/MM/yyyy' }}</em></p>
+                    <p ng-model="fixture">Prediction: {{fixture.prediction || "No prediction made"}}</p>
+                    <i class="icon ion-tshirt right-shirt"></i>
+                    <!--<i class="icon ion-ios-close-empty" ng-click="clearSinglePrediction(fixture)"></i>-->
+
+                    <div class="yes-text overlayBox"><div class="yesBox boxed" id="centerMe">Away Win</div></div>
+                </div>
+            </td-card>
+        </td-cards>
+    </ion-content>
+</ion-view>
+                
