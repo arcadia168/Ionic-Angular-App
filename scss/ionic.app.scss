@@ -206,26 +206,51 @@ td-cards {
     }
   }
 
+  /* predict away win */
   .yes-text {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 30px;
-    color: rgb(111, 250, 111);
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
     opacity: 0;
+    color: $assertive;
   }
 
+  /* predict home win*/
   .no-text {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
-    color: rgb(255, 115, 115);
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
     opacity: 0;
+    color: $balanced;
   }
 
+  .draw-text {
+    position: absolute;
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
+    opacity: 0;
+    color: $energized;
+  }
+
+  @keyframes fly-down{
+    100% {top: 31rem;}
+  }
+
+  .drawfade {
+    transition: 0.1s linear all;
+    opacity:1;
+  }
+
+  .flydown {
+    transition: 0.2s linear all 0.2s;
+    transform:translateY(500px) !important;
+  }
+
+  /* Fades the text for the prediction in but not out as the card is destroyed */
   .fade {
-    -webkit-transition: 0.2s opacity linear;
     transition: 0.2s opacity linear;
     opacity: 0;
   }

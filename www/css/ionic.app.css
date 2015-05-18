@@ -6880,7 +6880,17 @@ ion-view[view-title="LEAGUE TABLE"] .last-empty-row {
 
 /* Styling for the card view */
 td-cards {
-  display: block; }
+  display: block;
+  /* predict away win */
+  /* predict home win*/
+  @-webkit-keyframes fly-down {
+    100% {
+      top: 31rem; } }
+  @keyframes fly-down {
+    100% {
+      top: 31rem; } }
+
+  /* Fades the text for the prediction in but not out as the card is destroyed */ }
   td-cards td-card {
     position: absolute;
     left: 50%;
@@ -6940,18 +6950,32 @@ td-cards {
           margin: 0 auto 1.5rem auto; }
   td-cards .yes-text {
     position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 30px;
-    color: #6ffa6f;
-    opacity: 0; }
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
+    opacity: 0;
+    color: #ef473a; }
   td-cards .no-text {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 30px;
-    color: #ff7373;
-    opacity: 0; }
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
+    opacity: 0;
+    color: #33cd5f; }
+  td-cards .draw-text {
+    position: absolute;
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
+    opacity: 0;
+    color: #ffc900; }
+  td-cards .drawfade {
+    transition: 0.1s linear all;
+    opacity: 1; }
+  td-cards .flydown {
+    transition: 0.2s linear all 0.2s;
+    -webkit-transform: translateY(500px) !important;
+    transform: translateY(500px) !important; }
   td-cards .fade {
     transition: 0.2s opacity linear;
     opacity: 0; }

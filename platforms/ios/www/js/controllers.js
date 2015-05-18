@@ -53,26 +53,38 @@ angular.module('starter.controllers', [])
         LeagueTable.all().then(function (data) {
             debugger;
             $scope.standings = data.teams; //we only want the actual standings data
-            console.log($scope.standings); //TODO: This is purely for debugging purposes, remove where necessary.
-        });
 
+            //Go through and replace 'United' with 'Utd' and 'Manchester' with 'Man'
+            //maybe make reusable
+            angular.forEach($scope.standings, function(standing, key) {
+                if (standing.stand_team_name.indexOf("United" > -1)) {
+                    console.log("Standing with \'United\' in team name has been altered");
+                    standing.stand_team_name = standing.stand_team_name.replace('United', 'Utd');
+                }
+
+                if (standing.stand_team_name.indexOf("Manchester" > -1)) {
+                    console.log("Standing with \'Manchester\' in team name has been altered");
+                    standing.stand_team_name = standing.stand_team_name.replace('Manchester', 'Man');
+                }
+            });
+        });
     })
 
-    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds) {
+.controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds) {
 
-        //only publicly accessible elements get added to the scope
+    //only publicly accessible elements get added to the scope
 
-        Rounds.all().then(function (data) {
-            //debugger;
-            $scope.rounds = data.rounds;
-        });
+    Rounds.all().then(function (data) {
+        //debugger;
+        $scope.rounds = data.rounds;
+    });
 
-        //debugger
-        $scope.remove = function (round) {
-            Rounds.remove(round);
-        };
+    //debugger
+    $scope.remove = function (round) {
+        Rounds.remove(round);
+    };
 
-    })
+})
 
     .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
         //function to check that user is ready to leave without saving changes
@@ -105,7 +117,7 @@ angular.module('starter.controllers', [])
         };
     })
 
-    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $stateParams, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
+    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $stateParams, $timeout, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
 
         var _predictions = [];
         var updatePredictions = false; //flag to update predictions if some already exist.
@@ -346,7 +358,8 @@ angular.module('starter.controllers', [])
         //clear out a single prediction at a time
         //will only not prompt if there were no predictions to begin with - dealing with this use case
 
-        $scope.clearSinglePrediction = function (fixture) {
+        //TODO: EDIT TO SHOW WARNING AT LOSS OF 2 POINTS - are you sure?
+        $scope.deleteSinglePrediction = function (fixture) {
 
             debugger;
 
@@ -667,11 +680,11 @@ angular.module('starter.controllers', [])
         };
 
         $scope.cardDestroyed = function (index) {
-            debugger;
             console.log(index);
             $scope.fixtures.splice(index, 1); //is this a reference to the same fixtures array!?
             console.log($scope.fixtures.length);
             console.log("Users predictions are: %s", _predictions);
+            $scope.draw = false;
             _cardViewDoneCheck();
         };
 
@@ -685,10 +698,16 @@ angular.module('starter.controllers', [])
             _addFixturePrediction(fixtureId, 1);
         };
 
+        $scope.getBackgroundColour = function(singleCase) {
+            return colourMap[singleCase.speciality];
+        };
+
         $scope.cardSwipedDown = function (fixtureId, index) {
-            console.log('DOWN SWIPE - PREDICT DRAW');
+            console.log('PREDICT DRAW');
             _addFixturePrediction(fixtureId, 3);
-            $scope.cardDestroyed(index);
+            $timeout(function() {
+                $scope.cardDestroyed(index);
+            }, 300);
         };
 
         $scope.cardView = true;

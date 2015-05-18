@@ -117,7 +117,7 @@ angular.module('starter.controllers', [])
         };
     })
 
-    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $stateParams, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
+    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $stateParams, $timeout, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
 
         var _predictions = [];
         var updatePredictions = false; //flag to update predictions if some already exist.
@@ -358,14 +358,15 @@ angular.module('starter.controllers', [])
         //clear out a single prediction at a time
         //will only not prompt if there were no predictions to begin with - dealing with this use case
 
-        $scope.clearSinglePrediction = function (fixture) {
+        //TODO: EDIT TO SHOW WARNING AT LOSS OF 2 POINTS - are you sure?
+        $scope.deleteSinglePrediction = function (fixture) {
 
             debugger;
 
             //clear prediction for given fixture
             for (var i = 0; i < $scope.fixtures.length; i++) {
-                if ($scope.fixtures[i]._id == fixture._id) {
-                    $scope.fixtures[i].prediction = null;
+                if ($scope.listFixtures[i]._id == fixture._id) {
+                    $scope.listFixtures[i].prediction = null;
                 }
             }
 
@@ -388,7 +389,7 @@ angular.module('starter.controllers', [])
                 //loop over all fixtures, if any now have predictions, then warn user to save changes
                 for (var i = 0; i < $scope.fixtures.length; i++) {
                     //if a prediction exists for this fixture, warn to save
-                    if ($scope.fixtures[i].prediction) {
+                    if ($scope.listFixtures[i].prediction) {
                         //change flag
                         saveNeeded = true;
                     }
@@ -427,47 +428,47 @@ angular.module('starter.controllers', [])
             var validPredictions = false;
             var indexOfTheFuckingLoop = 0; //TODO: Change the name, here because of a weird error I was getting;
             var predictionsToUpdate = [];
-            for (; indexOfTheFuckingLoop < $scope.fixtures.length; indexOfTheFuckingLoop++) {
-
-                found = false;
-
-                //access the value of the current fixture here once per iteration
-                var currentFixture = $scope.fixtures[indexOfTheFuckingLoop]._id;
-
-                //now iterate over each item in the predictions array
-                //inner loop
-                for (var j = 0; j < _predictions.length; j++) {
-                    if (currentFixture == _predictions[j].fixture) {
-                        //then the fixture has had a prediction made for it
-                        found = true;
-                        break; //breaks out of the inner loop
-                    }
-                }
-
-                if (!found) {
-                    //throw an error because a prediction was not made for all fixtures
-
-                    //alert the user, use the ionicPopUp service
-                    $ionicPopup.alert({
-                        title: 'Woah there!',
-                        template: 'Please make a prediction for every fixture in the round!'
-                    });
-
-                    //now clear out the predictions to start again
-                    //_predictions = [];
-
-                    break;
-                }
-
-                //if we are looking at the last fixture in the round, and all of them have been found.
-                if ((indexOfTheFuckingLoop == ($scope.fixtures.length - 1)) && (found)) {
-
-                    debugger;
-                    validPredictions = true;
-                    found = false;
-                }
-
-            }
+            //for (; indexOfTheFuckingLoop < $scope.fixtures.length; indexOfTheFuckingLoop++) {
+            //
+            //    found = false;
+            //
+            //    //access the value of the current fixture here once per iteration
+            //    var currentFixture = $scope.fixtures[indexOfTheFuckingLoop]._id;
+            //
+            //    //now iterate over each item in the predictions array
+            //    //inner loop
+            //    for (var j = 0; j < _predictions.length; j++) {
+            //        if (currentFixture == _predictions[j].fixture) {
+            //            //then the fixture has had a prediction made for it
+            //            found = true;
+            //            break; //breaks out of the inner loop
+            //        }
+            //    }
+            //
+            //    if (!found) {
+            //        //throw an error because a prediction was not made for all fixtures
+            //
+            //        //alert the user, use the ionicPopUp service
+            //        $ionicPopup.alert({
+            //            title: 'Woah there!',
+            //            template: 'Please make a prediction for every fixture in the round!'
+            //        });
+            //
+            //        //now clear out the predictions to start again
+            //        //_predictions = [];
+            //
+            //        break;
+            //    }
+            //
+            //    //if we are looking at the last fixture in the round, and all of them have been found.
+            //    if ((indexOfTheFuckingLoop == ($scope.fixtures.length - 1)) && (found)) {
+            //
+            //        debugger;
+            //        validPredictions = true;
+            //        found = false;
+            //    }
+            //
+            //}
 
             //after validating the predictions, see if the predictions are the same as those on server
             //if no changes have been made, don't bother and exit out and shout at the user
@@ -679,11 +680,11 @@ angular.module('starter.controllers', [])
         };
 
         $scope.cardDestroyed = function (index) {
-            debugger;
             console.log(index);
             $scope.fixtures.splice(index, 1); //is this a reference to the same fixtures array!?
             console.log($scope.fixtures.length);
             console.log("Users predictions are: %s", _predictions);
+            $scope.draw = false;
             _cardViewDoneCheck();
         };
 
@@ -697,10 +698,16 @@ angular.module('starter.controllers', [])
             _addFixturePrediction(fixtureId, 1);
         };
 
+        $scope.getBackgroundColour = function(singleCase) {
+            return colourMap[singleCase.speciality];
+        };
+
         $scope.cardSwipedDown = function (fixtureId, index) {
-            console.log('DOWN SWIPE - PREDICT DRAW');
+            console.log('PREDICT DRAW');
             _addFixturePrediction(fixtureId, 3);
-            $scope.cardDestroyed(index);
+            $timeout(function() {
+                $scope.cardDestroyed(index);
+            }, 300);
         };
 
         $scope.cardView = true;
