@@ -1,17 +1,50 @@
 <ion-view view-title="PREDICT ROUND {{fixture.round}} FIXTURES">
     <ion-content ng-controller="RoundDetailCtrl" class="padding">
+        <div ng-if="!cardView">
+            <ion-list class="list">
+                <ion-item class="fix-pred-li item-remove-animate item item-icon-left item-icon-right" ng-model="fixtures"
+                          ng-repeat="fixture in listFixtures track by fixture._id"
+                          on-swipe-left="predictHomeWin(fixture._id)" on-swipe-right="predictAwayWin(fixture._id)"
+                          type="item-text-wrap"
+                        >
+                    <div class="fix-pred-header">FIXTURE {{$index + 1}}</div>
+                    <div class="fix-pred-li-shirts">
+                        <div class="fix-home-away">
+                            <img ng-click="predictHomeWin(fixture._id)"
+                                 ng-class="{faded : fixture.prediction == 'AWAY WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
+                                 class="image list-home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
+                            <em>{{fixture.homeTeam | uppercase}}</em>
+                        </div>
+                        <h1 class="vs" ng-click="predictDraw(fixture._id)">vs</h1>
+
+                        <div class="fix-home-away">
+                            <img ng-click="predictAwayWin(fixture._id)"
+                                 ng-class="{faded : fixture.prediction == 'HOME WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
+                                 class="image list-away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
+                            <em>{{fixture.awayTeam | uppercase}}</em>
+                        </div>
+                        <i class="icon ion-ios-close-empty" ng-click="deleteSinglePrediction(fixture)"></i>
+                    </div>
+                    <p ng-model="fixture">YOUR PREDICTION: {{fixture.prediction || "NONE"}}</p>
+                </ion-item>
+            </ion-list>
+            <button class="button button-stable button-submit" ng-click="sendPredictions()">SUBMIT</button>
+        </div>
         <div ng-if="cardView">
             <td-cards>
                 <td-card ng-repeat="fixture in fixtures track by $index"
                          on-destroy="cardDestroyed($index)"
                          on-transition-left="cardSwipedLeft(fixture._id)"
                          on-transition-right="cardSwipedRight(fixture._id)"
-                         on-tap="cardSwipedDown(fixture._id, $index)"
+                         on-tap="cardTapped(fixture._id, $index)"
                          on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}"
-                         ><!--ng-class="{flydown: fixture.prediction == 'DRAW'}">-->
+                         ng-class="{flyout: fixture.prediction == 'DRAW' || fixture.prediction == 'NONE'}"
+                        >
                     <div class="card-header"><p class="fix-title">FIXTURE {{$index + 1}}</p></div>
                     <div class="card-content">
-                        <div class="card-fix-date">{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date: 'hh:mm'}}</div>
+                        <div class="card-fix-date">{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date:
+                            'hh:mm'}}
+                        </div>
 
                         <div class="shirt-container">
                             <div class="home-team col-40">
@@ -30,38 +63,16 @@
                                 <!-- TODO: wld for past six matches here -->
                             </div>
                         </div>
-                        <div class="no-text">PREDICTION: HOME WIN </div>
+                        <div class="no-text">PREDICTION: HOME WIN</div>
                         <div class="yes-text">PREDICTION: AWAY WIN</div>
-                        <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW</div>
+                        <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW
+                        </div>
                     </div>
                 </td-card>
             </td-cards>
-            <button class="button button-energized">Skip</button>
-            <button class="button button-calm">Did You Know?</button>
+            <button class="button button-fact">FYI</button>
+            <button class="button button-skip" ng-click="cardSkipped(currentCardIndex)">Skip</button>
         </div>
-        <ion-list class="list" ng-if="!cardView">
-            <ion-item class="fix-pred-li item-remove-animate item item-icon-left item-icon-right" ng-model="fixtures"
-                      ng-repeat="fixture in listFixtures track by fixture._id"
-                      on-swipe-left="predictHomeWin(fixture._id)" on-swipe-right="predictAwayWin(fixture._id)"
-                      type="item-text-wrap">
-                      <!--on-tap="predictDraw(fixture._id)" -->
-
-                <div class="fix-pred-header">FIXTURE {{$index}}</div>
-                <div class="fix-pred-li-shirts">
-                    <div class="fix-home-away">
-                        <img ng-click="predictHomeWin(fixture._id)" ng-class="{faded : fixture.prediction == 'AWAY WIN', slightlyfaded: fixture.prediction == 'DRAW'}" class="image list-home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
-                        <em>{{fixture.homeTeam | uppercase}}</em>
-                    </div>
-                    <h1 class="vs" ng-click="predictDraw(fixture._id)">vs</h1>
-                    <div class="fix-home-away">
-                        <img ng-click="predictAwayWin(fixture._id)" ng-class="{faded : fixture.prediction == 'HOME WIN', slightlyfaded: fixture.prediction == 'DRAW'}" class="image list-away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
-                        <em>{{fixture.awayTeam | uppercase}}</em>
-                    </div>
-                    <i class="icon ion-ios-close-empty" ng-click="deleteSinglePrediction(fixture)"></i>
-                </div>
-                <p ng-model="fixture">YOUR PREDICTION: {{fixture.prediction || "NONE"}}</p>
-            </ion-item>
-        </ion-list>
     </ion-content>
 </ion-view>
                 

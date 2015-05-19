@@ -9,7 +9,7 @@ YES! GET IN! GREEN  #50EF8C !default !important;
 */
 $light:                           #e9f5e7 !default ;
 $stable:                          #f8f8f8 !default ;
-$positive:                        #387ef5 !default ;
+$positive:                        #3bb665 ;//#387ef5 !default ;
 $calm:                            #11c1f3 !default ;
 $balanced:                        #33cd5f !default ;
 $energized:                       #ffc900 !default ;
@@ -144,7 +144,7 @@ td-cards {
   td-card {
     position: absolute ;
     left: 50% ;
-    margin-top: 80px ;
+    margin-top: 5.5rem;
     margin-bottom: 40px ;
     margin-left: -150px ;
     width: 300px ;
@@ -244,9 +244,9 @@ td-cards {
     opacity:1;
   }
 
-  .flydown {
+  .flyout {
     transition: 0.2s linear all 0.2s;
-    transform:translateY(500px) !important;
+    transform:translateY(-500px) !important;
   }
 
   /* Fades the text for the prediction in but not out as the card is destroyed */
@@ -254,6 +254,29 @@ td-cards {
     transition: 0.2s opacity linear;
     opacity: 0;
   }
+}
+
+.button-skip {
+  margin: 1rem auto;
+  left: 2rem!important;
+  top: 27rem;
+  width: 150px !important;
+  font-weight: 600;
+  border: 1px solid $ygi-green !important;
+  display: table-cell;
+  text-transform: uppercase;
+}
+
+.button-fact {
+  margin: 1rem auto;
+  left: 1.5rem!important;
+  top: 27rem;
+  width: 150px !important;
+  font-weight: 600;
+  border: 1px solid $ygi-green !important;
+  display: table-cell;
+  vertical-align: middle;
+  text-transform: uppercase;
 }
 
 /*Styling for the list view of fixture predictions*/
@@ -292,7 +315,6 @@ td-cards {
     .vs {
       width: 100% ;
       text-align: center ;
-      //padding-top: 2rem ;
       font-size: x-large;
     }
 
@@ -312,13 +334,23 @@ td-cards {
         margin: 0 auto;
 
         &.faded {
-          opacity: 0.3 !important;
+          opacity: 0.2 !important;
         }
 
         &.slightlyfaded {
-          opacity: 0.5;
+          opacity: 0.35;
         }
       }
     }
   }
+}
+
+.button-submit {
+  margin: 1rem auto;
+  left: 30% !important;
+  width: 150px !important;
+  font-weight: 700;
+  border: 1px solid $ygi-green !important;
+  display: table-cell;
+  vertical-align: middle;
 }

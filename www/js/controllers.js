@@ -56,7 +56,7 @@ angular.module('starter.controllers', [])
 
             //Go through and replace 'United' with 'Utd' and 'Manchester' with 'Man'
             //maybe make reusable
-            angular.forEach($scope.standings, function(standing, key) {
+            angular.forEach($scope.standings, function (standing, key) {
                 if (standing.stand_team_name.indexOf("United" > -1)) {
                     console.log("Standing with \'United\' in team name has been altered");
                     standing.stand_team_name = standing.stand_team_name.replace('United', 'Utd');
@@ -70,21 +70,21 @@ angular.module('starter.controllers', [])
         });
     })
 
-.controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds) {
+    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds) {
 
-    //only publicly accessible elements get added to the scope
+        //only publicly accessible elements get added to the scope
 
-    Rounds.all().then(function (data) {
-        //debugger;
-        $scope.rounds = data.rounds;
-    });
+        Rounds.all().then(function (data) {
+            //debugger;
+            $scope.rounds = data.rounds;
+        });
 
-    //debugger
-    $scope.remove = function (round) {
-        Rounds.remove(round);
-    };
+        //debugger
+        $scope.remove = function (round) {
+            Rounds.remove(round);
+        };
 
-})
+    })
 
     .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
         //function to check that user is ready to leave without saving changes
@@ -123,31 +123,10 @@ angular.module('starter.controllers', [])
         var updatePredictions = false; //flag to update predictions if some already exist.
         var user = auth.profile.user_id; //get the universally unique user_id
         var predictionMap = {
+            0: 'NONE',
             1: 'HOME WIN',
             2: 'AWAY WIN',
             3: 'DRAW'
-        };
-        var shirtMap = {
-            "Arsenal": "arsenal",
-            "Aston Villa": "aston-villa",
-            "Burnley": "burnley",
-            "Chelsea": "chelsea",
-            "Crystal Palace": "crystal-palace",
-            "Everton": "everton",
-            "Hull City": "hull-city",
-            "Leicester": "leicester",
-            "Liverpool" : "liverpool",
-            "Manchester City": "manchester-city",
-            "Manchester United": "manchester-united",
-            "Newcastle Utd": "newcastle-utd",
-            "QPR" : "qpr",
-            "Southampton": "southampton",
-            "Stoke CIty": "stoke-city",
-            "Sunderland": "sunderland",
-            "Swansea" : "swansea",
-            "Tottenham" : "tottenham",
-            "West Brom" : "west-brom",
-            "West Ham": "west-ham"
         };
 
         //create variables to tell the delete and clear buttons whether or not they should be enabled
@@ -166,24 +145,10 @@ angular.module('starter.controllers', [])
             //$ionicLoading.hide();
             $scope.fixtures = data;
 
-            console.log($scope.fixtures);
-
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
 
-            angular.forEach($scope.listFixtures, function(fixture, key) {
-                //home team url, encode as url
-                fixture.homeTeamImgUrl = "../img/team_shirts/" + encodeURIComponent(fixture.homeTeam)  + ".svg";
-                console.log(fixture.homeTeamImgUrl);
-                //away team url, encode as url
-                fixture.awayTeamImgUrl = "../img/team_shirts/" + encodeURIComponent(fixture.awayTeam)  + ".svg";
-                console.log(fixture.awayTeamImgUrl);
-            });
-
-            console.log($scope.listFixtures);
-
             //every time a new set of fixtures is loaded, clear predictions
-            debugger;
             _getExistingPredictions();
 
         });
@@ -204,29 +169,56 @@ angular.module('starter.controllers', [])
 
                 if ($scope.existingPredictions.length) {
 
+                    //if the user has already made predictions on this round, then just show list view
+                    $scope.cardView = false;
+
                     //as there are some predictions, enable the delete and clear buttons
                     $scope.deleteDisabled = false;
                     $scope.clearDisabled = false;
 
                     //now loop over fixtures and add in these predictions!
-                    for (var i = 0; i < $scope.fixtures.length; i++) {
+                    //todo: this is a bug, need to match predictions to fixtures using the fixture ids
+                    //will need to use a nested loop
 
-                        currentFixturePrediction = predictionMap[$scope.existingPredictions[i].prediction];
+                    debugger;
+                    console.log("Now matching existing predictions to thier corresponding fixtures.");
 
-                        $scope.fixtures[i].prediction = currentFixturePrediction;
+                    //outer loop - go over all of the listFixtures - iterate through the list of fixtures
+                    for (var i = 0; i < $scope.listFixtures.length; i++) {
+
+                        //for each fixture, iterate over all predictions and find matching one.
+                        for (var j = 0; j < $scope.existingPredictions.length; j++) {
+
+                            //find the corresponding fixture for the existing prediction
+                            var currentExistingPrediction = $scope.existingPredictions[j].fixture
+
+                            if (currentExistingPrediction == $scope.listFixtures[i]._id) {
+                                currentFixturePrediction = predictionMap[$scope.existingPredictions[j].prediction];
+                                $scope.listFixtures[i].prediction = currentFixturePrediction;
+                            }
+                        }
                     }
 
                     updatePredictions = true; //only set this if there are existing predictions!
                 } else {
-                    //if there are no existing predictions on the server for this round for this user
+                    /*if there are no existing predictions on the server for this round for this user*/
+
+                    //Then determing the first card details globally for the skip function
+                    debugger;
+                    $scope.currentCardFixture = $scope.fixtures[$scope.fixtures.length - 1];
+                    console.log("The fixture for the first card is: " + JSON.stringify($scope.currentCardFixture));
+
+                    $scope.currentCardIndex = $scope.fixtures.length - 1;
+                    console.log("To begin with, the current card index is: " + $scope.currentCardIndex);
+
                     $scope.deleteDisabled = true;
                     $scope.clearDisabled = true;
                 }
 
-                for (var j = 0; j < $scope.existingPredictions.length; j++) {
+                for (var k = 0; k < $scope.existingPredictions.length; k++) {
                     _predictions.push({
-                        fixture: $scope.existingPredictions[j].fixture,
-                        prediction: $scope.existingPredictions[j].prediction
+                        fixture: $scope.existingPredictions[k].fixture,
+                        prediction: $scope.existingPredictions[k].prediction
                     });
                 }
 
@@ -273,12 +265,14 @@ angular.module('starter.controllers', [])
 
             //Now update the prediction within the fixtures array
             //Will have to find the correct prediction first, for loop
-            for (var i = 0; i < $scope.fixtures.length; i++) {
+            for (var i = 0; i < $scope.listFixtures.length; i++) {
                 //if matching fixture update the prediction
-                if ($scope.fixtures[i]._id == fixture) {
+                if ($scope.listFixtures[i]._id == fixture) {
                     //then appropriately update the prediction
-                    $scope.fixtures[i].prediction = predictionMap[prediction];
                     $scope.listFixtures[i].prediction = predictionMap[prediction];
+
+                    if ($scope.fixtures.length) $scope.fixtures[i].prediction = predictionMap[prediction];
+                    console.log("Prediction on fixture is now: " + JSON.stringify($scope.fixtures[i].prediction));
                 }
             }
         }
@@ -289,124 +283,58 @@ angular.module('starter.controllers', [])
                 console.log("Cards view is being replaced by list, list length is 0");
 
                 //Get fixtures again
-                Rounds.get($stateParams.roundId).then(function (data) {
-                    $scope.fixtures = data;
-                    //_getExistingPredictions();
-                    //todo: send predictions off to server here
-                    $scope.cardView = false; //maybe run this as promise.
-                });
+                $scope.cardView = false;
             }
         }
 
-        //function to return the class which should be assigned to the div
-        $scope.getTeamShirtImg = function (locality, teamName, prediction) {
-
-            //get the shirt image class
-            var shirtImgClass = shirtMap[teamName];
-            console.log("The image class being applied to the DIV is: " + shirtImgClass);
-
-            //get the faded class dependent on result
-
-            //if its a draw, the locality doesn't matter
-            if (prediction == 'DRAW') {
-                shirtImgClass.concat(" slightly-faded");
-                console.log("The class for the shirt should be: " + shirtImgClass);
-            } else if ((prediction == 'AWAY WIN' && locality == 'homeTeam') || (prediction == 'HOME WIN' && locality == 'awayTeam')) {
-                //fade out when the image being classified, and the prediction for the fixture differ
-                shirtImgClass.concat(" faded");
-                console.log("The class for the shirt should be: " + shirtImgClass);
-            };
-
-            if ((prediction == "HOME WIN" && locality == "homeTeam")|| prediction == "AWAY WIN") {
-
-            } else { //the fade would be a draw
-                shirtImgClass.concat(" slightly-faded");
-                console.log("The class for the shirt should be: " + shirtImgClass);
-            }
-
-            //append classes and return to DOM
-            return shirtImgClass;
-        };
-
-        //clear out all predictions at once
-        $scope.clearAllPredictions = function () {
-
-            debugger;
-
-            //disable the clear button now that there are no predictions to be cleared
-            $scope.clearDisabled = true;
-
-            //set predictions array to be empty
-            _predictions = [];
-
-            //clear all fixtures.predictions
-            for (var i = 0; i < $scope.fixtures.length; i++) {
-                //clear out all predictions in the models to update the view.
-                $scope.fixtures[i].prediction = null;
-            }
-
-            //if no existing no save needed, otherwise, would need to save changes (by selecting more and saving)
-            if ($scope.existingPredictions.length == 0) {
-                //then there were no predictions made to begin with, so no need to save
-                SaveChanges.saveChangesNotNeeded();
-            } else {
-                //else there were predictions beforehand, and these changes may want to be saved
-                SaveChanges.saveChangesNeeded();
-            }
-        };
-
         //clear out a single prediction at a time
-        //will only not prompt if there were no predictions to begin with - dealing with this use case
-
-        //TODO: EDIT TO SHOW WARNING AT LOSS OF 2 POINTS - are you sure?
         $scope.deleteSinglePrediction = function (fixture) {
 
             debugger;
+            if (fixture.prediction != 'NONE') {
+                //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'Confirm Delete',
+                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 2 points!'
+                });
 
-            //clear prediction for given fixture
-            for (var i = 0; i < $scope.fixtures.length; i++) {
-                if ($scope.listFixtures[i]._id == fixture._id) {
-                    $scope.listFixtures[i].prediction = null;
-                }
-            }
+                confirmPopup.then(function (res) {
 
-            //delete the prediction from the private array
-            //find prediction for this fixture
-            for (var i = 0; i < _predictions.length; i++) {
-                if (fixture._id == _predictions[i].fixture) {
-                    //then return the prediction for this fixture else leave undefined
-                    _predictions.splice(i, 1); //delete this object from the predictions array.
-                }
-            }
+                    if (res) {
 
-            //assume that a save will be needed and negate this if necessary
-            SaveChanges.saveChangesNeeded();
+                        debugger;
 
-            var saveNeeded = false; //flag to denote if the user needs to save any changes or not
+                        //delete the prediction from the private array
+                        //find prediction for this fixture
+                        for (var i = 0; i < _predictions.length; i++) {
+                            if (fixture._id == _predictions[i].fixture) {
+                                //set this prediction to be 0 - denoting no prediction
+                                _predictions[i].prediction = 0;
+                                break; //exit loop once updated.
+                            }
+                        }
 
-            //only loop if there were no predictions made to begin with
-            if ($scope.existingPredictions.length == 0) {
-                //loop over all fixtures, if any now have predictions, then warn user to save changes
-                for (var i = 0; i < $scope.fixtures.length; i++) {
-                    //if a prediction exists for this fixture, warn to save
-                    if ($scope.listFixtures[i].prediction) {
-                        //change flag
-                        saveNeeded = true;
+                        //set prediction for given fixture to be 0
+                        for (var i = 0; i < $scope.listFixtures.length; i++) {
+                            if ($scope.listFixtures[i]._id == fixture._id) {
+                                $scope.listFixtures[i].prediction = 0;
+                            }
+                        }
+
+                        //assume that a save will be needed and negate this if necessary
+                        SaveChanges.saveChangesNeeded();
+
+                        //check whether or not to disable the clear all button
+                        if (_predictions.length == 0) {
+                            $scope.clearDisabled = true;
+                        }
                     }
-                } //for
-
-                //if after loop the flag is true, mark changes as being in need of saving
-                if (saveNeeded) {
-                    SaveChanges.saveChangesNeeded();
-                } else {
-                    SaveChanges.saveChangesNotNeeded();
-                }
-            }
-
-            //check whether or not to disable the clear all button
-            debugger;
-            if (_predictions.length == 0) {
-                $scope.clearDisabled = true;
+                });
+            } else {
+                $ionicPopup.alert({
+                    title: "Nothing to delete!",
+                    template: "This fixture didn't have a prediction to delete!"
+                });
             }
         };
 
@@ -424,51 +352,8 @@ angular.module('starter.controllers', [])
 
             //outer loop
             //iterate over each of the fixtures and ensure it exists within the list of predictions
-            var found;
-            var validPredictions = false;
-            var indexOfTheFuckingLoop = 0; //TODO: Change the name, here because of a weird error I was getting;
+            var validPredictions = true;
             var predictionsToUpdate = [];
-            //for (; indexOfTheFuckingLoop < $scope.fixtures.length; indexOfTheFuckingLoop++) {
-            //
-            //    found = false;
-            //
-            //    //access the value of the current fixture here once per iteration
-            //    var currentFixture = $scope.fixtures[indexOfTheFuckingLoop]._id;
-            //
-            //    //now iterate over each item in the predictions array
-            //    //inner loop
-            //    for (var j = 0; j < _predictions.length; j++) {
-            //        if (currentFixture == _predictions[j].fixture) {
-            //            //then the fixture has had a prediction made for it
-            //            found = true;
-            //            break; //breaks out of the inner loop
-            //        }
-            //    }
-            //
-            //    if (!found) {
-            //        //throw an error because a prediction was not made for all fixtures
-            //
-            //        //alert the user, use the ionicPopUp service
-            //        $ionicPopup.alert({
-            //            title: 'Woah there!',
-            //            template: 'Please make a prediction for every fixture in the round!'
-            //        });
-            //
-            //        //now clear out the predictions to start again
-            //        //_predictions = [];
-            //
-            //        break;
-            //    }
-            //
-            //    //if we are looking at the last fixture in the round, and all of them have been found.
-            //    if ((indexOfTheFuckingLoop == ($scope.fixtures.length - 1)) && (found)) {
-            //
-            //        debugger;
-            //        validPredictions = true;
-            //        found = false;
-            //    }
-            //
-            //}
 
             //after validating the predictions, see if the predictions are the same as those on server
             //if no changes have been made, don't bother and exit out and shout at the user
@@ -483,7 +368,7 @@ angular.module('starter.controllers', [])
                 for (var i = 0; i < _predictions.length; i++) {
                     //loop over and compare to
 
-                    //if there are existing predictions, compare
+                    //if there are existing predictions, compare, if not then must be making new predictions
                     if ($scope.existingPredictions.length) {
                         for (var j = 0; j < $scope.existingPredictions.length; j++) {
                             //if the prediction for matching fixtures is different...
@@ -517,7 +402,8 @@ angular.module('starter.controllers', [])
                 }
 
                 debugger;
-                //Send the validatied predictions
+
+                //Send the validated predictions
 
                 //check to see if we are making new predictions or updating old ones
                 if (updatePredictions) {
@@ -527,12 +413,10 @@ angular.module('starter.controllers', [])
                     //warn user that updating will mean points get lost
                     $ionicPopup.confirm({
                         title: 'Updating means less points!',
-                        template: 'Are you sure you want to update? Doing so will mean you earn less points.'
+                        template: 'Are you sure you want to update? Doing so will mean you earn less points. \n Remember: Fixtures without predictions lose 6 points!'
                     }).then(function (res) {
                         if (res) {
-                            console.log('You are sure');
                             //then continue as normal
-
 
                             //compare differences of new predictions to old ones, add to array of predictions to update
                             //loop over old predictions and compare to new
@@ -560,7 +444,7 @@ angular.module('starter.controllers', [])
 
                             //once you have a list of predictions to update, async for loop and update
                             for (var i = 0, c = predictionsToUpdate.length; i < c; i++) {
-                                // creating an Immiedately Invoked Function Expression
+                                // creating an Immiedately Invoked Function Expression (dogballs)
                                 (function (prediction) {
 
                                     //call the async function
@@ -577,17 +461,17 @@ angular.module('starter.controllers', [])
                             $scope.deleteDisabled = false;
                             $scope.clearDisabled = false;
 
-
                             //tell the user things have been updated
                             $ionicPopup.alert(
                                 {
                                     title: 'Your predictions have been updated!',
-                                    template: 'Let\'s hope you do better than you previously would have!'
-                                });
+                                    template: 'Let\'s hope Paul the octopus agrees...!'
+                                }
+                            );
 
-                        } else {
-                            console.log('You are not sure');
-                            //leave the function
+                            //Now go and get the updated predictions from the server!
+                            //Otherwise the updates don't get reset.
+                            _getExistingPredictions();
 
                         }
                     });
@@ -603,61 +487,12 @@ angular.module('starter.controllers', [])
                     //changes have just been saved so no longer need this
                     SaveChanges.saveChangesNotNeeded();
 
-                    //_getExistingPredictions();
+                    _getExistingPredictions();
 
                     //enable the delete button
                     $scope.deleteDisabled = false;
                 }
             }
-        };
-
-        $scope.deleteRoundPredictions = function () {
-
-
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Confirm Delete',
-                template: 'Are you sure you want to delete the predictions for this round? \n You\'ll lose 20 points!'
-            });
-
-            confirmPopup.then(function (res) {
-
-                if (res) {
-
-                    console.log('You are sure');
-
-                    Rounds.deleteRoundPredictions(user, $stateParams.roundId).then(function () {
-
-                            $ionicPopup.alert(
-                                {
-                                    title: 'Your predictions for this round have been deleted!',
-                                    template: 'Have another go!'
-                                }
-                            );
-
-                            //need to delete all predictions from $scope.fixtures
-                            for (var i = 0; i < $scope.fixtures.length; i++) {
-                                //for each, remove the prediction
-                                $scope.fixtures[i].prediction = null;
-                            }
-
-                            //$scope.$apply(); //try to get ui to refresh!
-
-                            //changes have been saved
-                            SaveChanges.saveChangesNotNeeded();
-
-                            _getExistingPredictions();
-
-                            //disable delete button
-                            $scope.deleteDisabled = true;
-
-                            //disbale clear button
-                            $scope.clearDisabled = true;
-                        }
-                    );
-                } else {
-                    console.log('You are not sure');
-                }
-            });
         };
 
         $scope.predictHomeWin = function (fixture) {
@@ -680,11 +515,8 @@ angular.module('starter.controllers', [])
         };
 
         $scope.cardDestroyed = function (index) {
-            console.log(index);
+            $scope.currentCardIndex = index - 1;
             $scope.fixtures.splice(index, 1); //is this a reference to the same fixtures array!?
-            console.log($scope.fixtures.length);
-            console.log("Users predictions are: %s", _predictions);
-            $scope.draw = false;
             _cardViewDoneCheck();
         };
 
@@ -698,16 +530,25 @@ angular.module('starter.controllers', [])
             _addFixturePrediction(fixtureId, 1);
         };
 
-        $scope.getBackgroundColour = function(singleCase) {
-            return colourMap[singleCase.speciality];
-        };
-
-        $scope.cardSwipedDown = function (fixtureId, index) {
+        $scope.cardTapped = function (fixtureId, index) {
             console.log('PREDICT DRAW');
             _addFixturePrediction(fixtureId, 3);
-            $timeout(function() {
+            $timeout(function () {
                 $scope.cardDestroyed(index);
-            }, 300);
+            }, 500);
+        };
+
+        $scope.cardSkipped = function (index) {
+            console.log("SKIP FIXTURE - NO PREDICTION");
+
+            //Retrieve the fixture at this index
+            var fix = $scope.fixtures[index]._id;
+
+            _addFixturePrediction(fix, 0);
+
+            $timeout(function () { //timeout may not be necessary
+                $scope.cardDestroyed(index);
+            }, 500);
         };
 
         $scope.cardView = true;

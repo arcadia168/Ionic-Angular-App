@@ -4,7 +4,7 @@ angular.module('starter.services', ['ngResource'])
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -15,7 +15,7 @@ angular.module('starter.services', ['ngResource'])
         } else if (debugRelease == 'deviceDebug') {
             //running the app on the device hosting server on mac
             //use the ip address of mac from router, port 8000 as usual
-            var code = 'kpbrqkeish';
+            var code = 'enfcclemev';
             var localTunnelUrl = 'https://' + code + '.localtunnel.me'; //THIS WILL CHANGE DYNAMICALLY, UPDATE ALWAYS
             console.log("Local tunnel url is: %s", localTunnelUrl);
             serverToUse = localTunnelUrl + "/api";
@@ -139,7 +139,7 @@ angular.module('starter.services', ['ngResource'])
                 //TODO: Implement getting the username from the session somehow
                 $http.get(SERVER + '/users/predictions/' + userid +  '/' + round
                 ).success(function(response){
-                        console.log("CURRENT USER PREDICTIONS:" + response);
+                        console.log("CURRENT USER PREDICTIONS:" + JSON.stringify(response));
                         deferred.resolve(response);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
