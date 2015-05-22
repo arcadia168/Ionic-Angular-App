@@ -65,6 +65,7 @@
                         </div>
                         <div class="no-text">PREDICTION: HOME WIN</div>
                         <div class="yes-text">PREDICTION: AWAY WIN</div>
+                        <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
                         <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW
                         </div>
                     </div>

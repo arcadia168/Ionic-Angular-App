@@ -117,7 +117,7 @@ angular.module('starter.controllers', [])
         };
     })
 
-    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $stateParams, $timeout, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
+    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
 
         var _predictions = [];
         var updatePredictions = false; //flag to update predictions if some already exist.
@@ -154,6 +154,8 @@ angular.module('starter.controllers', [])
         });
 
         function _getExistingPredictions() {
+
+            debugger;
 
             //go and get all of the predictions for the user
             Rounds.getExistingPredictions(user, $stateParams.roundId).then(function (data) {
@@ -254,13 +256,15 @@ angular.module('starter.controllers', [])
             var existingPredictionPosition = _predictionExists(fixture);
 
             if (existingPredictionPosition != -1) {
-
                 //then update this current fixture using the position in the predictions array
+
+                //check to see if the prediction will actually be changed, if not, do nothing
+
                 _predictions[existingPredictionPosition] = {fixture: fixture, prediction: prediction};
-
             } else { //else if a prediction for this fixture does not already exist...
-
-                _predictions.push({fixture: fixture, prediction: prediction});
+                if (prediction != 0) { //don't add none predictions to the list
+                    _predictions.push({fixture: fixture, prediction: prediction});
+                }
             }
 
             //Now update the prediction within the fixtures array
@@ -271,8 +275,11 @@ angular.module('starter.controllers', [])
                     //then appropriately update the prediction
                     $scope.listFixtures[i].prediction = predictionMap[prediction];
 
-                    if ($scope.fixtures.length) $scope.fixtures[i].prediction = predictionMap[prediction];
-                    console.log("Prediction on fixture is now: " + JSON.stringify($scope.fixtures[i].prediction));
+                    if ($scope.cardView) {
+                        $scope.fixtures[i].prediction = predictionMap[prediction];
+                    }
+
+                    break; //exit the loop
                 }
             }
         }
@@ -287,11 +294,11 @@ angular.module('starter.controllers', [])
             }
         }
 
-        //clear out a single prediction at a time
+//clear out a single prediction at a time
         $scope.deleteSinglePrediction = function (fixture) {
 
             debugger;
-            if (fixture.prediction != 'NONE') {
+            if (fixture.prediction && fixture.prediction != 'NONE') {
                 //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirm Delete',
@@ -317,7 +324,7 @@ angular.module('starter.controllers', [])
                         //set prediction for given fixture to be 0
                         for (var i = 0; i < $scope.listFixtures.length; i++) {
                             if ($scope.listFixtures[i]._id == fixture._id) {
-                                $scope.listFixtures[i].prediction = 0;
+                                $scope.listFixtures[i].prediction = null;
                             }
                         }
 
@@ -338,7 +345,7 @@ angular.module('starter.controllers', [])
             }
         };
 
-        //once predictions are all validated, and predict button send, send all predictions
+//once predictions are all validated, and predict button send, send all predictions
         $scope.sendPredictions = function () { //TODO: Add username to the state params
 
             //mock out the username for now.
@@ -354,6 +361,7 @@ angular.module('starter.controllers', [])
             //iterate over each of the fixtures and ensure it exists within the list of predictions
             var validPredictions = true;
             var predictionsToUpdate = [];
+            var predictionsToAdd = [];
 
             //after validating the predictions, see if the predictions are the same as those on server
             //if no changes have been made, don't bother and exit out and shout at the user
@@ -370,22 +378,33 @@ angular.module('starter.controllers', [])
 
                     //if there are existing predictions, compare, if not then must be making new predictions
                     if ($scope.existingPredictions.length) {
+
+                        var predictionExists = false;
+
                         for (var j = 0; j < $scope.existingPredictions.length; j++) {
                             //if the prediction for matching fixtures is different...
-                            if ((_predictions[i].fixture == $scope.existingPredictions[j].fixture) && !(_predictions[i].prediction == $scope.existingPredictions[j].prediction)) {
-                                //trigger the diffFlag
-                                diffFlag = true; //there is a difference between the predictions on the server and new ones.
-                                break; //break out of the inner loop
+                            if (_predictions[i].fixture == $scope.existingPredictions[j].fixture){
+                                //then the prediction existed previously and needs to be updated
+                                predictionExists = true;
+
+                                //Check if the prediction is different, and hence needs to be updated
+                                if (_predictions[i].prediction != $scope.existingPredictions[j].prediction) {
+                                    //trigger the diffFlag
+                                    diffFlag = true; //there is a difference between the predictions on the server and new ones.
+                                    break; //break out of the inner loop
+                                }
                             }
                         }
+
                     } else {
                         //there are no existing predictions, so new values will always be different
                         diffFlag = true;
                     }
 
-                    //check the diffFlag before iterating
-                    if (diffFlag) {
-                        //exit the outer loop
+                    //Before iterating, heck to see if any new predictions have been made that aren't on the server
+                    if (!predictionExists) {
+                        console.log("A new prediction has been made.");
+                        diffFlag = true;
                         break;
                     }
                 }
@@ -420,25 +439,38 @@ angular.module('starter.controllers', [])
 
                             //compare differences of new predictions to old ones, add to array of predictions to update
                             //loop over old predictions and compare to new
-                            for (var i = 0; i < $scope.predictionsOnServer.length; i++) { //arrays are indexed by 0
+                            for (var i = 0; i < _predictions.length; i++) { //arrays are indexed by 0
 
-                                var currentExistingPrediction = $scope.predictionsOnServer[i];
+                                var predictionExists = false;
+                                var currentUpdatedPrediction = _predictions[i];
 
-                                for (var j = 0; j < _predictions.length; j++) {
+                                for (var j = 0; j < $scope.predictionsOnServer.length; j++) {
 
-                                    var currentUpdatedPrediction = _predictions[j];
+                                    var currentExistingPrediction = $scope.predictionsOnServer[j];
 
                                     //if fixture id is the same, but the prediction is different
-                                    if ((currentExistingPrediction.fixture == currentUpdatedPrediction.fixture) &&
-                                        (currentExistingPrediction.prediction != currentUpdatedPrediction.prediction)) {
+                                    if (currentExistingPrediction.fixture == currentUpdatedPrediction.fixture) {
 
-                                        //TODO: Here assign the fixture ID back into the prediction to be updated!!!
-                                        debugger;
-                                        currentUpdatedPrediction._id = currentExistingPrediction._id;
+                                        //then the prediction exists within the list
+                                        predictionExists = true;
 
-                                        //add this prediction to the list of predictions to be updated
-                                        predictionsToUpdate.push(currentUpdatedPrediction);
+                                        if (currentExistingPrediction.prediction != currentUpdatedPrediction.prediction) {
+
+                                            //TODO: Here assign the fixture ID back into the prediction to be updated!!!
+                                            debugger;
+                                            currentUpdatedPrediction._id = currentExistingPrediction._id;
+
+                                            //add this prediction to the list of predictions to be updated
+                                            predictionsToUpdate.push(currentUpdatedPrediction);
+                                        }
                                     }
+
+                                }
+
+                                //if after comparison the prediction did not exist on the server, then add it to list
+                                if (!predictionExists) {
+                                    //add to list to get sent to server before iterating...
+                                    predictionsToAdd.push(currentUpdatedPrediction);
                                 }
                             }
 
@@ -452,6 +484,12 @@ angular.module('starter.controllers', [])
 
                                 })(predictionsToUpdate[i]); //use dogballs (a closure)
                                 // passing predictions[i] in as "path" in the closure
+                            }
+
+                            //Now send any predictions to be added
+                            //once you have a list of predictions to update, async for loop and update
+                            if (predictionsToAdd) {
+                                Rounds.makePredictions(user, $stateParams.roundId, predictionsToAdd);
                             }
 
                             //mark changes as not being required.
@@ -471,8 +509,9 @@ angular.module('starter.controllers', [])
 
                             //Now go and get the updated predictions from the server!
                             //Otherwise the updates don't get reset.
-                            _getExistingPredictions();
-
+                            $timeout (function() {
+                                _getExistingPredictions();
+                            }, 1000);
                         }
                     });
 
@@ -487,7 +526,9 @@ angular.module('starter.controllers', [])
                     //changes have just been saved so no longer need this
                     SaveChanges.saveChangesNotNeeded();
 
-                    _getExistingPredictions();
+                    $timeout (function() {
+                        _getExistingPredictions();
+                    }, 1000);
 
                     //enable the delete button
                     $scope.deleteDisabled = false;
@@ -495,23 +536,42 @@ angular.module('starter.controllers', [])
             }
         };
 
+        function _predictionDiffCheck (fixture, predictionType) {
+            for (var i = 0; i < $scope.listFixtures.length; i++) {
+                if (($scope.listFixtures[i]._id == fixture) && ($scope.listFixtures[i].prediction == predictionMap[predictionType])) {
+                    console.log("The prediction for this fixture is already the same, exiting.");
+                    return 0; //prediction same
+                }
+            }
+
+            //otherwise if not found return 1 for different
+            console.log("This is an updated prediction, updating.");
+            return 1;
+        }
+
         $scope.predictHomeWin = function (fixture) {
             debugger;
             console.log("Predict home win");
-            _addFixturePrediction(fixture, 1);
+
+            if (_predictionDiffCheck(fixture, 1)) {
+                _addFixturePrediction(fixture, 1);
+            }
         };
 
         $scope.predictAwayWin = function (fixture) {
             debugger;
             console.log("Predict away win");
-            _addFixturePrediction(fixture, 2);
-
+            if (_predictionDiffCheck(fixture, 2)) {
+                _addFixturePrediction(fixture, 2);
+            }
         };
 
-        $scope.predictDraw = function (fixture, index) {
+        $scope.predictDraw = function (fixture) {
             console.log("Predict draw")
             debugger;
-            _addFixturePrediction(fixture, 3);
+            if (_predictionDiffCheck(fixture, 3)) {
+                _addFixturePrediction(fixture, 3);
+            }
         };
 
         $scope.cardDestroyed = function (index) {
@@ -532,6 +592,7 @@ angular.module('starter.controllers', [])
 
         $scope.cardTapped = function (fixtureId, index) {
             console.log('PREDICT DRAW');
+            debugger;
             _addFixturePrediction(fixtureId, 3);
             $timeout(function () {
                 $scope.cardDestroyed(index);

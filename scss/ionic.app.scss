@@ -14,8 +14,8 @@ $calm:                            #11c1f3 !default ;
 $balanced:                        #33cd5f !default ;
 $energized:                       #ffc900 !default ;
 $assertive:                       #ef473a !default ;
-$royal:                           #886aea !default ;
-$dark:                            #444 !default ;
+$royal:                           black !default ;
+$dark:                            #929292 !default ;
 $ygi-green:                       #3bb665 !default ;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
@@ -23,6 +23,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+//Set the font
+* {
+  font-family: 'League Spartan'!important;
+}
 
 body {
   /*Set the background image of the body here*/
@@ -37,9 +42,13 @@ body {
   }
 }
 
+.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
+  color: red;
+}
+
 /*Styling the nav and tab bars along the top and bottom of apps */
-ion-header-bar, .tab-nav {
-  background-color: $ygi-green  !important;
+ion-header-bar {
+  background-color: $ygi-green !important;
 
   .title, .icon, .tab-title {
     color: white !important;
@@ -52,6 +61,11 @@ ion-header-bar, .tab-nav {
       color: black  !important;
     }
   }
+}
+
+.tabs-background-dark {
+  background-color: grey !important;
+  color: black !important;
 }
 
 /*Styling for the live table standings */
@@ -235,11 +249,20 @@ td-cards {
     color: $energized;
   }
 
+  .skipped-text {
+    position: absolute;
+    top: 84%;
+    right: 25%;
+    font-size: 1rem;
+    opacity: 0;
+    color: $royal;
+  }
+
   @keyframes fly-down{
     100% {top: 31rem;}
   }
 
-  .drawfade {
+  .drawfade , .skippedfade {
     transition: 0.1s linear all;
     opacity:1;
   }

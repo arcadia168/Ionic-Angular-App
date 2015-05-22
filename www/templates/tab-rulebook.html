@@ -1,0 +1,22 @@
+<ion-view view-title="RULEBOOK">
+    <ion-tabs class="sub-tabs tabs-top tabs-background-dark tabs-color-royal">
+
+        <ion-tab title="SUMMARY" ui-sref="tabs.rulebook.summary">
+            <ion-nav-view name="rulebook-summary"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="WIN"" ui-sref="tabs.rulebook.win">
+            <ion-nav-view name="rulebook-win"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="LOSE" ui-sref="tabs.rulebook.lose">
+            <ion-nav-view name="rulebook-lose"></ion-nav-view>
+        </ion-tab>
+
+        <ion-tab title="TRADE" ui-sref="tabs.rulebook.trade">
+            <ion-nav-view name="rulebook-trade"></ion-nav-view>
+        </ion-tab>
+
+    </ion-tabs>
+    <ui-view name="rulebook-page"></ui-view>
+</ion-view>

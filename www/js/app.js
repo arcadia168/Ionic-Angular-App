@@ -121,22 +121,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     requiresLogin: true
                 }
             })
-            .state('tab.round-review', {
-                url: '/rounds/review/:roundId',
-                views: {
-                    'tab-rounds': {
-                        templateUrl: 'templates/round-detail.html',
-                        controller: 'RoundDetailCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-
             .state('tab.scoreboard', {
                 url: '/scoreboard',
                 views: {
@@ -211,6 +195,47 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     // If the user isn't logged in and he tries to access this state
                     // he'll be redirected to the login page
                     requiresLogin: true
+                }
+            })
+            .state('tab.rulebook',{
+                url: '/rulebook',
+                views: {
+                    'tab-rulebook': {
+                        templateUrl: 'templates/tab-rulebook.html',
+                        abstract:   true
+                    }
+                }
+            })
+            .state('tab.rulebook.summary',{
+                url: "/summary",
+                views: {
+                    'rulebook-summary': {
+                        templateUrl: "templates/rulebook-summary.html"
+                    }
+                }
+            })
+            .state('tab.rulebook.win', {
+                url: "/win",
+                views: {
+                    'rulebook-win': {
+                        templateUrl: "templates/rulebook-win.html"
+                    }
+                }
+            })
+            .state('tab.rulebook.lose',{
+                url: "/lose",
+                views: {
+                    'rulebook-lose': {
+                        templateUrl: "templates/rulebook-lose.html"
+                    }
+                }
+            })
+            .state('tab.rulebook.trade',{
+                url: "/trade",
+                views: {
+                    'rulebook-trade': {
+                        templateUrl: "templates/rulebook-trade.html"
+                    }
                 }
             })
             .state('tab.account', {

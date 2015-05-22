@@ -4,7 +4,7 @@ angular.module('starter.services', ['ngResource'])
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -331,7 +331,7 @@ angular.module('starter.services', ['ngResource'])
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        //deferred.promise; //should actually be reject
                     });
                 return deferred.promise;
             },
