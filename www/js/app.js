@@ -208,6 +208,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.summary',{
                 url: "/summary",
+                //templateUrl: "templates/rulebook-summary.html"
                 views: {
                     'rulebook-summary': {
                         templateUrl: "templates/rulebook-summary.html"
@@ -216,6 +217,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.win', {
                 url: "/win",
+                //templateUrl: "templates/rulebook-win.html"
                 views: {
                     'rulebook-win': {
                         templateUrl: "templates/rulebook-win.html"
@@ -224,6 +226,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.lose',{
                 url: "/lose",
+                //templateUrl: "templates/rulebook-lose.html"
                 views: {
                     'rulebook-lose': {
                         templateUrl: "templates/rulebook-lose.html"
@@ -232,6 +235,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.trade',{
                 url: "/trade",
+                //templateUrl: "templates/rulebook-trade.html"
                 views: {
                     'rulebook-trade': {
                         templateUrl: "templates/rulebook-trade.html"

@@ -4,7 +4,7 @@ angular.module('starter.services', ['ngResource'])
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'deviceDebug';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -139,7 +139,7 @@ angular.module('starter.services', ['ngResource'])
                 //TODO: Implement getting the username from the session somehow
                 $http.get(SERVER + '/users/predictions/' + userid +  '/' + round
                 ).success(function(response){
-                        console.log("CURRENT USER PREDICTIONS:" + response);
+                        console.log("CURRENT USER PREDICTIONS:" + JSON.stringify(response));
                         deferred.resolve(response);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
@@ -331,7 +331,7 @@ angular.module('starter.services', ['ngResource'])
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        //deferred.promise; //should actually be reject
                     });
                 return deferred.promise;
             },

@@ -7,7 +7,7 @@
                           on-swipe-left="predictHomeWin(fixture._id)" on-swipe-right="predictAwayWin(fixture._id)"
                           type="item-text-wrap"
                         >
-                    <div class="fix-pred-header">FIXTURE {{$index}}</div>
+                    <div class="fix-pred-header">FIXTURE {{$index + 1}}</div>
                     <div class="fix-pred-li-shirts">
                         <div class="fix-home-away">
                             <img ng-click="predictHomeWin(fixture._id)"
@@ -38,7 +38,7 @@
                          on-transition-right="cardSwipedRight(fixture._id)"
                          on-tap="cardTapped(fixture._id, $index)"
                          on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}"
-                         ng-class="{flyout: fixture.prediction == 'DRAW'}"
+                         ng-class="{flyout: fixture.prediction == 'DRAW' || fixture.prediction == 'NONE'}"
                         >
                     <div class="card-header"><p class="fix-title">FIXTURE {{$index + 1}}</p></div>
                     <div class="card-content">
@@ -65,13 +65,14 @@
                         </div>
                         <div class="no-text">PREDICTION: HOME WIN</div>
                         <div class="yes-text">PREDICTION: AWAY WIN</div>
+                        <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
                         <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW
                         </div>
                     </div>
                 </td-card>
             </td-cards>
-            <button class="button button-fact">Did You Know?</button>
-            <button class="button button-skip">Skip</button>
+            <button class="button button-fact">FYI</button>
+            <button class="button button-skip" ng-click="cardSkipped(currentCardIndex)">Skip</button>
         </div>
     </ion-content>
 </ion-view>

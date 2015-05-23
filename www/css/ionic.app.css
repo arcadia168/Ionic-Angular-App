@@ -6799,22 +6799,105 @@ body {
   body .pane, body .menu, body .view, body .list, body .item {
     background: transparent; }
 
-.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
-  color: red; }
-
-/*Styling the nav and tab bars along the top and bottom of apps */
 ion-header-bar {
   background-color: #3bb665 !important; }
-  ion-header-bar .title, ion-header-bar .icon, ion-header-bar .tab-title {
-    color: white !important; }
-  ion-header-bar .tab-item-active {
-    background-color: white; }
-    ion-header-bar .tab-item-active .icon, ion-header-bar .tab-item-active .tab-title {
-      color: black !important; }
+  ion-header-bar .title {
+    text-align: center !important;
+    color: white !important;
+    padding-top: 0.2rem; }
 
-.tabs-background-dark {
-  background-color: grey !important;
-  color: black !important; }
+ion-nav-view ion-tabs {
+  /*Styling bottom nav bar */
+  /*Styling nested tabs */ }
+  ion-nav-view ion-tabs .tab-nav.tabs {
+    background-color: #3bb665 !important; }
+    ion-nav-view ion-tabs .tab-nav.tabs .tab-item-active {
+      background-color: white !important;
+      color: black !important; }
+  ion-nav-view ion-tabs ion-nav-view ion-view ion-tabs .tab-nav.tabs {
+    background-color: #EBEBEC !important;
+    border: 1px solid #3bb665 !important; }
+    ion-nav-view ion-tabs ion-nav-view ion-view ion-tabs .tab-nav.tabs .tab-item-active {
+      background-color: #D9D8D8 !important; }
+
+.rulebook-content {
+  margin: 1.1rem 1.1rem 5rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important; }
+  .rulebook-content .rulebook-title {
+    text-align: center; }
+  .rulebook-content .summary-title {
+    color: #3bb665 !important; }
+  .rulebook-content .lose-title {
+    color: #F26C4F !important; }
+  .rulebook-content .summary {
+    font-weight: 300 !important;
+    font-size: 0.85rem !important;
+    color: #6A6A6A !important;
+    margin-bottom: 1rem; }
+    .rulebook-content .summary p {
+      margin: auto; }
+  .rulebook-content .points-table div {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin: auto 0.3rem; }
+  .rulebook-content .points-table .title-row {
+    height: 1.75rem;
+    padding-top: 0.2rem;
+    border-bottom: 1px solid #3bb665;
+    border-top: 1px solid #3bb665;
+    font-size: 0.75rem; }
+    .rulebook-content .points-table .title-row p {
+      display: inline;
+      margin: 0.2rem 0.015rem;
+      width: 5rem;
+      text-align: justify; }
+    .rulebook-content .points-table .title-row .win {
+      margin-left: 10.05rem;
+      color: #3bb665; }
+    .rulebook-content .points-table .title-row .lose {
+      color: #F26C4F;
+      margin-left: 1rem !important; }
+    .rulebook-content .points-table .title-row .trade {
+      color: #6A6A6A;
+      margin-left: 0.6rem !important; }
+  .rulebook-content .points-table .row-label {
+    width: 8rem;
+    font-size: 0.8rem !important;
+    color: #6A6A6A !important; }
+  .rulebook-content .points-table .win-pts, .rulebook-content .points-table .lose-pts, .rulebook-content .points-table .trade-pts {
+    height: 1.75rem;
+    border-radius: 100%;
+    width: 1.75rem;
+    color: white !important;
+    padding: 0.4rem 0 0 0.4rem; }
+  .rulebook-content .points-table .double-digits {
+    padding: 0.3rem 0 0 0.4rem; }
+  .rulebook-content .points-table .single-digit {
+    padding: 0.3rem 0 0 0.575rem !important; }
+  .rulebook-content .points-table .win-pts {
+    background-color: #3bb665; }
+  .rulebook-content .points-table .lose-pts {
+    background-color: #F26C4F;
+    padding: 0.3rem 0 0 0.3rem; }
+  .rulebook-content .points-table .trade-pts {
+    background-color: #6A6A6A;
+    padding: 0.35rem 0 0 0.575rem; }
+  .rulebook-content .points-table .pre-season-row, .rulebook-content .points-table .during-season-row, .rulebook-content .points-table .pre-round-row, .rulebook-content .points-table .pre-fixture-row, .rulebook-content .points-table .during-fixture-row {
+    height: 2.5rem !important; }
+  .rulebook-content .points-table .no-prediction-row {
+    border-top: 1px solid #3bb665;
+    border-bottom: 1px solid #3bb665;
+    height: 3rem; }
+    .rulebook-content .points-table .no-prediction-row .lose-pts {
+      margin-right: 4rem; }
 
 /*Styling for the live table standings */
 ion-view[view-title="LEAGUE TABLE"] .scroll {

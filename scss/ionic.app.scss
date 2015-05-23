@@ -17,6 +17,8 @@ $assertive:                       #ef473a !default ;
 $royal:                           black !default ;
 $dark:                            #929292 !default ;
 $ygi-green:                       #3bb665 !default ;
+$ygi-loss:                        #F26C4F !default;
+$ygi-trade:                       #6A6A6A !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default ;
@@ -42,30 +44,161 @@ body {
   }
 }
 
-.tab-item.tab-item-active, .tab-item.active, .tab-item.activated {
-  color: red;
-}
-
-/*Styling the nav and tab bars along the top and bottom of apps */
 ion-header-bar {
   background-color: $ygi-green !important;
-
-  .title, .icon, .tab-title {
+  .title {
+    text-align: center !important;
     color: white !important;
+    padding-top: 0.2rem;
   }
+}
 
-  .tab-item-active {
-    background-color: white;
-
-    .icon, .tab-title {
-      color: black  !important;
+//To apply different styles nested tabs, you have to use the respective DOM positions
+ion-nav-view {
+  ion-tabs {
+    /*Styling bottom nav bar */
+    .tab-nav.tabs {
+      background-color: $ygi-green !important;
+      .tab-item-active {
+        background-color: white !important;
+        color: black !important;
+      }
+    }
+    /*Styling nested tabs */
+    ion-nav-view{
+      ion-view {
+        ion-tabs{
+          .tab-nav.tabs{
+            background-color: #EBEBEC !important;
+            border: 1px solid $ygi-green !important;
+            .tab-item-active {
+              background-color: #D9D8D8 !important;
+              //color: black; //I didn't need this, others might
+            }
+          }
+        }
+      }
     }
   }
 }
 
-.tabs-background-dark {
-  background-color: grey !important;
-  color: black !important;
+.rulebook-content {
+  margin: 1.1rem 1.1rem 5rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important;
+
+  .rulebook-title {
+    text-align: center;
+  }
+
+  .summary-title {
+    color: $ygi-green !important;
+  }
+
+  .lose-title {
+    color: $ygi-loss !important
+  }
+
+  .summary {
+    font-weight: 300 !important;
+    font-size: 0.85rem !important;
+    color: $ygi-trade !important;
+    margin-bottom: 1rem;
+
+    p {
+      margin: auto;
+    }
+  }
+
+  .points-table {
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: auto 0.3rem;
+    }
+
+    .title-row {
+      height: 1.75rem;
+      padding-top: 0.2rem;
+      border-bottom: 1px solid $ygi-green;
+      border-top: 1px solid $ygi-green;
+      font-size: 0.75rem;
+
+      p {
+        display: inline;
+        margin: 0.2rem .015rem;
+        width: 5rem;
+        text-align: justify;
+      }
+
+      .win {
+        margin-left: 10.05rem;
+        color: $ygi-green;
+      }
+
+      .lose {
+        color: $ygi-loss;
+        margin-left: 1rem !important;
+      }
+
+      .trade {
+        color: $ygi-trade;
+        margin-left: .6rem !important;
+      }
+    }
+
+    .row-label {
+      width: 8rem;
+      font-size: .8rem !important;
+      color: $ygi-trade !important;
+    }
+
+    .win-pts, .lose-pts, .trade-pts {
+      height: 1.75rem;
+      border-radius: 100%;
+      width: 1.75rem;
+      color: white !important;
+      padding: 0.4rem 0 0 0.4rem;
+    }
+
+    .double-digits {
+      padding: 0.3rem 0 0 0.4rem;
+    }
+
+    .single-digit {
+      padding: 0.3rem 0 0 0.575rem !important;
+    }
+
+    .win-pts {
+      background-color: $ygi-green;
+    }
+
+    .lose-pts {
+      background-color: $ygi-loss;
+      padding: 0.3rem 0 0 0.3rem;
+    }
+
+    .trade-pts {
+      background-color: $ygi-trade;
+      padding: 0.35rem 0 0 0.575rem;
+    }
+
+    .pre-season-row, .during-season-row ,.pre-round-row, .pre-fixture-row, .during-fixture-row{
+      height: 2.5rem !important;
+    }
+
+    .no-prediction-row {
+      border-top: 1px solid $ygi-green;
+      border-bottom: 1px solid $ygi-green;
+      height: 3rem;
+
+      .lose-pts {
+        margin-right: 4rem;
+      }
+    }
+  }
 }
 
 /*Styling for the live table standings */
