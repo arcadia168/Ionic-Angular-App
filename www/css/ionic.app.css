@@ -6793,7 +6793,8 @@ a.button {
 
 body {
   /*Set the background image of the body here*/
-  background: url(../img/pitch_bg.jpg) fixed center; }
+  background: url(../img/pitch_bg.png) fixed center;
+  background-position: top; }
   body .view-container.tab-content {
     background-color: transparent; }
   body .pane, body .menu, body .view, body .list, body .item {
@@ -6820,14 +6821,21 @@ ion-nav-view ion-tabs {
     ion-nav-view ion-tabs ion-nav-view ion-view ion-tabs .tab-nav.tabs .tab-item-active {
       background-color: #D9D8D8 !important; }
 
+.rounds-content {
+  margin: 1.1rem 1.1rem 5rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important; }
+
 .rulebook-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
   border-radius: 3px;
   background-color: white !important; }
   .rulebook-content .rulebook-title {
     text-align: center; }
-  .rulebook-content .summary-title {
+  .rulebook-content .summary-title, .rulebook-content .winning-title {
     color: #3bb665 !important; }
+  .rulebook-content .trade-title {
+    color: #6A6A6A !important; }
   .rulebook-content .lose-title {
     color: #F26C4F !important; }
   .rulebook-content .summary {
@@ -6837,6 +6845,22 @@ ion-nav-view ion-tabs {
     margin-bottom: 1rem; }
     .rulebook-content .summary p {
       margin: auto; }
+  .rulebook-content sup {
+    color: #3bb665 !important;
+    font-size: 0.55rem !important;
+    margin-left: 0.15rem; }
+  .rulebook-content .sub-table {
+    width: 65%;
+    margin-left: 3.75rem; }
+  .rulebook-content .sub-table-lose-title {
+    margin-left: 10.2rem !important;
+    color: #F26C4F !important; }
+  .rulebook-content .sub-table-trade-title {
+    margin-left: 9.75rem !important;
+    color: #6A6A6A !important; }
+  .rulebook-content .sub-table-win-title {
+    margin-left: 10rem !important;
+    color: #3bb665 !important; }
   .rulebook-content .points-table div {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -6860,7 +6884,7 @@ ion-nav-view ion-tabs {
       width: 5rem;
       text-align: justify; }
     .rulebook-content .points-table .title-row .win {
-      margin-left: 10.05rem;
+      margin-left: 10.2rem;
       color: #3bb665; }
     .rulebook-content .points-table .title-row .lose {
       color: #F26C4F;
@@ -6868,10 +6892,16 @@ ion-nav-view ion-tabs {
     .rulebook-content .points-table .title-row .trade {
       color: #6A6A6A;
       margin-left: 0.6rem !important; }
+  .rulebook-content .points-table .lose-title-row {
+    border-bottom: 1px solid #F26C4F !important;
+    border-top: 1px solid #F26C4F !important; }
   .rulebook-content .points-table .row-label {
     width: 8rem;
     font-size: 0.8rem !important;
     color: #6A6A6A !important; }
+    .rulebook-content .points-table .row-label p {
+      margin-top: auto !important;
+      margin-bottom: auto !important; }
   .rulebook-content .points-table .win-pts, .rulebook-content .points-table .lose-pts, .rulebook-content .points-table .trade-pts {
     height: 1.75rem;
     border-radius: 100%;
@@ -6887,9 +6917,19 @@ ion-nav-view ion-tabs {
   .rulebook-content .points-table .lose-pts {
     background-color: #F26C4F;
     padding: 0.3rem 0 0 0.3rem; }
+  .rulebook-content .points-table .during-loss {
+    padding: 0.3rem 0 0 0.4rem; }
   .rulebook-content .points-table .trade-pts {
     background-color: #6A6A6A;
     padding: 0.35rem 0 0 0.575rem; }
+  .rulebook-content .points-table .pre-fixture-trade {
+    padding: 0.35rem 0 0 0.43rem; }
+  .rulebook-content .points-table .during-fixture-trade {
+    padding: 0.3rem 0 0 0.3rem; }
+  .rulebook-content .points-table .loss-during-fixture-trade {
+    padding: 0.3rem 0 0 0.4rem; }
+  .rulebook-content .points-table .green-border-bottom {
+    border-bottom: 1px solid #3bb665; }
   .rulebook-content .points-table .pre-season-row, .rulebook-content .points-table .during-season-row, .rulebook-content .points-table .pre-round-row, .rulebook-content .points-table .pre-fixture-row, .rulebook-content .points-table .during-fixture-row {
     height: 2.5rem !important; }
   .rulebook-content .points-table .no-prediction-row {
@@ -6898,6 +6938,28 @@ ion-nav-view ion-tabs {
     height: 3rem; }
     .rulebook-content .points-table .no-prediction-row .lose-pts {
       margin-right: 4rem; }
+    .rulebook-content .points-table .no-prediction-row .lose-tab {
+      margin-right: 0.35rem !important; }
+  .rulebook-content .footnotes {
+    margin-top: 1rem;
+    margin-left: 0.2rem; }
+    .rulebook-content .footnotes .footnote-row {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: #6A6A6A;
+      margin-bottom: 0.8rem; }
+      .rulebook-content .footnotes .footnote-row sup {
+        font-size: 0.5rem !important;
+        margin-right: 0.1rem; }
+      .rulebook-content .footnotes .footnote-row .footnotes-text {
+        -webkit-flex-basis: 12rem;
+        -ms-flex-preferred-size: 12rem;
+        flex-basis: 12rem; }
 
 /*Styling for the live table standings */
 ion-view[view-title="LEAGUE TABLE"] .scroll {
@@ -6919,14 +6981,20 @@ ion-view[view-title="LEAGUE TABLE"] .row-header {
   justify-content: space-around;
   text-align: center;
   border-radius: 3px; }
+  ion-view[view-title="LEAGUE TABLE"] .row-header p:first-child, ion-view[view-title="LEAGUE TABLE"] .row-header p:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row-header p:nth-last-child(2) {
+    border-right: 1px solid white;
+    border-bottom: 1px solid #3bb665; }
+  ion-view[view-title="LEAGUE TABLE"] .row-header p {
+    margin-top: 0.2rem;
+    padding-top: 0.2rem; }
   ion-view[view-title="LEAGUE TABLE"] .row-header .team-column-title {
-    -webkit-flex-basis: 8rem !important;
-    -ms-flex-preferred-size: 8rem !important;
-    flex-basis: 8rem !important; }
-  ion-view[view-title="LEAGUE TABLE"] .row-header .gp {
-    margin-left: 1rem; }
+    -webkit-flex-basis: 9rem !important;
+    -ms-flex-preferred-size: 9rem !important;
+    flex-basis: 9rem !important; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2) {
   border-top: 5px solid white; }
+ion-view[view-title="LEAGUE TABLE"] .row:nth-child(3), ion-view[view-title="LEAGUE TABLE"] .row:nth-child(6) {
+  border-top: 1px solid #3bb665; }
 ion-view[view-title="LEAGUE TABLE"] .row {
   background: white;
   display: -webkit-flex;
@@ -6957,10 +7025,12 @@ ion-view[view-title="LEAGUE TABLE"] .row {
     align-items: center; }
     ion-view[view-title="LEAGUE TABLE"] .row .team-name-shirt .standing-shirt {
       width: 19%;
-      margin: 0 0.2rem; }
+      margin: 0 0.2rem 0.5rem 0.2rem; }
     ion-view[view-title="LEAGUE TABLE"] .row .team-name-shirt .team-name {
       display: inline;
       padding-top: 0.5rem; }
+ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row:nth-child(5) {
+  border-bottom: 1px solid #3bb665 !important; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-last-child(4) {
   border-top: 1px solid #3bb665; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-last-child(2) {

@@ -6793,7 +6793,7 @@ a.button {
 
 body {
   /*Set the background image of the body here*/
-  background: url(../img/pitch_bg.jpg) fixed center; }
+  background: url(../img/pitch_bg.png) fixed center; }
   body .view-container.tab-content {
     background-color: transparent; }
   body .pane, body .menu, body .view, body .list, body .item {
@@ -6826,8 +6826,10 @@ ion-nav-view ion-tabs {
   background-color: white !important; }
   .rulebook-content .rulebook-title {
     text-align: center; }
-  .rulebook-content .summary-title {
+  .rulebook-content .summary-title, .rulebook-content .winning-title {
     color: #3bb665 !important; }
+  .rulebook-content .trade-title {
+    color: #6A6A6A !important; }
   .rulebook-content .lose-title {
     color: #F26C4F !important; }
   .rulebook-content .summary {
@@ -6837,6 +6839,22 @@ ion-nav-view ion-tabs {
     margin-bottom: 1rem; }
     .rulebook-content .summary p {
       margin: auto; }
+  .rulebook-content sup {
+    color: #3bb665 !important;
+    font-size: 0.55rem !important;
+    margin-left: 0.15rem; }
+  .rulebook-content .sub-table {
+    width: 65%;
+    margin-left: 3.75rem; }
+  .rulebook-content .sub-table-lose-title {
+    margin-left: 10.2rem !important;
+    color: #F26C4F !important; }
+  .rulebook-content .sub-table-trade-title {
+    margin-left: 9.75rem !important;
+    color: #6A6A6A !important; }
+  .rulebook-content .sub-table-win-title {
+    margin-left: 10rem !important;
+    color: #3bb665 !important; }
   .rulebook-content .points-table div {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -6857,9 +6875,10 @@ ion-nav-view ion-tabs {
     .rulebook-content .points-table .title-row p {
       display: inline;
       margin: 0.2rem 0.015rem;
-      width: 5rem; }
+      width: 5rem;
+      text-align: justify; }
     .rulebook-content .points-table .title-row .win {
-      margin-left: 10.05rem;
+      margin-left: 10.2rem;
       color: #3bb665; }
     .rulebook-content .points-table .title-row .lose {
       color: #F26C4F;
@@ -6867,8 +6886,16 @@ ion-nav-view ion-tabs {
     .rulebook-content .points-table .title-row .trade {
       color: #6A6A6A;
       margin-left: 0.6rem !important; }
+  .rulebook-content .points-table .lose-title-row {
+    border-bottom: 1px solid #F26C4F !important;
+    border-top: 1px solid #F26C4F !important; }
   .rulebook-content .points-table .row-label {
-    width: 8rem; }
+    width: 8rem;
+    font-size: 0.8rem !important;
+    color: #6A6A6A !important; }
+    .rulebook-content .points-table .row-label p {
+      margin-top: auto !important;
+      margin-bottom: auto !important; }
   .rulebook-content .points-table .win-pts, .rulebook-content .points-table .lose-pts, .rulebook-content .points-table .trade-pts {
     height: 1.75rem;
     border-radius: 100%;
@@ -6884,11 +6911,49 @@ ion-nav-view ion-tabs {
   .rulebook-content .points-table .lose-pts {
     background-color: #F26C4F;
     padding: 0.3rem 0 0 0.3rem; }
+  .rulebook-content .points-table .during-loss {
+    padding: 0.3rem 0 0 0.4rem; }
   .rulebook-content .points-table .trade-pts {
     background-color: #6A6A6A;
     padding: 0.35rem 0 0 0.575rem; }
+  .rulebook-content .points-table .pre-fixture-trade {
+    padding: 0.35rem 0 0 0.43rem; }
+  .rulebook-content .points-table .during-fixture-trade {
+    padding: 0.3rem 0 0 0.3rem; }
+  .rulebook-content .points-table .loss-during-fixture-trade {
+    padding: 0.3rem 0 0 0.4rem; }
+  .rulebook-content .points-table .green-border-bottom {
+    border-bottom: 1px solid #3bb665; }
   .rulebook-content .points-table .pre-season-row, .rulebook-content .points-table .during-season-row, .rulebook-content .points-table .pre-round-row, .rulebook-content .points-table .pre-fixture-row, .rulebook-content .points-table .during-fixture-row {
     height: 2.5rem !important; }
+  .rulebook-content .points-table .no-prediction-row {
+    border-top: 1px solid #3bb665;
+    border-bottom: 1px solid #3bb665;
+    height: 3rem; }
+    .rulebook-content .points-table .no-prediction-row .lose-pts {
+      margin-right: 4rem; }
+    .rulebook-content .points-table .no-prediction-row .lose-tab {
+      margin-right: 0.35rem !important; }
+  .rulebook-content .footnotes {
+    margin-top: 1rem;
+    margin-left: 0.2rem; }
+    .rulebook-content .footnotes .footnote-row {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: #6A6A6A;
+      margin-bottom: 0.8rem; }
+      .rulebook-content .footnotes .footnote-row sup {
+        font-size: 0.5rem !important;
+        margin-right: 0.1rem; }
+      .rulebook-content .footnotes .footnote-row .footnotes-text {
+        -webkit-flex-basis: 12rem;
+        -ms-flex-preferred-size: 12rem;
+        flex-basis: 12rem; }
 
 /*Styling for the live table standings */
 ion-view[view-title="LEAGUE TABLE"] .scroll {

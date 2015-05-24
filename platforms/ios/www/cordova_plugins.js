@@ -8,6 +8,13 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
+        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
+        "clobbers": [
+            "window.plugins.socialsharing"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.console/www/console-via-logger.js",
         "id": "org.apache.cordova.console.console",
         "clobbers": [
@@ -34,23 +41,16 @@ module.exports = [
         "clobbers": [
             "window.open"
         ]
-    },
-    {
-        "file": "plugins/nl.x-services.plugins.socialsharing/www/SocialSharing.js",
-        "id": "nl.x-services.plugins.socialsharing.SocialSharing",
-        "clobbers": [
-            "window.plugins.socialsharing"
-        ]
     }
 ];
 module.exports.metadata = 
 // TOP OF METADATA
 {
     "com.ionic.keyboard": "1.0.4",
+    "nl.x-services.plugins.socialsharing": "4.3.18",
     "org.apache.cordova.console": "0.2.13",
     "org.apache.cordova.device": "0.3.1-dev",
-    "org.apache.cordova.inappbrowser": "0.6.0",
-    "nl.x-services.plugins.socialsharing": "4.3.18"
+    "org.apache.cordova.inappbrowser": "0.6.0"
 }
 // BOTTOM OF METADATA
 });

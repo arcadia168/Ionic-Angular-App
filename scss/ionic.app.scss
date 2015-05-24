@@ -33,7 +33,8 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
 
 body {
   /*Set the background image of the body here*/
-  background: url(../img/pitch_bg.jpg) fixed center;
+  background: url(../img/pitch_bg.png) fixed center;
+  background-position: top;
 
   .view-container.tab-content {
     background-color: transparent;
@@ -82,6 +83,14 @@ ion-nav-view {
   }
 }
 
+.rounds-content {
+  margin: 1.1rem 1.1rem 5rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important;
+
+
+}
+
 .rulebook-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
   border-radius: 3px;
@@ -91,8 +100,12 @@ ion-nav-view {
     text-align: center;
   }
 
-  .summary-title {
+  .summary-title, .winning-title {
     color: $ygi-green !important;
+  }
+
+  .trade-title {
+    color: $ygi-trade !important;
   }
 
   .lose-title {
@@ -104,10 +117,37 @@ ion-nav-view {
     font-size: 0.85rem !important;
     color: $ygi-trade !important;
     margin-bottom: 1rem;
+    //text-align: justify !important;
 
     p {
       margin: auto;
     }
+  }
+
+  sup {
+    color: $ygi-green !important;
+    font-size: 0.55rem !important;
+    margin-left: 0.15rem;
+  }
+
+  .sub-table {
+    width: 65%;
+    margin-left: 3.75rem;
+  }
+
+  .sub-table-lose-title {
+    margin-left: 10.2rem !important;
+    color: $ygi-loss !important;
+  }
+
+  .sub-table-trade-title {
+    margin-left: 9.75rem !important;
+    color: $ygi-trade !important;
+  }
+
+  .sub-table-win-title {
+    margin-left: 10rem !important;
+    color: $ygi-green !important;
   }
 
   .points-table {
@@ -134,7 +174,7 @@ ion-nav-view {
       }
 
       .win {
-        margin-left: 10.05rem;
+        margin-left: 10.2rem;
         color: $ygi-green;
       }
 
@@ -149,10 +189,20 @@ ion-nav-view {
       }
     }
 
+    .lose-title-row {
+      border-bottom: 1px solid $ygi-loss !important;
+      border-top: 1px solid $ygi-loss !important;
+    }
+
     .row-label {
       width: 8rem;
       font-size: .8rem !important;
       color: $ygi-trade !important;
+
+      p {
+        margin-top: auto !important;
+        margin-bottom: auto !important;
+      }
     }
 
     .win-pts, .lose-pts, .trade-pts {
@@ -180,9 +230,29 @@ ion-nav-view {
       padding: 0.3rem 0 0 0.3rem;
     }
 
+    .during-loss {
+      padding: 0.3rem 0 0 0.4rem;
+    }
+
     .trade-pts {
       background-color: $ygi-trade;
       padding: 0.35rem 0 0 0.575rem;
+    }
+
+    .pre-fixture-trade {
+      padding: 0.35rem 0 0 0.43rem;
+    }
+
+    .during-fixture-trade {
+      padding: 0.3rem 0 0 0.3rem;
+    }
+
+    .loss-during-fixture-trade {
+      padding: 0.3rem 0 0 0.4rem;
+    }
+
+    .green-border-bottom {
+      border-bottom: 1px solid $ygi-green;
     }
 
     .pre-season-row, .during-season-row ,.pre-round-row, .pre-fixture-row, .during-fixture-row{
@@ -196,6 +266,32 @@ ion-nav-view {
 
       .lose-pts {
         margin-right: 4rem;
+      }
+
+      .lose-tab {
+        margin-right: .35rem !important;
+      }
+    }
+  }
+
+  .footnotes {
+    margin-top: 1rem;
+    margin-left: .2rem;
+
+    .footnote-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      color: $ygi-trade;
+      margin-bottom: 0.8rem;
+
+      sup {
+        font-size: 0.5rem !important;
+        margin-right: 0.1rem;
+      }
+
+      .footnotes-text {
+        flex-basis: 12rem;
       }
     }
   }
@@ -220,17 +316,36 @@ ion-view[view-title="LEAGUE TABLE"] {
     text-align: center;
     border-radius:3px;
 
-    .team-column-title {
-      flex-basis: 8rem !important;
+    p:first-child, p:nth-child(2), p:nth-last-child(2) {
+      border-right: 1px solid white;
+      border-bottom: 1px solid $ygi-green;
     }
 
-    .gp {
-      margin-left: 1rem;
+    p {
+      margin-top: 0.2rem;
+      padding-top: 0.2rem;
+    }
+
+    .team-column-title {
+      flex-basis: 9rem !important;
     }
   }
 
   .row:nth-child(2) {
     border-top: 5px solid white;
+  }
+
+  .row:nth-child(3), .row:nth-child(6) {
+    border-top: 1px solid $ygi-green;
+
+    //if wanting to add border gaps at a later date
+    //div:first-child {
+    //  p {
+    //    border-top: 1px solid $ygi-green !important;
+    //    width: 85%;
+    //    margin-left: 0.2rem;
+    //  }
+    //}
   }
 
   .row {
@@ -258,7 +373,7 @@ ion-view[view-title="LEAGUE TABLE"] {
 
       .standing-shirt {
         width: 19%;
-        margin: 0 0.2rem;
+        margin: 0 0.2rem 0.5rem 0.2rem;
       }
 
       .team-name {
@@ -266,6 +381,10 @@ ion-view[view-title="LEAGUE TABLE"] {
         padding-top: 0.5rem;
       }
     }
+  }
+
+  .row:nth-child(2), .row:nth-child(5) {
+    border-bottom: 1px solid $ygi-green !important;
   }
 
   .row:nth-last-child(4) {

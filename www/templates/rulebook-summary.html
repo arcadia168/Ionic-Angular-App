@@ -26,38 +26,67 @@
                 <p class="lose">LOSE</p>
                 <p class="trade">TRADE</p></div>
             <div class="pre-season-row">
-                <div class="row-label">PRE-SEASON</div>
+                <div class="row-label"><p>PRE-SEASON<sup>1</sup></p></div>
                 <div class="win-pts double-digits">15</div>
                 <div class="lose-pts">-5</div>
                 <div class="trade-pts">0</div>
             </div>
             <div class="during-season-row">
-                <div class="row-label">DURING-SEASON</div>
+                <div class="row-label"><p>DURING-SEASON<sup>2</sup></p></div>
                 <div class="win-pts double-digits">12</div>
                 <div class="lose-pts">-4</div>
                 <div class="trade-pts">0</div>
             </div>
             <div class="pre-round-row">
-                <div class="row-label">PRE-ROUND</div>
+                <div class="row-label"><p>PRE-ROUND<sup>3</sup></p></div>
                 <div class="win-pts single-digit">9</div>
                 <div class="lose-pts">-3</div>
                 <div class="trade-pts">0</div>
             </div>
             <div class="pre-fixture-row">
-                <div class="row-label">PRE-FIXTURE</div>
+                <div class="row-label"><p>PRE-FIXTURE<sup>4</sup></p></div>
                 <div class="win-pts single-digit">6</div>
                 <div class="lose-pts">-2</div>
-                <div class="trade-pts">0</div>
+                <div class="trade-pts pre-fixture-trade">-1</div>
             </div>
             <div class="during-fixture-row">
-                <div class="row-label">DURING-FIXTURE</div>
+                <div class="row-label"><p>DURING-FIXTURE<sup>5</sup></p></div>
                 <div class="win-pts single-digit">5</div>
-                <div class="lose-pts">-1</div>
-                <div class="trade-pts">0</div>
+                <div class="lose-pts during-loss">-1</div>
+                <div class="trade-pts during-fixture-trade">-2</div>
             </div><div class="no-prediction-row">
-                <div class="row-label">NO PREDICTION</div>
+                <div class="row-label"><p>NO PREDICTION<sup>6</sup></p></div>
                 <div class="lose-pts">-6</div>
             </div>
         </div>
+
+        <div class="footnotes">
+            <div class="footnote-row pre-season-row">
+                <div class="row-label"><p><sup>1</sup>Pre-season -</p></div>
+                <div class="footnotes-text">From fixture release date to season start date (mid-June to mid-August)</div>
+            </div>
+            <div class="footnote-row during-season-row">
+                <div class="row-label"><p><sup>2</sup>During season -</p></div>
+                <div class="footnotes-text">From season start datet to end of season date (mid-August to mid-May)</div>
+            </div>
+            <div class="footnote-row pre-round-row">
+                <div class="row-label"><p><sup>3</sup>Pre-round -</p></div>
+                <div class="footnotes-text">72 hours prior to the start of fixture.</div>
+            </div>
+            <div class="footnote-row pre-fixture-row">
+                <div class="row-label"><p><sup>4</sup>Pre-fixture -</p></div>
+                <div class="footnotes-text">1 hour prior to start of fixture.</div>
+            </div>
+            <div class="footnote-row during-fixture-row">
+                <div class="row-label"><p><sup>5</sup>During fixture -</p></div>
+                <div class="footnotes-text">Between kick-off and the start of the 2nd half</div>
+            </div>
+            <div class="footnote-row during-fixture-row">
+                <div class="row-label"><p><sup>6</sup>No prediction -</p></div>
+                <div class="footnotes-text">In the spirit of fair play, you will only lose points for not making
+                    predictions from the time you sign up.</div>
+            </div>
+        </div>
+
     </ion-content>
 </ion-view>

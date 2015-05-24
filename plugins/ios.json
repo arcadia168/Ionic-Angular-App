@@ -13,6 +13,10 @@
                             "count": 1
                         },
                         {
+                            "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
                             "xml": "<feature name=\"Console\"><param name=\"ios-package\" value=\"CDVLogger\" /></feature>",
                             "count": 1
                         },
@@ -23,22 +27,12 @@
                         {
                             "xml": "<feature name=\"InAppBrowser\"><param name=\"ios-package\" value=\"CDVInAppBrowser\" /></feature>",
                             "count": 1
-                        },
-                        {
-                            "xml": "<feature name=\"SocialSharing\"><param name=\"ios-package\" value=\"SocialSharing\" /><param name=\"onload\" value=\"true\" /></feature>",
-                            "count": 1
                         }
                     ]
                 }
             },
             "framework": {
                 "parents": {
-                    "CoreGraphics.framework": [
-                        {
-                            "xml": false,
-                            "count": 1
-                        }
-                    ],
                     "Social.framework": [
                         {
                             "xml": true,
@@ -50,6 +44,12 @@
                             "xml": true,
                             "count": 1
                         }
+                    ],
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": false,
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -59,6 +59,9 @@
         "com.ionic.keyboard": {
             "PACKAGE_NAME": "com.ionicframework.yesgetin349668"
         },
+        "nl.x-services.plugins.socialsharing": {
+            "PACKAGE_NAME": "com.ionicframework.yesgetin349668"
+        },
         "org.apache.cordova.console": {
             "PACKAGE_NAME": "com.ionicframework.yesgetin349668"
         },
@@ -66,9 +69,6 @@
             "PACKAGE_NAME": "com.ionicframework.yesgetin349668"
         },
         "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "com.ionicframework.yesgetin349668"
-        },
-        "nl.x-services.plugins.socialsharing": {
             "PACKAGE_NAME": "com.ionicframework.yesgetin349668"
         }
     },
