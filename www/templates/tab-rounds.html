@@ -1,11 +1,12 @@
 <ion-view view-title="LEAGUE ROUNDS">
-  <ion-content class="rounds-content padding">
+    <div class="rounds-header"><p>RD STARTS</p><p>DD</p><p>HH</p><p>MM</p></div>
+    <ion-content class="rounds-content">
     <ion-list>
       <ion-item class="item-remove-animate item-icon-right" ng-repeat="round in rounds"
                 type="item-text-wrap"
                 href="#/tab/rounds/{{round.round}}">
-        <h2>Round {{round.round}}</h2><!--TODO: NEED TO ADD THE START DATES OF THE ROUNDS IN HERE -->
-        <i class="icon ion-chevron-right icon-accessory"></i>
+        <h2 class="round-no">Round {{round.round}}</h2><!--TODO: NEED TO ADD THE START DATES OF THE ROUNDS IN HERE -->
+        <p class="round-label">MAKE YOUR PREDICTIONS</p>
       </ion-item>
     </ion-list>
   </ion-content>

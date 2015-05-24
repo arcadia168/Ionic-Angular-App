@@ -6821,11 +6821,56 @@ ion-nav-view ion-tabs {
     ion-nav-view ion-tabs ion-nav-view ion-view ion-tabs .tab-nav.tabs .tab-item-active {
       background-color: #D9D8D8 !important; }
 
-.rounds-content {
-  margin: 1.1rem 1.1rem 5rem 1.1rem;
-  border-radius: 3px;
-  background-color: white !important; }
+.rounds-header {
+  margin: 4.2rem 1.1rem 1.1rem 1.1rem;
+  border-radius: 3px 3px 0px 0px;
+  background-color: white !important;
+  border: 1px solid #3bb665;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around;
+  font-size: 0.7rem;
+  height: 1.1rem;
+  border-bottom: 1px solid green; }
+  .rounds-header p:first-child {
+    margin-left: 9rem; }
 
+.rounds-content {
+  margin: 2.5rem 1.1rem 1.1rem 1.1rem;
+  border-radius: 0px 0px 3px 3px;
+  background-color: white !important;
+  border: 1px solid #3bb665; }
+  .rounds-content ion-item:first-child {
+    border-top: none !important; }
+  .rounds-content ion-item {
+    border-top: 1px solid #3bb665; }
+    .rounds-content ion-item a.item-content {
+      width: 98%;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      height: 4rem;
+      -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+      justify-content: space-around;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      padding: 0 !important; }
+      .rounds-content ion-item a.item-content .round-no {
+        color: #3bb665;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        margin-top: 0.2rem;
+        margin-bottom: -0.2rem; }
+      .rounds-content ion-item a.item-content .round-label {
+        font-size: 0.65rem;
+        margin-top: 0.85rem; }
+
+/* Stylings for rulebook */
 .rulebook-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
   border-radius: 3px;
@@ -6965,6 +7010,9 @@ ion-nav-view ion-tabs {
 ion-view[view-title="LEAGUE TABLE"] .scroll {
   border: 2px solid #3bb665;
   border-radius: 5px; }
+ion-view[view-title="LEAGUE TABLE"] .live-table {
+  margin-top: 3rem;
+  padding-top: 0 !important; }
 ion-view[view-title="LEAGUE TABLE"] .row-header {
   background-color: #3bb665 !important;
   color: white;
@@ -6980,13 +7028,22 @@ ion-view[view-title="LEAGUE TABLE"] .row-header {
   -ms-flex-pack: distribute;
   justify-content: space-around;
   text-align: center;
-  border-radius: 3px; }
+  margin: 3.9rem 0.6rem 1rem 0.6rem;
+  width: 94.5%;
+  height: 3rem;
+  border-bottom: none !important;
+  border-radius: 3px 3px 0px 0px !important; }
+  ion-view[view-title="LEAGUE TABLE"] .row-header p:first-child {
+    margin-left: 0.1rem; }
   ion-view[view-title="LEAGUE TABLE"] .row-header p:first-child, ion-view[view-title="LEAGUE TABLE"] .row-header p:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row-header p:nth-last-child(2) {
     border-right: 1px solid white;
     border-bottom: 1px solid #3bb665; }
   ion-view[view-title="LEAGUE TABLE"] .row-header p {
-    margin-top: 0.2rem;
-    padding-top: 0.2rem; }
+    padding-top: 0.3rem;
+    height: 1.75rem !important;
+    margin-top: 0.27rem; }
+  ion-view[view-title="LEAGUE TABLE"] .row-header .gp {
+    margin-left: -0.1rem; }
   ion-view[view-title="LEAGUE TABLE"] .row-header .team-column-title {
     -webkit-flex-basis: 9rem !important;
     -ms-flex-preferred-size: 9rem !important;
