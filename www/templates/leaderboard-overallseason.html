@@ -1,0 +1,31 @@
+<ion-view view-title="OVERALL SEASON">
+    <ion-content class="leaderboard-content">
+        <ion-item class="global-league">
+            <div class="league-label">
+                <i class="league-lock icon ion-unlocked"></i>
+                <i class="global-league-icon icon ion-earth"></i>
+                <div class="label"><h4>GLOBAL LEAGUE</h4><p>{{overallLeague.length}}</p><p>PLAYERS</p></div>
+            </div>
+            <div class="league-overview">
+                <div class="leader-row">
+                    <i class="leader-pos icon ion-star">1</i>
+                    <div class="leader-pic"></div>
+                    <div class="leader-name">{{overallLeague[0].username}}</div>
+                    <div class="leader-points">{{overallLeague[0].score}}</div>
+                </div>
+                <div class="user-row">
+                    <div class="user-pos">{{overallLeague.thisUser.userPos}}</div>
+                    <div class="user-pic">{{}}</div>
+                    <div class="user-name">{{overallLeague.thisUser.username}}</div>
+                    <div class="user-points">{{overallLeague.thisUser.userPts}}</div>
+                </div>
+            </div>
+        </ion-item>
+        <!--<ion-item class="item item-icon-left item-icon-right" ng-model="scores"-->
+                  <!--ng-repeat="score in scores"-->
+                  <!--type="item-text-wrap">-->
+            <!--<i class="icon ion-ribbon-b"></i>-->
+            <!--<p><em>Position</em>: {{$index}} <em>User:</em> {{score.username}} <em>Score:</em> {{score.score}}</p>-->
+        <!--</ion-item>-->
+    </ion-content>
+</ion-view>

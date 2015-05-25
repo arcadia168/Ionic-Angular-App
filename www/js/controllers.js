@@ -615,11 +615,185 @@ angular.module('starter.controllers', [])
         $scope.cardView = true;
     })
 
-    .controller('ScoreboardCtrl', function ($scope, Scoreboard) {
-        $scope.test = function () {
-            $ionicPopup.alert({
-                title: 'Sup dawg!',
-                template: 'Sub bitchtits'
+    .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup,Leaderboard) {
+        //get all of the private leagues for the user from the private league service
+        //call this  whenever the user's leagues need to be updated within the app
+        function _getUserLeagues() {
+            debugger;
+            Leaderboard.overall().then(function(data) {
+
+                //Assign the season overall leaderboard data to a scope variable
+                $scope.overallLeague = data;
+                console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
+
+                //For each league will have to add data pertaining to logged in user to scope manually
+                for (var i = 0; i < $scope.overallLeague.length; i++) {
+                    if ($scope.overallLeague[i].username = auth.profile.nickname) {
+                        //then we have found the currently logged in user, add key to this object
+                        $scope.overallLeague.thisUser = {
+                            //need pts, username and pick
+                            userPts: $scope.overallLeague[i].score,
+                            username: $scope.overallLeague[i].username,
+                            userPos: i + 1
+                        }
+                    }
+                }
+
+                Leaderboard.all(auth.profile.user_id).then(function (data) {
+                    //debugger;
+                    $scope.privateLeagues = data;
+
+                    console.log(data);
+
+                    //work out which of the private leagues were made by user and which part of
+                    $scope.createdLeagues = [];
+
+                    //the private league's of which the user is only a member
+                    $scope.inLeagues = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        if (data[i].creator = auth.profile.user_id) {
+                            //then is a league created by the currently logged in user, so add to list
+                            console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
+                            $scope.createdLeagues.push(data[i]);
+                        } else {
+                            //the user is simply a participating member of this league
+                            console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
+                            $scope.inLeagues.push(data[i]);
+                        }
+                    }
+
+                    console.log('User\'s created leagues are: ' + $scope.createdLeagues);
+
+                });
+            })
+        }
+
+        //when page first loads
+        _getUserLeagues();
+
+        $scope.data = {};
+        var cancelled = true;
+
+        $scope.createNewLeague = function () {
+
+            //show the user a prompt to type in a username and
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.leagueName">',
+                title: 'New Private League',
+                subTitle: 'Enter the name for the new league',
+                scope: $scope,
+                buttons: [
+                    {text: 'Cancel'},
+                    {
+                        text: '<b>Create</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if (!$scope.data.leagueName) {
+                                //don't allow the user to close unless he enters a username
+                                e.preventDefault();
+                            } else {
+                                cancelled = false;
+                                return $scope.data.leagueName;
+                            }
+                        }
+                    }
+                ]
+            });
+            myPopup.then(function (res) {
+                if (!cancelled) {
+                    //use the data to call through to the user and pass through the provided username
+                    Leaderboard.createNewLeague(auth.profile.user_id, $scope.data.leagueName).then(
+                        function (res) {
+
+                            //check the message that was returned...
+                            console.log(res);
+
+                            //Confirm that the invitation has been sent
+                            $ionicPopup.alert({
+                                title: 'New Private League',
+                                template: res //TODO: Alter the multiple uses of this
+                            });
+
+                            //reset flag
+                            cancelled = true;
+                        }
+                    );
+                }
+            });
+        };
+
+        //function to join a private league using its code
+        $scope.joinLeagueWithCode = function () {
+            //show the user a prompt to type in a username and
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="data.leagueToJoin">',
+                title: 'Join league with code',
+                subTitle: 'Enter the code of the private league to join.',
+                scope: $scope,
+                buttons: [
+                    {text: 'Cancel'},
+                    {
+                        text: '<b>Join</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if (!$scope.data.leagueToJoin) {
+                                //don't allow the user to close unless he enters a code
+                                e.preventDefault();
+                            } else {
+                                cancelled = false;
+                                return $scope.data.leagueToJoin;
+                            }
+                        }
+                    }
+                ]
+            });
+            myPopup.then(function (res) {
+
+                if (!cancelled) {
+                    //validate the code, check 8 characters and all numbers
+
+                    console.log("Now attempting validation before sending code");
+
+                    //check that the code is 7 characters long
+                    var isnum = /^\d+$/.test($scope.data.leagueToJoin);
+
+                    //check that the code contains only numbers
+                    if (!isnum || $scope.data.leagueToJoin.length != 7) {
+                        //then invalid code was entered
+                        $ionicPopup.alert({
+                            title: 'Error! Invalid League Code',
+                            template: 'Please ensure you are entering a valid 7 digit numerical league code.'
+                        });
+
+                        return;
+                    }
+
+                    //use the data to call through to the user and pass through the provided username
+                    Leaderboard.joinLeagueWithCode(auth.profile.user_id, $scope.data.leagueToJoin).then(
+                        function (res) {
+
+                            //check the message that was returned...
+                            console.log(res);
+
+                            //Confirm that the invitation has been sent
+                            $ionicPopup.alert({
+                                title: 'Private League Joined',
+                                template: 'Yes! Get In! You\'ve joined the private league ' + $scope.data.leagueToJoin
+                            });
+
+                            //reset flag
+                            cancelled = true;
+
+                            //TODO: look up how to take that user directly to that league now
+                            //TODO: REFRESH  the page to display that new league
+                            //Would have to go and get leagues again
+
+                            console.log("Now attempting to refresh the page")
+                            _getUserLeagues();
+                        }
+                    );
+                }
             });
         };
     })

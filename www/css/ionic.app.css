@@ -6870,6 +6870,42 @@ ion-nav-view ion-tabs {
         font-size: 0.65rem;
         margin-top: 0.85rem; }
 
+/*Stylings for the leaderboard */
+.leaderboard-content {
+  margin: 1.1rem 1.1rem 5rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important; }
+  .leaderboard-content ion-item {
+    padding: 0 !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    border-bottom: 1px solid #3bb665; }
+    .leaderboard-content ion-item div {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between; }
+    .leaderboard-content ion-item div:first-child {
+      width: 25% !important; }
+    .leaderboard-content ion-item div:last-child {
+      width: 75% !important; }
+  .leaderboard-content .global-league {
+    border-radius: 5px 5px 0 0; }
+    .leaderboard-content .global-league .league-label {
+      background-color: #3bb665; }
+
 /* Stylings for rulebook */
 .rulebook-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
@@ -7050,7 +7086,7 @@ ion-view[view-title="LEAGUE TABLE"] .row-header {
     flex-basis: 9rem !important; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2) {
   border-top: 5px solid white; }
-ion-view[view-title="LEAGUE TABLE"] .row:nth-child(3), ion-view[view-title="LEAGUE TABLE"] .row:nth-child(6) {
+ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row:nth-child(5) {
   border-top: 1px solid #3bb665; }
 ion-view[view-title="LEAGUE TABLE"] .row {
   background: white;

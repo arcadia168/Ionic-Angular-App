@@ -121,67 +121,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     requiresLogin: true
                 }
             })
-            .state('tab.scoreboard', {
-                url: '/scoreboard',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/tab-scoreboard.html',
-                        controller: 'ScoreboardCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-            .state('tab.scoreboard-private-leagues', {
-                url: '/scoreboard/privateleagues',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-private-leagues.html',
-                        controller: 'PrivateLeaguesCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-            .state('tab.scoreboard-private-leagues-detail', {
-                url: '/scoreboard/privateleagues/:privateLeagueId',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-private-leagues-detail.html',
-                        controller: 'PrivateLeaguesDetailCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-            .state('tab.scoreboard-global', {
-                url: '/scoreboard/global',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-global.html',
-                        controller: 'GlobalScoreboardCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-
             .state('tab.leaguetable', {
                 url: '/leaguetable',
                 views: {
@@ -208,7 +147,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.summary',{
                 url: "/summary",
-                //templateUrl: "templates/rulebook-summary.html"
                 views: {
                     'rulebook-summary': {
                         templateUrl: "templates/rulebook-summary.html"
@@ -217,7 +155,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.win', {
                 url: "/win",
-                //templateUrl: "templates/rulebook-win.html"
                 views: {
                     'rulebook-win': {
                         templateUrl: "templates/rulebook-win.html"
@@ -226,7 +163,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.lose',{
                 url: "/lose",
-                //templateUrl: "templates/rulebook-lose.html"
                 views: {
                     'rulebook-lose': {
                         templateUrl: "templates/rulebook-lose.html"
@@ -235,10 +171,35 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.trade',{
                 url: "/trade",
-                //templateUrl: "templates/rulebook-trade.html"
                 views: {
                     'rulebook-trade': {
                         templateUrl: "templates/rulebook-trade.html"
+                    }
+                }
+            })
+            .state('tab.leaderboard', {
+                url: '/leaderboard',
+                views: {
+                    'tab-leaderboard': {
+                        templateUrl: 'templates/tab-leaderboard.html',
+                        abstract: true
+                    }
+                }
+            })
+            .state('tab.leaderboard.overallseason',{
+                url: "/overallseason",
+                views: {
+                    'leaderboard-overallseason': {
+                        templateUrl: "templates/leaderboard-overallseason.html",
+                        controller: 'LeaderboardCtrl'
+                    }
+                }
+            })
+            .state('tab.leaderboard.round', {
+                url: "/round",
+                views: {
+                    'leaderboard-round': {
+                        templateUrl: "templates/leaderboard-round.html"
                     }
                 }
             })

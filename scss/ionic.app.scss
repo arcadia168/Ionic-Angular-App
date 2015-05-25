@@ -136,6 +136,45 @@ ion-nav-view {
   }
 }
 
+/*Stylings for the leaderboard */
+.leaderboard-content {
+  margin: 1.1rem 1.1rem 5rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important;
+
+  ion-item {
+    padding: 0 !important;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid $ygi-green;
+
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    div:first-child {
+      width: 25% !important;
+    }
+
+    div:last-child {
+      width: 75% !important;
+    }
+  }
+
+  .global-league {
+    border-radius: 5px 5px 0 0;
+
+    .league-label {
+      background-color: $ygi-green;
+    }
+
+
+  }
+}
+
 /* Stylings for rulebook */
 .rulebook-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
@@ -399,7 +438,7 @@ ion-view[view-title="LEAGUE TABLE"] {
     border-top: 5px solid white;
   }
 
-  .row:nth-child(3), .row:nth-child(6) {
+  .row:nth-child(2), .row:nth-child(5) {
     border-top: 1px solid $ygi-green;
 
     //if wanting to add border gaps at a later date
