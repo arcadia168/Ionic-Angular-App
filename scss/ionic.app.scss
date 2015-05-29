@@ -140,14 +140,21 @@ ion-nav-view {
 .leaderboard-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
   border-radius: 3px;
+  overflow: hidden !important;
   background-color: white !important;
+  padding-top: 0px !important;
+
+  .scroll {
+    overflow: hidden;
+    border-radius: 3px 3px 0 0;
+  }
 
   ion-item {
     padding: 0 !important;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom: 1px solid $ygi-green;
+    border-top: 1px solid $ygi-green;
 
     div {
       display: flex;
@@ -155,23 +162,194 @@ ion-nav-view {
       justify-content: space-between;
     }
 
-    div:first-child {
-      width: 25% !important;
+     .league-label-container {
+       width: 25% !important;
+       height: 100%;
+       padding: 0.2rem;
+
+       .league-label {
+         background-color: $ygi-green;
+         align-items: center;
+         padding: 0 0.2rem;
+         height: 100%;
+
+         * {
+           color: white !important;
+         }
+
+         .ion-unlocked, .ion-locked {
+           font-size: 0.8rem;
+           align-self: flex-start;
+         }
+
+         .label {
+           margin: 0.5rem 0 0 0.2rem;
+
+           h5 , p {
+             font-size: 0.65rem;
+             align-self: center;
+             word-break: break-all;
+           }
+
+           h5 {
+             height: 0.5rem !important;
+           }
+
+           p:nth-child(2) {
+             align-self: center;
+           }
+         }
+
+       }
+     }
+  }
+
+  .league-overview {
+    width: 75% !important;
+    padding: 0.75rem;
+    justify-content: space-around;
+    align-content: center;
+
+    div {
+      flex-direction: row;
+      font-size: 0.75rem;
     }
 
-    div:last-child {
-      width: 75% !important;
+    .non-pic {
+      background-color: lightgrey  !important;
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 1.6rem !important;
+      position: relative;
+      right: 0.2rem;
+      top: 0.1rem;
+    }
+
+    .user-pic {
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 100%;
+      position: relative;
+    }
+
+    .leader-row {
+      .leader-pos {
+        .leader-icon {
+          position: relative;
+          bottom: 0.1rem;
+          font-size: 2rem !important;
+          color: gold !important;//rgb(215, 223 , 35) !important;
+        }
+
+        .leader-no {
+          position: relative !important;
+          top: 0.5rem !important;
+          right: 1.21rem !important;
+        }
+      }
+
+      .user-pic {
+        position: relative;
+        right: 0.1rem;
+        bottom: 0.1rem;
+      }
+      
+      .leader-name {
+        display: flex;
+        align-items: center;
+        flex-basis: 4.75rem;
+        position: relative;
+        left: 0.4rem;
+      }
+
+      .leader-points{
+        display: flex;
+        align-items: center;
+        text-align: left;
+        flex-basis: 3rem;
+        justify-content: flex-end;
+
+        p {
+          font-size: 0.75rem !important;
+        }
+      }
+    }
+
+    .user-row {
+
+      .user-pos {
+        position: relative;
+        left: .75rem;
+        //margin-left: 0.6rem;
+        min-width: 2rem;
+      }
+
+      .user-pic {
+        left: 0.1rem;
+        //right: 0.1rem;
+        top: -0.5rem;
+      }
+
+      .user-name {
+        flex-basis: 4.5rem;
+        position: relative;
+        left: 0.5rem;
+        //width: 4rem;
+      }
+
+      .user-points {
+        flex-basis: 3rem;
+        display: flex;
+        justify-content: flex-end;
+
+        p {
+          font-size: 0.75rem !important;
+        }
+      }
     }
   }
 
   .global-league {
-    border-radius: 5px 5px 0 0;
+    border-radius: 1% ;
 
-    .league-label {
-      background-color: $ygi-green;
+    .league-label-container {
+      .league-label {
+        .global-league-icon {
+          font-size: 4rem;
+          margin-top: -1rem;
+        }
+      }
     }
+  }
 
+  .user-league {
+    height: 8.5rem;
 
+    .league-label-container {
+      .league-label {
+        //margin: auto;
+
+        .label {
+          align-self: center;
+          flex-basis: 6.5rem;
+          margin: 0 !important;
+          position: relative;
+          bottom: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+
+          h5 {
+            height: inherit;
+          }
+        }
+      }
+
+    }
   }
 }
 
@@ -395,42 +573,46 @@ ion-view[view-title="LEAGUE TABLE"] {
     padding-top: 0 !important;
   }
 
-  .row-header {
-    background-color: $ygi-green !important;
-    color: white;
-    font-weight: bold ;
-    text-transform: uppercase ;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    text-align: center;
-    margin: 3.9rem .6rem 1rem .6rem;
-    width: 94.5%;
-    height: 3rem;
-    border-bottom: none !important;
-    border-radius: 3px 3px 0px 0px !important;
+  .row-header-container {
+    position: absolute;
+    top: 3.9rem;
+    width: 100%;
+    padding: 0 10px;
 
-    p:first-child {
-      margin-left: 0.1rem;
-    }
+    .row-header {
+      background-color: $ygi-green !important;
+      color: white;
+      font-weight: bold ;
+      text-transform: uppercase ;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      text-align: center;
+      border-bottom: 0px solid transparent !important;
+      border-radius: 3px 3px 0px 0px !important;
 
-    p:first-child, p:nth-child(2), p:nth-last-child(2) {
-      border-right: 1px solid white;
-      border-bottom: 1px solid $ygi-green;
-    }
+      p:first-child {
+        margin-left: 0.1rem;
+      }
 
-    p {
-      padding-top: 0.3rem;
-      height: 1.75rem !important;
-      margin-top: 0.27rem;
-    }
+      p:first-child, p:nth-child(2), p:nth-last-child(2) {
+        border-right: 1px solid white;
+        border-bottom: 1px solid $ygi-green;
+      }
 
-    .gp {
-      margin-left: -0.1rem;
-    }
+      p {
+        padding-top: 0.3rem;
+        height: 1.75rem !important;
+        margin-top: 0.27rem;
+      }
 
-    .team-column-title {
-      flex-basis: 9rem !important;
+      .gp {
+        margin-left: -0.1rem;
+      }
+
+      .team-column-title {
+        flex-basis: 9rem !important;
+      }
     }
   }
 
@@ -475,8 +657,8 @@ ion-view[view-title="LEAGUE TABLE"] {
 
 
       .standing-shirt {
-        width: 19%;
-        margin: 0 0.2rem 0.5rem 0.2rem;
+        width: 15%;
+        margin: 0 0.2rem 0.42rem 0.2rem;
       }
 
       .team-name {

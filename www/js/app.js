@@ -23,9 +23,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
         $ionicConfigProvider.tabs.position('bottom');
 
-        $compileProvider.imgSrcSanitizationWhitelist('img/');
+        //$compileProvider.imgSrcSanitizationWhitelist('img/');
 
-        //$compileProvider.imgSrcSanitizationWhitelist(/^\s(https|file|blob|cdvfile|content):|data:image\//);
+        //$compileProvider.imgSrcSanitizationWhitelist(/^\s(https|file|blob|cdvfile):|data:image\//);
+
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(http|https|file|blob|cdvfile|content):|data:image\//);
 
         $httpProvider.interceptors.push(function ($rootScope) {
             return {
@@ -180,29 +182,119 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             .state('tab.leaderboard', {
                 url: '/leaderboard',
                 views: {
-                    'tab-leaderboard': {
+                    'tab-scoreboard': {
                         templateUrl: 'templates/tab-leaderboard.html',
-                        abstract: true
+                        controller: 'ScoreboardCtrl'
                     }
+                },
+                data: {
+                    // This tells Auth0 that this state requires the user to be logged in.
+                    // If the user isn't logged in and he tries to access this state
+                    // he'll be redirected to the login page
+                    requiresLogin: true
                 }
             })
-            .state('tab.leaderboard.overallseason',{
-                url: "/overallseason",
+            .state('tab.leaderboard-detail', {
+                url: '/scoreboard/privateleagues',
                 views: {
-                    'leaderboard-overallseason': {
-                        templateUrl: "templates/leaderboard-overallseason.html",
-                        controller: 'LeaderboardCtrl'
+                    'tab-scoreboard': {
+                        templateUrl: 'templates/scoreboard-private-leagues.html',
+                        controller: 'PrivateLeaguesCtrl'
                     }
+                },
+                data: {
+                    // This tells Auth0 that this state requires the user to be logged in.
+                    // If the user isn't logged in and he tries to access this state
+                    // he'll be redirected to the login page
+                    requiresLogin: true
                 }
             })
-            .state('tab.leaderboard.round', {
-                url: "/round",
+            .state('tab.leaderboard-global', {
+                url: '/scoreboard/global',
                 views: {
-                    'leaderboard-round': {
-                        templateUrl: "templates/leaderboard-round.html"
+                    'tab-scoreboard': {
+                        templateUrl: 'templates/scoreboard-global.html',
+                        controller: 'GlobalScoreboardCtrl'
                     }
+                },
+                data: {
+                    // This tells Auth0 that this state requires the user to be logged in.
+                    // If the user isn't logged in and he tries to access this state
+                    // he'll be redirected to the login page
+                    requiresLogin: true
                 }
             })
+
+            //    .state('tab.leaderboard', {
+            //        url: '/leaderboard',
+            //        views: {
+            //            'tab-leaderboard': {
+            //                templateUrl: 'templates/tab-leaderboard.html',
+            //                controller: 'LeaderBoardCtrl'
+            //            }
+            //        }
+            //    })
+            //    .state('tab.leaderboard-global'{
+            //        url: '/leaderboard/global',
+            //            views: {'tab-leaderboard' :}
+            //})
+            //.state('tab.leaderboard-detail', {
+            //    url: '/rounds/:roundId',
+            //    views: {
+            //        'tab-leaderboard': {
+            //            templateUrl: 'templates/round-detail.html',
+            //            controller: 'LeagueDetailCtrl'
+            //        }
+            //    },
+            //    data: {
+            //        // This tells Auth0 that this state requires the user to be logged in.
+            //        // If the user isn't logged in and he tries to access this state
+            //        // he'll be redirected to the login page
+            //        requiresLogin: true
+            //    }
+            //})
+            //.state('tab.leaderboard.overallseason',{
+            //    url: "/overallseason",
+            //    views: {
+            //        'leaderboard-overallseason': {
+            //            templateUrl: "templates/leaderboard-overallseason.html",
+            //            controller: 'LeaderboardCtrl'
+            //        }
+            //    }
+            //})
+            //.state('tab.leaderboard.round', {
+            //    url: "/round",
+            //    views: {
+            //        'leaderboard-round': {
+            //            templateUrl: "templates/leaderboard-round.html",
+            //            controller: 'LeaderboardCtrl'
+            //        }
+            //    }
+            //})
+            //.state('tab.leaderboard-league-detail', {
+            //    url: '/leaderboard/:league_id',
+            //    views: {
+            //        'tab-leaderboard': {
+            //            templateUrl: 'templates/leaderboard-league-detail.html',
+            //            controller: 'LeaderboardLeagueDetailCtrl'
+            //        }
+            //    },
+            //    data: {
+            //        // This tells Auth0 that this state requires the user to be logged in.
+            //        // If the user isn't logged in and he tries to access this state
+            //        // he'll be redirected to the login page
+            //        requiresLogin: true
+            //    }
+            //})
+            //.state('tab.leaderboard.global', {
+            //    url: '/leaderboard/global',
+            //    views: {
+            //        'leaderboard-global': {
+            //            templateUrl: 'templates/leaderboard-global-league-detail.html',
+            //            controller: 'LeaderboardGlobalLeagueDetailCtrl'
+            //        }
+            //    }
+            //})
             .state('tab.account', {
                 url: '/account',
                 views: {
@@ -217,12 +309,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     // he'll be redirected to the login page
                     requiresLogin: true
                 }
-            });
+            })
 
-        // if none of the above states are matched, use this as the fallback
+// if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/login');
 
-        //Attempting to configure the use of Auth0
+//Attempting to configure the use of Auth0
         authProvider.init({
             domain: 'yesgetin.eu.auth0.com',
             clientID: 'Ny44FwyaGBQvKOV9FxIRDX6JvogUm80j',

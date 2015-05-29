@@ -6874,7 +6874,12 @@ ion-nav-view ion-tabs {
 .leaderboard-content {
   margin: 1.1rem 1.1rem 5rem 1.1rem;
   border-radius: 3px;
-  background-color: white !important; }
+  overflow: hidden !important;
+  background-color: white !important;
+  padding-top: 0px !important; }
+  .leaderboard-content .scroll {
+    overflow: hidden;
+    border-radius: 3px 3px 0 0; }
   .leaderboard-content ion-item {
     padding: 0 !important;
     display: -webkit-flex;
@@ -6886,7 +6891,7 @@ ion-nav-view ion-tabs {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    border-bottom: 1px solid #3bb665; }
+    border-top: 1px solid #3bb665; }
     .leaderboard-content ion-item div {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -6897,14 +6902,169 @@ ion-nav-view ion-tabs {
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
       justify-content: space-between; }
-    .leaderboard-content ion-item div:first-child {
-      width: 25% !important; }
-    .leaderboard-content ion-item div:last-child {
-      width: 75% !important; }
+    .leaderboard-content ion-item .league-label-container {
+      width: 25% !important;
+      height: 100%;
+      padding: 0.2rem; }
+      .leaderboard-content ion-item .league-label-container .league-label {
+        background-color: #3bb665;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: 0 0.2rem;
+        height: 100%; }
+        .leaderboard-content ion-item .league-label-container .league-label * {
+          color: white !important; }
+        .leaderboard-content ion-item .league-label-container .league-label .ion-unlocked, .leaderboard-content ion-item .league-label-container .league-label .ion-locked {
+          font-size: 0.8rem;
+          -webkit-align-self: flex-start;
+          -ms-flex-item-align: start;
+          align-self: flex-start; }
+        .leaderboard-content ion-item .league-label-container .league-label .label {
+          margin: 0.5rem 0 0 0.2rem; }
+          .leaderboard-content ion-item .league-label-container .league-label .label h5, .leaderboard-content ion-item .league-label-container .league-label .label p {
+            font-size: 0.65rem;
+            -webkit-align-self: center;
+            -ms-flex-item-align: center;
+            align-self: center;
+            word-break: break-all; }
+          .leaderboard-content ion-item .league-label-container .league-label .label h5 {
+            height: 0.5rem !important; }
+          .leaderboard-content ion-item .league-label-container .league-label .label p:nth-child(2) {
+            -webkit-align-self: center;
+            -ms-flex-item-align: center;
+            align-self: center; }
+  .leaderboard-content .league-overview {
+    width: 75% !important;
+    padding: 0.75rem;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-align-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center; }
+    .leaderboard-content .league-overview div {
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      font-size: 0.75rem; }
+    .leaderboard-content .league-overview .non-pic {
+      background-color: lightgrey !important;
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 100% !important;
+      display: -webkit-flex !important;
+      display: -ms-flexbox !important;
+      display: flex !important;
+      -webkit-align-items: center !important;
+      -ms-flex-align: center !important;
+      align-items: center !important;
+      -webkit-justify-content: center !important;
+      -ms-flex-pack: center !important;
+      justify-content: center !important;
+      font-size: 1.6rem !important;
+      position: relative;
+      right: 0.2rem;
+      top: 0.1rem; }
+    .leaderboard-content .league-overview .user-pic {
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 100%;
+      position: relative; }
+    .leaderboard-content .league-overview .leader-row .leader-pos .leader-icon {
+      position: relative;
+      bottom: 0.1rem;
+      font-size: 2rem !important;
+      color: gold !important; }
+    .leaderboard-content .league-overview .leader-row .leader-pos .leader-no {
+      position: relative !important;
+      top: 0.5rem !important;
+      right: 1.21rem !important; }
+    .leaderboard-content .league-overview .leader-row .user-pic {
+      position: relative;
+      right: 0.1rem;
+      bottom: 0.1rem; }
+    .leaderboard-content .league-overview .leader-row .leader-name {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-flex-basis: 4.75rem;
+      -ms-flex-preferred-size: 4.75rem;
+      flex-basis: 4.75rem;
+      position: relative;
+      left: 0.4rem; }
+    .leaderboard-content .league-overview .leader-row .leader-points {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center;
+      text-align: left;
+      -webkit-flex-basis: 3rem;
+      -ms-flex-preferred-size: 3rem;
+      flex-basis: 3rem;
+      -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+      justify-content: flex-end; }
+      .leaderboard-content .league-overview .leader-row .leader-points p {
+        font-size: 0.75rem !important; }
+    .leaderboard-content .league-overview .user-row .user-pos {
+      position: relative;
+      left: 0.75rem;
+      min-width: 2rem; }
+    .leaderboard-content .league-overview .user-row .user-pic {
+      left: 0.1rem;
+      top: -0.5rem; }
+    .leaderboard-content .league-overview .user-row .user-name {
+      -webkit-flex-basis: 4.5rem;
+      -ms-flex-preferred-size: 4.5rem;
+      flex-basis: 4.5rem;
+      position: relative;
+      left: 0.5rem; }
+    .leaderboard-content .league-overview .user-row .user-points {
+      -webkit-flex-basis: 3rem;
+      -ms-flex-preferred-size: 3rem;
+      flex-basis: 3rem;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: flex-end;
+      -ms-flex-pack: end;
+      justify-content: flex-end; }
+      .leaderboard-content .league-overview .user-row .user-points p {
+        font-size: 0.75rem !important; }
   .leaderboard-content .global-league {
-    border-radius: 5px 5px 0 0; }
-    .leaderboard-content .global-league .league-label {
-      background-color: #3bb665; }
+    border-radius: 1%; }
+    .leaderboard-content .global-league .league-label-container .league-label .global-league-icon {
+      font-size: 4rem;
+      margin-top: -1rem; }
+  .leaderboard-content .user-league {
+    height: 8.5rem; }
+    .leaderboard-content .user-league .league-label-container .league-label .label {
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
+      -webkit-flex-basis: 6.5rem;
+      -ms-flex-preferred-size: 6.5rem;
+      flex-basis: 6.5rem;
+      margin: 0 !important;
+      position: relative;
+      bottom: 0.5rem;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+      justify-content: space-around; }
+      .leaderboard-content .user-league .league-label-container .league-label .label h5 {
+        height: inherit; }
 
 /* Stylings for rulebook */
 .rulebook-content {
@@ -7049,41 +7209,43 @@ ion-view[view-title="LEAGUE TABLE"] .scroll {
 ion-view[view-title="LEAGUE TABLE"] .live-table {
   margin-top: 3rem;
   padding-top: 0 !important; }
-ion-view[view-title="LEAGUE TABLE"] .row-header {
-  background-color: #3bb665 !important;
-  color: white;
-  font-weight: bold;
-  text-transform: uppercase;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-justify-content: space-around;
-  -ms-flex-pack: distribute;
-  justify-content: space-around;
-  text-align: center;
-  margin: 3.9rem 0.6rem 1rem 0.6rem;
-  width: 94.5%;
-  height: 3rem;
-  border-bottom: none !important;
-  border-radius: 3px 3px 0px 0px !important; }
-  ion-view[view-title="LEAGUE TABLE"] .row-header p:first-child {
-    margin-left: 0.1rem; }
-  ion-view[view-title="LEAGUE TABLE"] .row-header p:first-child, ion-view[view-title="LEAGUE TABLE"] .row-header p:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row-header p:nth-last-child(2) {
-    border-right: 1px solid white;
-    border-bottom: 1px solid #3bb665; }
-  ion-view[view-title="LEAGUE TABLE"] .row-header p {
-    padding-top: 0.3rem;
-    height: 1.75rem !important;
-    margin-top: 0.27rem; }
-  ion-view[view-title="LEAGUE TABLE"] .row-header .gp {
-    margin-left: -0.1rem; }
-  ion-view[view-title="LEAGUE TABLE"] .row-header .team-column-title {
-    -webkit-flex-basis: 9rem !important;
-    -ms-flex-preferred-size: 9rem !important;
-    flex-basis: 9rem !important; }
+ion-view[view-title="LEAGUE TABLE"] .row-header-container {
+  position: absolute;
+  top: 3.9rem;
+  width: 100%;
+  padding: 0 10px; }
+  ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header {
+    background-color: #3bb665 !important;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    text-align: center;
+    border-bottom: 0px solid transparent !important;
+    border-radius: 3px 3px 0px 0px !important; }
+    ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header p:first-child {
+      margin-left: 0.1rem; }
+    ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header p:first-child, ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header p:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header p:nth-last-child(2) {
+      border-right: 1px solid white;
+      border-bottom: 1px solid #3bb665; }
+    ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header p {
+      padding-top: 0.3rem;
+      height: 1.75rem !important;
+      margin-top: 0.27rem; }
+    ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header .gp {
+      margin-left: -0.1rem; }
+    ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header .team-column-title {
+      -webkit-flex-basis: 9rem !important;
+      -ms-flex-preferred-size: 9rem !important;
+      flex-basis: 9rem !important; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2) {
   border-top: 5px solid white; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2), ion-view[view-title="LEAGUE TABLE"] .row:nth-child(5) {
@@ -7117,8 +7279,8 @@ ion-view[view-title="LEAGUE TABLE"] .row {
     -ms-flex-align: center;
     align-items: center; }
     ion-view[view-title="LEAGUE TABLE"] .row .team-name-shirt .standing-shirt {
-      width: 19%;
-      margin: 0 0.2rem 0.5rem 0.2rem; }
+      width: 15%;
+      margin: 0 0.2rem 0.42rem 0.2rem; }
     ion-view[view-title="LEAGUE TABLE"] .row .team-name-shirt .team-name {
       display: inline;
       padding-top: 0.5rem; }
