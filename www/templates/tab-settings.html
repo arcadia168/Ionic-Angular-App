@@ -1,36 +1,50 @@
-<ion-view view-title="ACCOUNT">
-    <ion-content class="padding">
-        <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()"></ion-refresher>
-        <ion-list show-delete="shouldShowDelete"
-                  show-reorder="shouldShowReorder"
-                  can-swipe="listCanSwipe">
-            <ion-item>
-                Log Out User {{userData.username}}
-                <button class="button button-block button-assertive" ng-click="signOut()">Sign Out</button>
-            </ion-item>
+<ion-view view-title="SETTINGS">
+    <ion-content class="settings-content">
+        <div class="list">
             <div class="item item-divider">
-                Notifications
+                <p>YOUR TEAM</p>
             </div>
-            <ion-item ng-if="userData.notifications.length == 0">No notifications</ion-item>
-            <ion-item ng-repeat="notification in userData.notifications track by $index">
-                <p class="eighty" ng-click="showNotification($index)">{{notification.message}}</p>
-                <i class="icon ion-ios-close-empty" ng-click="clearNotification(notification.notificationId)"></i>
-            </ion-item>
-            <!--<div class="item item-divider">-->
-                <!--Invitations-->
-            <!--</div>-->
-            <!--<ion-item ng-if="userData.invitations.length == 0">No invitations</ion-item>-->
-            <!--<ion-item ng-repeat="invitation in userData.invitations track by $index">-->
-                <!--Invitation to: {{invitation.privateLeagueName}} from {{invitation.invitedBy}}-->
-                <!--<ion-option-button class="button button-balanced"-->
-                                   <!--ng-click="acceptInvitation(invitation.privateLeagueId)">-->
-                    <!--Accept-->
-                <!--</ion-option-button>-->
-                <!--<ion-option-button class="button button-assertive"-->
-                                   <!--ng-click="rejectInvitation(invitation.invitedBy, invitation.privateLeagueId)">-->
-                    <!--Reject-->
-                <!--</ion-option-button>-->
-            <!--</ion-item>-->
-        </ion-list>
+            <div class="item"><a href="#/tab/settings/team">CHOOSE YOUR TEAM</a></div>
+            <div class="item item-divider">
+                <p>PUSH NOTIFICATIONS</p>
+            </div>
+            <li class="item item-toggle">
+                PREDICTION UPDATES
+                <label class="toggle toggle-positive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <li class="item item-toggle">
+                SCORE UPDATES
+                <label class="toggle toggle-positive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <li class="item item-toggle">
+                HT/FT SCORE UPDATES
+                <label class="toggle toggle-positive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div class="item item-divider">
+                <p>USER INFORMATION</p>
+            </div>
+            <div class="item"><a href="#/tab/settings/about">ABOUT APP & ACKNOWLEDGEMENTS</a></div>
+            <div class="item"><a href="#/tab/settings/cookies">COOKIE POLICY</a></div>
+            <div class="item"><a href="#/tab/settings/privacy">PRIVACY POLICY</a></div>
+            <div class="item"><a href="#/tab/settings/tcs">TERMS AND CONDITIONS</a></div>
+            <div class="item sign-out" ng-click="signOut()">
+                <p>SIGN OUT <i class="icon icon-right ion-log-out"></i></p>
+            </div>
+        </div>
     </ion-content>
 </ion-view>

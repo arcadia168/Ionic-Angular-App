@@ -52,6 +52,10 @@ ion-header-bar {
     color: white !important;
     padding-top: 0.2rem;
   }
+
+  * {
+    color: white !important;
+  }
 }
 
 //To apply different styles nested tabs, you have to use the respective DOM positions
@@ -111,8 +115,12 @@ ion-nav-view {
 
   ion-item {
     border-top: 1px solid $ygi-green;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
 
     a.item-content {
+      align-self: center;
       width: 98%;
       display: flex;
       height: 4rem;
@@ -143,6 +151,7 @@ ion-nav-view {
   overflow: hidden !important;
   background-color: white !important;
   padding-top: 0px !important;
+  bottom: inherit !important;
 
   .scroll {
     overflow: hidden;
@@ -150,164 +159,172 @@ ion-nav-view {
   }
 
   ion-item {
-    padding: 0 !important;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border-top: 1px solid $ygi-green;
 
-    div {
+    &:first-child {
+      border-top: none !important;
+    }
+
+    .item-content {
+      margin-bottom: 0 !important;
+      padding: 0 !important;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-     .league-label-container {
-       width: 25% !important;
-       height: 100%;
-       padding: 0.2rem;
-
-       .league-label {
-         background-color: $ygi-green;
-         align-items: center;
-         padding: 0 0.2rem;
-         height: 100%;
-
-         * {
-           color: white !important;
-         }
-
-         .ion-unlocked, .ion-locked {
-           font-size: 0.8rem;
-           align-self: flex-start;
-         }
-
-         .label {
-           margin: 0.5rem 0 0 0.2rem;
-
-           h5 , p {
-             font-size: 0.65rem;
-             align-self: center;
-             word-break: break-all;
-           }
-
-           h5 {
-             height: 0.5rem !important;
-           }
-
-           p:nth-child(2) {
-             align-self: center;
-           }
-         }
-
-       }
-     }
-  }
-
-  .league-overview {
-    width: 75% !important;
-    padding: 0.75rem;
-    justify-content: space-around;
-    align-content: center;
-
-    div {
       flex-direction: row;
-      font-size: 0.75rem;
+      justify-content: space-between;
+      border-top: 1px solid $ygi-green;
+
+      div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .league-label-container {
+        width: 25% !important;
+        height: 100%;
+        padding: 0.2rem;
+
+        .league-label {
+          background-color: $ygi-green;
+          align-items: center;
+          padding: 0 0.2rem;
+          height: 100%;
+
+          * {
+            color: white !important;
+          }
+
+          .ion-unlocked, .ion-locked {
+            font-size: 0.8rem;
+            align-self: flex-start;
+          }
+
+          .label {
+            margin: 0.5rem 0 0 0.2rem;
+
+            h5 , p {
+              font-size: 0.65rem;
+              align-self: center;
+              word-break: break-all;
+            }
+
+            h5 {
+              height: 0.5rem !important;
+            }
+
+            p:nth-child(2) {
+              align-self: center;
+            }
+          }
+
+        }
+      }
     }
 
-    .non-pic {
-      background-color: lightgrey  !important;
-      width: 2rem !important;
-      height: 2rem !important;
-      border-radius: 100% !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      font-size: 1.6rem !important;
-      position: relative;
-      right: 0.2rem;
-      top: 0.1rem;
-    }
+    .league-overview {
+      width: 75% !important;
+      padding: 0.75rem;
+      justify-content: space-around;
+      align-content: center;
 
-    .user-pic {
-      width: 2rem !important;
-      height: 2rem !important;
-      border-radius: 100%;
-      position: relative;
-    }
+      div {
+        flex-direction: row;
+        font-size: 0.75rem;
+      }
 
-    .leader-row {
-      .leader-pos {
-        .leader-icon {
+      .non-pic {
+        background-color: lightgrey  !important;
+        width: 2rem !important;
+        height: 2rem !important;
+        border-radius: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.6rem !important;
+        position: relative;
+        right: 0.2rem;
+        top: 0.1rem;
+      }
+
+      .user-pic {
+        width: 2rem !important;
+        height: 2rem !important;
+        border-radius: 100%;
+        position: relative;
+      }
+
+      .leader-row {
+        .leader-pos {
+          .leader-icon {
+            position: relative;
+            bottom: 0.1rem;
+            font-size: 2rem !important;
+            color: gold !important;//rgb(215, 223 , 35) !important;
+          }
+
+          .leader-no {
+            position: relative !important;
+            top: 0.5rem !important;
+            right: 1.21rem !important;
+          }
+        }
+
+        .user-pic {
           position: relative;
+          right: 0.1rem;
           bottom: 0.1rem;
-          font-size: 2rem !important;
-          color: gold !important;//rgb(215, 223 , 35) !important;
         }
 
-        .leader-no {
-          position: relative !important;
-          top: 0.5rem !important;
-          right: 1.21rem !important;
+        .leader-name {
+          display: flex;
+          align-items: center;
+          flex-basis: 4.75rem;
+          position: relative;
+          left: 0.4rem;
+        }
+
+        .leader-points{
+          display: flex;
+          align-items: center;
+          text-align: left;
+          flex-basis: 3rem;
+          justify-content: flex-end;
+
+          p {
+            font-size: 0.75rem !important;
+          }
         }
       }
 
-      .user-pic {
-        position: relative;
-        right: 0.1rem;
-        bottom: 0.1rem;
-      }
-      
-      .leader-name {
-        display: flex;
-        align-items: center;
-        flex-basis: 4.75rem;
-        position: relative;
-        left: 0.4rem;
-      }
+      .user-row {
 
-      .leader-points{
-        display: flex;
-        align-items: center;
-        text-align: left;
-        flex-basis: 3rem;
-        justify-content: flex-end;
-
-        p {
-          font-size: 0.75rem !important;
+        .user-pos {
+          position: relative;
+          left: .75rem;
+          //margin-left: 0.6rem;
+          min-width: 2rem;
         }
-      }
-    }
 
-    .user-row {
+        .user-pic {
+          left: 0.1rem;
+          //right: 0.1rem;
+          top: -0.5rem;
+        }
 
-      .user-pos {
-        position: relative;
-        left: .75rem;
-        //margin-left: 0.6rem;
-        min-width: 2rem;
-      }
+        .user-name {
+          flex-basis: 4.5rem;
+          position: relative;
+          left: 0.5rem;
+          //width: 4rem;
+        }
 
-      .user-pic {
-        left: 0.1rem;
-        //right: 0.1rem;
-        top: -0.5rem;
-      }
+        .user-points {
+          flex-basis: 3rem;
+          display: flex;
+          justify-content: flex-end;
 
-      .user-name {
-        flex-basis: 4.5rem;
-        position: relative;
-        left: 0.5rem;
-        //width: 4rem;
-      }
-
-      .user-points {
-        flex-basis: 3rem;
-        display: flex;
-        justify-content: flex-end;
-
-        p {
-          font-size: 0.75rem !important;
+          p {
+            font-size: 0.75rem !important;
+          }
         }
       }
     }
@@ -327,8 +344,6 @@ ion-nav-view {
   }
 
   .user-league {
-    height: 8.5rem;
-
     .league-label-container {
       .league-label {
         //margin: auto;
@@ -348,7 +363,178 @@ ion-nav-view {
           }
         }
       }
+    }
+  }
+}
 
+.league-edit {
+  border: none !important;
+  background-color: $ygi-green !important;
+  color: white !important;
+
+  &:activated {
+    border-color: $ygi-green !important;
+    box-shadow: none !important;
+  }
+}
+
+.league-edit-btn {
+  display: flex !important;
+  flex-direction: row!important;
+  justify-content: space-around!important;
+  align-items: center!important;
+
+  .icon {
+    align-self: flex-start!important;
+    padding-left: 2.5rem !important;
+  }
+
+  p {
+    align-self: center!important;
+    margin: auto !important;
+    padding-right: 2.5rem !important;
+  }
+
+}
+
+/*Private Leagues styling */
+ion-view.league-detail {
+
+  .current-view-select {
+    background-color: white !important;
+    color: $ygi-trade !important;
+    top: 2.75rem;
+
+    .item-select {
+
+      .input-label {
+
+      }
+
+      select {
+        border: 1px solid black;
+        top: 0.25rem;
+        right: 0.3rem;
+        padding: 0.7rem 1.8rem 0.5rem 0.5rem;
+        color: $ygi-green;
+        background-color: transparent !important;
+      }
+
+    }
+  }
+
+  .scroll {
+    border: 2px solid $ygi-green;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  .league-live-table {
+    //margin-top: 3rem;
+    top: 7rem;
+    padding-top: 0 !important;
+
+    .row-header-container {
+      //position: absolute;
+      //top: 3.9rem;
+      width: 100%;
+      padding: 0.1rem;
+      //padding: 0 10px;
+
+      .row-header {
+        background-color: $ygi-green !important;
+        color: white;
+        font-weight: bold;
+        font-size: 0.75rem;
+        text-transform: uppercase ;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
+        border-bottom: 0px solid transparent !important;
+        border-radius: 3px 3px 0px 0px !important;
+        height: 1.5rem;
+        border-radius: 3px;
+
+        p:first-child {
+          margin-left: 0.1rem;
+        }
+
+        p {
+          //padding-top: 0.3rem;
+          height: 1.75rem !important;
+          //margin-top: 0.27rem;
+        }
+      }
+    }
+
+    .title-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 0.1rem;
+      padding-left: 0.2rem;
+      padding-right: 0.2rem;
+      color: $ygi-green;
+      height: 1.1rem;
+      border-bottom: 1px solid $ygi-green;
+
+      p {
+        height: 1.1rem;
+        font-size: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+
+      p:nth-child(2) {
+        border-left: 1px solid $ygi-green;
+        border-right: 1px solid $ygi-green;
+      }
+    }
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .non-pic {
+        background-color: lightgrey  !important;
+        width: 2rem !important;
+        height: 2rem !important;
+        border-radius: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 1.6rem !important;
+        position: relative;
+        right: 0.2rem;
+        top: 0.1rem;
+      }
+
+      .user-pic {
+        width: 2rem !important;
+        height: 2rem !important;
+        border-radius: 100%;
+        position: relative;
+      }
+
+      .leader-pos {
+        .leader-icon {
+          position: relative;
+          bottom: 0.1rem;
+          font-size: 2rem !important;
+          color: gold !important;//rgb(215, 223 , 35) !important;
+        }
+
+        .leader-no {
+          position: relative !important;
+          //top: 0.5rem !important;
+          bottom: 1.6rem !important;
+          left: 0.8rem !important;
+          //right: 1.21rem !important;
+        }
+      }
     }
   }
 }
@@ -914,3 +1100,80 @@ td-cards {
   display: table-cell;
   vertical-align: middle;
 }
+
+/*Stylings for the settings screen */
+.settings-content {
+  margin: 1.1rem 1.1rem 1.1rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important;
+
+  .list {
+    padding: 1px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .item {
+      border-color: transparent !important;
+      font-size: 0.8rem;
+      width: 95%;
+      border-top: 1px solid $ygi-green !important;
+      padding-left: 0;
+      padding-right: 0;
+      
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .toggle {
+        padding-top: 10px !important;
+        right: 5px;
+
+        .track {
+          border-radius: 7px !important;
+          width: 45px !important;
+          height: 24px !important;
+        }
+        .handle {
+          height: 20px !important;
+          width: 20px !important;
+          border-radius: 5px !important;
+          border: 2px solid grey !important;
+          top: 12px !important;
+        }
+      }
+
+      &.sign-out {
+        padding-top: 0px;
+        padding-bottom: 10px;
+
+        .ion-log-out {
+          font-size: 2rem;
+          position: relative;
+          left: 13.5rem;
+          top: 0.3rem;
+        }
+      }
+    }
+
+    .item-divider {
+      display: flex;
+      justify-content: center;
+      background-color: $ygi-green;
+      border-radius: 3px;
+      width: 100%;
+      padding-top: 4px;
+      padding-bottom: 3px;
+
+      p {
+        margin-top: 0.15rem;
+        align-self: center;
+        color: white;
+      }
+    }
+
+  }
+
+}
+

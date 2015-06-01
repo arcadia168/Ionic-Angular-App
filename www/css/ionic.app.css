@@ -6806,6 +6806,8 @@ ion-header-bar {
     text-align: center !important;
     color: white !important;
     padding-top: 0.2rem; }
+  ion-header-bar * {
+    color: white !important; }
 
 ion-nav-view ion-tabs {
   /*Styling bottom nav bar */
@@ -6846,8 +6848,20 @@ ion-nav-view ion-tabs {
   .rounds-content ion-item:first-child {
     border-top: none !important; }
   .rounds-content ion-item {
-    border-top: 1px solid #3bb665; }
+    border-top: 1px solid #3bb665;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row; }
     .rounds-content ion-item a.item-content {
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
       width: 98%;
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -6876,11 +6890,15 @@ ion-nav-view ion-tabs {
   border-radius: 3px;
   overflow: hidden !important;
   background-color: white !important;
-  padding-top: 0px !important; }
+  padding-top: 0px !important;
+  bottom: inherit !important; }
   .leaderboard-content .scroll {
     overflow: hidden;
     border-radius: 3px 3px 0 0; }
-  .leaderboard-content ion-item {
+  .leaderboard-content ion-item:first-child {
+    border-top: none !important; }
+  .leaderboard-content ion-item .item-content {
+    margin-bottom: 0 !important;
     padding: 0 !important;
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -6892,7 +6910,7 @@ ion-nav-view ion-tabs {
     -ms-flex-pack: justify;
     justify-content: space-between;
     border-top: 1px solid #3bb665; }
-    .leaderboard-content ion-item div {
+    .leaderboard-content ion-item .item-content div {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -6902,39 +6920,39 @@ ion-nav-view ion-tabs {
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
       justify-content: space-between; }
-    .leaderboard-content ion-item .league-label-container {
+    .leaderboard-content ion-item .item-content .league-label-container {
       width: 25% !important;
       height: 100%;
       padding: 0.2rem; }
-      .leaderboard-content ion-item .league-label-container .league-label {
+      .leaderboard-content ion-item .item-content .league-label-container .league-label {
         background-color: #3bb665;
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
         padding: 0 0.2rem;
         height: 100%; }
-        .leaderboard-content ion-item .league-label-container .league-label * {
+        .leaderboard-content ion-item .item-content .league-label-container .league-label * {
           color: white !important; }
-        .leaderboard-content ion-item .league-label-container .league-label .ion-unlocked, .leaderboard-content ion-item .league-label-container .league-label .ion-locked {
+        .leaderboard-content ion-item .item-content .league-label-container .league-label .ion-unlocked, .leaderboard-content ion-item .item-content .league-label-container .league-label .ion-locked {
           font-size: 0.8rem;
           -webkit-align-self: flex-start;
           -ms-flex-item-align: start;
           align-self: flex-start; }
-        .leaderboard-content ion-item .league-label-container .league-label .label {
+        .leaderboard-content ion-item .item-content .league-label-container .league-label .label {
           margin: 0.5rem 0 0 0.2rem; }
-          .leaderboard-content ion-item .league-label-container .league-label .label h5, .leaderboard-content ion-item .league-label-container .league-label .label p {
+          .leaderboard-content ion-item .item-content .league-label-container .league-label .label h5, .leaderboard-content ion-item .item-content .league-label-container .league-label .label p {
             font-size: 0.65rem;
             -webkit-align-self: center;
             -ms-flex-item-align: center;
             align-self: center;
             word-break: break-all; }
-          .leaderboard-content ion-item .league-label-container .league-label .label h5 {
+          .leaderboard-content ion-item .item-content .league-label-container .league-label .label h5 {
             height: 0.5rem !important; }
-          .leaderboard-content ion-item .league-label-container .league-label .label p:nth-child(2) {
+          .leaderboard-content ion-item .item-content .league-label-container .league-label .label p:nth-child(2) {
             -webkit-align-self: center;
             -ms-flex-item-align: center;
             align-self: center; }
-  .leaderboard-content .league-overview {
+  .leaderboard-content ion-item .league-overview {
     width: 75% !important;
     padding: 0.75rem;
     -webkit-justify-content: space-around;
@@ -6943,12 +6961,12 @@ ion-nav-view ion-tabs {
     -webkit-align-content: center;
     -ms-flex-line-pack: center;
     align-content: center; }
-    .leaderboard-content .league-overview div {
+    .leaderboard-content ion-item .league-overview div {
       -webkit-flex-direction: row;
       -ms-flex-direction: row;
       flex-direction: row;
       font-size: 0.75rem; }
-    .leaderboard-content .league-overview .non-pic {
+    .leaderboard-content ion-item .league-overview .non-pic {
       background-color: lightgrey !important;
       width: 2rem !important;
       height: 2rem !important;
@@ -6966,25 +6984,25 @@ ion-nav-view ion-tabs {
       position: relative;
       right: 0.2rem;
       top: 0.1rem; }
-    .leaderboard-content .league-overview .user-pic {
+    .leaderboard-content ion-item .league-overview .user-pic {
       width: 2rem !important;
       height: 2rem !important;
       border-radius: 100%;
       position: relative; }
-    .leaderboard-content .league-overview .leader-row .leader-pos .leader-icon {
+    .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-icon {
       position: relative;
       bottom: 0.1rem;
       font-size: 2rem !important;
       color: gold !important; }
-    .leaderboard-content .league-overview .leader-row .leader-pos .leader-no {
+    .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
       position: relative !important;
       top: 0.5rem !important;
       right: 1.21rem !important; }
-    .leaderboard-content .league-overview .leader-row .user-pic {
+    .leaderboard-content ion-item .league-overview .leader-row .user-pic {
       position: relative;
       right: 0.1rem;
       bottom: 0.1rem; }
-    .leaderboard-content .league-overview .leader-row .leader-name {
+    .leaderboard-content ion-item .league-overview .leader-row .leader-name {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -6996,7 +7014,7 @@ ion-nav-view ion-tabs {
       flex-basis: 4.75rem;
       position: relative;
       left: 0.4rem; }
-    .leaderboard-content .league-overview .leader-row .leader-points {
+    .leaderboard-content ion-item .league-overview .leader-row .leader-points {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -7010,22 +7028,22 @@ ion-nav-view ion-tabs {
       -webkit-justify-content: flex-end;
       -ms-flex-pack: end;
       justify-content: flex-end; }
-      .leaderboard-content .league-overview .leader-row .leader-points p {
+      .leaderboard-content ion-item .league-overview .leader-row .leader-points p {
         font-size: 0.75rem !important; }
-    .leaderboard-content .league-overview .user-row .user-pos {
+    .leaderboard-content ion-item .league-overview .user-row .user-pos {
       position: relative;
       left: 0.75rem;
       min-width: 2rem; }
-    .leaderboard-content .league-overview .user-row .user-pic {
+    .leaderboard-content ion-item .league-overview .user-row .user-pic {
       left: 0.1rem;
       top: -0.5rem; }
-    .leaderboard-content .league-overview .user-row .user-name {
+    .leaderboard-content ion-item .league-overview .user-row .user-name {
       -webkit-flex-basis: 4.5rem;
       -ms-flex-preferred-size: 4.5rem;
       flex-basis: 4.5rem;
       position: relative;
       left: 0.5rem; }
-    .leaderboard-content .league-overview .user-row .user-points {
+    .leaderboard-content ion-item .league-overview .user-row .user-points {
       -webkit-flex-basis: 3rem;
       -ms-flex-preferred-size: 3rem;
       flex-basis: 3rem;
@@ -7035,36 +7053,187 @@ ion-nav-view ion-tabs {
       -webkit-justify-content: flex-end;
       -ms-flex-pack: end;
       justify-content: flex-end; }
-      .leaderboard-content .league-overview .user-row .user-points p {
+      .leaderboard-content ion-item .league-overview .user-row .user-points p {
         font-size: 0.75rem !important; }
   .leaderboard-content .global-league {
     border-radius: 1%; }
     .leaderboard-content .global-league .league-label-container .league-label .global-league-icon {
       font-size: 4rem;
       margin-top: -1rem; }
-  .leaderboard-content .user-league {
-    height: 8.5rem; }
-    .leaderboard-content .user-league .league-label-container .league-label .label {
-      -webkit-align-self: center;
-      -ms-flex-item-align: center;
-      align-self: center;
-      -webkit-flex-basis: 6.5rem;
-      -ms-flex-preferred-size: 6.5rem;
-      flex-basis: 6.5rem;
-      margin: 0 !important;
-      position: relative;
-      bottom: 0.5rem;
+  .leaderboard-content .user-league .league-label-container .league-label .label {
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    align-self: center;
+    -webkit-flex-basis: 6.5rem;
+    -ms-flex-preferred-size: 6.5rem;
+    flex-basis: 6.5rem;
+    margin: 0 !important;
+    position: relative;
+    bottom: 0.5rem;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around; }
+    .leaderboard-content .user-league .league-label-container .league-label .label h5 {
+      height: inherit; }
+
+.league-edit {
+  border: none !important;
+  background-color: #3bb665 !important;
+  color: white !important; }
+  .league-edit:activated {
+    border-color: #3bb665 !important;
+    box-shadow: none !important; }
+
+.league-edit-btn {
+  display: -webkit-flex !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  -webkit-flex-direction: row !important;
+  -ms-flex-direction: row !important;
+  flex-direction: row !important;
+  -webkit-justify-content: space-around !important;
+  -ms-flex-pack: distribute !important;
+  justify-content: space-around !important;
+  -webkit-align-items: center !important;
+  -ms-flex-align: center !important;
+  align-items: center !important; }
+  .league-edit-btn .icon {
+    -webkit-align-self: flex-start !important;
+    -ms-flex-item-align: start !important;
+    align-self: flex-start !important;
+    padding-left: 2.5rem !important; }
+  .league-edit-btn p {
+    -webkit-align-self: center !important;
+    -ms-flex-item-align: center !important;
+    align-self: center !important;
+    margin: auto !important;
+    padding-right: 2.5rem !important; }
+
+/*Private Leagues styling */
+ion-view.league-detail .current-view-select {
+  background-color: white !important;
+  color: #6A6A6A !important;
+  top: 2.75rem; }
+  ion-view.league-detail .current-view-select .item-select select {
+    border: 1px solid black;
+    top: 0.25rem;
+    right: 0.3rem;
+    padding: 0.7rem 1.8rem 0.5rem 0.5rem;
+    color: #3bb665;
+    background-color: transparent !important; }
+ion-view.league-detail .scroll {
+  border: 2px solid #3bb665;
+  border-radius: 5px;
+  background-color: white; }
+ion-view.league-detail .league-live-table {
+  top: 7rem;
+  padding-top: 0 !important; }
+  ion-view.league-detail .league-live-table .row-header-container {
+    width: 100%;
+    padding: 0.1rem; }
+    ion-view.league-detail .league-live-table .row-header-container .row-header {
+      background-color: #3bb665 !important;
+      color: white;
+      font-weight: bold;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      text-align: center;
+      border-bottom: 0px solid transparent !important;
+      border-radius: 3px 3px 0px 0px !important;
+      height: 1.5rem;
+      border-radius: 3px; }
+      ion-view.league-detail .league-live-table .row-header-container .row-header p:first-child {
+        margin-left: 0.1rem; }
+      ion-view.league-detail .league-live-table .row-header-container .row-header p {
+        height: 1.75rem !important; }
+  ion-view.league-detail .league-live-table .title-row {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0.1rem;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    color: #3bb665;
+    height: 1.1rem;
+    border-bottom: 1px solid #3bb665; }
+    ion-view.league-detail .league-live-table .title-row p {
+      height: 1.1rem;
+      font-size: 0.75rem;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
       -webkit-flex-direction: column;
       -ms-flex-direction: column;
       flex-direction: column;
-      -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
-      justify-content: space-around; }
-      .leaderboard-content .user-league .league-label-container .league-label .label h5 {
-        height: inherit; }
+      -webkit-align-items: flex-end;
+      -ms-flex-align: end;
+      align-items: flex-end; }
+    ion-view.league-detail .league-live-table .title-row p:nth-child(2) {
+      border-left: 1px solid #3bb665;
+      border-right: 1px solid #3bb665; }
+  ion-view.league-detail .league-live-table .row {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between; }
+    ion-view.league-detail .league-live-table .row .non-pic {
+      background-color: lightgrey !important;
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 100% !important;
+      display: -webkit-flex !important;
+      display: -ms-flexbox !important;
+      display: flex !important;
+      -webkit-align-items: center !important;
+      -ms-flex-align: center !important;
+      align-items: center !important;
+      -webkit-justify-content: center !important;
+      -ms-flex-pack: center !important;
+      justify-content: center !important;
+      font-size: 1.6rem !important;
+      position: relative;
+      right: 0.2rem;
+      top: 0.1rem; }
+    ion-view.league-detail .league-live-table .row .user-pic {
+      width: 2rem !important;
+      height: 2rem !important;
+      border-radius: 100%;
+      position: relative; }
+    ion-view.league-detail .league-live-table .row .leader-pos .leader-icon {
+      position: relative;
+      bottom: 0.1rem;
+      font-size: 2rem !important;
+      color: gold !important; }
+    ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
+      position: relative !important;
+      bottom: 1.6rem !important;
+      left: 0.8rem !important; }
 
 /* Stylings for rulebook */
 .rulebook-content {
@@ -7495,3 +7664,69 @@ td-cards {
   border: 1px solid #3bb665 !important;
   display: table-cell;
   vertical-align: middle; }
+
+/*Stylings for the settings screen */
+.settings-content {
+  margin: 1.1rem 1.1rem 1.1rem 1.1rem;
+  border-radius: 3px;
+  background-color: white !important; }
+  .settings-content .list {
+    padding: 1px !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    .settings-content .list .item {
+      border-color: transparent !important;
+      font-size: 0.8rem;
+      width: 95%;
+      border-top: 1px solid #3bb665 !important;
+      padding-left: 0;
+      padding-right: 0; }
+      .settings-content .list .item a {
+        text-decoration: none;
+        color: inherit; }
+      .settings-content .list .item .toggle {
+        padding-top: 10px !important;
+        right: 5px; }
+        .settings-content .list .item .toggle .track {
+          border-radius: 7px !important;
+          width: 45px !important;
+          height: 24px !important; }
+        .settings-content .list .item .toggle .handle {
+          height: 20px !important;
+          width: 20px !important;
+          border-radius: 5px !important;
+          border: 2px solid grey !important;
+          top: 12px !important; }
+      .settings-content .list .item.sign-out {
+        padding-top: 0px;
+        padding-bottom: 10px; }
+        .settings-content .list .item.sign-out .ion-log-out {
+          font-size: 2rem;
+          position: relative;
+          left: 13.5rem;
+          top: 0.3rem; }
+    .settings-content .list .item-divider {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      background-color: #3bb665;
+      border-radius: 3px;
+      width: 100%;
+      padding-top: 4px;
+      padding-bottom: 3px; }
+      .settings-content .list .item-divider p {
+        margin-top: 0.15rem;
+        -webkit-align-self: center;
+        -ms-flex-item-align: center;
+        align-self: center;
+        color: white; }

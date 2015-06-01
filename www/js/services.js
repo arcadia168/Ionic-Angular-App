@@ -1,10 +1,10 @@
-angular.module('starter.services', ['ngResource'])
+angular.module('starter.services', [])
 
 //Using a service to create  a globally accessible variable
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -69,6 +69,7 @@ angular.module('starter.services', ['ngResource'])
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
+                        deferred.reject();
                     });
                 return deferred.promise;
 
@@ -96,7 +97,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
@@ -123,7 +124,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
@@ -144,7 +145,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong"); //TODO: Use an ionicPopUp for this
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
@@ -164,29 +165,105 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong");
+                        deferred.reject();
                     });
                 return deferred.promise;
             }
         }
     }])
 
-    .factory('PrivateLeagues', ['$http', '$q', 'RunMode', function($http, $q, RunMode) {
+    .factory('Leaderboard', ['$http', '$q', 'RunMode', function($http, $q, RunMode, auth) {
+
+        //TODO: Sort out the formatting and indentation of these promise functions
 
         var SERVER = RunMode.server();
         console.log(SERVER);
 
+        var userPrivateLeagues = [];
+        var globalLeagueData = [];
+        var roundDates = []
+        var currentRound;
+
         return {
-            all: function(user_id) {
+            overall: function(user_id, user_picture) {
+                var deferred = $q.defer();
+
+                //TODO: Replace the use of http with resource
+                // Make a call to ye olde server
+                $http.get(SERVER + '/leaderboard/'
+                ).success(function(data){
+                        //Process the data
+                        debugger;
+
+                        globalLeagueData = data;
+                        currentRound = data[data.length - 2];
+                        console.log('current round is: ' + JSON.stringify(currentRound));
+
+                        roundDates = data[data.length - 1];
+                        roundDates.roundsList.unshift({roundNo: 'OVERALL SEASON'});
+                        console.log('roundDates are: ' + JSON.stringify(roundDates));
+
+                        data.splice(data.length -2, 2);
+                        console.log('now removed currentRound from private leagues, last list item is:' + JSON.stringify(data[data.length -1]));
+                        //roundDates = data[data.length - 1];
+                        //console.log("The list of round dates is: " + roundDates);
+
+                        //For each league will have to add data pertaining to logged in user to scope manually
+                        for (var i = 0; i < globalLeagueData.length; i++) {
+                            if (globalLeagueData[i].user_id == user_id) {
+                                //then we have found the currently logged in user, add key to this object
+                                globalLeagueData.thisUser = {
+                                    //need pts, username and pick
+                                    userSeasonPts: globalLeagueData[i].overallSeasonScore, //todo: assign round pts
+                                    userPos: i + 1,
+                                    userPic: user_picture
+                                    //userRdPts: globalLeagueData[i].roundScores
+                                }
+                            }
+                            break;
+                        }
+
+                        deferred.resolve(globalLeagueData);
+                    }).error(function(){
+                        console.log("Error while making HTTP call.");
+                        deferred.reject(); //TODO: Remove these deferred.promise statements, not quite sure what they do.
+                    });
+                return deferred.promise;
+            },
+            all: function(user_id, user_picture) {
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
                 // Make a call to ye olde server
                 $http.get(SERVER + '/users/private_leagues/list/' + user_id
                 ).success(function(data){
-                        deferred.resolve(data);
+                        debugger;
+
+                        userPrivateLeagues = data;
+
+                        //For each private league identify the user within that league and add details
+                        //For each league will have to add data pertaining to logged in user to scope manually
+                        for (var j = 0; j < userPrivateLeagues.length; j++) {
+                            for (var k = 0; k < userPrivateLeagues[j].members.length; k++) {
+                                if (userPrivateLeagues[j].members[k].user_id == user_id) {
+                                    //then we have found the currently logged in user, add key to this object
+                                    debugger;
+                                    userPrivateLeagues[j].thisUser = {
+                                        //need pts, username and pick
+                                        userSeasonPts: userPrivateLeagues[j].members[k].overallSeasonScore,  //todo: assign round pts
+                                        userPos: k + 1,
+                                        userPic: user_picture,
+                                        userCurrentRoundScore: userPrivateLeagues[j].members[k].currentRoundScore
+                                    };
+                                    break;
+                                }
+                            }
+                        }
+
+                        deferred.resolve(userPrivateLeagues);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
@@ -194,69 +271,135 @@ angular.module('starter.services', ['ngResource'])
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
-                // Make a call to ye olde server
                 $http.get(SERVER + '/users/private_leagues/get/' + user_id + '/' + privateLeagueId
                 ).success(function(data){
-                        deferred.resolve(data);
+                        console.log('\n Successfully retrieved private league info:' + JSON.stringify(data));
+                        deferred.resolve(data[0]);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
-            //inviteNewMember: function(user_id, userToInvite, privateLeagueId) {
-            //    var deferred = $q.defer();
-            //
-            //    //TODO: Replace the use of http with resource
-            //
-            //    console.log("Now sending an invite to user: " + userToInvite + " from user " + user_id);
-            //
-            //    $http.get(SERVER + '/users/private_leagues/invite/' + user_id + '/' + privateLeagueId + '/' + userToInvite
-            //    ).success(function(data){
-            //            deferred.resolve(data);
-            //        }).error(function(){
-            //            console.log("Error while making HTTP call.");
-            //            //deferred.promise;
-            //        });
-            //    return deferred.promise;
-            //},
-            //acceptInvitation: function(user_id, private_league_id) {
-            //
-            //    var deferred = $q.defer();
-            //
-            //    //TODO: Replace the use of http with resource
-            //
-            //    //sends the user_id of the invited user and the league to which they have been invited
-            //    console.log("Now accepting invitation for user: " + user_id + " into private league: " + private_league_id);
-            //
-            //    $http.get(SERVER + '/users/private_leagues/accept/' + user_id + '/' + private_league_id
-            //    ).success(function(data){
-            //            deferred.resolve(data);
-            //        }).error(function(){
-            //            console.log("Error while making HTTP call.");
-            //            //deferred.promise;
-            //        });
-            //    return deferred.promise;
-            //},
-            rejectInvitation: function(invited_user_id, inviting_username, private_league_id) {
+            getCurrentRound: function() {
+                if (currentRound) {
+                    return currentRound.currentRound;
+                } else {
+                    console.log("ERROR: User requested current round when none was set");
+                    return 'error no current round'
+                }
+            },
+            getRoundDates: function() {
+                if (roundDates) {
+                    //Prepend this value to the array
+                    return roundDates.roundsList;
+                } else {
+                    console.log("ERROR: User requested round dates list when none was set");
+                    return 'error no current round dates list.';
+                }
+            },
+            createNewLeague: function(user_id, private_league_name) {
 
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
 
                 //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now rejecting invitation for user: " + invited_user_id + " for private league: " + private_league_id
-                    + " from user " + inviting_username);
+                console.log("Now creating a private league with the name: " + private_league_name);
 
 
-                $http.get(SERVER + '/users/private_leagues/reject/' + inviting_username + '/' + invited_user_id + '/' + private_league_id
+                $http.get(SERVER + '/users/private_leagues/create/' + user_id + '/' + private_league_name
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
+            },
+            deleteLeague: function(user_id, private_league_id) {
+
+                var deferred = $q.defer();
+
+                //TODO: Replace the use of http with resource
+
+                //sends the user_id of the invited user and the league to which they have been invited
+                console.log("Now deleting the private league: " + private_league_id);
+
+
+                $http.delete(SERVER + '/users/private_leagues/delete/' + user_id + '/' + private_league_id
+                ).success(function(data){
+                        deferred.resolve(data);
+                    }).error(function(){
+                        console.log("Error while making HTTP call.");
+                        deferred.reject();
+                    });
+                return deferred.promise;
+
+            },
+            leaveLeague: function(user_id, private_league_id) {
+
+                var deferred = $q.defer();
+
+                //TODO: Replace the use of http with resource
+
+                //sends the user_id of the invited user and the league to which they have been invited
+                console.log("Now leaving the private league: " + private_league_id);
+
+
+                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_id
+                ).success(function(data){
+                        deferred.resolve(data);
+                    }).error(function(){
+                        console.log("Error while making HTTP call.");
+                        deferred.reject(); //should actually be reject
+                    });
+                return deferred.promise;
+            },
+            deleteMembers: function(user_id, members_to_delete, private_league_id) {
+
+                var deferred = $q.defer();
+
+                //TODO: Replace the use of http with resource
+
+                //sends the user_id of the invited user and the league to which they have been invited
+                //console.log("Now removing member " + user_to_delete + " from the private league: " + private_league_id);
+                members_to_delete = JSON.stringify(members_to_delete);
+
+                $http.put(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id, members_to_delete
+                ).success(function(data){
+                        deferred.resolve(data);
+                    }).error(function(){
+                        console.log("Error while making HTTP call.");
+                        deferred.reject();
+                    });
+                return deferred.promise;
+
+            },
+            joinLeagueWithCode: function(joiningUser, privateLeagueCode) {
+
+                var deferred = $q.defer();
+
+                //TODO: Replace the use of http with resource
+
+                //sends the user_id of the invited user and the league to which they have been invited
+                console.log("Now attempting to join the league with code: " + privateLeagueCode);
+
+                //make the request to the server.
+                $http.get(SERVER + '/users/private_leagues/join/' + joiningUser + '/' + privateLeagueCode
+                ).success(function(data){
+                        //if $http promise is fulfilled, fulfill service promise
+                        deferred.resolve(data);
+                    }).error(function(error){
+                        console.log("Error while making HTTP call.");
+
+                        //if an error occured, reject the promise todo: in front end use a popup to denote error
+                        deferred.reject(error); //todo: go and replace all $http rejects with this.
+                    });
+
+                //return a promise
+                return deferred.promise;
+
             },
             renameLeague: function(user_id, new_league_name, private_league_id) {
 
@@ -273,364 +416,52 @@ angular.module('starter.services', ['ngResource'])
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
-            createNewLeague: function(user_id, private_league_name) {
+            changeCaptain: function(user_id, new_captain_id, private_league_id) {
+
+                ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
 
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
 
                 //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now creating a private league with the name: " + private_league_name);
+                console.log("Now altering captain for league: " + private_league_id + " to " + new_captain_id);
 
 
-                $http.get(SERVER + '/users/private_leagues/create/' + user_id + '/' + private_league_name
+                $http.get(SERVER + "/users/private_leagues/edit/captain/" + user_id + "/" + private_league_id + "/" + new_captain_id
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
-            deleteLeague: function(user_id, private_league_id) {
+            changeViceCaptain: function(user_id, new_vice_captain_id, private_league_id) {
+
+                ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
 
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
 
                 //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now deleting the private league: " + private_league_id);
+                console.log("Now altering captain for league: " + private_league_id + " to " + new_vice_captain_id);
 
 
-                $http.delete(SERVER + '/users/private_leagues/delete/' + user_id + '/' + private_league_id
+                $http.get(SERVER + "/users/private_leagues/edit/captain/" + user_id + "/" + private_league_id + "/" + new_captain_id
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
-                    });
-                return deferred.promise;
-
-            },
-            leaveLeague: function(user_id, private_league_id) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now leaving the private league: " + private_league_id);
-
-
-                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise; //should actually be reject
-                    });
-                return deferred.promise;
-            },
-            deleteMember: function(user_id, user_to_delete, private_league_id) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now removing member " + user_to_delete + " from the private league: " + private_league_id);
-
-
-                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_to_delete
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise;
-                    });
-                return deferred.promise;
-
-            },
-            joinLeagueWithCode: function(joiningUser, privateLeagueCode) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now attempting to join the league with code: " + privateLeagueCode);
-
-                //make the request to the server.
-                $http.get(SERVER + '/users/private_leagues/join/' + joiningUser + '/' + privateLeagueCode
-                ).success(function(data){
-                        //if $http promise is fulfilled, fulfill service promise
-                        deferred.resolve(data);
-                    }).error(function(error){
-                        console.log("Error while making HTTP call.");
-
-                        //if an error occured, reject the promise todo: in front end use a popup to denote error
-                        deferred.reject(error); //todo: go and replace all $http rejects with this.
+                        deferred.reject();
                     });
 
-                //return a promise
                 return deferred.promise;
-
-            }
-        }
-    }])
-
-    .factory('Leaderboard', ['$http', '$q', 'RunMode', function($http, $q, RunMode) {
-
-        //TODO: Sort out the formatting and indentation of these promise functions
-
-        var SERVER = RunMode.server();
-        console.log(SERVER);
-
-        var userPrivateLeagues = [];
-
-        return {
-            all: function(user_id) {
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-                // Make a call to ye olde server
-                $http.get(SERVER + '/users/private_leagues/list/' + user_id
-                ).success(function(data){
-                        userPrivateLeagues = data;
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise;
-                    });
-                return deferred.promise;
-            },
-            overall: function() {
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-                // Make a call to ye olde server
-                $http.get(SERVER + '/scoreboard/'
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise; //TODO: Remove these deferred.promise statements, not quite sure what they do.
-                    });
-                return deferred.promise;
-            },
-            get: function(user_id, privateLeagueId) {
-                var deferred = $q.defer();
-
-                var leagueFound = false;
-
-                console.log("Looking through the list of private leagues: " + JSON.stringify(userPrivateLeagues));
-                for (var i = 0; i < userPrivateLeagues.length; i++) {
-
-                    console.log("Now looking at private league: " + JSON.stringify(userPrivateLeagues[i]));
-
-                    if (userPrivateLeagues[i].privateLeagueId == privateLeagueId) {
-                        deferred.resolve(userPrivateLeagues[i]);
-                        leagueFound = true;
-                        break;
-                    }
-                }
-
-                if (!leagueFound) {
-                    deferred.reject();
-                }
-
-                return deferred.promise;
-
-                //TODO: Replace the use of http with resource
-                // Make a call to ye olde server
-                //$http.get(SERVER + '/users/private_leagues/get/' + user_id + '/' + privateLeagueId
-                //).success(function(data){
-                //        deferred.resolve(data);
-                //    }).error(function(){
-                //        console.log("Error while making HTTP call.");
-                //        //deferred.promise;
-                //    });
-                //return deferred.promise;
-            },
-            //inviteNewMember: function(user_id, userToInvite, privateLeagueId) {
-            //    var deferred = $q.defer();
-            //
-            //    //TODO: Replace the use of http with resource
-            //
-            //    console.log("Now sending an invite to user: " + userToInvite + " from user " + user_id);
-            //
-            //    $http.get(SERVER + '/users/private_leagues/invite/' + user_id + '/' + privateLeagueId + '/' + userToInvite
-            //    ).success(function(data){
-            //            deferred.resolve(data);
-            //        }).error(function(){
-            //            console.log("Error while making HTTP call.");
-            //            //deferred.promise;
-            //        });
-            //    return deferred.promise;
-            //},
-            //acceptInvitation: function(user_id, private_league_id) {
-            //
-            //    var deferred = $q.defer();
-            //
-            //    //TODO: Replace the use of http with resource
-            //
-            //    //sends the user_id of the invited user and the league to which they have been invited
-            //    console.log("Now accepting invitation for user: " + user_id + " into private league: " + private_league_id);
-            //
-            //    $http.get(SERVER + '/users/private_leagues/accept/' + user_id + '/' + private_league_id
-            //    ).success(function(data){
-            //            deferred.resolve(data);
-            //        }).error(function(){
-            //            console.log("Error while making HTTP call.");
-            //            //deferred.promise;
-            //        });
-            //    return deferred.promise;
-            //},
-            //rejectInvitation: function(invited_user_id, inviting_username, private_league_id) {
-            //
-            //    var deferred = $q.defer();
-            //
-            //    //TODO: Replace the use of http with resource
-            //
-            //    //sends the user_id of the invited user and the league to which they have been invited
-            //    console.log("Now rejecting invitation for user: " + invited_user_id + " for private league: " + private_league_id
-            //        + " from user " + inviting_username);
-            //
-            //
-            //    $http.get(SERVER + '/users/private_leagues/reject/' + inviting_username + '/' + invited_user_id + '/' + private_league_id
-            //    ).success(function(data){
-            //            deferred.resolve(data);
-            //        }).error(function(){
-            //            console.log("Error while making HTTP call.");
-            //            //deferred.promise;
-            //        });
-            //    return deferred.promise;
-            //},
-            //renameLeague: function(user_id, new_league_name, private_league_id) {
-            //
-            //    var deferred = $q.defer();
-            //
-            //    //TODO: Replace the use of http with resource
-            //
-            //    //sends the user_id of the invited user and the league to which they have been invited
-            //    console.log("Now renaming league: " + private_league_id + " to " + new_league_name);
-            //
-            //
-            //    $http.get(SERVER + "/users/private_leagues/rename/" + user_id + "/" + private_league_id + "/" + new_league_name
-            //    ).success(function(data){
-            //            deferred.resolve(data);
-            //        }).error(function(){
-            //            console.log("Error while making HTTP call.");
-            //            //deferred.promise;
-            //        });
-            //    return deferred.promise;
-            //},
-            createNewLeague: function(user_id, private_league_name) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now creating a private league with the name: " + private_league_name);
-
-
-                $http.get(SERVER + '/users/private_leagues/create/' + user_id + '/' + private_league_name
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise;
-                    });
-                return deferred.promise;
-            },
-            deleteLeague: function(user_id, private_league_id) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now deleting the private league: " + private_league_id);
-
-
-                $http.delete(SERVER + '/users/private_leagues/delete/' + user_id + '/' + private_league_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise;
-                    });
-                return deferred.promise;
-
-            },
-            leaveLeague: function(user_id, private_league_id) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now leaving the private league: " + private_league_id);
-
-
-                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise; //should actually be reject
-                    });
-                return deferred.promise;
-            },
-            deleteMember: function(user_id, user_to_delete, private_league_id) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now removing member " + user_to_delete + " from the private league: " + private_league_id);
-
-
-                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_to_delete
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //deferred.promise;
-                    });
-                return deferred.promise;
-
-            },
-            joinLeagueWithCode: function(joiningUser, privateLeagueCode) {
-
-                var deferred = $q.defer();
-
-                //TODO: Replace the use of http with resource
-
-                //sends the user_id of the invited user and the league to which they have been invited
-                console.log("Now attempting to join the league with code: " + privateLeagueCode);
-
-                //make the request to the server.
-                $http.get(SERVER + '/users/private_leagues/join/' + joiningUser + '/' + privateLeagueCode
-                ).success(function(data){
-                        //if $http promise is fulfilled, fulfill service promise
-                        deferred.resolve(data);
-                    }).error(function(error){
-                        console.log("Error while making HTTP call.");
-
-                        //if an error occured, reject the promise todo: in front end use a popup to denote error
-                        deferred.reject(error); //todo: go and replace all $http rejects with this.
-                    });
-
-                //return a promise
-                return deferred.promise;
-
             }
         }
     }])
@@ -651,7 +482,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(
                     function(){
                         console.log("Error while making HTTP call.");
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             }
@@ -685,7 +516,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong"); //TODO change this to be an ionic popup
-                        //deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
@@ -706,7 +537,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong"); //TODO: Replace this with an ionic popup
-                        deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             },
@@ -731,7 +562,7 @@ angular.module('starter.services', ['ngResource'])
                     }).error(function () {
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong"); //TODO: Replace this with an ionic popup
-                        deferred.promise;
+                        deferred.reject();
                     });
                 return deferred.promise;
             }

@@ -182,9 +182,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             .state('tab.leaderboard', {
                 url: '/leaderboard',
                 views: {
-                    'tab-scoreboard': {
+                    'tab-leaderboard': {
                         templateUrl: 'templates/tab-leaderboard.html',
-                        controller: 'ScoreboardCtrl'
+                        controller: 'LeaderboardCtrl'
                     }
                 },
                 data: {
@@ -195,11 +195,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                 }
             })
             .state('tab.leaderboard-detail', {
-                url: '/scoreboard/privateleagues',
+                url: '/leaderboard/:privateLeagueId',
                 views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-private-leagues.html',
-                        controller: 'PrivateLeaguesCtrl'
+                    'tab-leaderboard': {
+                        templateUrl: 'templates/leaderboard-league-detail.html',
+                        controller: 'LeaderboardLeagueDetailCtrl'
                     }
                 },
                 data: {
@@ -209,12 +209,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     requiresLogin: true
                 }
             })
-            .state('tab.leaderboard-global', {
-                url: '/scoreboard/global',
+            .state('tab.settings', {
+                url: '/settings',
                 views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-global.html',
-                        controller: 'GlobalScoreboardCtrl'
+                    'tab-settings': {
+                        templateUrl: 'templates/tab-settings.html',
+                        controller: 'SettingsCtrl'
                     }
                 },
                 data: {
@@ -224,92 +224,129 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     requiresLogin: true
                 }
             })
+            .state('tab.settings-team', {
+                url: '/settings/team',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-team.html',
+                        controller: 'SettingsCtrl'
+                    }
+                }
+            })
+            .state('tab.settings-about', {
+                url: '/settings/about',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-about.html',
+                    }
+                }
+            })
+            .state('tab.settings-privacy', {
+                url: '/settings/privacy',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-privacy.html',
+                    }
+                }
+            })
+            .state('tab.settings-cookies', {
+                url: '/settings/cookies',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-cookies.html',
+                    }
+                }
+            })
+            .state('tab.settings-tcs', {
+                url: '/settings/tcs',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-tcs.html',
+                    }
+                }
+            })
+            //    data: {
+            //        // This tells Auth0 that this state requires the user to be logged in.
+            //        // If the user isn't logged in and he tries to access this state
+            //        // he'll be redirected to the login page
+            //        requiresLogin: true
+            //    }
+            //})
+            //.state('tab.settings.about', {
+            //    url: '/about',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-about.html',
+            //        }
+            //    },
+            //    data: {
+            //        // This tells Auth0 that this state requires the user to be logged in.
+            //        // If the user isn't logged in and he tries to access this state
+            //        // he'll be redirected to the login page
+            //        requiresLogin: true
+            //    }
+            //})
+            //.state('tab.settings.cookies', {
+            //    url: '/cookies',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-cookies.html',
+            //        }
+            //    },
+            //    data: {
+            //        // This tells Auth0 that this state requires the user to be logged in.
+            //        // If the user isn't logged in and he tries to access this state
+            //        // he'll be redirected to the login page
+            //        requiresLogin: true
+            //    }
+            //})
+            //.state('tab.settings.tcs', {
+            //    url: '/tcs',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-tcs.html',
+            //        }
+            //    },
+            //    data: {
+            //        // This tells Auth0 that this state requires the user to be logged in.
+            //        // If the user isn't logged in and he tries to access this state
+            //        // he'll be redirected to the login page
+            //        requiresLogin: true
+            //    }
+            //})
+            //.state('tab.settings-privacy', {
+            //    url: 'settings/privacy',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-privacy.html',
+            //        }
+            //    }
+            //})
+            //.state('tab.settings-about', {
+            //    url: 'settings/about',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-about.html',
+            //        }
+            //    }
+            //})
+            //.state('tab.settings-cookies', {
+            //    url: 'settings/cookies',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-cookies.html',
+            //        }
+            //    }
+            //})
+            //.state('tab.settings-tcs', {
+            //    url: 'settings/tcs',
+            //    views: {
+            //        'tab-settings': {
+            //            templateUrl: 'templates/settings-tcs.html',
+            //        }
+            //    }
+            //})
 
-            //    .state('tab.leaderboard', {
-            //        url: '/leaderboard',
-            //        views: {
-            //            'tab-leaderboard': {
-            //                templateUrl: 'templates/tab-leaderboard.html',
-            //                controller: 'LeaderBoardCtrl'
-            //            }
-            //        }
-            //    })
-            //    .state('tab.leaderboard-global'{
-            //        url: '/leaderboard/global',
-            //            views: {'tab-leaderboard' :}
-            //})
-            //.state('tab.leaderboard-detail', {
-            //    url: '/rounds/:roundId',
-            //    views: {
-            //        'tab-leaderboard': {
-            //            templateUrl: 'templates/round-detail.html',
-            //            controller: 'LeagueDetailCtrl'
-            //        }
-            //    },
-            //    data: {
-            //        // This tells Auth0 that this state requires the user to be logged in.
-            //        // If the user isn't logged in and he tries to access this state
-            //        // he'll be redirected to the login page
-            //        requiresLogin: true
-            //    }
-            //})
-            //.state('tab.leaderboard.overallseason',{
-            //    url: "/overallseason",
-            //    views: {
-            //        'leaderboard-overallseason': {
-            //            templateUrl: "templates/leaderboard-overallseason.html",
-            //            controller: 'LeaderboardCtrl'
-            //        }
-            //    }
-            //})
-            //.state('tab.leaderboard.round', {
-            //    url: "/round",
-            //    views: {
-            //        'leaderboard-round': {
-            //            templateUrl: "templates/leaderboard-round.html",
-            //            controller: 'LeaderboardCtrl'
-            //        }
-            //    }
-            //})
-            //.state('tab.leaderboard-league-detail', {
-            //    url: '/leaderboard/:league_id',
-            //    views: {
-            //        'tab-leaderboard': {
-            //            templateUrl: 'templates/leaderboard-league-detail.html',
-            //            controller: 'LeaderboardLeagueDetailCtrl'
-            //        }
-            //    },
-            //    data: {
-            //        // This tells Auth0 that this state requires the user to be logged in.
-            //        // If the user isn't logged in and he tries to access this state
-            //        // he'll be redirected to the login page
-            //        requiresLogin: true
-            //    }
-            //})
-            //.state('tab.leaderboard.global', {
-            //    url: '/leaderboard/global',
-            //    views: {
-            //        'leaderboard-global': {
-            //            templateUrl: 'templates/leaderboard-global-league-detail.html',
-            //            controller: 'LeaderboardGlobalLeagueDetailCtrl'
-            //        }
-            //    }
-            //})
-            .state('tab.account', {
-                url: '/account',
-                views: {
-                    'tab-account': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
 
 // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/login');
@@ -331,7 +368,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         auth.hookEvents();
 
         $rootScope.$on('loading:show', function () {
-            $ionicLoading.show({template: 'Fetching data from server'}); //TODO: ADD A SPINNER IN HERE
+            $ionicLoading.show({template: '<p>Loading...<ion-spinner /></p>'});
         });
 
         $rootScope.$on('loading:hide', function () {

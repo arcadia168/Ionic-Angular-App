@@ -1,7 +1,11 @@
-<ion-view view-title="OVERALL SEASON">
+<ion-view cache-view="false" view-title="OVERALL SEASON">
+    <ion-nav-buttons side="secondary">
+        <button class="league-edit button icon ion-trophy" ng-click="joinLeagueWithCode()"></button>
+        <button class="league-edit button icon ion-plus" ng-click="createNewLeague()"></button>
+    </ion-nav-buttons>
     <ion-content class="leaderboard-content">
         <!--href="#/tab/leaderboard/global"-->
-        <ion-item class="global-league" href="#/tab/leaderboard/global/">
+        <ion-item class="global-league" href="#/tab/leaderboard/global">
             <div class="league-label-container">
                 <div class="league-label">
                     <i class="league-lock icon ion-unlocked"></i>
@@ -36,7 +40,7 @@
             </div>
         </ion-item>
         <!--href="#/tab/leaderboard/{{league.privateLeagueId}}"-->
-        <ion-item class="user-league" ng-repeat="league in privateLeagues">
+        <ion-item class="user-league" ng-repeat="league in privateLeagues" href="#/tab/leaderboard/{{league.privateLeagueId}}">
             <div class="league-label-container">
                 <div class="league-label">
                     <i class="league-lock icon ion-locked"></i>

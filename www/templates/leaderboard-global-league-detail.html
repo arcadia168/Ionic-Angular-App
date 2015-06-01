@@ -1,4 +1,4 @@
-<ion-view view-title="PRIVATE LEAGUE  {{privateLeague.privateLeagueName | uppercase}}">
+<ion-view view-title="GLOBAL  {{privateLeague.privateLeagueName | uppercase}}">
     <ion-nav-buttons side="secondary">
         <button class="button icon ion-ios-minus-outline" ng-click="toggleDelete()">
         </button>
@@ -19,19 +19,6 @@
                 </ion-delete-button>
             </ion-item>
         </ion-list>
-        <button class="button icon ion-share" ng-click="shareLeague()"></button>
-        <button class="button button-block button-positive" ng-click="inviteUser()">
-            Invite New User
-        </button>
-        <button class="button button-block button-energized" ng-if="privateLeague.creator == user_id" ng-click="renameLeague()">
-            Rename league
-        </button>
-        <button class="button button-block button-assertive" ng-if="privateLeague.creator == user_id" ng-click="deleteLeague()">
-            Delete league
-        </button>
-        <button class="button button-block button-royal" ng-if="privateLeague.creator != user_id" ng-click="leaveLeague()">
-            Leave league
-        </button>
     </ion-content>
 </ion-view>
 

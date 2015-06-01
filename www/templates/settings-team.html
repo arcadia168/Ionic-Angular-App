@@ -1,0 +1,15 @@
+<ion-view view-title="TERMS AND CONDITIONS">
+    <ion-content class="settings-content">
+        <div class="list" ng-repeat="team in teams">
+            <label class="item item-radio">
+                <input type="radio" name="group">
+                <div class="item-content">
+                    <img class="settings-shirt" ng-src="img/team_shirts/{{team.shirt}}">
+                    <p>{{team.name}}</p>
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
+        </div>
+        <button>Update your team</button>
+    </ion-content>
+</ion-view>
