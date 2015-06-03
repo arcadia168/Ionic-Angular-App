@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push'])
 
-    .controller('LoginCtrl', function ($scope, auth, $state, $ionicPopup, User) {
+    .controller('LoginCtrl', function ($scope, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
 
         auth.signin({
 
@@ -16,28 +16,102 @@ angular.module('starter.controllers', [])
             offline_mode: true,
             device: 'Phone'
         }, function () {
-            // Login was successful
 
-            //TODO: TEST THIS BY CREATING A NEW USER AND SEEING IF USER DATA GETS LOGGED
-            //check to see if this user exists on the server already, if not, create this user using auth0 details
-            User.sync(auth.profile).then(function () {
+            console.log('NOW ATTEMPTING TO REGISTER DEVICE WITH IONIC.IO... \n SENDING : ' + auth.profile.user_id +
+                ' & ' + auth.profile.nickname);
+
+            //$ionicUser.identify({
+            //    user_id: auth.profile.user_id,
+            //    name: auth.profile.nickname
+            //}).then(
+            //    function(){
+            //        $ionicPush.register(
+            //            {
+            //                canShowAlert: true, //Should new pushes show an alert on your screen?
+            //                canSetBadge: true, //Should new pushes be allowed to update app icon badges?
+            //                canPlaySound: true, //Should notifications be allowed to play a sound?
+            //                canRunActionsOnWake: true, // Whether to run auto actions outside the app,
+            //                onNotification: function(notification) {
+            //                    $ionicPopup.alert({
+            //                        title: 'Push notification registration successful!',
+            //                        template: 'Try and send a push notification!'
+            //                    });
+            //                    return true; //return false to 'silently' handle push notifications
+            //                }
+            //            }
+            //        );
+            //    }
+            //);
+
+            $ionicUser.identify({
+                user_id: auth.profile.user_id,
+                name: auth.profile.nickname
+            }).then(function() {
+
+                console.log('registering push');
+
+                $ionicPush.register({
+                    canShowAlert: true, // Should new pushes show an alert on your
+                    // screen?
+                    canSetBadge: true, // Should new pushes be allowed to update app icon
+                    // badges?
+                    canPlaySound: true, // Should notifications be allowed to play a
+                    // sound?
+                    canRunActionsOnWake: true, // Whether to run auto actions outside the
+                    // app,
+                    onNotification: function(notification) {
+                        console.log('notification received: ' + JSON.stringify(notification));
+                    }
+                }).then(function() {
+                    console.log('registration successful');
+                }, function(err) {
+                    console.log('registration failed');
+                    console.log(err);
+                });
+
+            }, function(err) {
+                console.log('identification failed');
+                console.log(err);
+            });
+
+            // Login was successful
+            User.sync(auth.profile).then(function (response) {
+                //hide the loader
+
                 //Once the user data has been synced, get the user data object from our server also
                 //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
-                User.getUserData(auth.profile.user_id);
+                //Check to see if the user is a new user, if so set service variable appropriately
+                console.log("Response from the userSync method on the server is: " + response);
 
-                //Testing the user global service
-                var currentUser = User.currentUser();
-                console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+                //User.hideTutorials();
 
-                $state.go('tab.rounds');
+                if (response == 201) {
+                    //then mark this user as being new and show them the tutorials
+                    console.log("This user is a new user, activating tutorials.");
+                    User.showTutorials();
+                } else if (response == 202) {
+                    console.log("This is an existing user, so not showing any tutorials");
+                    User.hideTutorials();
+                }
 
-                //show an alert for testing purposes
-                $ionicPopup.alert({
-                    title: 'Login successful!',
-                    template: 'Welcome ' + auth.profile.nickname + '! <br> This version of the app is mainly used for testing the backend <br> (So be nice)'
-                }).then(function (res) {
-                    console.log(auth.profile);
-                });
+                User.getUserData(auth.profile.user_id).then(
+                    function(){
+                        //Testing the user global service
+                        var currentUser = User.currentUser();
+                        console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+
+                        $state.go('tab.rounds');
+
+                        //show an alert for testing purposes
+                        //todo: perhaps make this another tutorial
+                        $ionicPopup.alert({
+                            title: 'Login successful!',
+                            template: 'Welcome ' + auth.profile.nickname + '!'
+                        }).then(function (res) {
+                            console.log(auth.profile);
+                        });
+                    }
+                );
             });
 
         }, function (error) {
@@ -117,7 +191,8 @@ angular.module('starter.controllers', [])
         };
     })
 
-    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
+    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
+                                             Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout) {
 
         var _predictions = [];
         var updatePredictions = false; //flag to update predictions if some already exist.
@@ -153,6 +228,27 @@ angular.module('starter.controllers', [])
 
         });
 
+        function _checkAndShowTutorials() {
+            //check to see if this is a new user
+            if (User.tutorialsActiveCheck()) {
+                //Show the tutorial pop up
+                var tutorial = $ionicPopup.alert({
+                    title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
+                    template: '<img class="tutorial-image" src=\'img/tutorial.png\'>',
+                    okText: 'GOT IT'
+                });
+
+                //Disable any further popups
+                User.hideTutorials();
+
+                ////Set a timeout and then automatically close the popup
+                //$timeout(function(){
+                //    console.log("Now automatically closing the tutorial popup.");
+                //    tutorial.close();
+                //}, 3000)
+            }
+        }
+
         function _getExistingPredictions() {
 
             debugger;
@@ -160,6 +256,11 @@ angular.module('starter.controllers', [])
             //go and get all of the predictions for the user
             Rounds.getExistingPredictions(user, $stateParams.roundId).then(function (data) {
                 //clear existing predictions
+
+                //Check if the tutorials need to be shown and if so, show them!
+                debugger;
+                _checkAndShowTutorials();
+
                 _predictions = [];
 
                 debugger;
@@ -383,7 +484,7 @@ angular.module('starter.controllers', [])
 
                         for (var j = 0; j < $scope.existingPredictions.length; j++) {
                             //if the prediction for matching fixtures is different...
-                            if (_predictions[i].fixture == $scope.existingPredictions[j].fixture){
+                            if (_predictions[i].fixture == $scope.existingPredictions[j].fixture) {
                                 //then the prediction existed previously and needs to be updated
                                 predictionExists = true;
 
@@ -509,7 +610,7 @@ angular.module('starter.controllers', [])
 
                             //Now go and get the updated predictions from the server!
                             //Otherwise the updates don't get reset.
-                            $timeout (function() {
+                            $timeout(function () {
                                 _getExistingPredictions();
                             }, 1000);
                         }
@@ -526,7 +627,7 @@ angular.module('starter.controllers', [])
                     //changes have just been saved so no longer need this
                     SaveChanges.saveChangesNotNeeded();
 
-                    $timeout (function() {
+                    $timeout(function () {
                         _getExistingPredictions();
                     }, 1000);
 
@@ -536,7 +637,7 @@ angular.module('starter.controllers', [])
             }
         };
 
-        function _predictionDiffCheck (fixture, predictionType) {
+        function _predictionDiffCheck(fixture, predictionType) {
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 if (($scope.listFixtures[i]._id == fixture) && ($scope.listFixtures[i].prediction == predictionMap[predictionType])) {
                     console.log("The prediction for this fixture is already the same, exiting.");
@@ -615,47 +716,50 @@ angular.module('starter.controllers', [])
         $scope.cardView = true;
     })
 
-    .controller('ScoreboardCtrl', function ($scope, Scoreboard) {
-        $scope.test = function () {
-            $ionicPopup.alert({
-                title: 'Sup dawg!',
-                template: 'Sub bitchtits'
-            });
-        };
-    })
-
-    .controller('PrivateLeaguesCtrl', function ($scope, $state, PrivateLeagues, auth, $ionicPopup) {
-
+    .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, Leaderboard) {
         //get all of the private leagues for the user from the private league service
         //call this  whenever the user's leagues need to be updated within the app
         function _getUserLeagues() {
-            PrivateLeagues.all(auth.profile.user_id).then(function (data) {
-                //debugger;
-                $scope.privateLeagues = data;
+            debugger;
+            Leaderboard.overall(auth.profile.user_id, auth.profile.picture).then(function (data) {
 
-                console.log(data);
+                //Assign the season overall leaderboard data to a scope variable
+                $scope.overallLeague = data;
+                console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
 
-                //work out which of the private leagues were made by user and which part of
-                $scope.createdLeagues = [];
+                debugger;
+                Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
+                    //debugger;
+                    $scope.privateLeagues = data;
+                    console.log(data);
 
-                //the private league's of which the user is only a member
-                $scope.inLeagues = [];
-
-                for (var i = 0; i < data.length; i++) {
-                    if (data[i].creator = auth.profile.user_id) {
-                        //then is a league created by the currently logged in user, so add to list
-                        console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
-                        $scope.createdLeagues.push(data[i]);
-                    } else {
-                        //the user is simply a participating member of this league
-                        console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
-                        $scope.inLeagues.push(data[i]);
+                    for (var i = 0; i < $scope.privateLeagues.length; i++) {
+                        //split league name into words, place in array
+                        $scope.privateLeagues[i].privateLeagueName = $scope.privateLeagues[i].privateLeagueName.split(" ");
                     }
-                }
 
-                console.log('User\'s created leagues are: ' + $scope.createdLeagues);
+                    ////work out which of the private leagues were made by user and which part of
+                    //$scope.createdLeagues = [];
+                    //
+                    ////the private league's of which the user is only a member
+                    //$scope.inLeagues = [];
+                    //
+                    //for (var i = 0; i < data.length; i++) {
+                    //    if (data[i].captain = auth.profile.user_id) {
+                    //        //then is a league created by the currently logged in user, so add to list
+                    //        console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
+                    //        $scope.createdLeagues.push(data[i]);
+                    //    } else {
+                    //        //the user is simply a participating member of this league
+                    //        console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
+                    //        $scope.inLeagues.push(data[i]);
+                    //    }
+                    //}
+                    //
+                    //console.log('User\'s created leagues are: ' + $scope.createdLeagues);
 
-            });
+                });
+            })
         }
 
         //when page first loads
@@ -692,7 +796,7 @@ angular.module('starter.controllers', [])
             myPopup.then(function (res) {
                 if (!cancelled) {
                     //use the data to call through to the user and pass through the provided username
-                    PrivateLeagues.createNewLeague(auth.profile.user_id, $scope.data.leagueName).then(
+                    Leaderboard.createNewLeague(auth.profile.user_id, $scope.data.leagueName).then(
                         function (res) {
 
                             //check the message that was returned...
@@ -701,11 +805,15 @@ angular.module('starter.controllers', [])
                             //Confirm that the invitation has been sent
                             $ionicPopup.alert({
                                 title: 'New Private League',
-                                template: res //TODO: Alter the multiple uses of this
-                            });
+                                template: 'New league created!' //TODO: Alter the multiple uses of this
+                            }).then(
+                                function(){
+                                    //reset flag
+                                    cancelled = true;
 
-                            //reset flag
-                            cancelled = true;
+                                    $state.go($state.current, {}, {reload: true});
+                                }
+                            );
                         }
                     );
                 }
@@ -758,8 +866,20 @@ angular.module('starter.controllers', [])
                         return;
                     }
 
+                    //todo: Check that the user has not already joined this league!
+                    for(var i = 0; i < $scope.privateLeagues.length; i++) {
+                        if ($scope.data.leagueToJoin == $scope.privateLeagues[i].privateLeagueCode) {
+                            //then invalid code was entered
+                            $ionicPopup.alert({
+                                title: 'Error! League Already Joined',
+                                template: 'You are already part of the league you are attempting to join.'
+                            });
+                            return;
+                        }
+                    }
+
                     //use the data to call through to the user and pass through the provided username
-                    PrivateLeagues.joinLeagueWithCode(auth.profile.user_id, $scope.data.leagueToJoin).then(
+                    Leaderboard.joinLeagueWithCode(auth.profile.user_id, $scope.data.leagueToJoin).then(
                         function (res) {
 
                             //check the message that was returned...
@@ -778,20 +898,31 @@ angular.module('starter.controllers', [])
                             //TODO: REFRESH  the page to display that new league
                             //Would have to go and get leagues again
 
-                            console.log("Now attempting to refresh the page")
-                            _getUserLeagues();
+                            console.log("Now attempting to refresh the page");
+
+                            //_getUserLeagues();
+                            $state.go($state.current, {}, {reload: true});
+
                         }
                     );
                 }
             });
         };
-
     })
 
-    .controller('PrivateLeaguesDetailCtrl', function ($scope, PrivateLeagues, auth, $stateParams, $ionicPopup, $state,
-                                                      $cordovaSocialSharing, User) {
+    .controller('LeaderboardLeagueDetailCtrl', function ($scope, auth, $stateParams, $ionicPopup, $state,
+                                                         $cordovaSocialSharing ,$ionicActionSheet, User, Leaderboard) {
 
         $scope.shouldShowDelete = false;
+        $scope.currentRound = Leaderboard.getCurrentRound();
+        console.log($scope.currentRound);
+        $scope.roundDates = Leaderboard.getRoundDates();
+        console.log($scope.roundDates);
+        $scope.roundInView = 0; //0 represents overall season round
+        var _membersToDelete = [];
+        $scope.newCaptain = null;
+        $scope.newViceCaptain = null;
+        $scope.currentUser = auth.profile;
 
         //enable delete buttons
         $scope.toggleDelete = function () {
@@ -803,16 +934,29 @@ angular.module('starter.controllers', [])
 
         //call this functino whenever the private leage data needs to be refreshed
         function _getPrivateLeagueData() {
-            PrivateLeagues.get(auth.profile.user_id, $stateParams.privateLeagueId).then(function (data) {
 
-                //$ionicLoading.hide();
-                $scope.privateLeague = data[0];
-                console.log('Retrieved private leauge:' + JSON.stringify(data));
-            });
+            if ($stateParams.privateLeagueId == 'global') {
+                //then just get the global leaderboard scores
+                //Get the global scoreboard
+                //Get the data for scores for leaderboard
+                Leaderboard.all().then(function (data) {
+                    $scope.privateLeague = data;
+                    //$scope.privateLeague.privateLeagueName =  $scope.privateLeague.privateLeagueName.join(' ');
+                });
+            } else {
+                Leaderboard.get(auth.profile.user_id, $stateParams.privateLeagueId).then(function (data) {
+
+                    //$ionicLoading.hide();
+                    $scope.privateLeague = data;
+                    //$scope.privateLeague.privateLeagueName =  Array.prototype.join.call($scope.privateLeague.privateLeagueName, ' ');
+                    console.log('Retrieved private league:' + JSON.stringify($scope.privateLeague));
+                });
+            }
         }
 
         //when first loading in the tab, get league data
         _getPrivateLeagueData();
+
 
         //TODO: GO BACK AND ONLY EXPOSE DATA TO THE SCOPE VIA A DATA OBJECT IN THE SAME MANNER AS THIS
         //create scope variable to store provided usernames
@@ -820,6 +964,118 @@ angular.module('starter.controllers', [])
         $scope.user_id = auth.profile.user_id;
 
         var cancelled = true;
+
+        $scope.editLeague = function () {
+
+            // Show the action sheet
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-share\'></i><p>Share League Code</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-edit\'></i><p>Rename League</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-add\'></i><p>Choose Captain</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-add\'></i><p>Choose Vice Captain</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-close\'></i><p>Leave Private League</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person\'></i><p>Delete Members</p></div>'}
+                ],
+                destructiveText: 'Delete League',
+                titleText: 'Private League Options',
+                cancelText: 'Cancel',
+                cancel: function() {
+                    // add cancel code..
+                },
+                destructiveButtonClicked: function() {
+                    if (auth.profile.user_id == $scope.privateLeague.captain) {
+                        $scope.deleteLeague();
+                    } else {
+                        //then this user has already been invited
+                        $ionicPopup.alert({
+                            title: 'Access Denied!',
+                            template: 'To delete this league you must be a team captain'
+                        });
+                    }
+                    return true;
+                },
+                buttonClicked: function(index) {
+
+                    //0 index is to rename the league
+                    switch(index) {
+                        case 0:
+                            $scope.shareLeague();
+                            break;
+                        case 1:
+                            if (auth.profile.user_id == $scope.privateLeague.captain) {
+                                $scope.renameLeague();
+                                return true;
+                            } else {
+                                //then this user has already been invited
+                                $ionicPopup.alert({
+                                    title: 'Access Denied!',
+                                    template: 'To rename this league you must be a team captain'
+                                });
+                            }
+                            break;
+                        case 2:
+                            if (auth.profile.user_id == $scope.privateLeague.captain) {
+                                $scope.changeLeagueCaptain();
+                                return true;
+                            } else {
+                                $ionicPopup.alert({
+                                    title: 'Access Denied!',
+                                    template: 'To choose a new captain for this league you must be a team captain'
+                                });
+
+                                return true
+                            }
+
+                            break;
+                        case 3:
+                            if (auth.profile.user_id == $scope.privateLeague.captain || auth.profile.user_id == $scope.privateLeague.viceCaptain) {
+                                $scope.changeLeagueViceCaptain();
+                                return true;
+                            } else {
+                                $ionicPopup.alert({
+                                    title: 'Access Denied!',
+                                    template: 'To choose a new captain for this league you must be a team captain.'
+                                });
+
+                                return true
+                            }
+                            break;
+                        case 4:
+                            if (auth.profile.user_id != $scope.privateLeague.captain || auth.profile.user_id != $scope.privateLeague.viceCaptain) {
+                                $scope.leaveLeague();
+                                return true;
+                            } else {
+                                //then this user has already been invited
+                                $ionicPopup.alert({
+                                    title: 'You\'re the captain!',
+                                    template: 'To leave this league you must not be a team captain. \n' +
+                                    'Make someone else one of the captains in your place!'
+                                });
+
+                                return true
+                            }
+                            break;
+                        case 5:
+                            //to delete members must be captain or vice captain and have more than one member
+                            if ((auth.profile.user_id == $scope.privateLeague.captain || auth.profile.user_id == $scope.privateLeague.viceCaptain) && ($scope.privateLeague.members.length > 1)) {
+                                $scope.deleteMembers();
+                                return true;
+                            } else {
+                                //then this user has already been invited
+                                $ionicPopup.alert({
+                                    title: 'Access Denied!',
+                                    template: 'To delete members you must be a team captain and well... have members!'
+                                });
+                                return true;
+                            }
+                            break;
+                        default:
+                            return true;
+                    }
+                }
+            });
+        };
 
         $scope.renameLeague = function () {
             //show the user a prompt to type in a username and
@@ -852,11 +1108,11 @@ angular.module('starter.controllers', [])
 
                     console.log("Now attempting validation before renaming");
 
-                    console.log("The creator of the private league is: " + $scope.privateLeague.creator);
+                    console.log("The captain of the private league is: " + $scope.privateLeague.captain);
 
                     //check that the user has not attempted to invite themselves
                     if ($scope.data.newLeagueName == $scope.privateLeague.privateLeagueName) {
-                        console.log("The username of the creator of the private league is: " + $scope.privateLeague.creator);
+                        console.log("The username of the captain of the private league is: " + $scope.privateLeague.captain);
                         console.log("You can only rename the league if you are giving it a new name.");
 
                         //then this user has already been invited
@@ -869,7 +1125,7 @@ angular.module('starter.controllers', [])
                     }
 
                     //use the data to call through to the user and pass through the provided username
-                    PrivateLeagues.renameLeague(auth.profile.user_id, $scope.data.newLeagueName, $scope.privateLeague.privateLeagueId).then(
+                    Leaderboard.renameLeague(auth.profile.user_id, $scope.data.newLeagueName, $scope.privateLeague.privateLeagueId).then(
                         function (res) {
 
                             //check the message that was returned...
@@ -887,6 +1143,10 @@ angular.module('starter.controllers', [])
                             //Refresh the name of the league as stored on the server
                             _getPrivateLeagueData();
 
+                            myPopup.close();
+
+                            //Go back to the private league overview and force a refresh
+                            $state.go('tab.leaderboard', {}, {reload: true});
                         }
                     );
                 }
@@ -902,7 +1162,7 @@ angular.module('starter.controllers', [])
             myPopup.then(function (res) {
                 if (res) {
                     //use the data to call through to the user and pass through the provided username
-                    PrivateLeagues.leaveLeague(auth.profile.user_id, $scope.privateLeague.privateLeagueId).then(
+                    Leaderboard.leaveLeague(auth.profile.user_id, $scope.privateLeague.privateLeagueId).then(
                         function (res) {
                             //check the message that was returned...
                             console.log(res);
@@ -917,42 +1177,214 @@ angular.module('starter.controllers', [])
                             User.getUserData();
 
                             //take the user back to the list of private leagues
-                            $state.go('tab.scoreboard-private-leagues');
+                            //Go back to the private league overview and force a refresh
+                            $state.go('tab.leaderboard', {}, {reload: true});
                         }
                     );
                 }
             });
         };
 
-        $scope.deleteMember = function (user_id_to_delete) {
+        $scope.changeLeagueCaptain = function() {
             //show the user a prompt to type in a username and
-            var myPopup = $ionicPopup.confirm({
-                title: 'Confirm Deletion',
-                template: 'Are you sure you want to remove the member from this private league?'
+            var myPopup = $ionicPopup.show({
+                templateUrl: '../templates/changeCaptain.html',
+                title: 'Choose New Captain',
+                subTitle: 'Choose a league member to become the new captain.',
+                scope: $scope,
+                buttons: [
+                    {
+                        text: 'Cancel'
+                    },
+                    {
+                        text: '<b>Choose</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if ($scope.newCaptain == null) {
+                                //don't allow the user to close unless he enters a username
+                                e.preventDefault();
+                            } else {
+                                cancelled = false;
+                                return;
+                            }
+                        }
+                    }
+                ]
             });
             myPopup.then(function (res) {
-                if (res) {
-                    //use the data to call through to the user and pass through the provided username
-                    PrivateLeagues.deleteMember(auth.profile.user_id, user_id_to_delete, $scope.privateLeague.privateLeagueId).then(
-                        function (res) {
-                            //check the message that was returned...
-                            console.log(res);
 
-                            //Confirm that the invitation has been sent
-                            $ionicPopup.alert({
-                                title: 'Member Deleted',
-                                template: 'The member was removed from the league successfully!'
-                            });
+                if (!cancelled) {
+                    var myPopup = $ionicPopup.confirm({
+                        title: 'Confirm Captain Change',
+                        template: 'Are you sure you want to make the selected member league captain? You\'ll just become an ordinary league member!'
+                    });
+                    myPopup.then(function (res) {
+                        if (res) {
 
-                            //update the local user data
-                            User.getUserData();
+                            console.log("Attempting to make member captain: " + JSON.stringify($scope.newCaptain));
 
-                            _getPrivateLeagueData();
+                            //use the data to call through to the user and pass through the provided username
+                            Leaderboard.changeCaptain(auth.profile.user_id, $scope.newCaptain.user_id, $scope.privateLeague.privateLeagueId).then(
+                                function (res) {
+                                    //check the message that was returned...
+                                    console.log(res);
 
+                                    //Confirm that the invitation has been sent
+                                    $ionicPopup.alert({
+                                        title: 'New Captain Chosen!',
+                                        template: 'The member was made the captain of the league successfully!'
+                                    });
+
+                                    //Reset the list of members to be deleted
+                                    $scope.newCaptain = null;
+
+                                    //Reload the information for this private league
+                                    _getPrivateLeagueData();
+                                }
+                            );
                         }
-                    );
+                    });
                 }
             });
+        };
+
+        $scope.changeLeagueViceCaptain = function() {
+            //show the user a prompt to type in a username and
+            var myPopup = $ionicPopup.show({
+                templateUrl: '../templates/changeViceCaptain.html',
+                title: 'Choose New Vice Captain',
+                subTitle: 'Choose a league member to become the new vice captain.',
+                scope: $scope,
+                buttons: [
+                    {
+                        text: 'Cancel'
+                    },
+                    {
+                        text: '<b>Choose</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            if ($scope.newViceCaptain == null) {
+                                //don't allow the user to close unless he enters a username
+                                e.preventDefault();
+                            } else {
+                                cancelled = false;
+                                return;
+                            }
+                        }
+                    }
+                ]
+            });
+            myPopup.then(function (res) {
+
+                if (!cancelled) {
+                    var myPopup = $ionicPopup.confirm({
+                        title: 'Confirm Vice Captain Change',
+                        template: 'Are you sure you want to make the selected member league vice captain?' +
+                        ' If you\'re the vice captain, you\'ll just become an ordinary league member!'
+                    });
+                    myPopup.then(function (res) {
+                        if (res) {
+
+                            console.log("Attempting to make member captain: " + JSON.stringify($scope.newViceCaptain));
+
+                            //use the data to call through to the user and pass through the provided username
+                            Leaderboard.changeCaptain(auth.profile.user_id, $scope.newViceCaptain.user_id, $scope.privateLeague.privateLeagueId).then(
+                                function (res) {
+                                    //check the message that was returned...
+                                    console.log(res);
+
+                                    //Confirm that the invitation has been sent
+                                    $ionicPopup.alert({
+                                        title: 'New Vice Captain Chosen!',
+                                        template: 'The member was made the vice captain of the league successfully!'
+                                    });
+
+                                    //Reset the list of members to be deleted
+                                    $scope.newViceCaptain = null;
+
+                                    //Reload the information for this private league
+                                    _getPrivateLeagueData();
+                                }
+                            );
+                        }
+                    });
+                }
+            });
+        };
+
+        $scope.deleteMembers = function() {
+            //show the user a prompt to type in a username and
+            var myPopup = $ionicPopup.show({
+                templateUrl: '../templates/deleteMembers.html',
+                title: 'Delete League Members',
+                subTitle: 'Choose members to delete from the league',
+                scope: $scope,
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        onTap: function(e){
+                            _membersToDelete = [];
+                            return;
+                        }
+                    },
+                    {
+                        text: '<b>Delete</b>',
+                        type: 'button-assertive',
+                        onTap: function (e) {
+                            if (_membersToDelete.length == 0) {
+                                //don't allow the user to close unless he enters a username
+                                e.preventDefault();
+                            } else {
+                                cancelled = false;
+                                return;
+                            }
+                        }
+                    }
+                ]
+            });
+            myPopup.then(function (res) {
+
+                if (!cancelled) {
+                    var myPopup = $ionicPopup.confirm({
+                        title: 'Confirm Deletion',
+                        template: 'Are you sure you want to remove the selected member(s) from this private league?'
+                    });
+                    myPopup.then(function (res) {
+                        if (res) {
+
+                            console.log("Attempting to delte members: " + JSON.stringify(_membersToDelete));
+
+                            //use the data to call through to the user and pass through the provided username
+                            Leaderboard.deleteMembers(auth.profile.user_id, _membersToDelete, $scope.privateLeague.privateLeagueId).then(
+                                function (res) {
+                                    //check the message that was returned...
+                                    console.log(res);
+
+                                    //Confirm that the invitation has been sent
+                                    $ionicPopup.alert({
+                                        title: 'Member(s) Deleted',
+                                        template: 'The member was removed from the league successfully!'
+                                    });
+
+                                    //Reset the list of members to be deleted
+                                    _membersToDelete = [];
+
+                                    //update the local user data
+                                    User.getUserData();
+
+                                    _getPrivateLeagueData();
+                                }
+                            );
+                        }
+                    });
+                }
+            });
+        };
+
+        $scope.chooseMemberToDelete = function(memberUserId) {
+            console.log("Adding user with id %s to list of members to delete", memberUserId);
+            _membersToDelete.push(memberUserId);
+            console.log("List of members to delete is: " + JSON.stringify(_membersToDelete));
         };
 
         $scope.deleteLeague = function () {
@@ -968,9 +1400,9 @@ angular.module('starter.controllers', [])
 
                     //TODO: Remove this is it is an unnecessary precaution
                     //check that the user has not attempted to invite themselves
-                    if (!$scope.user_id == $scope.privateLeague.creator) {
-                        console.log("The username of the creator of the private league is: " + $scope.privateLeague.creator);
-                        console.log("Only the creator of a league can delete it!.");
+                    if (!$scope.user_id == $scope.privateLeague.captain) {
+                        console.log("The username of the captain of the private league is: " + $scope.privateLeague.captain);
+                        console.log("Only the captain of a league can delete it!.");
 
                         //then this user has already been invited
                         $ionicPopup.alert({
@@ -982,7 +1414,7 @@ angular.module('starter.controllers', [])
                     }
 
                     //use the data to call through to the user and pass through the provided username
-                    PrivateLeagues.deleteLeague(auth.profile.user_id, $scope.privateLeague.privateLeagueId).then(
+                    Leaderboard.deleteLeague(auth.profile.user_id, $scope.privateLeague.privateLeagueId).then(
                         function (res) {
                             //check the message that was returned...
                             console.log(res);
@@ -994,7 +1426,7 @@ angular.module('starter.controllers', [])
                             });
 
                             //take the user back to the list of private leagues
-                            $state.go('tab.scoreboard-private-leagues');
+                            $state.go('tab.leaderboard', {}, {reload: true});
                         }
                     );
                 }
@@ -1008,6 +1440,19 @@ angular.module('starter.controllers', [])
             $cordovaSocialSharing.share("Join my Yes! Get In! Private league using code: \n\t" + $scope.privateLeague.privateLeagueCode, "Join my Yes! Get In! Private League", null, "http://www.yesgetin.com");
         };
 
+        $scope.memberRoundScore = function(memberIndex) {
+            debugger;
+            console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
+            for (var i = 0; i < $scope.privateLeague.members[memberIndex].roundScores.length; i++) {
+                if ($scope.privateLeague.members[memberIndex].roundScores[i].roundNo == $scope.roundInView.roundNo) {
+                    console.log('MEMBER ROUND SCORE IS: '
+                        + $scope.privateLeague.members[memberIndex].roundScores[i].roundScore);
+                    return $scope.privateLeague.members[memberIndex].roundScores[i].roundScore;
+                }
+            }
+            return 0; //if no other thing returned
+        }
+
         //$scope.shareViaTwitter = function(message, image, link) {
         //    $cordovaSocialSharing.canShareVia("twitter", message, image, link).then(function(result) {
         //        $cordovaSocialSharing.shareViaTwitter(message, image, link);
@@ -1017,27 +1462,11 @@ angular.module('starter.controllers', [])
         //}
 
     })
-
-    .controller('GlobalScoreboardCtrl', function ($scope, Scoreboard, auth) {
-
-        //Get the global scoreboard
-        //Get the data for scores for leaderboard
-        Scoreboard.all().then(function (data) {
-            $scope.scores = data;
-        });
-
-    })
-
-    .controller('AccountCtrl', function ($scope, $state, User, auth, $ionicPopup, PrivateLeagues) {
+    .controller('SettingsCtrl', function ($scope, $state, User, auth, $ionicPopup, Leaderboard) {
 
         //hopefully this should get run every time the user navigates to this tab
         User.getUserData(auth.profile.user_id);
         $scope.userData = User.currentUser();
-
-        //ionic list control values
-        $scope.shouldShowDelete = false;
-        $scope.shouldShowReorder = false;
-        $scope.listCanSwipe = true;
 
         $scope.signOut = function () {
 
@@ -1095,131 +1524,28 @@ angular.module('starter.controllers', [])
             });
         };
 
-        //function to accept an invitation
-        //unique because a user can't be invited to the same private league more than once
-        $scope.acceptInvitation = function (privateLeagueId) {
-            //call the method in the service, passing in the user id of the logged in user (invitee)
-            //as well as the private league id
-
-            debugger;
-
-            PrivateLeagues.acceptInvitation(auth.profile.user_id, privateLeagueId).then(function (response) {
-                    //popup to let the user know they are now a member of that league
-                    console.log("The response from the server was: " + JSON.stringify(response));
-                    if (response == 200) {
-                        //then everything went ok, let the user know
-                        //show an alert for testing purposes
-                        $ionicPopup.alert({
-                            title: 'Invitation was Accepted!',
-                            template: 'Go have a look at your new private league!'
-                        });
-
-                        //now delete the invitation from the user/reload the page!
-                        //TODO: Replace all fors used to find with findWhere in underscore.js
-                        for (var i = 0; i < $scope.userData.invitations.length; i++) {
-                            if ($scope.userData.invitations[i].privateLeagueId == privateLeagueId) {
-                                //then this invitation has been successfully removed from the server, so delete
-                                $scope.userData.invitations.splice(i, 1); //this should now get removed from the view
-                                //if not view updated, then scope.apply. - test this.
-                            }
-                        }
-
-                    } else {
-                        //print the error message that was returned instead todo: Use error objects properly for this?
-                        $ionicPopup.alert({
-                            title: 'Something went awry!',
-                            template: response
-                        });
-                    }
-
-                    //TODO: button to take the user directly to this league, $state.go(...)
-                }
-            );
-        };
-
-        $scope.rejectInvitation = function (invitedByUsername, privateLeagueId) {
-            //call through to service and then server
-            PrivateLeagues.rejectInvitation(auth.profile.user_id, invitedByUsername, privateLeagueId).then(
-                function (response) {
-                    //popup to let the user know they are now a member of that league
-                    console.log("The response from the server was: " + JSON.stringify(response));
-                    if (response == 202) {
-                        //then everything went ok, let the user know
-                        //show an alert for testing purposes
-                        $ionicPopup.alert({
-                            title: 'Invitation was rejected!',
-                            template: 'Who needs friends anyway.'
-                        });
-
-                        //now delete the invitation from the user/reload the page!
-                        //TODO: Replace all fors used to find with findWhere in underscore.js
-                        for (var i = 0; i < $scope.userData.invitations.length; i++) {
-                            if ($scope.userData.invitations[i].privateLeagueId == privateLeagueId) {
-                                //then this invitation has been successfully removed from the server, so delete
-                                $scope.userData.invitations.splice(i, 1); //this should now get removed from the view
-                                //if not view updated, then scope.apply. - test this.
-                            }
-                        }
-
-                    } else {
-                        //print the error message that was returned instead todo: Use error objects properly for this?
-                        $ionicPopup.alert({
-                            title: 'Something went awry!',
-                            template: response
-                        });
-                    }
-
-                    //TODO: button to take the user directly to this league, $state.go(...)
-                }
-            );
-
-            //popup to let user know of the result of that
-
-        };
-
-        //load the text of the notification into a modal/popup
-        $scope.showNotification = function (notification_index) {
-            //get the notification at the given index
-            var notification_text = $scope.userData.notifications[notification_index].message;
-
-            console.log("The notification text to display is: " + notification_text);
-
-            //now display this text within a modal or popup
-            $ionicPopup.alert({
-                title: 'Notification!',
-                template: notification_text
-            });
-        };
-
-        //remove the desired notification from the user on the server
-        $scope.deleteNotification = function (notification_id) {
-            //call  through to the server, sending user_id and notification_id
-            User.clearNotification(auth.profile.user_id, notification_id).then(
-                function (res) {
-                    console.log('Notification cleared');
-
-                    //splice the notification out to remove from view for now
-                    for (var i = 0; i < $scope.userData.notifications.length; i++) {
-                        if ($scope.userData.notifications[i].notification_id == notification_id) {
-                            $scope.userData.notifications.splice(i, 1); //TODO: implement some sort of model refresh from server for this.
-                            //TODO: Refresh in the same way as the predictions get refreshed after changes are made.
-                        }
-                    }
-                }
-            );
-        };
-
-        //TODO: Update the user's info with a pull to refresh and push notifications
-        $scope.doRefresh = function () {
-
-            //Replace this with a manual check of new invitations and notifications
-            $scope.userData = User.getUserData(auth.profile.user_id).then(function () {
-                //TODO: Ionic popup if new notifications here
-                $scope.$broadcast('scroll.refreshComplete');
-
-                //renew the scope
-                //$scope.userData = User.getUserData(); //TODO: may need to update the view
-            });
-        };
+        $scope.teams =
+            [
+                'Arsenal',
+                'Aston Villa',
+                'Bournemouth',
+                'Chelsea',
+                'Crystal Palace',
+                'Everton',
+                'Leicester City',
+                'Leicester',
+                'Liverpool',
+                'Manchester City',
+                'Manchester United',
+                'Newcastle United',
+                'Southampton',
+                'Stoke City',
+                'Sunderland',
+                'Swansea City',
+                'Tottenham Hotspur',
+                'Watford',
+                'West Bromwich Albion',
+                'West Ham United'
+            ];
     });
 

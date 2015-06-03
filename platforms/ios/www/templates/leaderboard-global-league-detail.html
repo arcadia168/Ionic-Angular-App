@@ -1,0 +1,48 @@
+<ion-view view-title="GLOBAL  {{privateLeague.privateLeagueName | uppercase}}">
+    <ion-nav-buttons side="secondary">
+        <button class="button icon ion-ios-minus-outline" ng-click="toggleDelete()">
+        </button>
+    </ion-nav-buttons>
+    <ion-content class="padding">
+        <ion-list show-delete="shouldShowDelete">
+            <ion-item>
+                <p>Name: {{privateLeague.privateLeagueName}}</p>
+                <p>Invite code: {{privateLeague.privateLeagueCode}}</p>
+            </ion-item>
+            <ion-item>
+                <p>Creator: {{privateLeague.creator}}</p>
+            </ion-item>
+            <ion-item ng-if="privateLeague.members.length == 0">No members</ion-item>
+            <ion-item ng-repeat="member in privateLeague.members"><p>{{member.username}} - {{member.score}}</p><p ng-if="member.status == 'Invited - awaiting acceptance'">INVITED - WAITING FOR ACCEPTANCE</p>
+                <ion-delete-button ng-if="member.user_id != privateLeague.creator" class="ion-minus-circled"
+                                   ng-click="deleteMember(member.user_id)">
+                </ion-delete-button>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>
+
+<!--<ion-view view-title="PRIVATE LEAGUES">-->
+    <!--<ion-nav-buttons side="secondary">-->
+        <!--<button class="button icon ion-ios-plus-empty" ng-click="createNewLeague()">-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <!--<ion-content class="padding">-->
+        <!--&lt;!&ndash; TODO: button here to join a league using a given code &ndash;&gt;-->
+        <!--<button class="button button-balanced icon-right ion-person-add button-balanced" ng-click="joinLeagueWithCode()">Enter League Code</button>-->
+        <!--<div class="item item-divider">Your created leagues</div>-->
+        <!--<ion-item class="item-remove-animate item item-icon-left item-icon-right" type="item-text-wrap" ng-model="createdLeagues"-->
+                  <!--href="#/tab/scoreboard/privateleagues/{{league.privateLeagueId}}"-->
+                  <!--ng-repeat="league in createdLeagues track by league._id">-->
+            <!--<h2>{{league.privateLeagueName}}</h2>-->
+            <!--<i class="icon ion-chevron-right icon-accessory"></i>-->
+        <!--</ion-item>-->
+
+        <!--<div class="item item-divider">Your joined leagues</div>-->
+        <!--<ion-item class="item-remove-animate item item-icon-left item-icon-right" ng-model="inLeagues"-->
+                  <!--ng-repeat="league in inLeagues track by league._id">-->
+            <!--<a>{{league.privateLeagueName}}</a>-->
+            <!--&lt;!&ndash;GIVE OPTION CREATE AND DELETE PRIVATE LEAGUE'S HERE - in header&ndash;&gt;-->
+        <!--</ion-item>-->
+    <!--</ion-content>-->
+<!--</ion-view>-->

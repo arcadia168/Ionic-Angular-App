@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push'])
 
-    .controller('LoginCtrl', function ($scope, auth, $state, $ionicPopup, User) {
+    .controller('LoginCtrl', function ($scope, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
 
         auth.signin({
 
@@ -16,28 +16,102 @@ angular.module('starter.controllers', [])
             offline_mode: true,
             device: 'Phone'
         }, function () {
-            // Login was successful
 
-            //TODO: TEST THIS BY CREATING A NEW USER AND SEEING IF USER DATA GETS LOGGED
-            //check to see if this user exists on the server already, if not, create this user using auth0 details
-            User.sync(auth.profile).then(function () {
+            console.log('NOW ATTEMPTING TO REGISTER DEVICE WITH IONIC.IO... \n SENDING : ' + auth.profile.user_id +
+                ' & ' + auth.profile.nickname);
+
+            //$ionicUser.identify({
+            //    user_id: auth.profile.user_id,
+            //    name: auth.profile.nickname
+            //}).then(
+            //    function(){
+            //        $ionicPush.register(
+            //            {
+            //                canShowAlert: true, //Should new pushes show an alert on your screen?
+            //                canSetBadge: true, //Should new pushes be allowed to update app icon badges?
+            //                canPlaySound: true, //Should notifications be allowed to play a sound?
+            //                canRunActionsOnWake: true, // Whether to run auto actions outside the app,
+            //                onNotification: function(notification) {
+            //                    $ionicPopup.alert({
+            //                        title: 'Push notification registration successful!',
+            //                        template: 'Try and send a push notification!'
+            //                    });
+            //                    return true; //return false to 'silently' handle push notifications
+            //                }
+            //            }
+            //        );
+            //    }
+            //);
+
+            $ionicUser.identify({
+                user_id: auth.profile.user_id,
+                name: auth.profile.nickname
+            }).then(function() {
+
+                console.log('registering push');
+
+                $ionicPush.register({
+                    canShowAlert: true, // Should new pushes show an alert on your
+                    // screen?
+                    canSetBadge: true, // Should new pushes be allowed to update app icon
+                    // badges?
+                    canPlaySound: true, // Should notifications be allowed to play a
+                    // sound?
+                    canRunActionsOnWake: true, // Whether to run auto actions outside the
+                    // app,
+                    onNotification: function(notification) {
+                        console.log('notification received: ' + JSON.stringify(notification));
+                    }
+                }).then(function() {
+                    console.log('registration successful');
+                }, function(err) {
+                    console.log('registration failed');
+                    console.log(err);
+                });
+
+            }, function(err) {
+                console.log('identification failed');
+                console.log(err);
+            });
+
+            // Login was successful
+            User.sync(auth.profile).then(function (response) {
+                //hide the loader
+
                 //Once the user data has been synced, get the user data object from our server also
                 //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
-                User.getUserData(auth.profile.user_id);
+                //Check to see if the user is a new user, if so set service variable appropriately
+                console.log("Response from the userSync method on the server is: " + response);
 
-                //Testing the user global service
-                var currentUser = User.currentUser();
-                console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+                //User.hideTutorials();
 
-                $state.go('tab.rounds');
+                if (response == 201) {
+                    //then mark this user as being new and show them the tutorials
+                    console.log("This user is a new user, activating tutorials.");
+                    User.showTutorials();
+                } else if (response == 202) {
+                    console.log("This is an existing user, so not showing any tutorials");
+                    User.hideTutorials();
+                }
 
-                //show an alert for testing purposes
-                $ionicPopup.alert({
-                    title: 'Login successful!',
-                    template: 'Welcome ' + auth.profile.nickname + '! <br> This version of the app is mainly used for testing the backend <br> (So be nice)'
-                }).then(function (res) {
-                    console.log(auth.profile);
-                });
+                User.getUserData(auth.profile.user_id).then(
+                    function(){
+                        //Testing the user global service
+                        var currentUser = User.currentUser();
+                        console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+
+                        $state.go('tab.rounds');
+
+                        //show an alert for testing purposes
+                        //todo: perhaps make this another tutorial
+                        $ionicPopup.alert({
+                            title: 'Login successful!',
+                            template: 'Welcome ' + auth.profile.nickname + '!'
+                        }).then(function (res) {
+                            console.log(auth.profile);
+                        });
+                    }
+                );
             });
 
         }, function (error) {
@@ -77,6 +151,7 @@ angular.module('starter.controllers', [])
         Rounds.all().then(function (data) {
             //debugger;
             $scope.rounds = data.rounds;
+            $scope.rounds = $scope.rounds.reverse();
         });
 
         //debugger
@@ -117,7 +192,8 @@ angular.module('starter.controllers', [])
         };
     })
 
-    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet, Rounds, SaveChanges, auth, TDCardDelegate) {
+    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
+                                             Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout) {
 
         var _predictions = [];
         var updatePredictions = false; //flag to update predictions if some already exist.
@@ -145,13 +221,44 @@ angular.module('starter.controllers', [])
             //$ionicLoading.hide();
             $scope.fixtures = data;
 
+            for (var i = 0; i < $scope.fixtures.length; i++) {
+                $scope.fixtures[i].homeTeam = User.filterTeam($scope.fixtures[i].homeTeam);
+                $scope.fixtures[i].awayTeam = User.filterTeam($scope.fixtures[i].awayTeam);
+            }
+
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
+
+            for (var i = 0; i < $scope.listFixtures.length; i++) {
+                $scope.listFixtures[i].homeTeam = User.filterTeam($scope.listFixtures[i].homeTeam);
+                $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
+            }
 
             //every time a new set of fixtures is loaded, clear predictions
             _getExistingPredictions();
 
         });
+
+        function _checkAndShowTutorials() {
+            //check to see if this is a new user
+            if (User.tutorialsActiveCheck()) {
+                //Show the tutorial pop up
+                var tutorial = $ionicPopup.alert({
+                    title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
+                    template: '<img class="tutorial-image" src=\'img/tutorial.png\'>',
+                    okText: 'GOT IT'
+                });
+
+                //Disable any further popups
+                User.hideTutorials();
+
+                ////Set a timeout and then automatically close the popup
+                //$timeout(function(){
+                //    console.log("Now automatically closing the tutorial popup.");
+                //    tutorial.close();
+                //}, 3000)
+            }
+        }
 
         function _getExistingPredictions() {
 
@@ -160,6 +267,11 @@ angular.module('starter.controllers', [])
             //go and get all of the predictions for the user
             Rounds.getExistingPredictions(user, $stateParams.roundId).then(function (data) {
                 //clear existing predictions
+
+                //Check if the tutorials need to be shown and if so, show them!
+                debugger;
+                _checkAndShowTutorials();
+
                 _predictions = [];
 
                 debugger;
@@ -274,9 +386,11 @@ angular.module('starter.controllers', [])
                 if ($scope.listFixtures[i]._id == fixture) {
                     //then appropriately update the prediction
                     $scope.listFixtures[i].prediction = predictionMap[prediction];
+                    console.log($scope.listFixtures[i].prediction);
 
                     if ($scope.cardView) {
                         $scope.fixtures[i].prediction = predictionMap[prediction];
+                        console.log($scope.listFixtures[i].prediction);
                     }
 
                     break; //exit the loop
@@ -582,12 +696,12 @@ angular.module('starter.controllers', [])
 
         $scope.cardSwipedLeft = function (fixtureId) {
             console.log('LEFT SWIPE - PREDICT HOME WIN');
-            _addFixturePrediction(fixtureId, 2);
+            _addFixturePrediction(fixtureId, 1);
         };
 
         $scope.cardSwipedRight = function (fixtureId) {
             console.log('RIGHT SWIPE - PREDICT AWAY WIN');
-            _addFixturePrediction(fixtureId, 1);
+            _addFixturePrediction(fixtureId, 2);
         };
 
         $scope.cardTapped = function (fixtureId, index) {
@@ -625,6 +739,24 @@ angular.module('starter.controllers', [])
                 //Assign the season overall leaderboard data to a scope variable
                 $scope.overallLeague = data;
                 console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
+
+                //For each league will have to add data pertaining to logged in user to scope manually
+                for (var i = 0; i < $scope.overallLeague.length; i++) {
+                    if ($scope.overallLeague[i].user_id == auth.profile.user_id) {
+                        //then we have found the currently logged in user, add key to this object
+                        $scope.overallLeague.thisUser = {};
+                        $scope.overallLeague.thisUser = {
+                            //need pts, username and pick
+                            userSeasonPts: $scope.overallLeague[i].overallSeasonScore, //todo: assign round pts
+                            userPos: i + 1,
+                            userPic: auth.profile.picture
+                            //userRdPts: globalLeagueData[i].roundScores
+                        }
+
+                        console.log('LOGGED IN USER DATA IN GLOBAL LEAGUE IS: ' + JSON.stringify($scope.overallLeague.thisUser));
+                        break;
+                    }
+                }
 
                 debugger;
                 Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
@@ -838,8 +970,13 @@ angular.module('starter.controllers', [])
                 //then just get the global leaderboard scores
                 //Get the global scoreboard
                 //Get the data for scores for leaderboard
-                Leaderboard.all().then(function (data) {
-                    $scope.privateLeague = data;
+                Leaderboard.overall().then(function (data) {
+
+                    console.log("DATA RETRIEVED FOR THE GLOBAL LEAGUE IS: " + JSON.stringify(data));
+                    $scope.privateLeague = {};
+                    $scope.privateLeague.members = data;
+                    $scope.privateLeague.privateLeagueName = 'Global League';
+
                     //$scope.privateLeague.privateLeagueName =  $scope.privateLeague.privateLeagueName.join(' ');
                 });
             } else {
@@ -1366,6 +1503,7 @@ angular.module('starter.controllers', [])
         //hopefully this should get run every time the user navigates to this tab
         User.getUserData(auth.profile.user_id);
         $scope.userData = User.currentUser();
+        $scope.userData.userTeam = User.filterTeam($scope.userData.userTeam);
 
         $scope.signOut = function () {
 
@@ -1423,52 +1561,53 @@ angular.module('starter.controllers', [])
             });
         };
 
-        //function to accept an invitation
-        //unique because a user can't be invited to the same private league more than once
+        $scope.teams =
+            [
+                'Arsenal',
+                'Aston Villa',
+                'Bournemouth',
+                'Chelsea',
+                'Crystal Palace',
+                'Everton',
+                'Leicester City',
+                'Leicester',
+                'Liverpool',
+                'Manchester City',
+                'Manchester United',
+                'Newcastle United',
+                'Southampton',
+                'Stoke City',
+                'Sunderland',
+                'Swansea City',
+                'Tottenham Hotspur',
+                'Watford',
+                'West Bromwich Albion',
+                'West Ham United'
+            ];
 
-        //load the text of the notification into a modal/popup
-        $scope.showNotification = function (notification_index) {
-            //get the notification at the given index
-            var notification_text = $scope.userData.notifications[notification_index].message;
+        $scope.updateTeam = function() {
+            User.updateTeam(auth.profile.user_id, $scope.userData.userTeam).then(
+                function(response, error) {
+                    if (error) {
+                        $ionicPopup.alert({
+                            title : 'Something went wrong, try again',
+                            template: 'Oops!'
+                        });
+                    } else {
+                        $ionicPopup.alert({
+                            title: 'Team Updated',
+                            template: 'Your team has now been updated!'
+                        });
 
-            console.log("The notification text to display is: " + notification_text);
+                        User.getUserData(auth.profile.user_id).then(function() {
+                            $scope.userData = User.currentUser();
 
-            //now display this text within a modal or popup
-            $ionicPopup.alert({
-                title: 'Notification!',
-                template: notification_text
-            });
-        };
+                            $state.go('tab.settings', {refresh: true})
+                        });
 
-        //remove the desired notification from the user on the server
-        $scope.deleteNotification = function (notification_id) {
-            //call  through to the server, sending user_id and notification_id
-            User.clearNotification(auth.profile.user_id, notification_id).then(
-                function (res) {
-                    console.log('Notification cleared');
-
-                    //splice the notification out to remove from view for now
-                    for (var i = 0; i < $scope.userData.notifications.length; i++) {
-                        if ($scope.userData.notifications[i].notification_id == notification_id) {
-                            $scope.userData.notifications.splice(i, 1); //TODO: implement some sort of model refresh from server for this.
-                            //TODO: Refresh in the same way as the predictions get refreshed after changes are made.
-                        }
                     }
                 }
             );
-        };
-
-        //TODO: Update the user's info with a pull to refresh and push notifications
-        $scope.doRefresh = function () {
-
-            //Replace this with a manual check of new invitations and notifications
-            $scope.userData = User.getUserData(auth.profile.user_id).then(function () {
-                //TODO: Ionic popup if new notifications here
-                $scope.$broadcast('scroll.refreshComplete');
-
-                //renew the scope
-                //$scope.userData = User.getUserData(); //TODO: may need to update the view
-            });
-        };
+        }
     });
 

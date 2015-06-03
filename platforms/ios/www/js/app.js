@@ -5,8 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage',
-    'angular-jwt', 'ionic.contrib.ui.tinderCards'])
+angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push',
+    'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards'])
 
     .directive('noScroll', function() {
         return {
@@ -19,13 +19,28 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
         }
     })
 
-    .config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider, $ionicConfigProvider, $compileProvider) {
+    .config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider,
+                      $ionicConfigProvider, $compileProvider, $ionicAppProvider) {
+
+        // Identify app
+        $ionicAppProvider.identify({
+            // The App ID for the server
+            app_id: '17ad87a3',
+            // The API key all services will use for this app
+            api_key: '339c90fec399deb8b6ffc7c7c0e642544bee4c4c4e49faa3',
+            // Your GCM sender ID/project number (Uncomment if using GCM)
+            gcm_id: '299929618833',
+            // If true, will attempt to send development pushes
+            //dev_push: true
+        });
 
         $ionicConfigProvider.tabs.position('bottom');
 
-        $compileProvider.imgSrcSanitizationWhitelist('img/');
+        //$compileProvider.imgSrcSanitizationWhitelist('img/');
 
-        //$compileProvider.imgSrcSanitizationWhitelist(/^\s(https|file|blob|cdvfile|content):|data:image\//);
+        //$compileProvider.imgSrcSanitizationWhitelist(/^\s(https|file|blob|cdvfile):|data:image\//);
+
+        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(http|https|file|blob|cdvfile|content):|data:image\//);
 
         $httpProvider.interceptors.push(function ($rootScope) {
             return {
@@ -121,67 +136,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     requiresLogin: true
                 }
             })
-            .state('tab.scoreboard', {
-                url: '/scoreboard',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/tab-scoreboard.html',
-                        controller: 'ScoreboardCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-            .state('tab.scoreboard-private-leagues', {
-                url: '/scoreboard/privateleagues',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-private-leagues.html',
-                        controller: 'PrivateLeaguesCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-            .state('tab.scoreboard-private-leagues-detail', {
-                url: '/scoreboard/privateleagues/:privateLeagueId',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-private-leagues-detail.html',
-                        controller: 'PrivateLeaguesDetailCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-            .state('tab.scoreboard-global', {
-                url: '/scoreboard/global',
-                views: {
-                    'tab-scoreboard': {
-                        templateUrl: 'templates/scoreboard-global.html',
-                        controller: 'GlobalScoreboardCtrl'
-                    }
-                },
-                data: {
-                    // This tells Auth0 that this state requires the user to be logged in.
-                    // If the user isn't logged in and he tries to access this state
-                    // he'll be redirected to the login page
-                    requiresLogin: true
-                }
-            })
-
             .state('tab.leaguetable', {
                 url: '/leaguetable',
                 views: {
@@ -208,7 +162,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.summary',{
                 url: "/summary",
-                //templateUrl: "templates/rulebook-summary.html"
                 views: {
                     'rulebook-summary': {
                         templateUrl: "templates/rulebook-summary.html"
@@ -217,7 +170,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.win', {
                 url: "/win",
-                //templateUrl: "templates/rulebook-win.html"
                 views: {
                     'rulebook-win': {
                         templateUrl: "templates/rulebook-win.html"
@@ -226,7 +178,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.lose',{
                 url: "/lose",
-                //templateUrl: "templates/rulebook-lose.html"
                 views: {
                     'rulebook-lose': {
                         templateUrl: "templates/rulebook-lose.html"
@@ -235,19 +186,18 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
             })
             .state('tab.rulebook.trade',{
                 url: "/trade",
-                //templateUrl: "templates/rulebook-trade.html"
                 views: {
                     'rulebook-trade': {
                         templateUrl: "templates/rulebook-trade.html"
                     }
                 }
             })
-            .state('tab.account', {
-                url: '/account',
+            .state('tab.leaderboard', {
+                url: '/leaderboard',
                 views: {
-                    'tab-account': {
-                        templateUrl: 'templates/tab-account.html',
-                        controller: 'AccountCtrl'
+                    'tab-leaderboard': {
+                        templateUrl: 'templates/tab-leaderboard.html',
+                        controller: 'LeaderboardCtrl'
                     }
                 },
                 data: {
@@ -256,12 +206,83 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     // he'll be redirected to the login page
                     requiresLogin: true
                 }
+            })
+            .state('tab.leaderboard-detail', {
+                url: '/leaderboard/:privateLeagueId',
+                views: {
+                    'tab-leaderboard': {
+                        templateUrl: 'templates/leaderboard-league-detail.html',
+                        controller: 'LeaderboardLeagueDetailCtrl'
+                    }
+                },
+                data: {
+                    // This tells Auth0 that this state requires the user to be logged in.
+                    // If the user isn't logged in and he tries to access this state
+                    // he'll be redirected to the login page
+                    requiresLogin: true
+                }
+            })
+            .state('tab.settings', {
+                url: '/settings',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/tab-settings.html',
+                        controller: 'SettingsCtrl'
+                    }
+                },
+                data: {
+                    // This tells Auth0 that this state requires the user to be logged in.
+                    // If the user isn't logged in and he tries to access this state
+                    // he'll be redirected to the login page
+                    requiresLogin: true
+                }
+            })
+            .state('tab.settings-team', {
+                url: '/settings/team',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-team.html',
+                        controller: 'SettingsCtrl'
+                    }
+                }
+            })
+            .state('tab.settings-about', {
+                url: '/settings/about',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-about.html',
+                    }
+                }
+            })
+            .state('tab.settings-privacy', {
+                url: '/settings/privacy',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-privacy.html',
+                    }
+                }
+            })
+            .state('tab.settings-cookies', {
+                url: '/settings/cookies',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-cookies.html',
+                    }
+                }
+            })
+            .state('tab.settings-tcs', {
+                url: '/settings/tcs',
+                views: {
+                    'tab-settings': {
+                        templateUrl: 'templates/settings-tcs.html',
+                    }
+                }
             });
 
-        // if none of the above states are matched, use this as the fallback
+// if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/login');
 
-        //Attempting to configure the use of Auth0
+//Attempting to configure the use of Auth0
         authProvider.init({
             domain: 'yesgetin.eu.auth0.com',
             clientID: 'Ny44FwyaGBQvKOV9FxIRDX6JvogUm80j',
@@ -270,15 +291,19 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
 
     })
 
-    .run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location) {
-
-        //this function contains globally run application functions.
+    .run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicUser, $ionicPush) {
 
         // This hooks all auth events to check everything as soon as the app starts
         auth.hookEvents();
 
         $rootScope.$on('loading:show', function () {
-            $ionicLoading.show({template: 'Fetching data from server'}); //TODO: ADD A SPINNER IN HERE
+            debugger;
+            $ionicLoading.show(
+                {
+                    noBackdrop: true,
+                    templateUrl: '/templates/loader.html'
+                }
+            );
         });
 
         $rootScope.$on('loading:hide', function () {
@@ -310,6 +335,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'starter.controllers', 'starter
                     }
                 }
             }
+        });
+
+        $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
+            console.log('Got token', data.token, data.platform);
+            // Do something with the token
+            //alert('THE DEVICE TOKEN FOR YOUR DEVICE IS: ' + JSON.stringify(data.token));
+            //console.log('THE DEVICE TOKEN FOR YOUR DEVICE IS: ' + JSON.stringify(data.token));
         });
 
     });

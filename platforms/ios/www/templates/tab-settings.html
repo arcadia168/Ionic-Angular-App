@@ -1,0 +1,50 @@
+<ion-view view-title="SETTINGS">
+    <ion-content class="settings-content">
+        <div class="list">
+            <div class="item item-divider">
+                <p>YOUR TEAM</p>
+            </div>
+            <div class="item"><a href="#/tab/settings/team">CHOOSE YOUR TEAM</a></div>
+            <div class="item item-divider">
+                <p>PUSH NOTIFICATIONS</p>
+            </div>
+            <li class="item item-toggle">
+                PREDICTION UPDATES
+                <label class="toggle toggle-positive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <li class="item item-toggle">
+                SCORE UPDATES
+                <label class="toggle toggle-positive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <li class="item item-toggle">
+                HT/FT SCORE UPDATES
+                <label class="toggle toggle-positive">
+                    <input type="checkbox">
+                    <div class="track">
+                        <div class="handle"></div>
+                    </div>
+                </label>
+            </li>
+            <div class="item item-divider">
+                <p>USER INFORMATION</p>
+            </div>
+            <div class="item"><a href="#/tab/settings/about">ABOUT APP & ACKNOWLEDGEMENTS</a></div>
+            <div class="item"><a href="#/tab/settings/cookies">COOKIE POLICY</a></div>
+            <div class="item"><a href="#/tab/settings/privacy">PRIVACY POLICY</a></div>
+            <div class="item"><a href="#/tab/settings/tcs">TERMS AND CONDITIONS</a></div>
+            <div class="item sign-out" ng-click="signOut()">
+                <p>SIGN OUT <i class="icon icon-right ion-log-out"></i></p>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

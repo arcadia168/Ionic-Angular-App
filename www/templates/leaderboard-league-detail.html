@@ -1,6 +1,6 @@
-<ion-view cache-view="false" class="league-detail" view-title="{{privateLeague.privateLeagueName}}">
+<ion-view cache-view="false" class="league-detail" view-title="{{privateLeague.privateLeagueName || 'GLOBAL LEAGUE'}}">
     <ion-nav-buttons side="secondary">
-        <button class="league-edit button icon ion-edit" ng-click="editLeague()"></button>
+        <button ng-if="privateLeague.privateLeagueName != 'Global League'" class="league-edit button icon ion-edit" ng-click="editLeague()"></button>
     </ion-nav-buttons>
     <div class="current-view-select list">
         <label class="item item-input item-select">
@@ -10,8 +10,8 @@
             <select ng-init="roundInView = roundDates[0]" ng-model="roundInView" ng-options="round.roundNo for round in roundDates">
                 <!--<option value="0">OVERALL SEASON</option>-->
                 <!--<option ng-model="roundDates" ng-repeat="round in roundDates">-->
-                    <!--<p value="round.roundNo" ng-if="round.roundNo == currentRound">CURRENT ROUND</p>-->
-                    <!--<p value="round.roundNo" ng-if="round.roundNo != currentRound">ROUND{{round.roundNo}}</p>-->
+                <!--<p value="round.roundNo" ng-if="round.roundNo == currentRound">CURRENT ROUND</p>-->
+                <!--<p value="round.roundNo" ng-if="round.roundNo != currentRound">ROUND{{round.roundNo}}</p>-->
                 <!--</option>-->
             </select>
         </label>
@@ -25,19 +25,25 @@
             </div>
         </div>
         <div class="title-row">
-            <div class="border"><p class="stat">POS</p></div>
-            <div class=""><p class="stat">PLAYER</p></div>
-            <div class=""><p class="stat">PTS</p></div>
+            <div class="title-row-container">
+                <div class="border"><p class="stat">POS</p></div>
+                <div class=""><p class="stat">PLAYER</p></div>
+                <div class=""><p class="stat">PTS</p></div>
+            </div>
         </div>
         <div class="row" ng-repeat="member in privateLeague.members track by $index">
             <div ng-if="$index == 0" class="leader-pos">
                 <i class="leader-icon icon ion-android-star"></i>
                 <p class="leader-no">1</p>
             </div>
-            <div ng-if="$index > 0" class="pos"><p class="stat">{{$index + 1}}</p></div>
-            <img ng-if="member.pic != 'none'" class="user-pic" ng-src="{{member.pic}}">
-            <i ng-if="member.pic == 'none'" class="non-pic icon ion-person"></i>
-            <div class="username"><p class="stat">{{member.username}}</p></div>
+            <div ng-if="$index > 0" class="pos contender"><p class="stat">{{$index + 1}}</p></div>
+
+            <div class="user-details">
+                <i ng-if="member.pic == 'none'" class="non-pic icon ion-person"></i>
+                <img ng-if="member.pic != 'none'" class="user-pic" ng-src="{{member.pic}}">
+                <div class="username"><p class="stat">{{member.username}}</p></div>
+            </div>
+
             <div class="score">
                 <div ng-if="roundInView.roundNo == 'OVERALL SEASON'">
                     <p ng-if="member.overallSeasonScore == 0">0 PTS</p>

@@ -1,0 +1,12 @@
+<div class="list">
+    <label ng-repeat="member in privateLeague.members track by $index"
+           class="item item-radio"
+           ng-if="member.user_id != privateLeague.captain || member.user_id != privateLeague.viceCaptain">
+        <input ng-model="newViceCaptainId" type="radio" name="group">
+        <div class="item-content">
+            <img class="user-pic" ng-if="member.pic != null" ng-src="{{member.pic}}">
+            {{member.username}}
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+    </label>
+</div>
