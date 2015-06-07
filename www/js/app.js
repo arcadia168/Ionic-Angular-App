@@ -31,7 +31,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             // Your GCM sender ID/project number (Uncomment if using GCM)
             gcm_id: '299929618833',
             // If true, will attempt to send development pushes
-            //dev_push: true
+            dev_push: true
         });
 
         $ionicConfigProvider.tabs.position('bottom');
@@ -164,7 +164,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                 url: "/summary",
                 views: {
                     'rulebook-summary': {
-                        templateUrl: "templates/rulebook-summary.html"
+                        templateUrl: "templates/rulebook-summary.html",
+                        controller: 'RulebookCtrl'
                     }
                 }
             })

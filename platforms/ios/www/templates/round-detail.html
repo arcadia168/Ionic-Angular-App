@@ -13,7 +13,7 @@
                             <img ng-click="predictHomeWin(fixture._id)"
                                  ng-class="{faded : fixture.prediction == 'AWAY WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
                                  class="image list-home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
-                            <em>{{fixture.homeTeam | uppercase}}</em>
+                            <em class="list-home-team-name">{{fixture.homeTeam | uppercase}}</em>
                         </div>
                         <h1 class="vs" ng-click="predictDraw(fixture._id)">vs</h1>
 
@@ -21,7 +21,7 @@
                             <img ng-click="predictAwayWin(fixture._id)"
                                  ng-class="{faded : fixture.prediction == 'HOME WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
                                  class="image list-away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
-                            <em>{{fixture.awayTeam | uppercase}}</em>
+                            <em class="list-away-team-name">{{fixture.awayTeam | uppercase}}</em>
                         </div>
                         <i class="icon ion-ios-close-empty" ng-click="deleteSinglePrediction(fixture)"></i>
                     </div>
@@ -42,8 +42,9 @@
                         >
                     <div class="card-header"><p class="fix-title">FIXTURE {{$index + 1}}</p></div>
                     <div class="card-content">
-                        <div class="card-fix-date">{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date:
-                            'hh:mm'}}
+                        <div class="card-fix-date">
+                            <p>{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date:
+                            'hh:mm'}}</p><p>{{fixture.fixStadium}}</p>
                         </div>
 
                         <div class="shirt-container">

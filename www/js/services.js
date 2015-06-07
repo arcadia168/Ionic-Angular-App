@@ -90,10 +90,10 @@ angular.module('starter.services', [])
 
                 //TODO: Implement getting the username from the session somehow
                 //use dummy user sillybilly for now
-                $http.post(SERVER + '/users/predictions/' + userid + '/' + round , predictions
+                $http.post(SERVER + '/users/predictions/create/' + userid + '/' + round , predictions
                 ).success(function(response){
                         console.log(response);
-                        //deferred.resolve(response); //TODO not sure this is necessary
+                        deferred.resolve();
                     }).error(function(){
                         console.log("Error while making HTTP call.");
                         alert("Something went wrong");
@@ -103,7 +103,7 @@ angular.module('starter.services', [])
             },
 
             //might need to take in the userid, although this may be global
-            updatePrediction: function(userid, predictions) {
+            updatePredictions: function(userid, predictions) {
                 //make a call to server to send predictions away
 
                 //prepend the predictions array with the necessary information
@@ -115,16 +115,14 @@ angular.module('starter.services', [])
 
                 var deferred = $q.defer();
 
-                //TODO: Implement getting the username from the session somehow
-                //use dummy user ***REMOVED***6969 for now
-                $http.put(SERVER + '/users/predictions/update/' + userid, predictions
+                $http.post(SERVER + '/users/predictions/update/' + userid, predictions
                 ).success(function(response){
                         console.log(response);
-                        //deferred.resolve(response); //TODO not sure this is necessary
+                        deferred.resolve(); //TODO not sure this is necessary
                     }).error(function(){
                         console.log("Error while making HTTP call.");
-                        alert("Something went wrong");
-                        deferred.reject();
+                        //alert("Something went wrong");
+                        deferred.reject(); //todo: implement ionic popup errors if promises get rejected.
                     });
                 return deferred.promise;
             },
@@ -148,27 +146,26 @@ angular.module('starter.services', [])
                         deferred.reject();
                     });
                 return deferred.promise;
-            },
-
-            deleteRoundPredictions: function(userid, round) {
-
-                //make a call to the server to get the existing predictions made by a user
-                debugger;
-
-                var deferred = $q.defer();
-
-                //TODO: Implement getting the username from the session somehow
-                $http.delete(SERVER + '/users/predictions/clear/' + userid + '/' + round
-                ).success(function(response){
-                        console.log("DELETED USER " + userid + "'S PREDICTIONS FOR ROUND " + round);
-                        deferred.resolve(response);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        alert("Something went wrong");
-                        deferred.reject();
-                    });
-                return deferred.promise;
-            }
+            }//,
+            //deleteRoundPredictions: function(userid, round) {
+            //
+            //    //make a call to the server to get the existing predictions made by a user
+            //    debugger;
+            //
+            //    var deferred = $q.defer();
+            //
+            //    //TODO: Implement getting the username from the session somehow
+            //    $http.delete(SERVER + '/users/predictions/clear/' + userid + '/' + round
+            //    ).success(function(response){
+            //            console.log("DELETED USER " + userid + "'S PREDICTIONS FOR ROUND " + round);
+            //            deferred.resolve(response);
+            //        }).error(function(){
+            //            console.log("Error while making HTTP call.");
+            //            alert("Something went wrong");
+            //            deferred.reject();
+            //        });
+            //    return deferred.promise;
+            //}
         }
     }])
 

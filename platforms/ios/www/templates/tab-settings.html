@@ -1,10 +1,10 @@
-<ion-view view-title="SETTINGS">
+<ion-view cache-view="false" view-title="SETTINGS">
     <ion-content class="settings-content">
         <div class="list">
             <div class="item item-divider">
                 <p>YOUR TEAM</p>
             </div>
-            <div class="item"><a href="#/tab/settings/team">CHOOSE YOUR TEAM</a></div>
+            <div class="item"><a class="team-link" href="#/tab/settings/team">MY TEAM: <p><img class='settings-shirt' ng-src="img/team_shirts/{{userData.userTeam}}.png"> {{userData.userTeam | uppercase}}</p></a></div>
             <div class="item item-divider">
                 <p>PUSH NOTIFICATIONS</p>
             </div>

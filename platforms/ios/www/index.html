@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'-->
-    <!--data: gap: https://ssl.gstatic.com *.ionic.io *.yourwebservice.com *.anotheraddress.com;-->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'-->
+    <!--data: gap: https://ssl.gstatic.com *.ionic.io *.ionicframework.com *.auth0.com *.rhcloud.com *.evil.com;-->
     <!--style-src 'self' 'unsafe-inline'; media-src *; img-src *; script-src 'self' 'unsafe-inline' 'unsafe-eval'">-->
     <title></title>
 
@@ -27,6 +27,7 @@
     <script src="lib/angular-resource/angular-resource.min.js"></script>
     <script src="lib/ionic-service-core/ionic-core.js"></script>
     <script src="lib/ionic-service-push/ionic-push.js"></script>
+    <script src="lib/underscore/underscore-min.js"></script>
 
     <!-- Auth0 Lock -->
     <script src="lib/auth0-lock/build/auth0-lock.js"></script>
@@ -49,7 +50,6 @@
     <!-- Ionic tinders style swipe cards -->
     <script src="lib/collide/collide.js"></script>
     <script src="lib/ionic-contrib-tinder-cards/ionic.tdcards.js"></script>
-
 </head>
 <body ng-app="starter" class="platform-ios platform-cordova platform-webview">
 <!--

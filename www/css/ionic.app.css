@@ -6823,10 +6823,7 @@ ion-nav-view ion-tabs {
       background-color: #D9D8D8 !important; }
 
 .rounds-header {
-  margin: 4.2rem 1.1rem 1.1rem 1.1rem;
-  border-radius: 3px 3px 0px 0px;
   background-color: white !important;
-  border: 1px solid #3bb665;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
@@ -6840,8 +6837,8 @@ ion-nav-view ion-tabs {
     margin-left: 9rem; }
 
 .rounds-content {
-  margin: 2.5rem 1.1rem 1.1rem 1.1rem;
-  border-radius: 0px 0px 3px 3px;
+  margin: 1.1rem;
+  border-radius: 3px;
   background-color: white !important;
   border: 1px solid #3bb665; }
   .rounds-content ion-item:first-child {
@@ -6889,7 +6886,6 @@ ion-nav-view ion-tabs {
   border-radius: 3px;
   overflow: hidden !important;
   background-color: white !important;
-  padding-top: 0px !important;
   bottom: inherit !important; }
   .leaderboard-content .scroll {
     overflow: hidden;
@@ -6902,6 +6898,7 @@ ion-nav-view ion-tabs {
     .leaderboard-content ion-item .item-content {
       margin-bottom: 0 !important;
       padding: 0 !important;
+      height: 8.5rem;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -6910,8 +6907,7 @@ ion-nav-view ion-tabs {
       flex-direction: row;
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
-      justify-content: space-between;
-      border-top: 1px solid #3bb665; }
+      justify-content: space-between; }
       .leaderboard-content ion-item .item-content div {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -7121,7 +7117,7 @@ ion-nav-view ion-tabs {
 ion-view.league-detail .current-view-select {
   background-color: white !important;
   color: #6A6A6A !important;
-  top: 2.75rem; }
+  margin-top: 4rem; }
   ion-view.league-detail .current-view-select .item-select select {
     border: 1px solid black;
     top: 0.25rem;
@@ -7134,7 +7130,7 @@ ion-view.league-detail .scroll {
   border-radius: 5px;
   background-color: white; }
 ion-view.league-detail .league-live-table {
-  top: 7rem;
+  margin-top: 4rem;
   padding-top: 0 !important; }
   ion-view.league-detail .league-live-table .row-header-container {
     width: 100%;
@@ -7471,14 +7467,15 @@ ion-view[view-title="LEAGUE TABLE"] .scroll {
   border: 2px solid #3bb665;
   border-radius: 5px; }
 ion-view[view-title="LEAGUE TABLE"] .live-table {
-  margin-top: 3rem;
+  margin-top: 1.1rem;
   padding-top: 0 !important; }
 ion-view[view-title="LEAGUE TABLE"] .row-header-container {
-  position: absolute;
-  top: 3.9rem;
   width: 100%;
-  padding: 0 10px; }
+  height: 1.75rem;
+  padding-top: 0.3rem;
+  background-color: #3bb665; }
   ion-view[view-title="LEAGUE TABLE"] .row-header-container .row-header {
+    height: 1.5rem;
     background-color: #3bb665 !important;
     color: white;
     font-weight: bold;
@@ -7617,7 +7614,7 @@ td-cards {
         -ms-flex-align: center;
         align-items: center; }
       td-cards td-card .card-content .shirt-container {
-        height: 100%;
+        height: 8rem;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -7634,6 +7631,7 @@ td-cards {
           max-width: 100%;
           border-radius: 6px; }
         td-cards td-card .card-content .shirt-container h4 {
+          font-size: 0.8rem;
           width: 60%;
           margin: 0 auto 25px auto; }
         td-cards td-card .card-content .shirt-container .home-team, td-cards td-card .card-content .shirt-container .away-team {

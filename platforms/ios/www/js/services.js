@@ -4,7 +4,7 @@ angular.module('starter.services', [])
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'deviceDebug';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -207,21 +207,6 @@ angular.module('starter.services', [])
                         console.log('now removed currentRound from private leagues, last list item is:' + JSON.stringify(data[data.length -1]));
                         //roundDates = data[data.length - 1];
                         //console.log("The list of round dates is: " + roundDates);
-
-                        //For each league will have to add data pertaining to logged in user to scope manually
-                        for (var i = 0; i < globalLeagueData.length; i++) {
-                            if (globalLeagueData[i].user_id == user_id) {
-                                //then we have found the currently logged in user, add key to this object
-                                globalLeagueData.thisUser = {
-                                    //need pts, username and pick
-                                    userSeasonPts: globalLeagueData[i].overallSeasonScore, //todo: assign round pts
-                                    userPos: i + 1,
-                                    userPic: user_picture
-                                    //userRdPts: globalLeagueData[i].roundScores
-                                }
-                            }
-                            break;
-                        }
 
                         deferred.resolve(globalLeagueData);
                     }).error(function(){
@@ -560,9 +545,62 @@ angular.module('starter.services', [])
             },
             tutorialsActiveCheck: function() {
                 return showTutorials;
+            },
+            updateTeam: function(user_id, new_team) {
+
+                //get the data for a particular user from the server
+
+                var deferred = $q.defer();
+
+                $http.get(SERVER + '/users/team/' + user_id + '/' + new_team
+                ).success(function(response){
+                        console.log(response); //should be the newly loggied in user, not the old!
+                        //assign the returned user data to the factory
+                        //currentUserData = response[0];
+                        //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
+                        deferred.resolve(response);
+                    }).error(function(){
+                        console.log("Error while making HTTP call.");
+                        alert("Something went wrong"); //TODO: Replace this with an ionic popup
+                        deferred.reject();
+                    });
+                return deferred.promise;
+
+            },
+            filterTeam: function(team) {
+                if (team.indexOf("United" > -1)) {
+                    team = team.replace('United', 'Utd');
+                    team = team.trim();
+                }
+
+                if (team.indexOf("Manchester" > -1)) {
+                    team = team.replace('Manchester', 'Man');
+                    team = team.trim();
+                }
+
+                if (team.indexOf("Albion" > -1)) {
+                    team = team.replace('Albion', '');
+                    team = team.trim();
+                }
+
+                if (team.indexOf("wich" > -1)) {
+                    team = team.replace('wich', '');
+                    team = team.trim();
+                }
+
+                if (team.indexOf("Hotspur" > -1)) {
+                    team = team.replace('Hotspur', '');
+                    team = team.trim();
+                }
+
+                if (team.indexOf("Queens Park Rangers" > -1)) {
+                    team = team.replace('Queens Park Rangers', 'QPR');
+                    team = team.trim();
+                }
+
+                return team;
             }
         }
-
     }])
 
     .factory('SaveChanges', [function (){
@@ -589,3 +627,11 @@ angular.module('starter.services', [])
         return saveChanges;
 
     }]);
+
+//.factory('_', [function () {
+//    return $window._; // assumes underscore has already been loaded on the page
+//}]);
+
+//.factory('Teams', ['_', function (_) {
+//
+//}]);
