@@ -9,9 +9,12 @@
     "ionic-service-push": "~0.1.4"
   },
   "dependencies": {
-    "auth0-angular": "3.*",
+    "auth0-angular": "4.*",
     "a0-angular-storage": ">= 0.0.6",
     "angular-jwt": ">= 0.0.4",
     "underscore": "~1.8.3"
+  },
+  "resolutions": {
+    "auth0.js": ">= 5.2.2"
   }
 }

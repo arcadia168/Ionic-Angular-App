@@ -7631,6 +7631,8 @@ td-cards {
           max-width: 100%;
           border-radius: 6px; }
         td-cards td-card .card-content .shirt-container h4 {
+          font-size: 0.8rem;
+          width: 60%;
           margin: 0 auto 25px auto; }
         td-cards td-card .card-content .shirt-container .home-team, td-cards td-card .card-content .shirt-container .away-team {
           display: -webkit-flex;

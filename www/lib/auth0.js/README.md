@@ -20,7 +20,7 @@ The example directory has a ready-to-go app. In order to run it you need [node](
 
 Take `auth0.js` or `auth0.min.js` from the `/build` directory and import it to your page.
 
-If you are using [browserify](http://browserify.org/) install with `npm i auth0.js --production --save`.
+If you are using [browserify](http://browserify.org/) install with `npm i auth0-js --production --save`.
 
 > Note: The following examples use jQuery, but auth0.js is not tied to jQuery and any library can be used with it.
 
@@ -28,8 +28,8 @@ If you are using [browserify](http://browserify.org/) install with `npm i auth0.
 
 Construct a new instance of the Auth0 client as follows:
 
-~~~html
-<script src="http://cdn.auth0.com/w2/auth0-4.js"></script>
+```html
+<script src="//cdn.auth0.com/w2/auth0-6.js"></script>
 <script type="text/javascript">
   var auth0 = new Auth0({
     domain:       'mine.auth0.com',
@@ -40,13 +40,14 @@ Construct a new instance of the Auth0 client as follows:
 
   //...
 </script>
-~~~
+```
 
 ### Login:
 
-Trigger the login on any of your active identity provider as follows:
+This method can be called as indifferently as `signin` or `login`.
+Triggers the login on any of your active identity provider as follows:
 
-~~~js
+```js
   //trigger login with google
   $('.login-google').click(function () {
     auth0.login({
@@ -107,11 +108,11 @@ Trigger the login on any of your active identity provider as follows:
       alert('hello ' + profile.name);
     });
   });
-~~~
+```
 
 You can also request scopes that are not were not configured for the connection.
 
-~~~js
+```js
   //trigger login requesting additional scopes with google
   $('.login-google').click(function () {
     auth0.login({
@@ -127,24 +128,73 @@ You can also request scopes that are not were not configured for the connection.
       connection_scope: 'https://www.googleapis.com/auth/orkut,https://picasaweb.google.com/data/'
     });
   });
-~~~
+```
 
 Trigger the login with offline mode support to get the `refresh_token`
 
-````js
+```js
 $('.login-dbconn').click(function () {
     auth0.login({
       connection: 'db-conn',
       username:   $('.username').val(),
       password:   $('.password').val(),
-      offline_mode: true
+      scope: 'openid offline_access'
     },
     function (err, profile, id_token, access_token, state, refresh_token) {
       // store in cookies
-      // refresh_token is sent because offline_mode is set to true
+      // refresh_token is sent because offline_access is set as a scope
     });
   });
-````
+```
+
+### Passwordless authentication with SMS
+
+First you must activate and configure your passwordless [Twilio](https://twilio.com) connection in our [dashboard](https://manage.auth0.com/#/connections/passwordless).
+
+After that you can request a passcode to be sent via SMS to a phone number. For that you use the `.requestSMSCode()` with an `apiToken` and a [full-length](https://www.twilio.com/help/faq/phone-numbers/how-do-i-format-phone-numbers-to-work-internationally) `phoneNumber`.
+
+To generate an `apiToken` go [here](https://auth0.com/docs/apiv2). Notice that the generated token must have the `users:create` scope, otherwise it won't work.
+
+
+```js
+// request a passcode sent via sms to `phoneNumber`
+// using Twilio's configured connection
+$('.request-sms-code').click(function (ev) {
+  ev.preventDefault();
+
+  auth0.requestSMSCode({
+    apiToken: 'your-api-token-here',
+    phone: $('.phone-input').val()
+  }, function (err) {
+    if (err) {
+      alert("something went wrong: " + err.message);
+      return;
+    }
+    // the request was successful and you should
+    // receive the passcode to the specified phone
+  });
+});
+```
+
+Once you receive the code you follow using `.login()` to authenticate the user using `phone` and `passcode`.
+
+```js
+//submit the passcode to authenticate the phone
+$('.submit-sms-code').click(function (ev) {
+  ev.preventDefault();
+
+  auth0.login({
+    phone: $('.phone-input').val(),
+    passcode: $('.sms-code-input').val()
+  }, function (err, profile, id_token, access_token, state, refresh_token) {
+    if (err) {
+      alert("something went wrong: " + err.message);
+      return;
+    }
+    console.log(profile, id_token, access_token, state, refresh_token);
+  });
+});
+```
 
 ### Processing the callback
 
@@ -162,7 +212,7 @@ Once you have succesfully authenticated, Auth0 will redirect to your `callbackUR
       auth0.getProfile(result.id_token, function (err, profile) {
         alert('hello ' + profile.name);
       });
-      // If offline_mode: true was sent on the request
+      // If offline_access was a requested scope
       // You can grab the result.refresh_token here
 
     } else if (result && result.error) {
@@ -199,16 +249,22 @@ While using this mode, the result will be passed as the `login` method callback.
     //use id_token to call your rest api
     alert('hello ' + profile.name);
 
-    // refresh_token is sent only if offline_mode was set to true
+    // refresh_token is sent only if offline_access is set as a scope
   });
 });
 ```
+
+When using database connection there are two possible modes:
+
+ * **Resource Owner endpoint** (`/ro`)enabled by passing sso: false (default): Performs a CORS POST request against the former endpoint (or in IE8 or 9 perform a JSONP request). This endpoint allows users to authenticate by sending their username and password and returning a JWT. This does not set any cookie and no popup is opened (even with `popup` set to `true`).
+
+ * **SSO mode** enabled by passing `sso: true`: In this case, a popup is created in which the authentication takes place. Sets the SSO cookie and prompts for a multifactor authentication code, if enabled.
 
 ### Sign up (database connections):
 
 If you use [Database Connections](https://docs.auth0.com/mysql-connection-tutorial) you can signup as follows:
 
-~~~js
+```js
   $('.signup').click(function () {
     auth0.signup({
       connection: 'db-conn',
@@ -218,13 +274,13 @@ If you use [Database Connections](https://docs.auth0.com/mysql-connection-tutori
       console.log(err.message);
     });
   });
-~~~
+```
 
 After a succesful login it will auto login the user. If you do not want to automatically login the user you have to pass the option `auto_login: false`.
 
 ### Change Password (database connections):
 
-~~~js
+```js
   $('.change_password').click(function () {
     auth0.changePassword({
       connection: 'db-conn',
@@ -234,7 +290,7 @@ After a succesful login it will auto login the user. If you do not want to autom
       console.log(err.message);
     });
   });
-~~~
+```
 
 ### Delegation Token Request
 
@@ -242,7 +298,7 @@ A delegation token is a new token for a different service or app/API.
 
 If you just want to get a new token for an addon that you've activated, you can do the following:
 
-````js
+```js
 var options = {
   id_token: "your id token", // The id_token you have now
   api: 'firebase', // This defaults to the first active addon if any or you can specify this
@@ -252,11 +308,11 @@ var options = {
 auth0.getDelegationToken(options, function (err, delegationResult) {
 	// Call your API using delegationResult.id_token
 });
-````
+```
 
 If you want to get the token for another API or App:
 
-````js
+```js
 var options = {
   id_token: "your id token", // The id_token you have now
   api: 'auth0' // This is default when calling another app that doesn't have an addon
@@ -266,37 +322,37 @@ var options = {
 auth0.getDelegationToken(options, function (err, delegationResult) {
   // Call your API using delegationResult.id_token
 });
-````
+```
 
 ### Refresh token
 
 If you want to refresh your existing (not expired) token, you can just do the following:
 
-````js
+```js
 auth0.renewIdToken(current_id_token, function (err, delegationResult) {
   // Get here the new delegationResult.id_token
 });
-````
+```
 
 If you want to refresh your existing (expired) token, if you have the refresh_token, you can call the following:
 
-````js
+```js
 auth0.refreshToken(refresh_token, function (err, delegationResult) {
   // Get here the new delegationResult.id_token
 });
-````
+```
 
 ### Validate User
 
 You can validate a user of a specific connection with his username and password:
 
-~~~js
+```js
 auth0.validateUser({
   connection:   'db-conn',
   username:     'foo@bar.com',
   password:     'blabla'
 }, function (err, valid) { });
-~~~
+```
 
 ### SSO
 
@@ -309,9 +365,20 @@ Method `getSSOData` fetches Single Sign-On information:
   });
 ```
 
+Load Active Directory data if available (Kerberos):
+
 ```js
-  // Don't bring active directoy data
-  auth0.getSSOData(false, fn);
+  auth0.getSSOData(true, fn);
+```
+
+When Kerberos is available you can automatically trigger Windows Authentication. As a result the user will immediately be authenticated without taking any action.
+
+```js
+  auth0.getSSOData(true, function (err, ssoData) {
+    if (!err && ssoData && ssoData.connection) {
+      auth0.login({ connection: ssoData.connection });
+    }
+  });
 ```
 
 ## Develop
@@ -331,29 +398,17 @@ $ ./bin/version patch
 $ git push origin master
 ```
 
+## Issue Reporting
+
+If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
+
+## Author
+
+[Auth0](auth0.com)
+
 ## License
 
-The MIT License (MIT)
-
-Copyright (c) 2013-2014 Auth0 Inc.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+This project is licensed under the MIT license. See the [LICENSE](LICENSE.txt) file for more info.
 
 <!-- Vaaaaarrrrsss -->
 

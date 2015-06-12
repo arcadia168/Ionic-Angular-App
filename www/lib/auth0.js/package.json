@@ -1,8 +1,8 @@
 {
   "name": "auth0-js",
-  "version": "4.3.0",
+  "version": "6.4.2",
   "description": "Auth0 headless browser sdk",
-  "main": "lib/index.js",
+  "main": "index.js",
   "keywords": [
     "auth0",
     "auth",
@@ -30,9 +30,8 @@
     "qs": "git://github.com/jfromaniello/node-querystring.git#fix_ie7_bug_with_arrays",
     "reqwest": "^1.1.4",
     "trim": "~0.0.1",
-    "winchan": "^0.0.6",
-    "xtend": "~2.1.1",
-    "zuul": "^1.10.1"
+    "winchan": "^0.1.1",
+    "xtend": "~2.1.1"
   },
   "browserify": {
     "transform": [
@@ -58,7 +57,9 @@
     "mocha": "1.20.1",
     "phantomjs": "^1.9.2-6",
     "rimraf": "~2.2.2",
+    "sinon": "^1.14.1",
     "uglify-js": "~2.4.0",
-    "zuul": "https://github.com/jfromaniello/zuul/tarball/phantom_custom_port"
+    "zuul": "https://github.com/jfromaniello/zuul/tarball/phantom_custom_port",
+    "zuul-ngrok": "^2.0.1"
   }
 }

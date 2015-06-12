@@ -1,97 +1,110 @@
 angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push'])
 
-    .controller('LoginCtrl', function ($scope, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
-
-        auth.signin({
-
-            //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
-
-            // This is a must for mobile projects
-            popup: true,
-            // Make the widget non closeable
-            standalone: true,
-            closable: false,
-            // This asks for the refresh token
-            // So that the user never has to log in again
-            offline_mode: true,
-            device: 'Phone'
-        }, function () {
-
-            console.log('registering push');
-
-            // Login was successful
-            User.sync(auth.profile).then(function (response) {
-                //hide the loader
-
-                $ionicPush.register({
-                        canShowAlert: true, // Should new pushes show an alert on your
-                        // screen?
-                        canSetBadge: true, // Should new pushes be allowed to update app icon
-                        // badges?
-                        canPlaySound: true, // Should notifications be allowed to play a
-                        // sound?
-                        canRunActionsOnWake: true, // Whether to run auto actions outside the
-                        // app,
-                        onNotification: function (notification) {
-                            console.log('notification received: ' + JSON.stringify(notification));
-                        }
-                    },
-                    {
-                        user_id: auth.profile.user_id,
-                        name: auth.profile.nickname
-                    }
-                ).then(
-                    function () {
-                        console.log('registration successful');
-                    },
-                    function (err) {
-                        console.log('registration failed');
-                        console.log(err);
-                    }
-                );
-
-                //Once the user data has been synced, get the user data object from our server also
-                //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
-                //Check to see if the user is a new user, if so set service variable appropriately
-                console.log("Response from the userSync method on the server is: " + response);
-
-                //User.hideTutorials();
-
-                if (response == 201) {
-                    //then mark this user as being new and show them the tutorials
-                    console.log("This user is a new user, activating tutorials.");
-                    User.showTutorials();
-                } else if (response == 202) {
-                    console.log("This is an existing user, so not showing any tutorials");
-                    User.hideTutorials();
-                }
-
-                User.getUserData(auth.profile.user_id).then(
-                    function(){
-                        //Testing the user global service
-                        var currentUser = User.currentUser();
-                        console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
-
-                        $state.go('tab.rounds');
-
-                        //show an alert for testing purposes
-                        //todo: perhaps make this another tutorial
-                        $ionicPopup.alert({
-                            title: 'Login successful!',
-                            template: 'Welcome ' + auth.profile.nickname + '!'
-                        }).then(function (res) {
-                            console.log(auth.profile);
-                        });
-                    }
-                );
-            });
-
-        }, function (error) {
-            // Oops something went wrong during login:
-            console.log("There was an error logging in", JSON.stringify(error));
-        });
-
-    })
+    //.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
+    //
+    //    auth.signin({
+    //
+    //        //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
+    //
+    //        // This is a must for mobile projects
+    //        popup: true,
+    //        // Make the widget non closeable
+    //        standalone: true,
+    //        closable: false,
+    //        // This asks for the refresh token
+    //        // So that the user never has to log in again
+    //        offline_mode: true,
+    //        scope: 'openid offline_access',
+    //        device: 'Phone'
+    //    }, function (profile, idToken, accessToken, state, refreshToken) {
+    //
+    //        debugger;
+    //        console.log('Profile is: ' + profile);
+    //        console.log('Access Token is: ' + accessToken);
+    //        console.log('idToken is: ' + idToken);
+    //        console.log('refreshToken is: ' + refreshToken);
+    //
+    //        // Success callback
+    //        store.set('profile', profile);
+    //        store.set('token', accessToken);
+    //        store.set('refreshToken', refreshToken);
+    //        $location.path('/');
+    //
+    //        console.log('registering push');
+    //
+    //        // Login was successful
+    //        User.sync(auth.profile).then(function (response) {
+    //            //hide the loader
+    //
+    //            $ionicPush.register({
+    //                    canShowAlert: true, // Should new pushes show an alert on your
+    //                    // screen?
+    //                    canSetBadge: true, // Should new pushes be allowed to update app icon
+    //                    // badges?
+    //                    canPlaySound: true, // Should notifications be allowed to play a
+    //                    // sound?
+    //                    canRunActionsOnWake: true, // Whether to run auto actions outside the
+    //                    // app,
+    //                    onNotification: function (notification) {
+    //                        console.log('notification received: ' + JSON.stringify(notification));
+    //                    }
+    //                },
+    //                {
+    //                    user_id: auth.profile.user_id,
+    //                    name: auth.profile.nickname
+    //                }
+    //            ).then(
+    //                function () {
+    //                    console.log('registration successful');
+    //                },
+    //                function (err) {
+    //                    console.log('registration failed');
+    //                    console.log(err);
+    //                }
+    //            );
+    //
+    //            //Once the user data has been synced, get the user data object from our server also
+    //            //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
+    //            //Check to see if the user is a new user, if so set service variable appropriately
+    //            console.log("Response from the userSync method on the server is: " + response);
+    //
+    //            //User.hideTutorials();
+    //
+    //            if (response == 201) {
+    //                //then mark this user as being new and show them the tutorials
+    //                console.log("This user is a new user, activating tutorials.");
+    //                User.showTutorials();
+    //            } else if (response == 202) {
+    //                console.log("This is an existing user, so not showing any tutorials");
+    //                User.hideTutorials();
+    //            }
+    //
+    //            User.getUserData(auth.profile.user_id).then(
+    //                function(){
+    //                    //Testing the user global service
+    //                    var currentUser = User.currentUser();
+    //                    console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+    //
+    //                    $state.go('tab.rounds');
+    //
+    //                    //show an alert for testing purposes
+    //                    //todo: perhaps make this another tutorial
+    //                    $ionicPopup.alert({
+    //                        title: 'Login successful!',
+    //                        template: 'Welcome ' + auth.profile.nickname + '!'
+    //                    }).then(function (res) {
+    //                        console.log(auth.profile);
+    //                    });
+    //                }
+    //            );
+    //        });
+    //
+    //    }, function (error) {
+    //        // Oops something went wrong during login:
+    //        console.log("There was an error logging in:" + JSON.stringify(error));
+    //    });
+    //
+    //})
 
     .controller('LeagueTableCtrl', function ($scope, LeagueTable) {
 
@@ -165,7 +178,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     })
 
     .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
-                                             Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout) {
+                                             Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout, $ionicHistory) {
 
         var _predictions = [];
         var updatePredictions = false; //flag to update predictions if some already exist.
@@ -176,6 +189,32 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             2: 'AWAY WIN',
             3: 'DRAW'
         };
+
+        $scope.saveChangesNeeded = false;
+
+        $scope.$on('$ionicView.enter', function(){
+            //if the scope says need to save set the global need to save after reentering the tab
+            console.log("Round detail view re-entered from other tab.");
+
+            var diffFlag = false;
+
+            //if the predictions array is different to the predictions on the server
+            for (var i = 0; i < _predictions.length; i++) {
+                for (var j = 0; j < $scope.existingPredictions.length; j++) {
+                    if (_predictions[i].fixture == $scope.existingPredictions[j].fixture &&
+                        _predictions[i].prediction == $scope.existingPredictions[j].prediction) {
+                        SaveChanges.saveChangesNeeded();
+                        diffFlag = true;
+                        break;
+                    }
+
+                    if (diffFlag) {
+                        break;
+                    }
+                }
+            }
+
+        });
 
         function _checkAndShowTutorials() {
             //check to see if this is a new user
@@ -190,11 +229,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //Disable any further popups
                 User.hideTutorials();
 
-                ////Set a timeout and then automatically close the popup
-                //$timeout(function(){
-                //    console.log("Now automatically closing the tutorial popup.");
-                //    tutorial.close();
-                //}, 3000)
             }
         }
 
@@ -295,6 +329,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //mark changes as requiring saving
             SaveChanges.saveChangesNeeded();
+            $scope.saveChangesNeeded = true;
 
             //enable the clear button now that a prediction has been made
             if ($scope.clearDisabled) {
@@ -360,10 +395,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.cardView = true;
 
-        //set the need for changes to be saved to be false by default
+//set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
 
-        //Get the data for this particular round from the server
+//Get the data for this particular round from the server
         Rounds.get($stateParams.roundId).then(function (data) {
 
             //when first loading the page, clear out any local existing predictions.
@@ -390,7 +425,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         });
 
-//clear out a single prediction at a time
         $scope.deleteSinglePrediction = function (fixture) {
 
             debugger;
@@ -425,7 +459,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                         //assume that a save will be needed and negate this if necessary
                         SaveChanges.saveChangesNeeded();
-
+                        $scope.saveChangesNeeded = true;
                     }
                 });
             } else {
@@ -436,7 +470,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             }
         };
 
-//once predictions are all validated, and predict button send, send all predictions
         $scope.sendPredictions = function () {
 
             var predictionsToUpdate = [];
@@ -650,7 +683,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
     })
 
-    .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, Leaderboard) {
+    .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, $ionicActionSheet, Leaderboard, SaveChanges) {
+        //set the need for changes to be saved to be false by default
+        SaveChanges.saveChangesNotNeeded();
+
         //get all of the private leagues for the user from the private league service
         //call this  whenever the user's leagues need to be updated within the app
         function _getUserLeagues() {
@@ -716,6 +752,39 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         //when page first loads
         _getUserLeagues();
+
+        //action sheet
+        $scope.leagueOptions = function () {
+
+            // Show the action sheet
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-plus\'></i><p>Create New League</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Enter League Code</p></div>'},
+                ],
+                titleText: 'Private Leagues',
+                cancelText: 'Cancel',
+                cancel: function() {
+                    // add cancel code..
+                },
+                buttonClicked: function(index) {
+
+                    //0 index is to rename the league
+                    switch(index) {
+                        case 0:
+                            $scope.createNewLeague();
+                            return true;
+                            break;
+                        case 1:
+                            $scope.joinLeagueWithCode();
+                            return true;
+                            break;
+                        default:
+                            return true;
+                    }
+                }
+            });
+        };
 
         $scope.data = {};
         var cancelled = true;
@@ -863,7 +932,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     })
 
     .controller('LeaderboardLeagueDetailCtrl', function ($scope, auth, $stateParams, $ionicPopup, $state,
-                                                         $cordovaSocialSharing ,$ionicActionSheet, User, Leaderboard) {
+                                                         $cordovaSocialSharing ,$ionicActionSheet, User, Leaderboard, SaveChanges) {
+        //set the need for changes to be saved to be false by default
+        SaveChanges.saveChangesNotNeeded();
 
         $scope.shouldShowDelete = false;
         $scope.currentRound = Leaderboard.getCurrentRound();
@@ -1431,11 +1502,18 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 //}
 
     })
-    .controller('RulebookCtrl', function($scope, $state) {
-        $state.go('tab.rulebook.win');
-        //$state.go('tab.rulebook.summary');
+    .controller('RulebookCtrl', function($scope, $state, SaveChanges) {
+
+        //set the need for changes to be saved to be false by default
+        SaveChanges.saveChangesNotNeeded();
+
+        //$state.go('tab.rulebook.win');
+        $state.go('tab.rulebook.summary');
     })
-    .controller('SettingsCtrl', function ($scope, $state, User, auth, $ionicPopup, Leaderboard) {
+    .controller('SettingsCtrl', function ($scope, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
+
+        //set the need for changes to be saved to be false by default
+        SaveChanges.saveChangesNotNeeded();
 
         //hopefully this should get run every time the user navigates to this tab
         User.getUserData(auth.profile.user_id);
@@ -1449,6 +1527,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //call the signout method on the auth service
             auth.signout();
+            store.remove('profile');
+            store.remove('token');
 
             //need to manually display the login screen again
             auth.signin({
@@ -1463,6 +1543,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 device: 'Phone'
             }, function () {
                 // Login was successful
+                store.set('profile', auth.profile);
+                store.set('token', auth.token);
+                store.set('refreshToken', auth.refreshToken);
 
                 //check to see if this user exists on the server already, if not, create this user using auth0 details
                 debugger;
@@ -1541,7 +1624,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                             $state.go('tab.settings', {refresh: true})
                         });
-
                     }
                 }
             );

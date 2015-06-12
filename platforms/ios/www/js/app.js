@@ -26,12 +26,12 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         $ionicAppProvider.identify({
             // The App ID for the server
             app_id: '17ad87a3',
-            // The API key all services will use for this app
-            api_key: '339c90fec399deb8b6ffc7c7c0e642544bee4c4c4e49faa3',
+            // The public API key all services will use for this app
+            api_key: 'f8917dfff3085d16c84a347669fff2e0750bbd0d34431531',
             // Your GCM sender ID/project number (Uncomment if using GCM)
             gcm_id: '299929618833',
             // If true, will attempt to send development pushes
-            dev_push: true
+            //dev_push: true
         });
 
         $ionicConfigProvider.tabs.position('bottom');

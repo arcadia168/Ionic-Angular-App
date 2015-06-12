@@ -26,8 +26,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         $ionicAppProvider.identify({
             // The App ID for the server
             app_id: '17ad87a3',
-            // The API key all services will use for this app
-            api_key: '339c90fec399deb8b6ffc7c7c0e642544bee4c4c4e49faa3',
+            // The public API key all services will use for this app
+            api_key: 'f8917dfff3085d16c84a347669fff2e0750bbd0d34431531',
             // Your GCM sender ID/project number (Uncomment if using GCM)
             gcm_id: '299929618833',
             // If true, will attempt to send development pushes
@@ -35,6 +35,13 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         });
 
         $ionicConfigProvider.tabs.position('bottom');
+
+        //Attempting to configure the use of Auth0
+        authProvider.init({
+            domain: 'yesgetin.eu.auth0.com',
+            clientID: 'Ny44FwyaGBQvKOV9FxIRDX6JvogUm80j',
+            loginUrl: 'login'
+        });
 
         //$compileProvider.imgSrcSanitizationWhitelist('img/');
 
@@ -56,28 +63,31 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         });
 
         //add the auth0 jwt http interceptor
-        jwtInterceptorProvider.tokenGetter = function (store, jwtHelper, auth) {
-            var idToken = store.get('token');
+        var refreshingToken = null;
+        jwtInterceptorProvider.tokenGetter = function(store, $http, jwtHelper) {
+            debugger;
+            var token = store.get('token');
+            console.log(token);
             var refreshToken = store.get('refreshToken');
-            // If no token return null
-            if (!idToken || !refreshToken) {
-                return null;
-            }
-            // If token is expired, get a new one
-            if (jwtHelper.isTokenExpired(idToken)) {
-                return auth.refreshIdToken(refreshToken).then(function (idToken) {
-                    store.set('token', idToken);
-                    return idToken;
-                });
-            } else {
-                return idToken;
+            console.log(refreshToken);
+            if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    return store.get('token');
+                } else {
+                    if (refreshingToken === null) {
+                        refreshingToken =  auth.refreshIdToken(refreshToken).then(function(idToken) {
+                            store.set('token', idToken);
+                            return idToken;
+                        }).finally(function() {
+                            refreshingToken = null;
+                        });
+                    }
+                    return refreshingToken;
+                }
             }
         };
 
         $httpProvider.interceptors.push('jwtInterceptor');
-
-        //$httpProvider.interceptors.push('authInterceptor');
-
 
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
@@ -164,8 +174,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                 url: "/summary",
                 views: {
                     'rulebook-summary': {
-                        templateUrl: "templates/rulebook-summary.html",
-                        controller: 'RulebookCtrl'
+                        templateUrl: "templates/rulebook-summary.html"
                     }
                 }
             })
@@ -189,7 +198,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                 url: "/trade",
                 views: {
                     'rulebook-trade': {
-                        templateUrl: "templates/rulebook-trade.html"
+                        templateUrl: "templates/rulebook-trade.html",
+                        controller: 'RulebookCtrl'
                     }
                 }
             })
@@ -283,22 +293,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
 // if none of the above states are matched, use this as the fallback
         $urlRouterProvider.otherwise('/login');
 
-//Attempting to configure the use of Auth0
-        authProvider.init({
-            domain: 'yesgetin.eu.auth0.com',
-            clientID: 'Ny44FwyaGBQvKOV9FxIRDX6JvogUm80j',
-            loginState: 'login'
-        });
-
     })
 
-    .run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicUser, $ionicPush) {
+    .run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location) {
 
         // This hooks all auth events to check everything as soon as the app starts
         auth.hookEvents();
 
         $rootScope.$on('loading:show', function () {
-            debugger;
             $ionicLoading.show(
                 {
                     noBackdrop: true,
@@ -323,26 +325,146 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             }
         });
 
-        // This events gets triggered on refresh or URL change
-        $rootScope.$on('$locationChangeStart', function () {
-            if (!auth.isAuthenticated) {
-                var token = store.get('token');
-                if (token) {
-                    if (!jwtHelper.isTokenExpired(token)) {
-                        auth.authenticate(store.get('profile'), token);
-                    } else {
-                        // Either show Login page or use the refresh token to get a new idToken
-                        $location.path('/');
-                    }
-                }
-            }
-        });
-
-        $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
+        $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
             console.log('Got token', data.token, data.platform);
             // Do something with the token
             //alert('THE DEVICE TOKEN FOR YOUR DEVICE IS: ' + JSON.stringify(data.token));
             //console.log('THE DEVICE TOKEN FOR YOUR DEVICE IS: ' + JSON.stringify(data.token));
         });
+
+        // This events gets triggered on refresh or URL change
+        var refreshingToken = null;
+        $rootScope.$on('$locationChangeStart', function () {
+            debugger;
+            var token = store.get('token');
+            console.log(token);
+            var refreshToken = store.get('refreshToken');
+            if (token) {
+                if (!jwtHelper.isTokenExpired(token)) {
+                    if (!auth.isAuthenticated) {
+                        auth.authenticate(store.get('profile'), token);
+                    }
+                } else {
+                    if (refreshToken) {
+                        if (refreshingToken === null) {
+                            refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
+                                store.set('token', idToken);
+                                auth.authenticate(store.get('profile'), idToken);
+                            }).finally(function () {
+                                refreshingToken = null;
+                            });
+                        }
+                        return refreshingToken;
+                    } else {
+                        $location.path('/login');
+                    }
+                }
+            }
+        });
+    })
+
+    .controller('LoginCtrl', function ($scope, $location, store, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
+
+        auth.signin(
+            {
+                //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
+                authParams: {
+                    scope: 'openid offline_access',
+                    device: 'Mobile device',
+                    // This is a must for mobile projects
+                    popup: true,
+                    // Make the widget non closeable
+                    standalone: true,
+                    closable: false
+                }
+
+            }, function (profile, id_token, access_token, state, refresh_token) {
+
+                debugger;
+                console.log('Profile is: ' + profile);
+                debugger;
+                console.log('idToken is: ' + id_token);
+                debugger;
+                console.log('refreshToken is: ' + refresh_token);
+
+                // Success callback
+                store.set('profile', profile);
+                store.set('token', id_token);
+                store.set('refreshToken', refresh_token);
+                $location.path('/');
+
+                console.log('registering push');
+
+                // Login was successful
+                User.sync(auth.profile).then(function (response) {
+                    //hide the loader
+
+                    $ionicPush.register({
+                            canShowAlert: true, // Should new pushes show an alert on your
+                            // screen?
+                            canSetBadge: true, // Should new pushes be allowed to update app icon
+                            // badges?
+                            canPlaySound: true, // Should notifications be allowed to play a
+                            // sound?
+                            canRunActionsOnWake: true, // Whether to run auto actions outside the
+                            // app,
+                            onNotification: function (notification) {
+                                console.log('notification received: ' + JSON.stringify(notification));
+                            }
+                        },
+                        {
+                            user_id: auth.profile.user_id,
+                            name: auth.profile.nickname
+                        }
+                    ).then(
+                        function () {
+                            console.log('registration successful');
+                        },
+                        function (err) {
+                            console.log('registration failed');
+                            console.log(err);
+                        }
+                    );
+
+                    //Once the user data has been synced, get the user data object from our server also
+                    //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
+                    //Check to see if the user is a new user, if so set service variable appropriately
+                    console.log("Response from the userSync method on the server is: " + response);
+
+                    //User.hideTutorials();
+
+                    if (response == 201) {
+                        //then mark this user as being new and show them the tutorials
+                        console.log("This user is a new user, activating tutorials.");
+                        User.showTutorials();
+                    } else if (response == 202) {
+                        console.log("This is an existing user, so not showing any tutorials");
+                        User.hideTutorials();
+                    }
+
+                    User.getUserData(auth.profile.user_id).then(
+                        function(){
+                            //Testing the user global service
+                            var currentUser = User.currentUser();
+                            console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+
+                            $state.go('tab.rounds');
+
+                            //show an alert for testing purposes
+                            //todo: perhaps make this another tutorial
+                            $ionicPopup.alert({
+                                title: 'Login successful!',
+                                template: 'Welcome ' + auth.profile.nickname + '!'
+                            }).then(function (res) {
+                                console.log(auth.profile);
+                            });
+                        }
+                    );
+                });
+
+            }, function (error) {
+                // Oops something went wrong during login:
+                console.log("There was an error logging in:" + JSON.stringify(error));
+            });
 
     });
