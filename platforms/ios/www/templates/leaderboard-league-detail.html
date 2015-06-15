@@ -2,21 +2,16 @@
     <ion-nav-buttons side="secondary">
         <button ng-if="privateLeague.privateLeagueName != 'Global League'" class="league-edit button icon ion-edit" ng-click="editLeague()"></button>
     </ion-nav-buttons>
-    <div class="current-view-select list">
+    <ion-header-bar class="bar-subheader">
         <label class="item item-input item-select">
             <div class="input-label">
-                CURRENT VIEW
+                ROUND VIEW
             </div>
             <select ng-init="roundInView = roundDates[0]" ng-model="roundInView" ng-options="round.roundNo for round in roundDates">
-                <!--<option value="0">OVERALL SEASON</option>-->
-                <!--<option ng-model="roundDates" ng-repeat="round in roundDates">-->
-                <!--<p value="round.roundNo" ng-if="round.roundNo == currentRound">CURRENT ROUND</p>-->
-                <!--<p value="round.roundNo" ng-if="round.roundNo != currentRound">ROUND{{round.roundNo}}</p>-->
-                <!--</option>-->
             </select>
         </label>
-    </div>
-    <ion-content class="padding league-live-table">
+    </ion-header-bar>
+    <ion-content class="has-header has-subheader league-live-table">
         <div class="row-header-container">
             <div class="row row-header">
                 <p>{{privateLeague.privateLeagueName | uppercase}}</p>

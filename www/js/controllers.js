@@ -129,14 +129,65 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         });
     })
 
-    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds) {
+    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds, User) {
 
         //only publicly accessible elements get added to the scope
 
-        Rounds.all().then(function (data) {
-            //debugger;
+        $scope.user = User.currentUser();
+
+        //todo: sort the scores based on round score
+
+        Rounds.all().then(function (data){
+
+            var today = new Date();
+
+            debugger;
             $scope.rounds = data.rounds;
             $scope.rounds = $scope.rounds.reverse();
+
+            //todo: test this implementation
+            for (var i = 0; i < $scope.rounds.length; i++) {
+                var currentRoundFixtures = $scope.rounds[i].data;
+
+                //check if round is completed
+                var complete = true;
+                var inPast = true;
+                for (var j = 0; j < currentRoundFixtures.length; j++) {
+
+                    currentRoundFixture = currentRoundFixtures[j];
+
+                    if (currentRoundFixture.fixDate > today) {
+                        inPast = false;
+                    }
+                }
+
+                if (inPast == true) {
+                    $scope.rounds[i].status = 'Complete'
+                } else {
+                    //else if there are fixtures in future still in round
+                    for (var l = 0; l < currentRoundFixtures.length; l++) {
+
+                        currentRoundFixture = currentRoundFixtures[j];
+
+                        //look for this fixture in user predictions
+                        var predictionsMade = false;
+                        for (var k = 0; k < $scope.user.predictions.length; k++) {
+                            //if user prediction matches one of the fixtures in the round
+                            if ($scope.user.predictions[k].fixture == currentRoundFixture._id) {
+                                predictionsMade = true;
+                                $scope.rounds[i].status = "Predictions Made";
+                                console.log(JSON.stringify($scope.rounds[i]));
+                                break
+                            }
+                        }
+
+                        if (predictionsMade == false) {
+                            $scope.rounds[i].status = "Unpredicted";
+                            console.log(JSON.stringify($scope.rounds[i]));
+                        }
+                    };
+                }
+            }
         });
 
         //debugger
@@ -177,7 +228,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
     })
 
-    .controller('RoundDetailCtrl', function ($scope, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
+    .controller('RoundDetailCtrl', function ($scope, $state, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
                                              Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout, $ionicHistory) {
 
         var _predictions = [];
@@ -375,6 +426,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             if ($scope.fixtures.length == 0) {
                 console.log("Cards view is being replaced by list, list length is 0");
 
+                //Send the predictions off to the server.
+                $scope.sendPredictions();
+
+                //Go to rounds screen
+                $timeout(function() {
+                        $state.go('tab.rounds', {'refresh' : true});
+                    }, 1000
+                );
+
+
                 //Get fixtures again
                 $scope.cardView = false;
             }
@@ -432,7 +493,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirm Delete',
-                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 2 points!'
+                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 6 points if left unpredicted!'
                 });
 
                 confirmPopup.then(function (res) {
@@ -1029,6 +1090,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     switch(index) {
                         case 0:
                             $scope.shareLeague();
+                            return true;
                             break;
                         case 1:
                             console.log("The league captain is: " + $scope.privateLeague.captain);
@@ -1510,7 +1572,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //$state.go('tab.rulebook.win');
         $state.go('tab.rulebook.summary');
     })
-    .controller('SettingsCtrl', function ($scope, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
+    .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
 
         //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
@@ -1529,23 +1591,26 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             auth.signout();
             store.remove('profile');
             store.remove('token');
+            store.remove('refreshToken');
 
             //need to manually display the login screen again
             auth.signin({
-                // This is a must for mobile projects
-                popup: true,
-                // Make the widget non closeable
-                standalone: true,
-                closable: false,
-                // This asks for the refresh token
-                // So that the user never has to log in again
-                offline_mode: true,
-                device: 'Phone'
-            }, function () {
+                //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
+                authParams: {
+                    scope: 'openid offline_access',
+                    device: 'Mobile device',
+                    // This is a must for mobile projects
+                    popup: true,
+                    // Make the widget non closeable
+                    standalone: true,
+                    closable: false
+                }
+            }, function (profile, id_token, access_token, state, refresh_token) {
                 // Login was successful
-                store.set('profile', auth.profile);
-                store.set('token', auth.token);
-                store.set('refreshToken', auth.refreshToken);
+                store.set('profile', profile);
+                store.set('token', id_token);
+                store.set('refreshToken', refresh_token);
+                $location.path('/');
 
                 //check to see if this user exists on the server already, if not, create this user using auth0 details
                 debugger;

@@ -35,6 +35,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         });
 
         $ionicConfigProvider.tabs.position('bottom');
+        $ionicConfigProvider.backButton.text('').icon('ion-chevron-left').previousTitleText(false);
 
         //Attempting to configure the use of Auth0
         authProvider.init({
@@ -65,7 +66,6 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         //add the auth0 jwt http interceptor
         var refreshingToken = null;
         jwtInterceptorProvider.tokenGetter = function(store, $http, jwtHelper) {
-            debugger;
             var token = store.get('token');
             console.log(token);
             var refreshToken = store.get('refreshToken');
@@ -301,12 +301,14 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         auth.hookEvents();
 
         $rootScope.$on('loading:show', function () {
+
+        //if (APIWatch.talking) {
             $ionicLoading.show(
                 {
-                    noBackdrop: true,
-                    templateUrl: '/templates/loader.html'
+                    template: '<p>Loading</p>'
                 }
             );
+        //}
         });
 
         $rootScope.$on('loading:hide', function () {
@@ -323,6 +325,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                 // org.apache.cordova.statusbar required
                 StatusBar.styleDefault();
             }
+
         });
 
         $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
@@ -335,9 +338,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         // This events gets triggered on refresh or URL change
         var refreshingToken = null;
         $rootScope.$on('$locationChangeStart', function () {
-            debugger;
             var token = store.get('token');
-            console.log(token);
+            //console.log(token);
             var refreshToken = store.get('refreshToken');
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
@@ -368,7 +370,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         auth.signin(
             {
                 //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
-                authParams: {
+                //authParams: {
                     scope: 'openid offline_access',
                     device: 'Mobile device',
                     // This is a must for mobile projects
@@ -376,16 +378,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                     // Make the widget non closeable
                     standalone: true,
                     closable: false
-                }
+                //}
 
             }, function (profile, id_token, access_token, state, refresh_token) {
 
-                debugger;
-                console.log('Profile is: ' + profile);
-                debugger;
-                console.log('idToken is: ' + id_token);
-                debugger;
-                console.log('refreshToken is: ' + refresh_token);
+                //debugger;
+                //console.log('Profile is: ' + profile);
+                //debugger;
+                //console.log('idToken is: ' + id_token);
+                //debugger;
+                //console.log('refreshToken is: ' + refresh_token);
 
                 // Success callback
                 store.set('profile', profile);

@@ -1,97 +1,110 @@
 angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push'])
 
-    .controller('LoginCtrl', function ($scope, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
-
-        auth.signin({
-
-            //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
-
-            // This is a must for mobile projects
-            popup: true,
-            // Make the widget non closeable
-            standalone: true,
-            closable: false,
-            // This asks for the refresh token
-            // So that the user never has to log in again
-            offline_mode: true,
-            device: 'Phone'
-        }, function () {
-
-            console.log('registering push');
-
-            // Login was successful
-            User.sync(auth.profile).then(function (response) {
-                //hide the loader
-
-                $ionicPush.register({
-                        canShowAlert: true, // Should new pushes show an alert on your
-                        // screen?
-                        canSetBadge: true, // Should new pushes be allowed to update app icon
-                        // badges?
-                        canPlaySound: true, // Should notifications be allowed to play a
-                        // sound?
-                        canRunActionsOnWake: true, // Whether to run auto actions outside the
-                        // app,
-                        onNotification: function (notification) {
-                            console.log('notification received: ' + JSON.stringify(notification));
-                        }
-                    },
-                    {
-                        user_id: auth.profile.user_id,
-                        name: auth.profile.nickname
-                    }
-                ).then(
-                    function () {
-                        console.log('registration successful');
-                    },
-                    function (err) {
-                        console.log('registration failed');
-                        console.log(err);
-                    }
-                );
-
-                //Once the user data has been synced, get the user data object from our server also
-                //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
-                //Check to see if the user is a new user, if so set service variable appropriately
-                console.log("Response from the userSync method on the server is: " + response);
-
-                //User.hideTutorials();
-
-                if (response == 201) {
-                    //then mark this user as being new and show them the tutorials
-                    console.log("This user is a new user, activating tutorials.");
-                    User.showTutorials();
-                } else if (response == 202) {
-                    console.log("This is an existing user, so not showing any tutorials");
-                    User.hideTutorials();
-                }
-
-                User.getUserData(auth.profile.user_id).then(
-                    function(){
-                        //Testing the user global service
-                        var currentUser = User.currentUser();
-                        console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
-
-                        $state.go('tab.rounds');
-
-                        //show an alert for testing purposes
-                        //todo: perhaps make this another tutorial
-                        $ionicPopup.alert({
-                            title: 'Login successful!',
-                            template: 'Welcome ' + auth.profile.nickname + '!'
-                        }).then(function (res) {
-                            console.log(auth.profile);
-                        });
-                    }
-                );
-            });
-
-        }, function (error) {
-            // Oops something went wrong during login:
-            console.log("There was an error logging in", JSON.stringify(error));
-        });
-
-    })
+    //.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
+    //
+    //    auth.signin({
+    //
+    //        //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
+    //
+    //        // This is a must for mobile projects
+    //        popup: true,
+    //        // Make the widget non closeable
+    //        standalone: true,
+    //        closable: false,
+    //        // This asks for the refresh token
+    //        // So that the user never has to log in again
+    //        offline_mode: true,
+    //        scope: 'openid offline_access',
+    //        device: 'Phone'
+    //    }, function (profile, idToken, accessToken, state, refreshToken) {
+    //
+    //        debugger;
+    //        console.log('Profile is: ' + profile);
+    //        console.log('Access Token is: ' + accessToken);
+    //        console.log('idToken is: ' + idToken);
+    //        console.log('refreshToken is: ' + refreshToken);
+    //
+    //        // Success callback
+    //        store.set('profile', profile);
+    //        store.set('token', accessToken);
+    //        store.set('refreshToken', refreshToken);
+    //        $location.path('/');
+    //
+    //        console.log('registering push');
+    //
+    //        // Login was successful
+    //        User.sync(auth.profile).then(function (response) {
+    //            //hide the loader
+    //
+    //            $ionicPush.register({
+    //                    canShowAlert: true, // Should new pushes show an alert on your
+    //                    // screen?
+    //                    canSetBadge: true, // Should new pushes be allowed to update app icon
+    //                    // badges?
+    //                    canPlaySound: true, // Should notifications be allowed to play a
+    //                    // sound?
+    //                    canRunActionsOnWake: true, // Whether to run auto actions outside the
+    //                    // app,
+    //                    onNotification: function (notification) {
+    //                        console.log('notification received: ' + JSON.stringify(notification));
+    //                    }
+    //                },
+    //                {
+    //                    user_id: auth.profile.user_id,
+    //                    name: auth.profile.nickname
+    //                }
+    //            ).then(
+    //                function () {
+    //                    console.log('registration successful');
+    //                },
+    //                function (err) {
+    //                    console.log('registration failed');
+    //                    console.log(err);
+    //                }
+    //            );
+    //
+    //            //Once the user data has been synced, get the user data object from our server also
+    //            //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
+    //            //Check to see if the user is a new user, if so set service variable appropriately
+    //            console.log("Response from the userSync method on the server is: " + response);
+    //
+    //            //User.hideTutorials();
+    //
+    //            if (response == 201) {
+    //                //then mark this user as being new and show them the tutorials
+    //                console.log("This user is a new user, activating tutorials.");
+    //                User.showTutorials();
+    //            } else if (response == 202) {
+    //                console.log("This is an existing user, so not showing any tutorials");
+    //                User.hideTutorials();
+    //            }
+    //
+    //            User.getUserData(auth.profile.user_id).then(
+    //                function(){
+    //                    //Testing the user global service
+    //                    var currentUser = User.currentUser();
+    //                    console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+    //
+    //                    $state.go('tab.rounds');
+    //
+    //                    //show an alert for testing purposes
+    //                    //todo: perhaps make this another tutorial
+    //                    $ionicPopup.alert({
+    //                        title: 'Login successful!',
+    //                        template: 'Welcome ' + auth.profile.nickname + '!'
+    //                    }).then(function (res) {
+    //                        console.log(auth.profile);
+    //                    });
+    //                }
+    //            );
+    //        });
+    //
+    //    }, function (error) {
+    //        // Oops something went wrong during login:
+    //        console.log("There was an error logging in:" + JSON.stringify(error));
+    //    });
+    //
+    //})
 
     .controller('LeagueTableCtrl', function ($scope, LeagueTable) {
 
@@ -116,14 +129,57 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         });
     })
 
-    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds) {
+    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds, User) {
 
         //only publicly accessible elements get added to the scope
 
+        $scope.user = User.currentUser();
+
         Rounds.all().then(function (data) {
-            //debugger;
+            debugger;
             $scope.rounds = data.rounds;
             $scope.rounds = $scope.rounds.reverse();
+
+            //todo: test this implement
+            for (var i = 0; i < $scope.rounds.length; i++) {
+                var currentRoundFixtures = $scope.rounds[i].data;
+
+                //check if round is completed
+                var complete = true;
+                for (var j = 0; j < currentRoundFixtures.length; j++) {
+
+                    currentRoundFixture = currentRoundFixtures[j];
+
+                    if (currentRoundFixture.fixResult.fixResult == 0) {
+                        complete = false;
+                        break; //stop checking, we know the round is not complete
+                    }
+
+                    //look for this fixture in user predictions
+                    var predictionsMade = false;
+                    for (var k = 0; k < $scope.user.predictions.length; k++) {
+                        //if user prediction matches one of the fixtures in the round
+                        if ($scope.user.predictions[k].fixture == currentRoundFixture._id) {
+                            predictionsMade = true;
+                            $scope.rounds[i].status = "Predictions Made";
+                            break;
+                        }
+                    }
+
+                    if (predictionsMade == false) {
+                        $scope.rounds[i].status = "Unpredicted";
+                    }
+
+                if (complete) {
+                    //if after check complete is still true, mark round as completed
+                    $scope.rounds[i].status = "Complete";
+                    break;
+                }
+            };
+
+                //assign status class accordingly
+
+            }
         });
 
         //debugger
@@ -419,7 +475,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirm Delete',
-                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 2 points!'
+                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 6 points if left unpredicted!'
                 });
 
                 confirmPopup.then(function (res) {
@@ -670,7 +726,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
     })
 
-    .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, Leaderboard, SaveChanges) {
+    .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, $ionicActionSheet, Leaderboard, SaveChanges) {
         //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
 
@@ -739,6 +795,39 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         //when page first loads
         _getUserLeagues();
+
+        //action sheet
+        $scope.leagueOptions = function () {
+
+            // Show the action sheet
+            var hideSheet = $ionicActionSheet.show({
+                buttons: [
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-plus\'></i><p>Create New League</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Enter League Code</p></div>'},
+                ],
+                titleText: 'Private Leagues',
+                cancelText: 'Cancel',
+                cancel: function() {
+                    // add cancel code..
+                },
+                buttonClicked: function(index) {
+
+                    //0 index is to rename the league
+                    switch(index) {
+                        case 0:
+                            $scope.createNewLeague();
+                            return true;
+                            break;
+                        case 1:
+                            $scope.joinLeagueWithCode();
+                            return true;
+                            break;
+                        default:
+                            return true;
+                    }
+                }
+            });
+        };
 
         $scope.data = {};
         var cancelled = true;
@@ -983,6 +1072,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     switch(index) {
                         case 0:
                             $scope.shareLeague();
+                            return true;
                             break;
                         case 1:
                             console.log("The league captain is: " + $scope.privateLeague.captain);
@@ -1461,10 +1551,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
 
-        $state.go('tab.rulebook.win');
-        //$state.go('tab.rulebook.summary');
+        //$state.go('tab.rulebook.win');
+        $state.go('tab.rulebook.summary');
     })
-    .controller('SettingsCtrl', function ($scope, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
+    .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
 
         //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
@@ -1481,20 +1571,28 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //call the signout method on the auth service
             auth.signout();
+            store.remove('profile');
+            store.remove('token');
+            store.remove('refreshToken');
 
             //need to manually display the login screen again
             auth.signin({
-                // This is a must for mobile projects
-                popup: true,
-                // Make the widget non closeable
-                standalone: true,
-                closable: false,
-                // This asks for the refresh token
-                // So that the user never has to log in again
-                offline_mode: true,
-                device: 'Phone'
-            }, function () {
+                //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
+                authParams: {
+                    scope: 'openid offline_access',
+                    device: 'Mobile device',
+                    // This is a must for mobile projects
+                    popup: true,
+                    // Make the widget non closeable
+                    standalone: true,
+                    closable: false
+                }
+            }, function (profile, id_token, access_token, state, refresh_token) {
                 // Login was successful
+                store.set('profile', profile);
+                store.set('token', id_token);
+                store.set('refreshToken', refresh_token);
+                $location.path('/');
 
                 //check to see if this user exists on the server already, if not, create this user using auth0 details
                 debugger;

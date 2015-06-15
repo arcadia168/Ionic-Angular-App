@@ -48,6 +48,13 @@ module.exports = [
         "clobbers": [
             "window.open"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -58,7 +65,8 @@ module.exports.metadata =
     "nl.x-services.plugins.socialsharing": "4.3.18",
     "org.apache.cordova.console": "0.2.13",
     "org.apache.cordova.device": "0.3.1-dev",
-    "org.apache.cordova.inappbrowser": "0.6.0"
+    "org.apache.cordova.inappbrowser": "0.6.0",
+    "cordova-plugin-statusbar": "1.0.0"
 }
 // BOTTOM OF METADATA
 });

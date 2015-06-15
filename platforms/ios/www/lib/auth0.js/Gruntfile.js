@@ -24,6 +24,7 @@ module.exports = function(grunt) {
       example: {
         options: {
           base:  "example",
+          hostname: '0.0.0.0',
           port: 3000
         }
       },
@@ -76,7 +77,7 @@ module.exports = function(grunt) {
     },
     watch: {
       another: {
-        files: ['node_modules', 'standalone.js', 'lib/*.js'],
+        files: ['node_modules', 'standalone.js', 'index.js', 'lib/*.js'],
         tasks: ['build']
       }
     },
@@ -87,7 +88,7 @@ module.exports = function(grunt) {
         stderr: true
       },
       'test-phantom': {
-        cmd: 'node_modules/.bin/zuul --phantom 9999 -- test/*.js',
+        cmd: 'node_modules/.bin/zuul --disable-tunnel --phantom 9999 -- test/*.js',
         stdout: true,
         stderr: true
       }
@@ -160,7 +161,7 @@ module.exports = function(grunt) {
   grunt.registerTask("example",       ["connect:example", "watch", "build"]);
   grunt.registerTask("example_https", ["connect:example_https", "watch", "build"]);
 
-  grunt.registerTask("dev",           ["connect:test", "watch", "build"]);
+  grunt.registerTask("dev",           ["build", "connect:test", "watch"]);
   grunt.registerTask("integration",   ["exec:test-integration"]);
   grunt.registerTask("phantom",       ["exec:test-phantom"]);
 

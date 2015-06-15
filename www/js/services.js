@@ -4,7 +4,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -15,7 +15,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         } else if (debugRelease == 'deviceDebug') {
             //running the app on the device hosting server on mac
             //use the ip address of mac from router, port 8000 as usual
-            var code = 'sitrxzdnwv';
+            var code = 'seikshfljw';
             var localTunnelUrl = 'https://' + code + '.localtunnel.me'; //THIS WILL CHANGE DYNAMICALLY, UPDATE ALWAYS
             console.log("Local tunnel url is: %s", localTunnelUrl);
             serverToUse = localTunnelUrl + "/api";
@@ -580,7 +580,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                     team = team.trim();
                 }
 
-                if (team.indexOf("wich" > -1)) {
+                if (team.indexOf("wich" > -1) && (team.indexOf('Norwich') == -1)) {
                     team = team.replace('wich', '');
                     team = team.trim();
                 }
