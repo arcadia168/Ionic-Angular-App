@@ -36,6 +36,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
 
         $ionicConfigProvider.tabs.position('bottom');
         $ionicConfigProvider.backButton.text('').icon('ion-chevron-left').previousTitleText(false);
+        $ionicConfigProvider.views.transition('android');
 
         //Attempting to configure the use of Auth0
         authProvider.init({
@@ -67,9 +68,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         var refreshingToken = null;
         jwtInterceptorProvider.tokenGetter = function(store, $http, jwtHelper) {
             var token = store.get('token');
-            console.log(token);
+            //console.log(token);
             var refreshToken = store.get('refreshToken');
-            console.log(refreshToken);
+            //console.log(refreshToken);
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
                     return store.get('token');
@@ -300,20 +301,20 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         // This hooks all auth events to check everything as soon as the app starts
         auth.hookEvents();
 
-        $rootScope.$on('loading:show', function () {
+        //$rootScope.$on('loading:show', function () {
+        //
+        ////if (APIWatch.talking) {
+        //    $ionicLoading.show(
+        //        {
+        //            template: '<p>Loading</p>'
+        //        }
+        //    );
+        ////}
+        //});
 
-        //if (APIWatch.talking) {
-            $ionicLoading.show(
-                {
-                    template: '<p>Loading</p>'
-                }
-            );
-        //}
-        });
-
-        $rootScope.$on('loading:hide', function () {
-            $ionicLoading.hide()
-        });
+        //$rootScope.$on('loading:hide', function () {
+        //    $ionicLoading.hide()
+        //});
 
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

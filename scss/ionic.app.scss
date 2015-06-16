@@ -55,11 +55,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
       display: flex;
       flex-direction: column;
       justify-content: center;
-      
+
       .a0-next {
         background-color: rgb(101, 239, 128) !important;
       }
-      
+
       i {
         color: $ygi-green !important;
       }
@@ -79,7 +79,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
       }
 
       .a0-emailPassword {
-          color: white !important;
+        input {
+          color: $ygi-trade !important;
+        }
       }
 
       .ao-mode-container {
@@ -227,6 +229,13 @@ ion-nav-view {
 
   .round-no-container {
     margin-left: 1rem;
+
+    .round-no {
+      &.faded {
+        opacity: 0.2 !important;
+      }
+    }
+
   }
 
   .label-button {
@@ -318,6 +327,9 @@ ion-nav-view {
     padding: 0.2rem;
     justify-content: center;
     background-color: transparent;
+    &.faded {
+      opacity: 0.8 !important;
+    }
 
     a.item-content {
       align-self: center;
@@ -351,8 +363,8 @@ ion-nav-view {
           color: $ygi-green;
           text-transform: uppercase;
           font-size: 1.2rem;
-          margin-top: 0.2rem;
-          margin-bottom: -.2rem;
+          //margin-top: 0.2rem;
+          //margin-bottom: -.2rem;
           margin-right: 1rem;
         }
       }
@@ -374,6 +386,23 @@ ion-nav-view {
           color: white !important;
           align-self: center;
         }
+
+
+        .predictions-made, &.predictions-made {
+          background-color: white !important;
+          color: $ygi-green !important;
+        }
+
+        .unpredicted, &.unpredicted {
+          background-color: red !important;
+          color: white !important;
+        }
+
+        .complete, &.complete {
+          background-color: green !important;
+          color: white !important;
+        }
+
 
       }
     }
@@ -1381,7 +1410,8 @@ td-cards {
   justify-content: space-between ;
   height: 10rem ;
   background-color: white !important;
-  padding: 0.25rem 0.1rem ;
+  padding: 0rem ;
+  margin-bottom: 1rem;
 
   p {
     text-align: center ;
@@ -1391,10 +1421,18 @@ td-cards {
 
   .fix-pred-header {
     background-color: green ;
-    border-radius: 4px ;
+    //border-radius: 4px ;
     text-align: center ;
     color: white ;
     font-size: 0.75rem ;
+
+    .ion-ios-close-empty {
+      right: 0% !important;
+      //height: 20%;
+      display: flex;
+      top: -.35rem !important;
+      align-items: baseline;
+    }
   }
 
   .fix-pred-li-shirts {
@@ -1403,9 +1441,10 @@ td-cards {
     justify-content: space-between ;
     margin-top: 0.4rem ;
 
-    .ion-ios-close-empty {
-      right: 0%  ;
+    &.faded {
+      opacity: 0.2 !important;
     }
+    //border-bottom: 1px solid $ygi-green;
 
     .vs {
       width: 100% ;
@@ -1442,12 +1481,26 @@ td-cards {
       //}
     }
   }
+
+  .user-prediction {
+    border-top: 1px solid $ygi-green;
+    display: flex;
+    flex-direction: column;
+    padding: 0 2rem;
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
 }
 
 .button-submit {
-  margin: 1rem auto;
-  left: 30% !important;
-  width: 150px !important;
+  //margin: 1rem auto;
+  //left: 30% !important;
+  //width: 150px !important;
+  margin: 0 !important;
   font-weight: 700;
   border: 1px solid $ygi-green !important;
   display: table-cell;

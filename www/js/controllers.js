@@ -241,6 +241,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             3: 'DRAW'
         };
 
+        $scope.predictionMap = {
+            0: 'NONE',
+            1: 'HOME WIN',
+            2: 'AWAY WIN',
+            3: 'DRAW'
+        };
+
         $scope.saveChangesNeeded = false;
 
         $scope.$on('$ionicView.enter', function(){
@@ -331,6 +338,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             if (currentExistingPrediction == $scope.listFixtures[i]._id) {
                                 currentFixturePrediction = predictionMap[$scope.existingPredictions[j].prediction];
                                 $scope.listFixtures[i].prediction = currentFixturePrediction;
+                                $scope.listFixtures[i].predictionWindow = $scope.existingPredictions[j].predictValue.predictWindow;
                             }
                         }
                     }
@@ -424,20 +432,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         function _cardViewDoneCheck() {
             //if there are no elements left in the cards array, show list
             if ($scope.fixtures.length == 0) {
-                console.log("Cards view is being replaced by list, list length is 0");
-
                 //Send the predictions off to the server.
+                debugger;
                 $scope.sendPredictions();
-
-                //Go to rounds screen
-                $timeout(function() {
-                        $state.go('tab.rounds', {'refresh' : true});
-                    }, 1000
-                );
-
-
-                //Get fixtures again
-                $scope.cardView = false;
             }
         }
 
@@ -665,6 +662,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 });
             }
             else { //there are no existing predictions so simply make a fresh set of new predictions
+                debugger;
                 Rounds.makePredictions(user, $stateParams.roundId, _predictions).then(function() {
                     $ionicPopup.alert({
                         title: 'Your new predictions have been made!',
@@ -674,8 +672,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //changes have just been saved so no longer need this
                     SaveChanges.saveChangesNotNeeded();
 
-                    //Now load any predictions down from the server
-                    _getExistingPredictions();
+                    //Return to home screen
+                    $state.go('tab.rounds', {'refresh' : true});
                 });
             }
         };
@@ -684,7 +682,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             debugger;
             console.log("Predict home win");
 
-            if (_predictionDiffCheck(fixture, 1)) {
+            if (_predictionDiffCheck(fixture, 1) && (fixture.fixResult.fixResult == 0)) {
                 _addFixturePrediction(fixture, 1);
             }
         };
@@ -692,7 +690,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.predictAwayWin = function (fixture) {
             debugger;
             console.log("Predict away win");
-            if (_predictionDiffCheck(fixture, 2)) {
+            if (_predictionDiffCheck(fixture, 2) && (fixture.fixResult.fixResult == 0)) {
                 _addFixturePrediction(fixture, 2);
             }
         };
@@ -700,7 +698,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.predictDraw = function (fixture) {
             console.log("Predict draw")
             debugger;
-            if (_predictionDiffCheck(fixture, 3)) {
+            if (_predictionDiffCheck(fixture, 3) && (fixture.fixResult.fixResult == 0)) {
                 _addFixturePrediction(fixture, 3);
             }
         };
