@@ -1,15 +1,12 @@
-<ion-view cache-view="false" view-title="OVERALL SEASON">
+<ion-view cache-view="false" view-title="MY LEAGUES">
     <ion-nav-buttons side="secondary">
-        <button class="league-edit button icon ion-trophy" ng-click="joinLeagueWithCode()"></button>
-        <button class="league-edit button icon ion-plus" ng-click="createNewLeague()"></button>
+        <button class="league-edit button icon ion-plus" ng-click="leagueOptions()"></button>
     </ion-nav-buttons>
     <ion-content class="leaderboard-content">
-        <!--href="#/tab/leaderboard/global"-->
         <ion-item class="global-league" href="#/tab/leaderboard/global">
             <div class="league-label-container">
                 <div class="league-label">
                     <i class="league-lock icon ion-unlocked"></i>
-                    <i class="global-league-icon icon ion-earth"></i>
                     <div class="label"><h5>GLOBAL <br> LEAGUE</h5><p>{{overallLeague.length}}</p><p>PLAYERS</p></div>
                 </div>
             </div>
@@ -21,7 +18,7 @@
                     </div>
                     <img ng-if="overallLeague[0].pic != 'none'" class="user-pic" ng-src="{{overallLegue[0].pic}}">
                     <i ng-if="overallLeague[0].pic == 'none'" class="non-pic icon ion-person"></i>
-                    <div class="leader-name">{{overallLeague[0].username | uppercase}}</div>
+                    <div class="leader-name">{{overallLeague[0].username | uppercase | limitTo: 8}}</div>
                     <div class="leader-points">
                         <p ng-if="!overallLeague[0].currentRoundScore">0 PTS</p>
                         <p ng-if="overallLeague[0].currentRoundScore">{{overallLeague[0].currentRoundScore}} PTS</p>
@@ -29,8 +26,8 @@
                 </div>
                 <div class="user-row">
                     <div class="user-pos">{{overallLeague.thisUser.userPos}}</div>
-                    <img ng-if="overallLeague.thisUser.pic != 'none'" class="user-pic" ng-src="{{overallLeague.thisUser.userPic}}">
                     <i ng-if="overallLeague.thisUser.pic == 'none'" class="non-pic icon ion-person"></i>
+                    <img ng-if="overallLeague.thisUser.pic != 'none'" class="user-pic" ng-src="{{overallLeague.thisUser.userPic}}">
                     <div class="user-name">ME</div>
                     <div class="user-points">
                         <p ng-if="!overallLeague.thisUser.userCurrentRoundScore">0 PTS</p>
@@ -39,14 +36,13 @@
                 </div>
             </div>
         </ion-item>
-        <!--href="#/tab/leaderboard/{{league.privateLeagueId}}"-->
         <ion-item class="user-league" ng-repeat="league in privateLeagues" href="#/tab/leaderboard/{{league.privateLeagueId}}">
             <div class="league-label-container">
                 <div class="league-label">
                     <i class="league-lock icon ion-locked"></i>
                     <div class="label">
                         <!--<h5 ng-model="privateLeagueName" ng-repeat="(wordIndex, privateLeagueName) in league.privateLeagueName track by $index">{{league.privateLeagueName[index]}}<br></h5>-->
-                        <h5 ng-repeat="word in league.privateLeagueName track by $index"><p ng-model="word">{{word | uppercase}}</p><br></h5>
+                        <h5 ng-repeat="word in league.privateLeagueName track by $index"><p ng-model="word">{{word | uppercase | limitTo: 9}}</p><br></h5>
                         <p>{{league.members.length}}</p>
                         <p>PLAYERS</p>
                     </div>
@@ -58,9 +54,9 @@
                         <i class="leader-icon icon ion-android-star"></i>
                         <p class="leader-no">1</p>
                     </div>
-                    <img ng-if="league.members[0].pic" class="user-pic" ng-src="{{league.members[0].pic}}">
-                    <i ng-if="!league.members[0].pic" class="non-pic icon ion-person"></i>
-                    <div class="leader-name">{{league.members[0].username | uppercase}}</div>
+                    <img ng-if="league.members[0].pic != 'none'" class="user-pic" ng-src="{{league.members[0].pic}}">
+                    <i ng-if="league.members[0].pic == 'none'" class="non-pic icon ion-person"></i>
+                    <div class="leader-name">{{league.members[0].username | uppercase | limitTo: 8}}</div>
                     <div class="leader-points">
                         <p ng-if="!league.members[0].currentRoundScore">0 PTS</p>
                         <p ng-if="league.members[0].currentRoundScore">{{league.members[0].currentRoundScore}} PTS</p>

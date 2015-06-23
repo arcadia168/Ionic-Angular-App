@@ -84,6 +84,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
         }
       }
 
+      .a0-btn-small:hover {
+        background-color: rgb(101, 239, 128) !important;
+      }
+
       .ao-mode-container {
         .ao-notloggedin {
           form {
@@ -224,6 +228,7 @@ ion-nav-view {
 
     p {
       margin-bottom: 0 !important;
+      font-size: 1rem !important;
     }
   }
 
@@ -1019,19 +1024,26 @@ ion-view.league-detail {
     }
 
     .win-pts, .lose-pts, .trade-pts {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 1.75rem;
       border-radius: 100%;
       width: 1.75rem;
       color: white !important;
-      padding: 0.4rem 0 0 0.4rem;
+      //padding: 0.4rem 0 0 0.4rem;
+
+      p {
+        margin: 0 !important;
+      }
     }
 
     .double-digits {
-      padding: 0.3rem 0 0 0.4rem;
+      //padding: 0.3rem 0 0 0.4rem;
     }
 
     .single-digit {
-      padding: 0.3rem 0 0 0.575rem !important;
+      //padding: 0.3rem 0 0 0.575rem !important;
     }
 
     .win-pts {
@@ -1040,29 +1052,23 @@ ion-view.league-detail {
 
     .lose-pts {
       background-color: $ygi-loss;
-      padding: 0.3rem 0 0 0.3rem;
-    }
-
-    .during-loss {
-      padding: 0.3rem 0 0 0.4rem;
     }
 
     .trade-pts {
       background-color: $ygi-trade;
-      padding: 0.35rem 0 0 0.575rem;
     }
-
-    .pre-fixture-trade {
-      padding: 0.35rem 0 0 0.43rem;
-    }
-
-    .during-fixture-trade {
-      padding: 0.3rem 0 0 0.3rem;
-    }
-
-    .loss-during-fixture-trade {
-      padding: 0.3rem 0 0 0.4rem;
-    }
+    //
+    //.pre-fixture-trade {
+    //  padding: 0.35rem 0 0 0.43rem;
+    //}
+    //
+    //.during-fixture-trade {
+    //  padding: 0.3rem 0 0 0.3rem;
+    //}
+    //
+    //.loss-during-fixture-trade {
+    //  padding: 0.3rem 0 0 0.4rem;
+    //}
 
     .green-border-bottom {
       border-bottom: 1px solid $ygi-green;
@@ -1394,6 +1400,7 @@ td-cards {
   position: relative;
   margin: 1rem auto;
   left: 1.5rem!important;
+  z-index: -10000;
   top: 25rem;
   width: 90% !important;
   font-weight: 600;
@@ -1408,7 +1415,7 @@ td-cards {
   display: flex ;
   flex-direction: column ;
   justify-content: space-between ;
-  height: 10rem ;
+  height: 13rem ;
   background-color: white !important;
   padding: 0rem ;
   margin-bottom: 1rem;
@@ -1444,41 +1451,72 @@ td-cards {
     &.faded {
       opacity: 0.2 !important;
     }
-    //border-bottom: 1px solid $ygi-green;
 
-    .vs {
-      width: 100% ;
-      text-align: center ;
-      font-size: x-large;
+    .finished-label {
+      width: 100%;
+      font-size: 3rem;
+      opacity: 1 !important;
+      transform: rotate(-12deg);
+      position: absolute;
+      top: 3rem;
+      margin: auto;
+      align-self: center;
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+      align-items: center;
+
+      p {
+        width: 70%;
+        margin: auto;
+        color: red !important;
+        border: 2px solid red;
+        border-radius: 3px;
+      }
     }
 
-    .fix-home-away {
+    //border-bottom: 1px solid $ygi-green;
+
+    .fix-details {
       display: flex ;
-      flex-direction: column ;
-      text-align: center;
+      flex-direction: row ;
+      justify-content: space-between ;
+      margin-top: 0.4rem ;
 
-      em {
-        font-size: 0.75rem ;
-        font-weight: 700 ;
-        padding-top: 0.75rem;
+      .vs {
+        width: 100% ;
+        text-align: center ;
+        font-size: x-large;
       }
 
-      .list-home-shirt-icon, .list-away-shirt-icon {
-        width: 50%;
-        margin: 0 auto;
+      .fix-home-away {
+        display: flex ;
+        flex-direction: column ;
+        text-align: center;
 
-        &.faded {
-          opacity: 0.2 !important;
+        em {
+          font-size: 0.75rem ;
+          font-weight: 700 ;
+          padding-top: 0.75rem;
         }
 
-        &.slightlyfaded {
-          opacity: 0.35;
+        .list-home-shirt-icon, .list-away-shirt-icon {
+          width: 50%;
+          margin: 0 auto;
+
+          &.faded {
+            opacity: 0.2 !important;
+          }
+
+          &.slightlyfaded {
+            opacity: 0.35;
+          }
         }
+
+        //.list-away-team-name, .list-home-team-name {
+        //  height: 3rem;
+        //}
       }
-
-      //.list-away-team-name, .list-home-team-name {
-      //  height: 3rem;
-      //}
     }
   }
 
@@ -1598,23 +1636,23 @@ td-cards {
         color: inherit;
       }
 
-      .toggle {
-        padding-top: 10px !important;
-        right: 5px;
-
-        .track {
-          border-radius: 7px !important;
-          width: 45px !important;
-          height: 24px !important;
-        }
-        .handle {
-          height: 20px !important;
-          width: 20px !important;
-          border-radius: 5px !important;
-          border: 2px solid grey !important;
-          top: 12px !important;
-        }
-      }
+      //.toggle {
+      //  padding-top: 10px !important;
+      //  right: 5px;
+      //
+      //  .track {
+      //    border-radius: 7px !important;
+      //    width: 45px !important;
+      //    height: 24px !important;
+      //  }
+      //  .handle {
+      //    height: 20px !important;
+      //    width: 20px !important;
+      //    border-radius: 5px !important;
+      //    border: 2px solid grey !important;
+      //    top: 12px !important;
+      //  }
+      //}
 
       &.sign-out {
         padding-top: 0px;

@@ -6832,6 +6832,8 @@ a.button {
         color: white !important; }
       .a0-active .a0-centrix .a0-onestep .a0-emailPassword input {
         color: #6A6A6A !important; }
+      .a0-active .a0-centrix .a0-onestep .a0-btn-small:hover {
+        background-color: #65ef80 !important; }
       .a0-active .a0-centrix .a0-onestep .ao-mode-container .ao-notloggedin form .a0-collapse-social .ao-separator span {
         color: white !important; }
       .a0-active .a0-centrix .a0-onestep .a0-footer a {
@@ -6923,7 +6925,8 @@ ion-nav-view ion-tabs {
     -ms-flex-align: center;
     align-items: center; }
     .round-title div p {
-      margin-bottom: 0 !important; }
+      margin-bottom: 0 !important;
+      font-size: 1rem !important; }
   .round-title .round-no-container {
     margin-left: 1rem; }
     .round-title .round-no-container .round-no.faded {
@@ -7558,31 +7561,27 @@ ion-view.league-detail .league-live-table {
       margin-top: auto !important;
       margin-bottom: auto !important; }
   .rulebook-content .points-table .win-pts, .rulebook-content .points-table .lose-pts, .rulebook-content .points-table .trade-pts {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
     height: 1.75rem;
     border-radius: 100%;
     width: 1.75rem;
-    color: white !important;
-    padding: 0.4rem 0 0 0.4rem; }
-  .rulebook-content .points-table .double-digits {
-    padding: 0.3rem 0 0 0.4rem; }
-  .rulebook-content .points-table .single-digit {
-    padding: 0.3rem 0 0 0.575rem !important; }
+    color: white !important; }
+    .rulebook-content .points-table .win-pts p, .rulebook-content .points-table .lose-pts p, .rulebook-content .points-table .trade-pts p {
+      margin: 0 !important; }
   .rulebook-content .points-table .win-pts {
     background-color: #3bb665; }
   .rulebook-content .points-table .lose-pts {
-    background-color: #F26C4F;
-    padding: 0.3rem 0 0 0.3rem; }
-  .rulebook-content .points-table .during-loss {
-    padding: 0.3rem 0 0 0.4rem; }
+    background-color: #F26C4F; }
   .rulebook-content .points-table .trade-pts {
-    background-color: #6A6A6A;
-    padding: 0.35rem 0 0 0.575rem; }
-  .rulebook-content .points-table .pre-fixture-trade {
-    padding: 0.35rem 0 0 0.43rem; }
-  .rulebook-content .points-table .during-fixture-trade {
-    padding: 0.3rem 0 0 0.3rem; }
-  .rulebook-content .points-table .loss-during-fixture-trade {
-    padding: 0.3rem 0 0 0.4rem; }
+    background-color: #6A6A6A; }
   .rulebook-content .points-table .green-border-bottom {
     border-bottom: 1px solid #3bb665; }
   .rulebook-content .points-table .pre-season-row, .rulebook-content .points-table .during-season-row, .rulebook-content .points-table .pre-round-row, .rulebook-content .points-table .pre-fixture-row, .rulebook-content .points-table .during-fixture-row {
@@ -7854,6 +7853,7 @@ td-cards {
   position: relative;
   margin: 1rem auto;
   left: 1.5rem !important;
+  z-index: -10000;
   top: 25rem;
   width: 90% !important;
   font-weight: 600;
@@ -7873,7 +7873,7 @@ td-cards {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  height: 10rem;
+  height: 13rem;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -7908,29 +7908,70 @@ td-cards {
     margin-top: 0.4rem; }
     .fix-pred-li .fix-pred-li-shirts.faded {
       opacity: 0.2 !important; }
-    .fix-pred-li .fix-pred-li-shirts .vs {
+    .fix-pred-li .fix-pred-li-shirts .finished-label {
       width: 100%;
-      text-align: center;
-      font-size: x-large; }
-    .fix-pred-li .fix-pred-li-shirts .fix-home-away {
+      font-size: 3rem;
+      opacity: 1 !important;
+      -webkit-transform: rotate(-12deg);
+      transform: rotate(-12deg);
+      position: absolute;
+      top: 3rem;
+      margin: auto;
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      text-align: center; }
-      .fix-pred-li .fix-pred-li-shirts .fix-home-away em {
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding-top: 0.75rem; }
-      .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon {
-        width: 50%;
-        margin: 0 auto; }
-        .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon.faded {
-          opacity: 0.2 !important; }
-        .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon.slightlyfaded {
-          opacity: 0.35; }
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .fix-pred-li .fix-pred-li-shirts .finished-label p {
+        width: 70%;
+        margin: auto;
+        color: red !important;
+        border: 2px solid red;
+        border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .fix-details {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      margin-top: 0.4rem; }
+      .fix-pred-li .fix-pred-li-shirts .fix-details .vs {
+        width: 100%;
+        text-align: center;
+        font-size: x-large; }
+      .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        text-align: center; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away em {
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding-top: 0.75rem; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon {
+          width: 50%;
+          margin: 0 auto; }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.faded {
+            opacity: 0.2 !important; }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.slightlyfaded {
+            opacity: 0.35; }
   .fix-pred-li .user-prediction {
     border-top: 1px solid #3bb665;
     display: -webkit-flex;
@@ -8048,19 +8089,6 @@ td-cards {
       .settings-content .list .item a {
         text-decoration: none;
         color: inherit; }
-      .settings-content .list .item .toggle {
-        padding-top: 10px !important;
-        right: 5px; }
-        .settings-content .list .item .toggle .track {
-          border-radius: 7px !important;
-          width: 45px !important;
-          height: 24px !important; }
-        .settings-content .list .item .toggle .handle {
-          height: 20px !important;
-          width: 20px !important;
-          border-radius: 5px !important;
-          border: 2px solid grey !important;
-          top: 12px !important; }
       .settings-content .list .item.sign-out {
         padding-top: 0px;
         padding-bottom: 10px; }

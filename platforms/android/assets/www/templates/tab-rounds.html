@@ -1,13 +1,28 @@
-<ion-view view-title="PREMIERE LEAGUE">
-    <div class="rounds-header"><p>RD STARTS</p><p>DD</p><p>HH</p><p>MM</p></div>
-    <ion-content class="rounds-content">
-    <ion-list>
-      <ion-item class="item-remove-animate item-icon-right" ng-repeat="round in rounds"
-                type="item-text-wrap"
-                href="#/tab/rounds/{{round.round}}">
-        <h2 class="round-no">Round {{round.round}}</h2><!--TODO: NEED TO ADD THE START DATES OF THE ROUNDS IN HERE -->
-        <p class="round-label">MAKE YOUR PREDICTIONS</p>
-      </ion-item>
-    </ion-list>
-  </ion-content>
+<ion-view view-title="PREMIER LEAGUE">
+    <ion-header-bar class="round-title bar-subheader">
+        <div class="round-no-container">
+            <p class="round-no">TOTAL POINTS:</p>
+        </div>
+        <div class="label-button">
+            <p class="round-label">{{user.overallSeasonScore || 0}}</p>
+        </div>
+    </ion-header-bar>
+    <ion-content class="rounds-content has-header">
+        <ion-list>
+            <ion-item class="item-remove-animate item-icon-right" ng-repeat="round in rounds track by $index"
+                      type="item-text-wrap"
+                      href="#/tab/rounds/{{round.round}}"
+                      ng-class="{faded : (round.status == 'Complete')}">
+                <div class="round-no-container">
+                    <p ng-if="round.status == 'Complete'">ROUND CLOSED</p>
+                    <h2 class="round-no">Round {{round.round}}</h2>
+                </div>
+                <div class="label-button" ng-class="{'complete' : (round.status == 'Complete'), 'unpredicted' : (round.status == 'Unpredicted'), 'predictions-made': (round.status == 'Predictions Made')}">
+                    <p ng-if="round.status == 'Predictions Made'" class="round-label predictions-made">UPDATE PREDICTIONS</p>
+                    <p ng-if="round.status == 'Unpredicted'" class="round-label unpredicted">MAKE PREDICTIONS</p>
+                    <p ng-if="round.status == 'Complete'" class="round-label complete">POINTS EARNED: {{user.roundScores[$index].roundScore || 0}}</p>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>

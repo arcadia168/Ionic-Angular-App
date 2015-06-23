@@ -35,7 +35,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         });
 
         $ionicConfigProvider.tabs.position('bottom');
-        $ionicConfigProvider.backButton.previousTitleText(false);
+        //$ionicConfigProvider.backButton.text('').icon('ion-ios-chevron-left').previousTitleText(false);
+        $ionicConfigProvider.backButton.text('').previousTitleText(false);
+        $ionicConfigProvider.views.transition('android');
 
         //Attempting to configure the use of Auth0
         authProvider.init({
@@ -67,9 +69,9 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         var refreshingToken = null;
         jwtInterceptorProvider.tokenGetter = function(store, $http, jwtHelper) {
             var token = store.get('token');
-            console.log(token);
+            //console.log(token);
             var refreshToken = store.get('refreshToken');
-            console.log(refreshToken);
+            //console.log(refreshToken);
             if (token) {
                 if (!jwtHelper.isTokenExpired(token)) {
                     return store.get('token');
@@ -300,20 +302,20 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         // This hooks all auth events to check everything as soon as the app starts
         auth.hookEvents();
 
-        $rootScope.$on('loading:show', function () {
+        //$rootScope.$on('loading:show', function () {
+        //
+        ////if (APIWatch.talking) {
+        //    $ionicLoading.show(
+        //        {
+        //            template: '<p>Loading</p>'
+        //        }
+        //    );
+        ////}
+        //});
 
-        //if (APIWatch.talking) {
-            $ionicLoading.show(
-                {
-                    template: '<p>Loading</p>'
-                }
-            );
-        //}
-        });
-
-        $rootScope.$on('loading:hide', function () {
-            $ionicLoading.hide()
-        });
+        //$rootScope.$on('loading:hide', function () {
+        //    $ionicLoading.hide()
+        //});
 
         $ionicPlatform.ready(function () {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -327,6 +329,17 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             }
 
         });
+
+        //Configure back button functionality
+        //$ionicPlatform.registerBackButtonAction(function (event) {
+        //    if($state.current.name=="tab.rounds"){
+        //        navigator.app.exitApp();
+        //    }
+        //    else {
+        //        navigator.app.backHistory();
+        //    }
+        //}, 100);
+
 
         $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
             console.log('Got token', data.token, data.platform);
@@ -370,7 +383,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         auth.signin(
             {
                 //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
-                authParams: {
+                //authParams: {
                     scope: 'openid offline_access',
                     device: 'Mobile device',
                     // This is a must for mobile projects
@@ -378,7 +391,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                     // Make the widget non closeable
                     standalone: true,
                     closable: false
-                }
+                //}
 
             }, function (profile, id_token, access_token, state, refresh_token) {
 

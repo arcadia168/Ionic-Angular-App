@@ -35,7 +35,8 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
         });
 
         $ionicConfigProvider.tabs.position('bottom');
-        $ionicConfigProvider.backButton.text('').icon('ion-chevron-left').previousTitleText(false);
+        //$ionicConfigProvider.backButton.text('').icon('ion-ios-chevron-left').previousTitleText(false);
+        $ionicConfigProvider.backButton.text('').previousTitleText(false);
         $ionicConfigProvider.views.transition('android');
 
         //Attempting to configure the use of Auth0
@@ -328,6 +329,17 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             }
 
         });
+
+        //Configure back button functionality
+        //$ionicPlatform.registerBackButtonAction(function (event) {
+        //    if($state.current.name=="tab.rounds"){
+        //        navigator.app.exitApp();
+        //    }
+        //    else {
+        //        navigator.app.backHistory();
+        //    }
+        //}, 100);
+
 
         $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
             console.log('Got token', data.token, data.platform);

@@ -2,9 +2,9 @@
  * Module dependencies.
  */
 
-var assert_required   = require('./assert_required');
-var base64_url_decode = require('./base64_url_decode');
-var is_array          = require('./is-array');
+var assert_required   = require('./lib/assert_required');
+var base64_url_decode = require('./lib/base64_url_decode');
+var is_array          = require('./lib/is-array');
 
 var qs                = require('qs');
 var xtend             = require('xtend');
@@ -15,17 +15,127 @@ var WinChan           = require('winchan');
 var jsonp             = require('jsonp');
 var jsonpOpts         = { param: 'cbx', timeout: 8000, prefix: '__auth0jp' };
 
-var use_jsonp         = require('./use_jsonp');
-var LoginError        = require('./LoginError');
-var json_parse        = require('./json-parse');
+var same_origin       = require('./lib/same-origin');
+var json_parse        = require('./lib/json-parse');
+var LoginError        = require('./lib/LoginError');
+var use_jsonp         = require('./lib/use_jsonp');
+
+/**
+ * Check if running in IE.
+ *
+ * @returns {Number} -1 if not IE, IE version otherwise.
+ */
+function isInternetExplorer() {
+  var rv = -1; // Return value assumes failure.
+  var ua = navigator.userAgent;
+  var re;
+  if (navigator.appName === 'Microsoft Internet Explorer') {
+    re = new RegExp('MSIE ([0-9]{1,}[\.0-9]{0,})');
+    if (re.exec(ua) != null) {
+      rv = parseFloat(RegExp.$1);
+    }
+  }
+  // IE > 11
+  else if (ua.indexOf('Trident') > -1) {
+    re = new RegExp('rv:([0-9]{2,2}[\.0-9]{0,})');
+    if (re.exec(ua) !== null) {
+      rv = parseFloat(RegExp.$1);
+    }
+  }
+
+  return rv;
+}
+
+/**
+ * Stringify popup options object into
+ * `window.open` string options format
+ *
+ * @param {Object} popupOptions
+ * @private
+ */
+
+function stringifyPopupSettings(popupOptions) {
+  var settings = '';
+
+  for (var key in popupOptions) {
+    settings += key + '=' + popupOptions[key] + ',';
+  }
+
+  return settings.slice(0, -1);
+}
+
+
+/**
+ * Check that a key has been set to something different than null
+ * or undefined.
+ *
+ * @param {Object} obj
+ * @param {String} key
+ */
+function checkIfSet(obj, key) {
+  /*
+   * false      != null -> true
+   * true       != null -> true
+   * undefined  != null -> false
+   * null       != null -> false
+   */
+  return !!(obj && obj[key] != null);
+}
+
+function handleRequestError(err, callback) {
+  var er = err;
+  var isAffectedIEVersion = isInternetExplorer() === 10 || isInternetExplorer() === 11;
+  var zeroStatus = (!er.status || er.status === 0);
+
+  var onLine = !!window.navigator.onLine;
+
+  // Request failed because we are offline.
+  if (zeroStatus && !onLine ) {
+    er = {};
+    er.status = 0;
+    er.responseText = {
+      code: 'offline'
+    };
+  // http://stackoverflow.com/questions/23229723/ie-10-11-cors-status-0
+  // XXX IE10 when a request fails in CORS returns status code 0
+  // See: http://caniuse.com/#search=navigator.onLine
+  } else if (zeroStatus && isAffectedIEVersion) {
+    er = {};
+    er.status = 401;
+    er.responseText = {
+      code: 'invalid_user_password'
+    };
+  // If not IE10/11 and not offline it means that Auth0 host is unreachable:
+  // Connection Timeout or Connection Refused.
+  } else if (zeroStatus) {
+    er = {};
+    er.status = 0;
+    er.responseText = {
+      code: 'connection_refused_timeout'
+    };
+  } else {
+    er.responseText = err;
+  }
+  var error = new LoginError(er.status, er.responseText);
+  callback(error);
+}
+
+/**
+ * join url from protocol
+ */
+
+function joinUrl(protocol, domain, endpoint) {
+  return protocol + '//' + domain + endpoint;
+}
 
 /**
  * Create an `Auth0` instance with `options`
  *
  * @class Auth0
+ * @constructor
  */
-
 function Auth0 (options) {
+  // XXX Deprecated: We prefer new Auth0(...)
   if (!(this instanceof Auth0)) {
     return new Auth0(options);
   }
@@ -33,11 +143,18 @@ function Auth0 (options) {
   assert_required(options, 'clientID');
   assert_required(options, 'domain');
 
-  this._useJSONP = options.forceJSONP || use_jsonp();
+  this._useJSONP = null != options.forceJSONP ?
+                    !!options.forceJSONP :
+                    use_jsonp() && !same_origin('https:', options.domain);
+
   this._clientID = options.clientID;
   this._callbackURL = options.callbackURL || document.location.href;
   this._domain = options.domain;
   this._callbackOnLocationHash = false || options.callbackOnLocationHash;
+  this._cordovaSocialPlugins = {
+    facebook: this._phonegapFacebookLogin
+  };
+  this._useCordovaSocialPlugins = false || options.useCordovaSocialPlugins;
 }
 
 /**
@@ -52,11 +169,21 @@ Auth0.version = require('package.version');
  * Redirect current location to `url`
  *
  * @param {String} url
- * @api private
+ * @private
  */
 
 Auth0.prototype._redirect = function (url) {
   global.window.location = url;
+};
+
+Auth0.prototype._getCallbackOnLocationHash = function(options) {
+  return (options && typeof options.callbackOnLocationHash !== 'undefined') ?
+    options.callbackOnLocationHash : this._callbackOnLocationHash;
+};
+
+Auth0.prototype._getCallbackURL = function(options) {
+  return (options && typeof options.callbackURL !== 'undefined') ?
+    options.callbackURL : this._callbackURL;
 };
 
 /**
@@ -64,7 +191,7 @@ Auth0.prototype._redirect = function (url) {
  *
  * @param {Object} options
  * @param {Function} formHtml
- * @api private
+ * @private
  */
 
 Auth0.prototype._renderAndSubmitWSFedForm = function (options, formHtml) {
@@ -72,7 +199,7 @@ Auth0.prototype._renderAndSubmitWSFedForm = function (options, formHtml) {
   div.innerHTML = formHtml;
   var form = document.body.appendChild(div).children[0];
 
-  if (options.popup && !this._callbackOnLocationHash) {
+  if (options.popup && !this._getCallbackOnLocationHash(options)) {
     form.target = 'auth0_signup_popup';
   }
 
@@ -83,26 +210,19 @@ Auth0.prototype._renderAndSubmitWSFedForm = function (options, formHtml) {
  * Resolve response type as `token` or `code`
  *
  * @return {Object} `scope` and `response_type` properties
- * @api private
+ * @private
  */
 
-Auth0.prototype._getMode = function () {
+Auth0.prototype._getMode = function (options) {
   return {
     scope: 'openid',
-    response_type: this._callbackOnLocationHash ? 'token' : 'code'
+    response_type: this._getCallbackOnLocationHash(options) ? 'token' : 'code'
   };
 };
 
-Auth0.prototype._addOfflineMode = function(options) {
-  if (options.offline_mode) {
-    if (!options.scope) {
-      throw new Error('When adding offline mode, scope should exist in options');
-    }
-
+Auth0.prototype._configureOfflineMode = function(options) {
+  if (options.scope && options.scope.indexOf('offline_access') >= 0) {
     options.device = options.device || 'Browser';
-    if (options.scope.indexOf('offline_access') < 0) {
-      options.scope += ' offline_access';
-    }
   }
 };
 
@@ -112,51 +232,56 @@ Auth0.prototype._addOfflineMode = function(options) {
  * @param {Object} profile
  * @param {String} id_token
  * @param {Function} callback
- * @api private
+ * @private
  */
 
 Auth0.prototype._getUserInfo = function (profile, id_token, callback) {
 
-  if (profile && !profile.user_id) { // the scope was just openid
-    var self = this;
-    var url = 'https://' + self._domain + '/tokeninfo?';
+  if (!(profile && !profile.user_id)) {
+    return callback(null, profile);
+  }
 
-    function fail (status, description) {
-      var error = new Error(status + ': ' + (description || ''));
+  // the scope was just openid
+  var self = this;
+  var protocol = 'https:';
+  var domain = this._domain;
+  var endpoint = '/tokeninfo';
+  var url = joinUrl(protocol, domain, endpoint);
 
-      // These two properties are added for compatibility with old versions (no Error instance was returned)
-      error.error = status;
-      error.error_description = description;
+  var fail = function (status, description) {
+    var error = new Error(status + ': ' + (description || ''));
 
-      callback(error);
-    };
+    // These two properties are added for compatibility with old versions (no Error instance was returned)
+    error.error = status;
+    error.error_description = description;
 
-    if (this._useJSONP) {
-      return jsonp(url + qs.stringify({id_token: id_token}), jsonpOpts, function (err, resp) {
-        if (err) {
-          return fail(0, err.toString());
-        }
+    callback(error);
+  };
 
-        return resp.status === 200 ?
-          callback(null, resp.user) :
-          fail(resp.status, resp.error);
-      });
-    }
+  if (this._useJSONP) {
+    return jsonp(url + '?' + qs.stringify({id_token: id_token}), jsonpOpts, function (err, resp) {
+      if (err) {
+        return fail(0, err.toString());
+      }
 
-    return reqwest({
-      url:          url,
-      method:       'post',
-      type:         'json',
-      crossOrigin:  true,
-      data:         {id_token: id_token}
-    }).fail(function (err) {
-      fail(err.status, err.responseText);
-    }).then(function (userinfo) {
-      callback(null, userinfo);
+      return resp.status === 200 ?
+        callback(null, resp.user) :
+        fail(resp.status, resp.error);
     });
   }
 
-  callback(null, profile);
+  return reqwest({
+    url:          same_origin(protocol, domain) ? endpoint : url,
+    method:       'post',
+    type:         'json',
+    crossOrigin:  !same_origin(protocol, domain),
+    data:         {id_token: id_token}
+  }).fail(function (err) {
+    fail(err.status, err.responseText);
+  }).then(function (userinfo) {
+    callback(null, userinfo);
+  });
+
 };
 
 /**
@@ -164,10 +289,13 @@ Auth0.prototype._getUserInfo = function (profile, id_token, callback) {
  *
  * @param {String} id_token
  * @param {Function} callback
- * @api public
+ * @method getProfile
  */
 
 Auth0.prototype.getProfile = function (id_token, callback) {
+  if ('function' !== typeof callback) {
+    throw new Error('A callback function is required');
+  }
   if (!id_token || typeof id_token !== 'string') {
     return callback(new Error('Invalid token'));
   }
@@ -180,11 +308,15 @@ Auth0.prototype.getProfile = function (id_token, callback) {
  *
  * @param {Object} options
  * @param {Function} callback
- * @api public
+ * @method validateUser
  */
 
 Auth0.prototype.validateUser = function (options, callback) {
-  var endpoint = 'https://' + this._domain + '/public/api/users/validate_userpassword';
+  var protocol = 'https:';
+  var domain = this._domain;
+  var endpoint = '/public/api/users/validate_userpassword';
+  var url = joinUrl(protocol, domain, endpoint);
+
   var query = xtend(
     options,
     {
@@ -193,7 +325,7 @@ Auth0.prototype.validateUser = function (options, callback) {
     });
 
   if (this._useJSONP) {
-    return jsonp(endpoint + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
       if (err) {
         return callback(err);
       }
@@ -205,11 +337,11 @@ Auth0.prototype.validateUser = function (options, callback) {
   }
 
   reqwest({
-    url:     endpoint,
+    url:     same_origin(protocol, domain) ? endpoint : url,
     method:  'post',
     type:    'text',
     data:    query,
-    crossOrigin: true,
+    crossOrigin: !same_origin(protocol, domain),
     error: function (err) {
       if (err.status !== 404) { return callback(new Error(err.responseText)); }
       callback(null, false);
@@ -224,7 +356,7 @@ Auth0.prototype.validateUser = function (options, callback) {
  * Decode Json Web Token
  *
  * @param {String} jwt
- * @api public
+ * @method decodeJwt
  */
 
 Auth0.prototype.decodeJwt = function (jwt) {
@@ -252,14 +384,14 @@ Auth0.prototype.decodeJwt = function (jwt) {
  *      // Returns {error: "invalid_credentials", error_description: undefined}
  *      auth0.parseHash('?error=invalid_credentials');
  *
- * @api public
  */
 
 Auth0.prototype.parseHash = function (hash) {
   hash = hash || window.location.hash;
+  var parsed_qs;
   if (hash.match(/error/)) {
     hash = hash.substr(1).replace(/^\//, '');
-    var parsed_qs = qs.parse(hash);
+    parsed_qs = qs.parse(hash);
     var err = {
       error: parsed_qs.error,
       error_description: parsed_qs.error_description
@@ -271,7 +403,7 @@ Auth0.prototype.parseHash = function (hash) {
     return null;
   }
   hash = hash.substr(1).replace(/^\//, '');
-  var parsed_qs = qs.parse(hash);
+  parsed_qs = qs.parse(hash);
   var id_token = parsed_qs.id_token;
   var refresh_token = parsed_qs.refresh_token;
   var prof = this.decodeJwt(id_token);
@@ -308,35 +440,49 @@ Auth0.prototype.parseHash = function (hash) {
  * Signup
  *
  * @param {Object} options Signup Options
- *  @param {String} email New user email
- *  @param {String} password New user password
+ * @param {String} email New user email
+ * @param {String} password New user password
  *
  * @param {Function} callback
- * @api public
+ * @method signup
  */
 
 Auth0.prototype.signup = function (options, callback) {
   var self = this;
 
   var query = xtend(
-    this._getMode(),
+    this._getMode(options),
     options,
     {
       client_id: this._clientID,
-      redirect_uri: this._callbackURL,
-      email: trim(options.username || options.email || ''),
+      redirect_uri: this._getCallbackURL(options),
+      username: trim(options.username || ''),
+      email: trim(options.email || options.username || ''),
       tenant: this._domain.split('.')[0]
     });
 
-  this._addOfflineMode(query);
+  this._configureOfflineMode(query);
+
+  // TODO Change this to a property named 'disableSSO' for consistency.
+  // By default, options.sso is true
+  if (!checkIfSet(options, 'sso')) {
+    options.sso = true;
+  }
 
   var popup;
 
-  if (options.popup  && !this._callbackOnLocationHash) {
+  if (options.popup  && !this._getCallbackOnLocationHash(options)) {
+    popup = this._buildPopupWindow(options);
+  }
+
+  if (options.popup  && options.sso) {
     popup = this._buildPopupWindow(options);
   }
 
   function success () {
+    if (popup && popup.kill) {
+      popup.kill();
+    }
     if ('auto_login' in options && !options.auto_login) {
       if (callback) {
         callback();
@@ -348,7 +494,7 @@ Auth0.prototype.signup = function (options, callback) {
 
   function fail (status, resp) {
     var error = new LoginError(status, resp);
-    if (popup) {
+    if (popup && popup.kill) {
       popup.kill();
     }
     if (callback) {
@@ -357,8 +503,13 @@ Auth0.prototype.signup = function (options, callback) {
     throw error;
   }
 
+  var protocol = 'https:';
+  var domain = this._domain;
+  var endpoint = '/dbconnections/signup';
+  var url = joinUrl(protocol, domain, endpoint);
+
   if (this._useJSONP) {
-    return jsonp('https://' + this._domain + '/dbconnections/signup?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
       if (err) {
         return fail(0, err);
       }
@@ -369,12 +520,12 @@ Auth0.prototype.signup = function (options, callback) {
   }
 
   reqwest({
-    url:     'https://' + this._domain + '/dbconnections/signup',
+    url:     same_origin(protocol, domain) ? endpoint : url,
     method:  'post',
     type:    'html',
     data:    query,
     success: success,
-    crossOrigin: true,
+    crossOrigin: !same_origin(protocol, domain),
     error: function (err) {
       fail(err.status, err.responseText);
     }
@@ -386,27 +537,34 @@ Auth0.prototype.signup = function (options, callback) {
  *
  * @param {Object} options
  * @param {Function} callback
- * @api public
+ * @method changePassword
  */
 
 Auth0.prototype.changePassword = function (options, callback) {
-  var self = this;
   var query = {
     tenant:         this._domain.split('.')[0],
     client_id:      this._clientID,
     connection:     options.connection,
-    email:          trim(options.username || options.email || ''),
+    username:       trim(options.username || ''),
+    email:          trim(options.email || options.username || ''),
     password:       options.password
   };
 
 
   function fail (status, resp) {
     var error = new LoginError(status, resp);
-    if (callback)      return callback(error);
+    if (callback) {
+      return callback(error);
+    }
   }
 
+  var protocol = 'https:';
+  var domain = this._domain;
+  var endpoint = '/dbconnections/change_password';
+  var url = joinUrl(protocol, domain, endpoint);
+
   if (this._useJSONP) {
-    return jsonp('https://' + this._domain + '/dbconnections/change_password?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
       if (err) {
         return fail(0, err);
       }
@@ -417,11 +575,11 @@ Auth0.prototype.changePassword = function (options, callback) {
   }
 
   reqwest({
-    url:     'https://' + this._domain + '/dbconnections/change_password',
+    url:     same_origin(protocol, domain) ? endpoint : url,
     method:  'post',
     type:    'html',
     data:    query,
-    crossOrigin: true,
+    crossOrigin: !same_origin(protocol, domain),
     error: function (err) {
       fail(err.status, err.responseText);
     },
@@ -434,21 +592,32 @@ Auth0.prototype.changePassword = function (options, callback) {
 /**
  * Builds query string to be passed to /authorize based on dict key and values.
  *
- * @method _buildAuthorizeQueryString
  * @param {Array} args
  * @param {Array} blacklist
- * @api private
+ * @private
  */
 
 Auth0.prototype._buildAuthorizeQueryString = function (args, blacklist) {
+  var query = this._buildAuthorizationParameters(args, blacklist);
+  return qs.stringify(query);
+};
+
+/**
+ * Builds parameter dictionary to be passed to /authorize based on dict key and values.
+ *
+ * @param {Array} args
+ * @param {Array} blacklist
+ * @private
+ */
+
+Auth0.prototype._buildAuthorizationParameters = function(args, blacklist) {
   var query = xtend.apply(null, args);
 
   // Adds offline mode to the query
-  this._addOfflineMode(query);
+  this._configureOfflineMode(query);
 
   // Elements to filter from query string
   blacklist = blacklist || ['popup', 'popupOptions'];
-  blacklist.push('offline_mode');
 
   var i, key;
 
@@ -461,7 +630,7 @@ Auth0.prototype._buildAuthorizeQueryString = function (args, blacklist) {
     query.connection_scope = query.connection_scope.join(',');
   }
 
-  return qs.stringify(query);
+  return query;
 };
 
 /**
@@ -469,10 +638,20 @@ Auth0.prototype._buildAuthorizeQueryString = function (args, blacklist) {
  *
  * @param {Object} options
  * @param {Function} callback
- * @api public
+ * @method login
  */
 
 Auth0.prototype.login = Auth0.prototype.signin = function (options, callback) {
+  // TODO Change this to a property named 'disableSSO' for consistency.
+  // By default, options.sso is true
+  if (!checkIfSet(options, 'sso')) {
+    options.sso = true;
+  }
+
+  if (typeof options.phone !== 'undefined' ||
+      typeof options.passcode !== 'undefined') {
+    return this.loginWithPhoneNumber(options, callback);
+  }
 
   if (typeof options.username !== 'undefined' ||
       typeof options.email !== 'undefined') {
@@ -483,17 +662,17 @@ Auth0.prototype.login = Auth0.prototype.signin = function (options, callback) {
     return this.loginPhonegap(options, callback);
   }
 
-  if (!!options.popup && this._callbackOnLocationHash) {
+  if (!!options.popup && this._getCallbackOnLocationHash(options)) {
     return this.loginWithPopup(options, callback);
   }
 
   var query = this._buildAuthorizeQueryString([
-    this._getMode(),
+    this._getMode(options),
     options,
-    { client_id: this._clientID, redirect_uri: this._callbackURL }
+    { client_id: this._clientID, redirect_uri: this._getCallbackURL(options) }
   ]);
 
-  var url = 'https://' + this._domain + '/authorize?' + query;
+  var url = joinUrl('https:', this._domain, '/authorize?' + query);
 
   if (options.popup) {
     this._buildPopupWindow(options, url);
@@ -508,7 +687,7 @@ Auth0.prototype.login = Auth0.prototype.signin = function (options, callback) {
  * position arguments for the popup windows
  *
  * @param {Object} options
- * @api private
+ * @private
  */
 
 Auth0.prototype._computePopupPosition = function (options) {
@@ -553,14 +732,19 @@ Auth0.prototype._computePopupPosition = function (options) {
  */
 
 Auth0.prototype.loginPhonegap = function (options, callback) {
-  var mobileCallbackURL = 'https://' + this._domain + '/mobile';
+  if (this._shouldAuthenticateWithCordovaPlugin(options.connection)) {
+    this._socialPhonegapLogin(options, callback);
+    return;
+  }
+
+  var mobileCallbackURL = joinUrl('https:', this._domain, '/mobile');
   var self = this;
   var query = this._buildAuthorizeQueryString([
-    this._getMode(),
+    this._getMode(options),
     options,
     { client_id: this._clientID, redirect_uri: mobileCallbackURL}]);
 
-    var popupUrl = 'https://' + this._domain + '/authorize?' + query;
+    var popupUrl = joinUrl('https:', this._domain, '/authorize?' + query);
 
     var popupOptions = xtend({location: 'yes'} ,
       options.popupOptions);
@@ -657,18 +841,17 @@ Auth0.prototype.loginPhonegap = function (options, callback) {
 
 Auth0.prototype.loginWithPopup = function(options, callback) {
   var self = this;
-
   if (!callback) {
     throw new Error('popup mode should receive a mandatory callback');
   }
 
   var query = this._buildAuthorizeQueryString([
-    this._getMode(),
+    this._getMode(options),
     options,
     { client_id: this._clientID, owp: true }]);
 
 
-  var popupUrl = 'https://' + this._domain + '/authorize?' + query;
+  var popupUrl = joinUrl('https:', this._domain, '/authorize?' + query);
 
   var popupOptions = xtend(
     self._computePopupPosition({
@@ -678,6 +861,7 @@ Auth0.prototype.loginWithPopup = function(options, callback) {
     options.popupOptions);
 
 
+  // TODO Errors should be LoginError for consistency
   var popup = WinChan.open({
     url: popupUrl,
     relay_url: 'https://' + this._domain + '/relay.html',
@@ -702,35 +886,143 @@ Auth0.prototype.loginWithPopup = function(options, callback) {
 };
 
 /**
- * Stringify popup options object into
- * `window.open` string options format
+ * _shouldAuthenticateWithCordovaPlugin method checks whether Auth0 is properly configured to
+ * handle authentication of a social connnection using a phonegap plugin.
  *
- * @param {Object} popupOptions
- * @api private
+ * @param {String}   connection    Name of the connection.
+ * @private
  */
 
-function stringifyPopupSettings(popupOptions) {
-  var settings = '';
+Auth0.prototype._shouldAuthenticateWithCordovaPlugin = function(connection) {
+  var socialPlugin = this._cordovaSocialPlugins[connection];
+  return this._useCordovaSocialPlugins && !!socialPlugin;
+};
 
-  for (var key in popupOptions) {
-    settings += key + '=' + popupOptions[key] + ',';
+/**
+ * _socialPhonegapLogin performs social authentication using a phonegap plugin
+ *
+ * @param {String}   connection   Name of the connection.
+ * @param {function} callback     To be called after login happened (whether
+ *                                success or failure).
+ * @private
+ */
+
+Auth0.prototype._socialPhonegapLogin = function(options, callback) {
+  var socialAuthentication = this._cordovaSocialPlugins[options.connection];
+  var self = this;
+  socialAuthentication(options.connection_scope, function(error, accessToken, extras) {
+    if (error) {
+      callback(error, null, null, null, null);
+      return;
+    }
+    var loginOptions = xtend({ access_token: accessToken }, options, extras);
+    self.loginWithSocialAccessToken(loginOptions, callback);
+  });
+};
+
+/**
+ * _phonegapFacebookLogin performs social authentication with Facebook using phonegap-facebook-plugin
+ *
+ * @param {Object}   scopes     FB scopes used to login. It can be an Array of String or a single String.
+ *                              By default is ["public_profile"]
+ * @param {function} callback   To be called after login happened (whether success or failure). It will
+ *                              yield the accessToken and any extra information neeeded by Auth0 API
+ *                              or an Error if the authentication fails. Callback should be:
+ *                              function (err, accessToken, extras) { }
+ * @private
+ */
+
+Auth0.prototype._phonegapFacebookLogin = function(scopes, callback) {
+  if (!window.facebookConnectPlugin || !window.facebookConnectPlugin.login) {
+    callback(new Error('missing plugin phonegap-facebook-plugin'), null, null);
+    return;
   }
 
-  return settings.slice(0, -1);
-}
+  var fbScopes;
+  if (scopes && is_array(scopes)){
+    fbScopes = scopes;
+  } else if (scopes) {
+    fbScopes = [scopes];
+  } else {
+    fbScopes = ['public_profile'];
+  }
+  window.facebookConnectPlugin.login(fbScopes, function (state) {
+    callback(null, state.authResponse.accessToken, {});
+  }, function(error) {
+    callback(new Error(error), null, null);
+  });
+};
+
+/**
+ * This method handles the scenario where a db connection is used with
+ * popup: true and sso: true.
+ *
+ * @private
+ */
+Auth0.prototype.loginWithUsernamePasswordAndSSO = function (options, callback) {
+  var self = this;
+  var popupOptions = xtend(
+    self._computePopupPosition({
+      width: (options.popupOptions && options.popupOptions.width) || 500,
+      height: (options.popupOptions && options.popupOptions.height) || 600
+  }),
+    options.popupOptions);
+
+  // TODO Refactor this with the other winchan logic for loginWithPopup.
+  var popup = WinChan.open({
+    url: 'https://' + this._domain + '/sso_dbconnection_popup/' + this._clientID,
+    relay_url: 'https://' + this._domain + '/relay.html',
+    window_features: stringifyPopupSettings(popupOptions),
+    popup: this._current_popup,
+    params: {
+      domain:                 this._domain,
+      clientID:               this._clientID,
+      options: {
+        // TODO What happens with i18n?
+        username:   options.username,
+        password:   options.password,
+        connection: options.connection,
+        state:      options.state,
+        scope:      options.scope
+      }
+    }
+  }, function (err, result) {
+    if (err) {
+      // Winchan always returns string errors, we wrap them inside Error objects
+      return callback(new LoginError(err), null, null, null, null, null);
+    }
+
+    if (result && result.id_token) {
+      return self.getProfile(result.id_token, function (err, profile) {
+        callback(err, profile, result.id_token, result.access_token, result.state, result.refresh_token);
+      });
+    }
+
+    // Case we've found an error
+    return callback(result && result.err ?
+                    new LoginError(result.err.status,
+                                   result.err && result.err.details ?
+                                     result.err.details :
+                                     result.err) :
+                    new LoginError('Something went wrong'),
+            null, null, null, null, null);
+  });
+
+  popup.focus();
+};
 
 /**
  * Login with Resource Owner (RO)
  *
  * @param {Object} options
  * @param {Function} callback
- * @api public
+ * @method loginWithResourceOwner
  */
 
 Auth0.prototype.loginWithResourceOwner = function (options, callback) {
   var self = this;
   var query = xtend(
-    this._getMode(),
+    this._getMode(options),
     options,
     {
       client_id:    this._clientID,
@@ -738,9 +1030,13 @@ Auth0.prototype.loginWithResourceOwner = function (options, callback) {
       grant_type:   'password'
     });
 
-  this._addOfflineMode(query);
+  this._configureOfflineMode(query);
 
+  var protocol = 'https:';
+  var domain = this._domain;
   var endpoint = '/oauth/ro';
+  var url = joinUrl(protocol, domain, endpoint);
+
 
   function enrichGetProfile(resp, callback) {
     self.getProfile(resp.id_token, function (err, profile) {
@@ -749,7 +1045,7 @@ Auth0.prototype.loginWithResourceOwner = function (options, callback) {
   }
 
   if (this._useJSONP) {
-    return jsonp('https://' + this._domain + endpoint + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
       if (err) {
         return callback(err);
       }
@@ -762,34 +1058,77 @@ Auth0.prototype.loginWithResourceOwner = function (options, callback) {
   }
 
   reqwest({
-    url:     'https://' + this._domain + endpoint,
+    url:     same_origin(protocol, domain) ? endpoint : url,
     method:  'post',
     type:    'json',
     data:    query,
-    crossOrigin: true,
+    crossOrigin: !same_origin(protocol, domain),
     success: function (resp) {
       enrichGetProfile(resp, callback);
     },
     error: function (err) {
-      var er = err;
-      if (!er.status || er.status === 0) { //ie10 trick
-        er = {};
-        er.status = 401;
-        er.responseText = {
-          code: 'invalid_user_password'
-        };
-      }
-      else {
-        er.responseText = err;
-      }
-      var error = new LoginError(er.status, er.responseText);
-      callback(error);
+      handleRequestError(err, callback);
     }
   });
 };
 
 /**
- * Open the windows popup, store the winref in the instance and return it.
+ * Login with Social Access Token
+ *
+ * @param {Object} options
+ * @param {Function} callback
+ * @method loginWithSocialAccessToken
+ */
+
+Auth0.prototype.loginWithSocialAccessToken = function (options, callback) {
+  var self = this;
+  var query = this._buildAuthorizationParameters([
+      { scope: 'openid' },
+      options,
+      { client_id: this._clientID }
+    ]);
+
+  var protocol = 'https:';
+  var domain = this._domain;
+  var endpoint = '/oauth/access_token';
+  var url = joinUrl(protocol, domain, endpoint);
+
+  function enrichGetProfile(resp, callback) {
+    self.getProfile(resp.id_token, function (err, profile) {
+      callback(err, profile, resp.id_token, resp.access_token, resp.state, resp.refresh_token);
+    });
+  }
+
+  if (this._useJSONP) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+      if (err) {
+        return callback(err);
+      }
+      if('error' in resp) {
+        var error = new LoginError(resp.status, resp.error);
+        return callback(error);
+      }
+      enrichGetProfile(resp, callback);
+    });
+  }
+
+  reqwest({
+    url:     same_origin(protocol, domain) ? endpoint : url,
+    method:  'post',
+    type:    'json',
+    data:    query,
+    crossOrigin: !same_origin(protocol, domain),
+    success: function (resp) {
+      enrichGetProfile(resp, callback);
+    },
+    error: function (err) {
+      handleRequestError(err, callback);
+    }
+  });
+};
+
+/**
+ * Open a popup, store the winref in the instance and return it.
  *
  * We usually need to call this method before any ajax transaction in order
  * to prevent the browser to block the popup.
@@ -797,6 +1136,7 @@ Auth0.prototype.loginWithResourceOwner = function (options, callback) {
  * @param  {[type]}   options  [description]
  * @param  {Function} callback [description]
  * @return {[type]}            [description]
+ * @private
  */
 
 Auth0.prototype._buildPopupWindow = function (options, url) {
@@ -812,6 +1152,10 @@ Auth0.prototype._buildPopupWindow = function (options, url) {
 
   var self = this;
 
+  if (!this._current_popup) {
+    throw new Error('Popup window cannot not been created. Disable popup blocker or make sure to call Auth0 login or singup on an UI event.');
+  }
+
   this._current_popup.kill = function () {
     this.close();
     delete self._current_popup;
@@ -824,8 +1168,8 @@ Auth0.prototype._buildPopupWindow = function (options, url) {
  * Login with Username and Password
  *
  * @param {Object} options
- * @param {Fucntion} callback
- * @api public
+ * @param {Function} callback
+ * @method loginWithUsernamePassword
  */
 
 Auth0.prototype.loginWithUsernamePassword = function (options, callback) {
@@ -833,39 +1177,55 @@ Auth0.prototype.loginWithUsernamePassword = function (options, callback) {
   // fn(err) case callback.length === 1 (a redirect should be performed) vs.
   // fn(err, profile, id_token, access_token, state) callback.length > 1 (no
   // redirect should be performed)
-  if (callback && callback.length > 1) {
+  //
+  // Note: Phonegap/Cordova:
+  // As the popup is launched using the InAppBrowser plugin the SSO cookie will
+  // be set on the InAppBrowser browser. That's why the browser where the app runs
+  // won't get the sso cookie. Therefore, we don't allow username password using
+  // popup with sso: true in Cordova/Phonegap and we default to resource owner auth.
+  if (callback && callback.length > 1 && (!options.sso || window.cordova)) {
     return this.loginWithResourceOwner(options, callback);
   }
 
   var self = this;
   var popup;
 
-  if (options.popup  && !this._callbackOnLocationHash) {
+  // TODO We should deprecate this, really hacky and confuses people.
+  if (options.popup  && !this._getCallbackOnLocationHash(options)) {
     popup = this._buildPopupWindow(options);
   }
 
+  // When a callback with more than one argument is specified and sso: true then
+  // we open a popup and do authentication there.
+  if (callback && callback.length > 1 && options.sso ) {
+    return this.loginWithUsernamePasswordAndSSO(options, callback);
+  }
+
   var query = xtend(
-    this._getMode(),
+    this._getMode(options),
     options,
     {
       client_id: this._clientID,
-      redirect_uri: this._callbackURL,
+      redirect_uri: this._getCallbackURL(options),
       username: trim(options.username || options.email || ''),
       tenant: this._domain.split('.')[0]
     });
 
-  this._addOfflineMode(query);
+  this._configureOfflineMode(query);
 
+  var protocol = 'https:';
+  var domain = this._domain;
   var endpoint = '/usernamepassword/login';
+  var url = joinUrl(protocol, domain, endpoint);
 
   if (this._useJSONP) {
-    return jsonp('https://' + this._domain + endpoint + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
       if (err) {
-        if (popup) { popup.kill(); }
+        if (popup && popup.kill) { popup.kill(); }
         return callback(err);
       }
       if('error' in resp) {
-        if (popup) { popup.kill(); }
+        if (popup && popup.kill) { popup.kill(); }
         var error = new LoginError(resp.status, resp.error);
         return callback(error);
       }
@@ -881,32 +1241,58 @@ Auth0.prototype.loginWithUsernamePassword = function (options, callback) {
   }
 
   reqwest({
-    url:     'https://' + this._domain + endpoint,
+    url:     same_origin(protocol, domain) ? endpoint : url,
     method:  'post',
     type:    'html',
     data:    query,
-    crossOrigin: true,
+    crossOrigin: !same_origin(protocol, domain),
     success: function (resp) {
       self._renderAndSubmitWSFedForm(options, resp);
     },
     error: function (err) {
-      var er = err;
-      if (popup) {
+      if (popup && popup.kill) {
         popup.kill();
       }
-      if (!er.status || er.status === 0) { //ie10 trick
-        er = {};
-        er.status = 401;
-        er.responseText = {
-          code: 'invalid_user_password'
-        };
-      }
-      var error = new LoginError(er.status, er.responseText);
-      return return_error(error);
+      handleRequestError(err, return_error);
     }
   });
 };
 
+/**
+ * Login with phone number and passcode
+ *
+ * @param {Object} options
+ * @param {Function} callback
+ * @method loginWithPhoneNumber
+ */
+Auth0.prototype.loginWithPhoneNumber = function (options, callback) {
+
+  if ('function' !== typeof callback) {
+    throw new Error('callback is required for phone number authentication');
+  }
+
+  if (null == options.phone) {
+    throw new Error('phone is required for authentication');
+  }
+
+  if (null == options.passcode) {
+    throw new Error('passcode is required for authentication');
+  }
+
+  var opts = xtend({
+    connection: 'sms',
+    username: options.phone,
+    password: options.passcode
+  }, opts);
+
+  opts.sso = false;
+  delete opts.phone;
+  delete opts.passcode;
+
+  this.loginWithResourceOwner(opts, callback);
+};
+
+// TODO Document me
 Auth0.prototype.renewIdToken = function (id_token, callback) {
   this.getDelegationToken({
     id_token: id_token,
@@ -915,9 +1301,11 @@ Auth0.prototype.renewIdToken = function (id_token, callback) {
   }, callback);
 };
 
+// TODO Document me
 Auth0.prototype.refreshToken = function (refresh_token, callback) {
   this.getDelegationToken({
     refresh_token: refresh_token,
+    scope: 'passthrough',
     api: 'auth0'
   }, callback);
 };
@@ -950,18 +1338,18 @@ Auth0.prototype.refreshToken = function (refresh_token, callback) {
  *      // Use your firebase token here
  *    });
  *
+ * @method getDelegationToken
  * @param {Object} [options]
- *  @param {String} [id_token]
- *  @param {String} [target]
- *  @param {String} [api_type]
+ * @param {String} [id_token]
+ * @param {String} [target]
+ * @param {String} [api_type]
  * @param {Function} [callback]
- * @api public
  */
 Auth0.prototype.getDelegationToken = function (options, callback) {
   options = options || {};
 
   if (!options.id_token && !options.refresh_token ) {
-    throw new Error("You must send either an id_token or a refresh_token to do this call");
+    throw new Error('You must send either an id_token or a refresh_token to get a delegation token.');
   }
 
   var query = xtend({
@@ -975,10 +1363,13 @@ Auth0.prototype.getDelegationToken = function (options, callback) {
   delete query.targetClientId;
   delete query.api;
 
+  var protocol = 'https:';
+  var domain = this._domain;
   var endpoint = '/delegation';
+  var url = joinUrl(protocol, domain, endpoint);
 
   if (this._useJSONP) {
-    return jsonp('https://' + this._domain + endpoint + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
+    return jsonp(url + '?' + qs.stringify(query), jsonpOpts, function (err, resp) {
       if (err) {
         return callback(err);
       }
@@ -991,11 +1382,11 @@ Auth0.prototype.getDelegationToken = function (options, callback) {
   }
 
   reqwest({
-    url:     'https://' + this._domain + endpoint,
+    url:     same_origin(protocol, domain) ? endpoint : url,
     method:  'post',
     type:    'json',
     data:    query,
-    crossOrigin: true,
+    crossOrigin: !same_origin(protocol, domain),
     success: function (resp) {
       callback(null, resp);
     },
@@ -1005,12 +1396,36 @@ Auth0.prototype.getDelegationToken = function (options, callback) {
       }
       catch (e) {
         var er = err;
-        if (!er.status || er.status === 0) { //ie10 trick
+        var isAffectedIEVersion = isInternetExplorer() === 10 || isInternetExplorer() === 11;
+        var zeroStatus = (!er.status || er.status === 0);
+
+        // Request failed because we are offline.
+        // See: http://caniuse.com/#search=navigator.onLine
+        if (zeroStatus && !window.navigator.onLine) {
+          er = {};
+          er.status = 0;
+          er.responseText = {
+            code: 'offline'
+          };
+        // http://stackoverflow.com/questions/23229723/ie-10-11-cors-status-0
+        // XXX IE10 when a request fails in CORS returns status code 0
+        // XXX This is not handled by handleRequestError as the errors are different
+        } else if (zeroStatus && isAffectedIEVersion) {
           er = {};
           er.status = 401;
           er.responseText = {
             code: 'invalid_operation'
           };
+        // If not IE10/11 and not offline it means that Auth0 host is unreachable:
+        // Connection Timeout or Connection Refused.
+        } else if (zeroStatus) {
+          er = {};
+          er.status = 0;
+          er.responseText = {
+            code: 'connection_refused_timeout'
+          };
+        } else {
+          er.responseText = err;
         }
         callback(new LoginError(er.status, er.responseText));
       }
@@ -1022,20 +1437,22 @@ Auth0.prototype.getDelegationToken = function (options, callback) {
  * Trigger logout redirect with
  * params from `query` object
  *
- * Examples:
+ * @example
  *
  *     auth0.logout();
  *     // redirects to -> 'https://yourapp.auth0.com/logout'
  *
+ * @example
+ *
  *     auth0.logout({returnTo: 'http://logout'});
  *     // redirects to -> 'https://yourapp.auth0.com/logout?returnTo=http://logout'
  *
+ * @method logout
  * @param {Object} query
- * @api public
  */
 
 Auth0.prototype.logout = function (query) {
-  var url = 'https://' + this._domain + '/logout';
+  var url = joinUrl('https:', this._domain, '/logout');
   if (query) {
     url += '?' + qs.stringify(query);
   }
@@ -1045,17 +1462,20 @@ Auth0.prototype.logout = function (query) {
 /**
  * Get single sign on Data
  *
- * Examples:
+ * @example
+ *
  *     auth0.getSSOData(function (err, ssoData) {
  *       if (err) return console.log(err.message);
  *       expect(ssoData.sso).to.exist;
  *     });
  *
+ * @example
+ *
  *     auth0.getSSOData(false, fn);
  *
+ * @method getSSOData
  * @param {Boolean} withActiveDirectories
  * @param {Function} callback
- * @api public
  */
 
 Auth0.prototype.getSSOData = function (withActiveDirectories, callback) {
@@ -1064,7 +1484,7 @@ Auth0.prototype.getSSOData = function (withActiveDirectories, callback) {
     withActiveDirectories = false;
   }
 
-  var url = 'https://' + this._domain + '/user/ssodata';
+  var url = joinUrl('https:', this._domain, '/user/ssodata');
 
   if (withActiveDirectories) {
     url += '?' + qs.stringify({ldaps: 1, client_id: this._clientID});
@@ -1081,7 +1501,7 @@ Auth0.prototype.getSSOData = function (withActiveDirectories, callback) {
 /**
  * Get all configured connections for a client
  *
- * Examples:
+ * @example
  *
  *     auth0.getConnections(function (err, conns) {
  *       if (err) return console.log(err.message);
@@ -1093,13 +1513,77 @@ Auth0.prototype.getSSOData = function (withActiveDirectories, callback) {
  *       expect(conns[0].domain_aliases).to.eql(['Apprenda.com', 'foo.com', 'bar.com']);
  *     });
  *
+ * @method getConnections
  * @param {Function} callback
- * @api public
  */
 // XXX We may change the way this method works in the future to use client's s3 file.
 
 Auth0.prototype.getConnections = function (callback) {
   return jsonp('https://' + this._domain + '/public/api/' + this._clientID + '/connections', jsonpOpts, callback);
+};
+
+/**
+ * Send SMS to do passwordless authentication
+ *
+ * @example
+ *
+ *     auth0.requestSMSCode(apiToken, phoneNumber, function (err, result) {
+ *       if (err) return console.log(err.message);
+ *       console.log(result);
+ *     });
+ *
+ * @method requestSMSCode
+ * @param {Object} options
+ * @param {Function} callback
+ */
+
+Auth0.prototype.requestSMSCode = function (options, callback) {
+  if ('object' !== typeof options) {
+    throw new Error('An options object is required');
+  }
+  if ('function' !== typeof callback) {
+    throw new Error('A callback function is required');
+  }
+
+  assert_required(options, 'apiToken');
+  assert_required(options, 'phone');
+
+  var apiToken = options.apiToken;
+  var phone = options.phone;
+
+  var protocol = 'https:';
+  var domain = this._domain;
+  var endpoint = '/api/v2/users';
+  var url = joinUrl(protocol, domain, endpoint);
+
+  return reqwest({
+    url:          same_origin(protocol, domain) ? endpoint : url,
+    method:       'post',
+    type:         'json',
+    crossOrigin:  !same_origin(protocol, domain),
+    headers:      {
+      Authorization: 'Bearer ' + apiToken
+    },
+    data:         {
+      phone_number:   phone,
+      connection:     'sms',
+      email_verified: false
+    }
+  })
+  .fail(function (err) {
+    try {
+      callback(JSON.parse(err.responseText));
+    } catch (e) {
+      var error = new Error(err.status + '(' + err.statusText + '): ' + err.responseText);
+      error.statusCode = err.status;
+      error.error = err.statusText;
+      error.message = err.responseText;
+      callback(error);
+    }
+  })
+  .then(function (result) {
+    callback(null, result);
+  });
 };
 
 /**

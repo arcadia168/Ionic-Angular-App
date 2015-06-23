@@ -247,9 +247,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             2: 'AWAY WIN',
             3: 'DRAW'
         };
-
         $scope.saveChangesNeeded = false;
-
         $scope.$on('$ionicView.enter', function(){
             //if the scope says need to save set the global need to save after reentering the tab
             console.log("Round detail view re-entered from other tab.");
@@ -273,6 +271,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             }
 
         });
+        $scope.fixCount = 0;
 
         function _checkAndShowTutorials() {
             //check to see if this is a new user
@@ -305,6 +304,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 _predictions = [];
 
                 debugger;
+
+                //if the user has made predictions previously, go straight to the list view
+                //if (data != null) {
+                //    $scope.existingPredictions = data;
+                //    //go to the list view, new controller instance
+                //    console.log("User already predicted for this round, going to list view");
+                //    //$state.go('tab.round-detail', {roundId : $stateParams.roundId});
+                //}
 
                 $scope.existingPredictions = data;
 
@@ -451,6 +458,26 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             return 1;
         }
 
+        function _getFixResult(fixId) {
+            for (var i = 0; i < $scope.listFixtures.length; i++) {
+                if ($scope.listFixtures[i]._id == fixId) {
+                    return $scope.listFixtures[i].fixResult.fixResult;
+                }
+            }
+
+            return -1; //if not found.
+        }
+
+        function _findFix(fixture) {
+            for (var i = 0; i < $scope.listFixtures.length; i++) {
+                if ($scope.listFixtures[i]._id == fixture) {
+                    return $scope.listFixtures[i];
+                }
+            }
+
+            return -1; //if not found.
+        }
+
         $scope.cardView = true;
 
 //set the need for changes to be saved to be false by default
@@ -464,19 +491,45 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //$ionicLoading.hide();
             $scope.fixtures = data;
+            $scope.fixCount = $scope.fixtures.length;
+            console.log("fix count is " + $scope.fixCount);
+            $scope.fixtures.reverse();
 
             for (var i = 0; i < $scope.fixtures.length; i++) {
                 $scope.fixtures[i].homeTeam = User.filterTeam($scope.fixtures[i].homeTeam);
                 $scope.fixtures[i].awayTeam = User.filterTeam($scope.fixtures[i].awayTeam);
+
+                var today = new Date();
+                if ($scope.fixtures[i].fixDate < today) {
+                    $scope.fixtures.splice(i, 1); //delete from card view
+                }
             }
+
+            if ($scope.fixtures.length == 0) $scope.cardView = false;
 
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
 
+            var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 $scope.listFixtures[i].homeTeam = User.filterTeam($scope.listFixtures[i].homeTeam);
                 $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
+                debugger;
+                var today = new Date();
+                if ($scope.listFixtures[i].fixDate < today) {
+                    //$scope.listFixtures.splice(i, 1); //delete from card view
+                    $scope.listFixtures[i].status = 'Complete'; //delete from card view
+                    console.log('Fixture marked as complete here');
+                    completeCount++;
+                } else {
+                    $scope.listFixtures[i].status = 'Ongoing';
+                }
             }
+
+            if (completeCount == $scope.listFixtures.length) {
+                $scope.allComplete = true;
+            }
+
 
             //every time a new set of fixtures is loaded, clear predictions
             _getExistingPredictions();
@@ -682,23 +735,32 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             debugger;
             console.log("Predict home win");
 
-            if (_predictionDiffCheck(fixture, 1) && (fixture.fixResult.fixResult == 0)) {
+            var result = _getFixResult(fixture);
+
+            if (_predictionDiffCheck(fixture, 1) && (result == 0)) {
                 _addFixturePrediction(fixture, 1);
             }
         };
 
         $scope.predictAwayWin = function (fixture) {
             debugger;
+
+            var result = _getFixResult(fixture);
+
             console.log("Predict away win");
-            if (_predictionDiffCheck(fixture, 2) && (fixture.fixResult.fixResult == 0)) {
+            if (_predictionDiffCheck(fixture, 2) && (result == 0)) {
                 _addFixturePrediction(fixture, 2);
             }
         };
 
         $scope.predictDraw = function (fixture) {
-            console.log("Predict draw")
+            console.log("Predict draw");
+
             debugger;
-            if (_predictionDiffCheck(fixture, 3) && (fixture.fixResult.fixResult == 0)) {
+
+            var result = _getFixResult(fixture);
+
+            if (_predictionDiffCheck(fixture, 3) && (result == 0)) {
                 _addFixturePrediction(fixture, 3);
             }
         };
@@ -723,9 +785,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             console.log('PREDICT DRAW');
             debugger;
             _addFixturePrediction(fixtureId, 3);
+
+            console.log('Card tapped, button pressed: ' + $scope.dontSkip);
+
+
             $timeout(function () {
                 $scope.cardDestroyed(index);
             }, 500);
+
         };
 
         $scope.cardSkipped = function (index) {
@@ -739,6 +806,28 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             $timeout(function () { //timeout may not be necessary
                 $scope.cardDestroyed(index);
             }, 500);
+        };
+
+        //fixture used to show a fixture fact when viewing cards
+        $scope.showCardFixFact = function () {
+            //simply show the first card
+            $ionicPopup.alert({
+                title: "Did You Know?",
+                template: $scope.fixtures[$scope.fixtures.length - 1].fixtureFacts[0]
+            });
+        };
+
+        $scope.showListFixFact = function (fixture) {
+            //simply show the first card
+
+            var fixFact = _findFix(fixture);
+
+            if (fixFact != -1) {
+                $ionicPopup.alert({
+                    title: "Did You Know?",
+                    template: fixFact.fixtureFacts[0]
+                });
+            }
         };
     })
 
@@ -1648,7 +1737,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             [
                 'Arsenal',
                 'Aston Villa',
-                'Bournemouth',
+                'AFC Bournemouth',
                 'Chelsea',
                 'Crystal Palace',
                 'Everton',
@@ -1665,7 +1754,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 'Tottenham Hotspur',
                 'Watford',
                 'West Bromwich Albion',
-                'West Ham United'
+                'West Ham United',
+                'Other'
             ];
 
         $scope.updateTeam = function() {

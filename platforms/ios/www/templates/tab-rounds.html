@@ -9,14 +9,18 @@
     </ion-header-bar>
     <ion-content class="rounds-content has-header">
         <ion-list>
-            <ion-item class="item-remove-animate item-icon-right" ng-repeat="round in rounds"
+            <ion-item class="item-remove-animate item-icon-right" ng-repeat="round in rounds track by $index"
                       type="item-text-wrap"
-                      href="#/tab/rounds/{{round.round}}">
+                      href="#/tab/rounds/{{round.round}}"
+                      ng-class="{faded : (round.status == 'Complete')}">
                 <div class="round-no-container">
+                    <p ng-if="round.status == 'Complete'">ROUND CLOSED</p>
                     <h2 class="round-no">Round {{round.round}}</h2>
                 </div>
-                <div class="label-button" ng-class="round-">
-                    <p class="round-label">MAKE PREDICTIONS</p>
+                <div class="label-button" ng-class="{'complete' : (round.status == 'Complete'), 'unpredicted' : (round.status == 'Unpredicted'), 'predictions-made': (round.status == 'Predictions Made')}">
+                    <p ng-if="round.status == 'Predictions Made'" class="round-label predictions-made">UPDATE PREDICTIONS</p>
+                    <p ng-if="round.status == 'Unpredicted'" class="round-label unpredicted">MAKE PREDICTIONS</p>
+                    <p ng-if="round.status == 'Complete'" class="round-label complete">POINTS EARNED: {{user.roundScores[$index].roundScore || 0}}</p>
                 </div>
             </ion-item>
         </ion-list>
