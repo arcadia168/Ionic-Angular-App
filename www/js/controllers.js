@@ -156,18 +156,21 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                     currentRoundFixture = currentRoundFixtures[j];
 
-                    if (currentRoundFixture.fixDate > today) {
+                    var fixDateAsDate = new Date(currentRoundFixture.fixDate);
+
+                    if (fixDateAsDate > today) {
                         inPast = false;
                     }
                 }
 
+                //if all of the fixtures are in the past, then round is complete
                 if (inPast == true) {
                     $scope.rounds[i].status = 'Complete'
                 } else {
                     //else if there are fixtures in future still in round
                     for (var l = 0; l < currentRoundFixtures.length; l++) {
 
-                        currentRoundFixture = currentRoundFixtures[j];
+                        currentRoundFixture = currentRoundFixtures[l];
 
                         //look for this fixture in user predictions
                         var predictionsMade = false;
@@ -177,6 +180,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 predictionsMade = true;
                                 $scope.rounds[i].status = "Predictions Made";
                                 console.log(JSON.stringify($scope.rounds[i]));
+
+                                //Set this round to go into the card view, round index
+                                // + 1 because index is base 0
+                                $scope.rounds[i].roundLink = i+1;
+
                                 break
                             }
                         }
@@ -184,6 +192,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         if (predictionsMade == false) {
                             $scope.rounds[i].status = "Unpredicted";
                             console.log(JSON.stringify($scope.rounds[i]));
+
+                            //Set the round link
+                            $scope.rounds[i].roundLink = "cards/" + (i+1);
+
+                            break;
+                        } else {
+                            break;
                         }
                     };
                 }
@@ -583,6 +598,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.sendPredictions = function () {
 
+            debugger;
             var predictionsToUpdate = [];
             var predictionsToAdd = [];
             var diffFlag = false;
@@ -725,8 +741,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //changes have just been saved so no longer need this
                     SaveChanges.saveChangesNotNeeded();
 
-                    //Return to home screen
-                    $state.go('tab.rounds', {'refresh' : true});
+                    debugger;
+                    //Before returning to this screen, get updated user info (new predictions)
+                    User.getUserData(user).then(function(){
+                        //Now the round tab should reflect updated round predictions
+
+                        //Return to home screen
+                        $state.go('tab.rounds', {reload : true});
+                    });
                 });
             }
         };
@@ -819,6 +841,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.showListFixFact = function (fixture) {
             //simply show the first card
+            debugger;
 
             var fixFact = _findFix(fixture);
 
@@ -1659,6 +1682,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //$state.go('tab.rulebook.win');
         $state.go('tab.rulebook.summary');
     })
+
     .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
 
         //set the need for changes to be saved to be false by default
@@ -1742,7 +1766,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 'Crystal Palace',
                 'Everton',
                 'Leicester City',
-                'Leicester',
+                'Norwich City',
                 'Liverpool',
                 'Manchester City',
                 'Manchester United',

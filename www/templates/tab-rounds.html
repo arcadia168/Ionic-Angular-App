@@ -1,4 +1,4 @@
-<ion-view view-title="PREMIER LEAGUE">
+<ion-view cache-view="false" view-title="PREMIER LEAGUE">
     <ion-header-bar class="round-title bar-subheader">
         <div class="round-no-container">
             <p class="round-no">TOTAL POINTS:</p>
@@ -11,7 +11,7 @@
         <ion-list>
             <ion-item class="item-remove-animate item-icon-right" ng-repeat="round in rounds track by $index"
                       type="item-text-wrap"
-                      href="#/tab/rounds/{{round.round}}"
+                      href="#/tab/rounds/{{round.roundLink}}"
                       ng-class="{faded : (round.status == 'Complete')}">
                 <div class="round-no-container">
                     <p ng-if="round.status == 'Complete'">ROUND CLOSED</p>

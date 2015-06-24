@@ -8,16 +8,16 @@
 angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push',
     'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards'])
 
-    .directive('noScroll', function() {
-        return {
-            restrict: 'A',
-            link: function($scope, $element, $attr) {
-                $element.on('touchmove', function(e) {
-                    e.preventDefault();
-                });
-            }
-        }
-    })
+    //.directive('noScroll', function() {
+    //    return {
+    //        restrict: 'A',
+    //        link: function($scope, $element, $attr) {
+    //            $element.on('touchmove', function(e) {
+    //                e.preventDefault();
+    //            });
+    //        }
+    //    }
+    //})
 
     .config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider,
                       $ionicConfigProvider, $compileProvider, $ionicAppProvider) {
@@ -119,6 +119,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             })
 
             .state('tab.rounds', {
+                cache: false,
                 url: '/rounds',
                 views: {
                     'tab-rounds': {
@@ -138,6 +139,21 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                 views: {
                     'tab-rounds': {
                         templateUrl: 'templates/round-detail.html',
+                        controller: 'RoundDetailCtrl'
+                    }
+                },
+                data: {
+                    // This tells Auth0 that this state requires the user to be logged in.
+                    // If the user isn't logged in and he tries to access this state
+                    // he'll be redirected to the login page
+                    requiresLogin: true
+                }
+            })
+            .state('tab.round-cards', {
+                url: '/rounds/cards/:roundId',
+                views: {
+                    'tab-rounds': {
+                        templateUrl: 'templates/round-cards.html',
                         controller: 'RoundDetailCtrl'
                     }
                 },
