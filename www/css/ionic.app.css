@@ -7883,18 +7883,36 @@ td-cards {
     font-weight: 800; }
   .fix-pred-li .fix-pred-header {
     background-color: green;
-    text-align: center;
-    color: white;
-    font-size: 0.75rem; }
-    .fix-pred-li .fix-pred-header .ion-ios-close-empty {
-      right: 0% !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row; }
+    .fix-pred-li .fix-pred-header p {
+      text-align: center;
+      color: white;
+      font-size: 0.75rem;
+      -webkit-flex-basis: 90%;
+      -ms-flex-preferred-size: 90%;
+      flex-basis: 90%;
+      margin-left: 2rem; }
+    .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      top: -0.35rem !important;
-      -webkit-align-items: baseline;
-      -ms-flex-align: baseline;
-      align-items: baseline; }
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      margin-right: 0.1rem; }
+      .fix-pred-li .fix-pred-header .button-container .ion-ios-close-empty, .fix-pred-li .fix-pred-header .button-container .ion-ios-help-empty {
+        width: 1rem;
+        height: 1rem;
+        right: inherit !important;
+        left: inherit !important;
+        color: white !important;
+        position: relative;
+        margin: auto 0.1rem; }
   .fix-pred-li .fix-pred-li-shirts {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -8117,3 +8135,33 @@ td-cards {
   .settings-content .button.button-block {
     width: 90%;
     margin: auto; }
+
+/*Stylins for the sign up/in screen */
+.slider {
+  height: 100% !important;
+  background-color: #3bb665 !important; }
+  .slider ion-slide {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around; }
+    .slider ion-slide .box {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .slider ion-slide .box .signup-text {
+        text-align: center;
+        color: white; }
+  .slider .slider-pager span {
+    color: white !important; }

@@ -4,7 +4,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 
@@ -66,7 +66,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 $http.get(SERVER + '/fixtures/' + roundId
                 ).success(function(data){
                         rounds = data;
-                        debugger;
+                        //debugger;
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
@@ -85,7 +85,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 console.log('SENDING PREDICTIONS:' + predictions);
 
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -112,7 +112,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 console.log('UPDATING PREDICTIONS:' + predictions);
 
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -132,7 +132,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 //make a call to the server to get the existing predictions made by a user
                 //do this for a given round
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -151,7 +151,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             //deleteRoundPredictions: function(userid, round) {
             //
             //    //make a call to the server to get the existing predictions made by a user
-            //    debugger;
+            //    //debugger;
             //
             //    var deferred = $q.defer();
             //
@@ -191,7 +191,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 $http.get(SERVER + '/leaderboard/'
                 ).success(function(data){
                         //Process the data
-                        debugger;
+                        //debugger;
 
                         globalLeagueData = data;
                         currentRound = data[data.length - 2];
@@ -220,7 +220,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 // Make a call to ye olde server
                 $http.get(SERVER + '/users/private_leagues/list/' + user_id
                 ).success(function(data){
-                        debugger;
+                        //debugger;
 
                         userPrivateLeagues = data;
 
@@ -230,7 +230,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                             for (var k = 0; k < userPrivateLeagues[j].members.length; k++) {
                                 if (userPrivateLeagues[j].members[k].user_id == user_id) {
                                     //then we have found the currently logged in user, add key to this object
-                                    debugger;
+                                    //debugger;
                                     userPrivateLeagues[j].thisUser = {
                                         //need pts, username and pick
                                         userSeasonPts: userPrivateLeagues[j].members[k].overallSeasonScore,  //todo: assign round pts
@@ -480,6 +480,8 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         //return this object once retrieved
         var currentUserData = {};
         var showTutorials = true;
+        var firstTimeSignIn = false;
+        var tutorialSeenCount = 0;
 
         return {
             sync: function(user) {
@@ -540,6 +542,18 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             },
             hideTutorials: function() {
                 showTutorials = false;
+            },
+            setFirstTimeSignIn: function(){
+                firstTimeSignIn = true;
+            },
+            firstTimeSignIn: function() {
+                return firstTimeSignIn;
+            },
+            incrementTutorialSeenCount: function() {
+                tutorialSeenCount++;
+            },
+            tutorialSeenCount: function(){
+                return tutorialSeenCount;
             },
             tutorialsActiveCheck: function() {
                 return showTutorials;

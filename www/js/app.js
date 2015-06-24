@@ -104,6 +104,11 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                 templateUrl: 'templates/login.html',
                 controller: 'LoginCtrl'
             })
+            .state('signup', {
+                url: '/signup',
+                templateUrl: 'templates/signup.html',
+                controller: 'SignUpCtrl'
+            })
 
             // setup an abstract state for the tabs directive
             .state('tab', {
@@ -309,7 +314,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             });
 
 // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/login');
+        $urlRouterProvider.otherwise('/signup');
 
     })
 
@@ -345,6 +350,16 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
             }
 
         });
+
+        // Disable BACK button on home
+        $ionicPlatform.registerBackButtonAction(function (event) {
+            if($state.current.name=="tab.rounds"){
+                navigator.app.exitApp();
+            }
+            else {
+                navigator.app.backHistory();
+            }
+        }, 100);
 
         //Configure back button functionality
         //$ionicPlatform.registerBackButtonAction(function (event) {
@@ -468,6 +483,7 @@ angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.se
                         //then mark this user as being new and show them the tutorials
                         console.log("This user is a new user, activating tutorials.");
                         User.showTutorials();
+                        User.setFirstTimeSignIn();
                     } else if (response == 202) {
                         console.log("This is an existing user, so not showing any tutorials");
                         User.hideTutorials();

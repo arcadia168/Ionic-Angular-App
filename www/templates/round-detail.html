@@ -5,9 +5,12 @@
                       ng-repeat="fixture in listFixtures track by fixture._id"
                       type="item-text-wrap"
                     >
-                <div class="fix-pred-header">FIXTURE {{$index + 1}}
-                    <i ng-if="fixture.status != 'Complete'" class="icon ion-ios-close-empty" ng-click="deleteSinglePrediction(fixture)"></i>
-                    <!--<i class="icon ion-ios-help-empty" ng-click="showListFixFact(fixture)"></i>-->
+                <div class="fix-pred-header">
+                    <p>FIXTURE {{$index + 1}}</p>
+                    <div class="button-container">
+                        <i class="icon ion-ios-help-empty" ng-click="showListFixFact(fixture)"></i>
+                        <i ng-if="fixture.status != 'Complete'" class="icon ion-ios-close-empty" ng-click="deleteSinglePrediction(fixture)"></i>
+                    </div>
                 </div>
                 <div class="fix-pred-li-shirts " ng-class="{faded : fixture.fixResult.fixResult != 0 || fixture.predictionWindow == 'Fixture Finished'}">
                     <div class="finished-label" ng-if="fixture.status == 'Complete'">
