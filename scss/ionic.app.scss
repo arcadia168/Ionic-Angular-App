@@ -1735,6 +1735,11 @@ td-cards {
       flex-direction: column;
       align-items: center;
 
+      img {
+        width: 65%;
+        height: auto;
+      }
+
       .signup-text {
         text-align: center;
         color: white;

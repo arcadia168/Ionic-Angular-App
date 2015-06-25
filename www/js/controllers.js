@@ -532,6 +532,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
+            $scope.listFixtures.reverse();
 
             var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {

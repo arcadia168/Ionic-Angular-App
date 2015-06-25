@@ -8160,6 +8160,9 @@ td-cards {
       -webkit-align-items: center;
       -ms-flex-align: center;
       align-items: center; }
+      .slider ion-slide .box img {
+        width: 65%;
+        height: auto; }
       .slider ion-slide .box .signup-text {
         text-align: center;
         color: white; }
