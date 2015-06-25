@@ -6832,6 +6832,8 @@ a.button {
         color: white !important; }
       .a0-active .a0-centrix .a0-onestep .a0-emailPassword input {
         color: #6A6A6A !important; }
+      .a0-active .a0-centrix .a0-onestep .a0-btn-small:hover {
+        background-color: #65ef80 !important; }
       .a0-active .a0-centrix .a0-onestep .ao-mode-container .ao-notloggedin form .a0-collapse-social .ao-separator span {
         color: white !important; }
       .a0-active .a0-centrix .a0-onestep .a0-footer a {
@@ -7262,14 +7264,15 @@ ion-view.league-detail .bar-subheader {
       padding-top: 5px !important; }
     ion-view.league-detail .bar-subheader .item-select select {
       border: 1px solid black;
-      top: 0.25rem;
+      top: 0.3rem;
       right: 0.3rem;
       padding: 0.7rem 1.8rem 0.3rem 0.5rem;
       color: #6A6A6A !important;
       background-color: transparent !important;
       margin-top: -0.28rem !important; }
     ion-view.league-detail .bar-subheader .item-select:after {
-      top: 40% !important; }
+      top: 40% !important;
+      margin-top: 0 !important; }
 ion-view.league-detail .scroll {
   background-color: white;
   height: 100%; }
@@ -7706,6 +7709,17 @@ ion-view[view-title="LEAGUE TABLE"] .last-empty-row {
   height: 1.75rem;
   border-top: 1px solid #3bb665 !important; }
 
+.card-container {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center; }
+
 /* Styling for the card view */
 td-cards {
   display: block;
@@ -7722,7 +7736,7 @@ td-cards {
   td-cards td-card {
     position: absolute;
     left: 50%;
-    margin-top: 5.5rem;
+    margin-top: 3.5rem;
     margin-bottom: 40px;
     margin-left: -150px;
     width: 300px;
@@ -7763,6 +7777,8 @@ td-cards {
         -ms-flex-align: center;
         align-items: center; }
       td-cards td-card .card-content .shirt-container {
+        position: relative;
+        top: 1.5rem;
         height: 8rem;
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -7798,26 +7814,17 @@ td-cards {
             top: 10px;
             width: 70%;
             margin: 0 auto 1.5rem auto; }
-  td-cards .yes-text {
+  td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
-    top: 84%;
-    right: 25%;
+    top: 41%;
+    right: 23%;
     font-size: 1rem;
-    opacity: 0;
+    opacity: 0; }
+  td-cards .yes-text {
     color: #ef473a; }
   td-cards .no-text {
-    position: absolute;
-    top: 84%;
-    right: 25%;
-    font-size: 1rem;
-    opacity: 0;
     color: #33cd5f; }
   td-cards .draw-text {
-    position: absolute;
-    top: 84%;
-    right: 25%;
-    font-size: 1rem;
-    opacity: 0;
     color: #ffc900; }
   td-cards .skipped-text {
     position: absolute;
@@ -7850,10 +7857,9 @@ td-cards {
 .button-fact {
   position: relative;
   margin: 1rem auto;
-  left: 1.5rem !important;
   z-index: -10000;
-  top: 25rem;
-  width: 90% !important;
+  top: 22.5rem;
+  width: 85% !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
   display: table-cell;
@@ -7881,18 +7887,36 @@ td-cards {
     font-weight: 800; }
   .fix-pred-li .fix-pred-header {
     background-color: green;
-    text-align: center;
-    color: white;
-    font-size: 0.75rem; }
-    .fix-pred-li .fix-pred-header .ion-ios-close-empty {
-      right: 0% !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row; }
+    .fix-pred-li .fix-pred-header p {
+      text-align: center;
+      color: white;
+      font-size: 0.75rem;
+      -webkit-flex-basis: 90%;
+      -ms-flex-preferred-size: 90%;
+      flex-basis: 90%;
+      margin-left: 2rem; }
+    .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      top: -0.35rem !important;
-      -webkit-align-items: baseline;
-      -ms-flex-align: baseline;
-      align-items: baseline; }
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      margin-right: 0.1rem; }
+      .fix-pred-li .fix-pred-header .button-container .ion-ios-close-empty, .fix-pred-li .fix-pred-header .button-container .ion-ios-help-empty {
+        width: 1rem;
+        height: 1rem;
+        right: inherit !important;
+        left: inherit !important;
+        color: white !important;
+        position: relative;
+        margin: auto 0.1rem; }
   .fix-pred-li .fix-pred-li-shirts {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -7906,29 +7930,70 @@ td-cards {
     margin-top: 0.4rem; }
     .fix-pred-li .fix-pred-li-shirts.faded {
       opacity: 0.2 !important; }
-    .fix-pred-li .fix-pred-li-shirts .vs {
+    .fix-pred-li .fix-pred-li-shirts .finished-label {
       width: 100%;
-      text-align: center;
-      font-size: x-large; }
-    .fix-pred-li .fix-pred-li-shirts .fix-home-away {
+      font-size: 3rem;
+      opacity: 1 !important;
+      -webkit-transform: rotate(-12deg);
+      transform: rotate(-12deg);
+      position: absolute;
+      top: 3rem;
+      margin: auto;
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      text-align: center; }
-      .fix-pred-li .fix-pred-li-shirts .fix-home-away em {
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding-top: 0.75rem; }
-      .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon {
-        width: 50%;
-        margin: 0 auto; }
-        .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon.faded {
-          opacity: 0.2 !important; }
-        .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon.slightlyfaded {
-          opacity: 0.35; }
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .fix-pred-li .fix-pred-li-shirts .finished-label p {
+        width: 70%;
+        margin: auto;
+        color: red !important;
+        border: 2px solid red;
+        border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .fix-details {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      margin-top: 0.4rem; }
+      .fix-pred-li .fix-pred-li-shirts .fix-details .vs {
+        width: 100%;
+        text-align: center;
+        font-size: x-large; }
+      .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        text-align: center; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away em {
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding-top: 0.75rem; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon {
+          width: 50%;
+          margin: 0 auto; }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.faded {
+            opacity: 0.2 !important; }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.slightlyfaded {
+            opacity: 0.35; }
   .fix-pred-li .user-prediction {
     border-top: 1px solid #3bb665;
     display: -webkit-flex;
@@ -8046,19 +8111,6 @@ td-cards {
       .settings-content .list .item a {
         text-decoration: none;
         color: inherit; }
-      .settings-content .list .item .toggle {
-        padding-top: 10px !important;
-        right: 5px; }
-        .settings-content .list .item .toggle .track {
-          border-radius: 7px !important;
-          width: 45px !important;
-          height: 24px !important; }
-        .settings-content .list .item .toggle .handle {
-          height: 20px !important;
-          width: 20px !important;
-          border-radius: 5px !important;
-          border: 2px solid grey !important;
-          top: 12px !important; }
       .settings-content .list .item.sign-out {
         padding-top: 0px;
         padding-bottom: 10px; }
@@ -8087,3 +8139,36 @@ td-cards {
   .settings-content .button.button-block {
     width: 90%;
     margin: auto; }
+
+/*Stylins for the sign up/in screen */
+.slider {
+  height: 100% !important;
+  background-color: #3bb665 !important; }
+  .slider ion-slide {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around; }
+    .slider ion-slide .box {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .slider ion-slide .box img {
+        width: 65%;
+        height: auto; }
+      .slider ion-slide .box .signup-text {
+        text-align: center;
+        color: white; }
+  .slider .slider-pager span {
+    color: white !important; }

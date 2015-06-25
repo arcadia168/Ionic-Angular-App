@@ -53,4 +53,8 @@
     <preference name="SplashScreenDelay" value="3000" />
     <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" />
     <icon density="xhdpi" src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <feature name="IonicDeploy">
+        <param name="android-package" value="com.ionic.deploy.IonicDeploy" />
+        <param name="onload" value="true" />
+    </feature>
 </widget>

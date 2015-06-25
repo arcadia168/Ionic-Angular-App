@@ -290,6 +290,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         });
         $scope.fixCount = 0;
+        $scope.currentRound = $stateParams.roundId;
 
         //debugger;
         function _checkAndShowTutorials() {
@@ -876,6 +877,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 //Assign the season overall leaderboard data to a scope variable
                 $scope.overallLeague = data;
+                debugger;
                 console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
 
                 //For each league will have to add data pertaining to logged in user to scope manually
@@ -1120,8 +1122,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.shouldShowDelete = false;
         $scope.currentRound = Leaderboard.getCurrentRound();
         console.log($scope.currentRound);
+        debugger;
         $scope.roundDates = Leaderboard.getRoundDates();
-        console.log($scope.roundDates);
         $scope.roundInView = 0; //0 represents overall season round
         var _membersToDelete = [];
         $scope.newCaptain = null;

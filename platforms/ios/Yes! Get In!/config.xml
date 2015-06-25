@@ -74,10 +74,14 @@
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="orientation" value="portrait" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashScreen" value="screen" />
     <preference name="StatusBarOverlaysWebView" value="false" />
     <preference name="SplashScreenDelay" value="3000" />
     <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <feature name="IonicDeploy">
+        <param name="ios-package" onload="true" value="IonicDeploy" />
+    </feature>
 </widget>

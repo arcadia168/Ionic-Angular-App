@@ -41,6 +41,13 @@ module.exports = [
         "clobbers": [
             "window.StatusBar"
         ]
+    },
+    {
+        "file": "plugins/com.ionic.deploy/www/ionicdeploy.js",
+        "id": "com.ionic.deploy.IonicDeploy",
+        "clobbers": [
+            "IonicDeploy"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -52,7 +59,8 @@ module.exports.metadata =
     "org.apache.cordova.console": "0.2.13",
     "org.apache.cordova.device": "0.3.1-dev",
     "org.apache.cordova.inappbrowser": "0.6.0",
-    "cordova-plugin-statusbar": "1.0.0"
+    "cordova-plugin-statusbar": "1.0.0",
+    "com.ionic.deploy": "0.1.6"
 }
 // BOTTOM OF METADATA
 });

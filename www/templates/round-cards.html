@@ -15,7 +15,10 @@
                         <p>{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date:
                             'hh:mm'}}</p><p>{{fixture.fixStadium}}</p>
                     </div>
-
+                    <div class="no-text">PREDICTION: HOME WIN</div>
+                    <div class="yes-text">PREDICTION: AWAY WIN</div>
+                    <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
+                    <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW</div>
                     <div class="shirt-container">
                         <div class="home-team col-40">
                             <img class="image home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
@@ -32,11 +35,6 @@
                             <em class="away-team-label">{{fixture.awayTeam | uppercase}}</em>
                             <!-- TODO: wld for past six matches here -->
                         </div>
-                    </div>
-                    <div class="no-text">PREDICTION: HOME WIN</div>
-                    <div class="yes-text">PREDICTION: AWAY WIN</div>
-                    <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
-                    <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW
                     </div>
                 </div>
             </td-card>

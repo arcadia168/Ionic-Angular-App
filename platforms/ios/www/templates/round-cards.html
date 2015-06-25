@@ -1,49 +1,45 @@
 <ion-view view-title="PREDICT ROUND {{currentRound}} FIXTURES">
-    <ion-content ng-if="cardView" scroll='false' ng-controller="RoundDetailCtrl" class="padding has-footer">
-        <div>
-            <td-cards>
-                <td-card ng-repeat="fixture in fixtures track by $index"
-                         on-destroy="cardDestroyed($index)"
-                         on-transition-left="cardSwipedLeft(fixture._id)"
-                         on-transition-right="cardSwipedRight(fixture._id)"
-                         on-tap="cardTapped(fixture._id, $index)"
-                         on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}"
-                         ng-class="{flyout: fixture.prediction == 'DRAW' || fixture.prediction == 'NONE'}"
-                        >
-                    <div class="card-header"><p class="fix-title">FIXTURE {{fixtures.length - ($index)}}</p></div>
-                    <div class="card-content">
-                        <div class="card-fix-date">
-                            <p>{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date:
-                                'hh:mm'}}</p><p>{{fixture.fixStadium}}</p>
+    <ion-content scroll="false" ng-controller="RoundDetailCtrl" class="card-container padding">
+        <td-cards>
+            <td-card ng-repeat="fixture in fixtures track by $index"
+                     on-destroy="cardDestroyed($index)"
+                     on-transition-left="cardSwipedLeft(fixture._id)"
+                     on-transition-right="cardSwipedRight(fixture._id)"
+                     on-tap="cardTapped(fixture._id, $index)"
+                     on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}"
+                     ng-class="{flyout: fixture.prediction == 'DRAW' || fixture.prediction == 'NONE'}"
+                    >
+                <div class="card-header"><p class="fix-title">FIXTURE {{fixCount - $index}}</p></div>
+                <div class="card-content">
+                    <div class="card-fix-date">
+                        <p>{{fixture.fixDate | date:'EEE d y'}}, {{fixture.kickOff | date:
+                            'hh:mm'}}</p><p>{{fixture.fixStadium}}</p>
+                    </div>
+                    <div class="no-text">PREDICTION: HOME WIN</div>
+                    <div class="yes-text">PREDICTION: AWAY WIN</div>
+                    <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
+                    <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW</div>
+                    <div class="shirt-container">
+                        <div class="home-team col-40">
+                            <img class="image home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
+                            <!-- TODO: team league pos here -->
+                            <em class="home-team-label">{{fixture.homeTeam | uppercase}}</em>
+                            <!-- TODO: wld for past six matches here -->
                         </div>
 
-                        <div class="shirt-container">
-                            <div class="home-team col-40">
-                                <img class="image home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
-                                <!-- TODO: team league pos here -->
-                                <em class="home-team-label">{{fixture.homeTeam | uppercase}}</em>
-                                <!-- TODO: wld for past six matches here -->
-                            </div>
+                        <h4>VS</h4>
 
-                            <h4>VS</h4>
-
-                            <div class="away-team col-40">
-                                <img class="image away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
-                                <!-- TODO: team league pos here -->
-                                <em class="away-team-label">{{fixture.awayTeam | uppercase}}</em>
-                                <!-- TODO: wld for past six matches here -->
-                            </div>
-                        </div>
-                        <div class="no-text">PREDICTION: HOME WIN</div>
-                        <div class="yes-text">PREDICTION: AWAY WIN</div>
-                        <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
-                        <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text">PREDICTION: DRAW
+                        <div class="away-team col-40">
+                            <img class="image away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
+                            <!-- TODO: team league pos here -->
+                            <em class="away-team-label">{{fixture.awayTeam | uppercase}}</em>
+                            <!-- TODO: wld for past six matches here -->
                         </div>
                     </div>
-                </td-card>
-            </td-cards>
-            <button class="button button-fact" ng-click="showCardFixFact(fixture)">Did You Know?</button>
-        </div>
+                </div>
+            </td-card>
+        </td-cards>
+        <button class="button button-fact" ng-click="showCardFixFact(fixture)">Did You Know?</button>
     </ion-content>
 </ion-view>
                 

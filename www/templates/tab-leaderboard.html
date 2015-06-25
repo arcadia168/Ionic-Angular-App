@@ -21,7 +21,7 @@
                         <i class="leader-icon icon ion-android-star"></i>
                         <p class="leader-no">1</p>
                     </div>
-                    <img ng-if="overallLeague[0].pic != 'none'" class="user-pic" ng-src="{{overallLegue[0].pic}}">
+                    <img ng-if="overallLeague[0].pic != 'none'" class="user-pic" ng-src="{{overallLeague[0].pic}}">
                     <i ng-if="overallLeague[0].pic == 'none'" class="non-pic icon ion-person"></i>
                     <div class="leader-name">{{overallLeague[0].username | uppercase | limitTo: 8}}</div>
                     <div class="leader-points">
@@ -54,6 +54,11 @@
                 </div>
             </div>
             <div class="league-overview">
+                <div class="label-row">
+                    <div class="pos-label">POS</div>
+                    <div class="pos-player">PLAYER</div>
+                    <div class="pos-points">POINTS</div>
+                </div>
                 <div class="leader-row">
                     <div class="leader-pos">
                         <i class="leader-icon icon ion-android-star"></i>

@@ -5,8 +5,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push',
-    'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards']);
+var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'ionic.service.deploy',
+    'ionic.service.analytics', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards']);
 
 //app.constant('$ionicLoadingConfig', {
 //    templateUrl: '<ion-spinner></ion-spinner>'
@@ -74,7 +74,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
         return {
             request: function (config) {
                 //check flag in service, if active don't show loader
-                debugger;
+                //debugger;
                 if (config.url != "https://push.ionic.io/dev/push/check") {
                     $rootScope.$broadcast('loading:show');
                 }
@@ -91,7 +91,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
     var refreshingToken = null;
     jwtInterceptorProvider.tokenGetter = function(store, $http, jwtHelper) {
         //notify app that chekcing for refresh token, don't show loader;
-        debugger;
+        //debugger;
         //tokenRefreshCheck.activateCheckingToken();
 
         var token = store.get('token');
@@ -111,7 +111,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
                         refreshingToken = null;
                     });
                 }
-                debugger;
+                //debugger;
                 //tokenRefreshCheck.deactivateCheckingToken();
                 return refreshingToken;
             }
@@ -345,7 +345,10 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
 
 });
 
-app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location) {
+app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicDeploy, $ionicAnalytics) {
+
+    //Register for app analytics
+    $ionicAnalytics.register();
 
     // This hooks all auth events to check everything as soon as the app starts
     auth.hookEvents();
@@ -353,7 +356,7 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
     $rootScope.$on('loading:show', function () {
 
         //only show loader if NOT checking refresh token
-        debugger;
+        //debugger;
         //if (!tokenRefreshCheck.checkingToken()) {
             $ionicLoading.show({
                 template: '<p>Loading<br><ion-spinner icon="ripple" class="spinner-calm"></ion-spinner></p>'
@@ -409,7 +412,7 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
     var refreshingToken = null;
     $rootScope.$on('$locationChangeStart', function () {
         //stop loading screen from showing
-        debugger;
+        //debugger;
         //tokenRefreshCheck.activateCheckingToken();
         var token = store.get('token');
         //console.log(token);
@@ -439,6 +442,14 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
             }
         }
     });
+
+    //Watch out for updates published from Ionic Deploy
+    $ionicDeploy.check().then(function(hasUpdate) {
+        $rootScope.lastChecked = new Date();
+        $scope.hasUpdate = hasUpdate;
+    }, function(err) {
+        console.error('Unable to check for updates:', err);
+    });
 })
 
 app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
@@ -458,11 +469,11 @@ app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $i
 
         }, function (profile, id_token, access_token, state, refresh_token) {
 
-            //debugger;
+            ////debugger;
             //console.log('Profile is: ' + profile);
-            //debugger;
+            ////debugger;
             //console.log('idToken is: ' + id_token);
-            //debugger;
+            ////debugger;
             //console.log('refreshToken is: ' + refresh_token);
 
             // Success callback

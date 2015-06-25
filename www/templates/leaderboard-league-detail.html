@@ -44,7 +44,7 @@
                     <p ng-if="member.overallSeasonScore == 0">0 PTS</p>
                     <p ng-if="member.overallSeasonScore != 0">{{member.overallSeasonScore}} PTS</p>
                 </div>
-                <div ng-if="roundInView.roundNo > 0">
+                <div ng-if="roundInView.roundNo != 'OVERALL SEASON'">
                     <p ng-if="memberRoundScore($index) == 0">0 PTS</p>
                     <p ng-if="memberRoundScore($index) != 0">
                         {{memberRoundScore($index)}} PTS
