@@ -19,10 +19,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //    }, function (profile, idToken, accessToken, state, refreshToken) {
     //
     //        //debugger;
-    //        console.log('Profile is: ' + profile);
-    //        console.log('Access Token is: ' + accessToken);
-    //        console.log('idToken is: ' + idToken);
-    //        console.log('refreshToken is: ' + refreshToken);
+    //        //console.log('Profile is: ' + profile);
+    //        //console.log('Access Token is: ' + accessToken);
+    //        //console.log('idToken is: ' + idToken);
+    //        //console.log('refreshToken is: ' + refreshToken);
     //
     //        // Success callback
     //        store.set('profile', profile);
@@ -30,7 +30,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //        store.set('refreshToken', refreshToken);
     //        $location.path('/');
     //
-    //        console.log('registering push');
+    //        //console.log('registering push');
     //
     //        // Login was successful
     //        User.sync(auth.profile).then(function (response) {
@@ -46,7 +46,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //                    canRunActionsOnWake: true, // Whether to run auto actions outside the
     //                    // app,
     //                    onNotification: function (notification) {
-    //                        console.log('notification received: ' + JSON.stringify(notification));
+    //                        //console.log('notification received: ' + JSON.stringify(notification));
     //                    }
     //                },
     //                {
@@ -55,27 +55,27 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //                }
     //            ).then(
     //                function () {
-    //                    console.log('registration successful');
+    //                    //console.log('registration successful');
     //                },
     //                function (err) {
-    //                    console.log('registration failed');
-    //                    console.log(err);
+    //                    //console.log('registration failed');
+    //                    //console.log(err);
     //                }
     //            );
     //
     //            //Once the user data has been synced, get the user data object from our server also
     //            //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
     //            //Check to see if the user is a new user, if so set service variable appropriately
-    //            console.log("Response from the userSync method on the server is: " + response);
+    //            //console.log("Response from the userSync method on the server is: " + response);
     //
     //            //User.hideTutorials();
     //
     //            if (response == 201) {
     //                //then mark this user as being new and show them the tutorials
-    //                console.log("This user is a new user, activating tutorials.");
+    //                //console.log("This user is a new user, activating tutorials.");
     //                User.showTutorials();
     //            } else if (response == 202) {
-    //                console.log("This is an existing user, so not showing any tutorials");
+    //                //console.log("This is an existing user, so not showing any tutorials");
     //                User.hideTutorials();
     //            }
     //
@@ -83,7 +83,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //                function(){
     //                    //Testing the user global service
     //                    var currentUser = User.currentUser();
-    //                    console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+    //                    //console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
     //
     //                    $state.go('tab.rounds');
     //
@@ -93,7 +93,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //                        title: 'Login successful!',
     //                        template: 'Welcome ' + auth.profile.nickname + '!'
     //                    }).then(function (res) {
-    //                        console.log(auth.profile);
+    //                        //console.log(auth.profile);
     //                    });
     //                }
     //            );
@@ -101,7 +101,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     //
     //    }, function (error) {
     //        // Oops something went wrong during login:
-    //        console.log("There was an error logging in:" + JSON.stringify(error));
+    //        //console.log("There was an error logging in:" + JSON.stringify(error));
     //    });
     //
     //})
@@ -117,12 +117,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //maybe make reusable
             angular.forEach($scope.standings, function (standing, key) {
                 if (standing.stand_team_name.indexOf("United" > -1)) {
-                    console.log("Standing with \'United\' in team name has been altered");
+                    //console.log("Standing with \'United\' in team name has been altered");
                     standing.stand_team_name = standing.stand_team_name.replace('United', 'Utd');
                 }
 
                 if (standing.stand_team_name.indexOf("Manchester" > -1)) {
-                    console.log("Standing with \'Manchester\' in team name has been altered");
+                    //console.log("Standing with \'Manchester\' in team name has been altered");
                     standing.stand_team_name = standing.stand_team_name.replace('Manchester', 'Man');
                 }
             });
@@ -179,7 +179,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             if ($scope.user.predictions[k].fixture == currentRoundFixture._id) {
                                 predictionsMade = true;
                                 $scope.rounds[i].status = "Predictions Made";
-                                console.log(JSON.stringify($scope.rounds[i]));
+                                //console.log(JSON.stringify($scope.rounds[i]));
 
                                 //Set this round to go into the card view, round index
                                 // + 1 because index is base 0
@@ -191,7 +191,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                         if (predictionsMade == false) {
                             $scope.rounds[i].status = "Unpredicted";
-                            console.log(JSON.stringify($scope.rounds[i]));
+                            //console.log(JSON.stringify($scope.rounds[i]));
 
                             //Set the round link
                             $scope.rounds[i].roundLink = "cards/" + (i+1);
@@ -226,14 +226,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 });
                 confirmPopup.then(function (res) {
                     if (res) {
-                        console.log('You are sure');
+                        //console.log('You are sure');
                         //then go on back!
                         //set save changes to false
                         SaveChanges.saveChangesNotNeeded();
 
                         $ionicHistory.goBack();
                     } else {
-                        console.log('You are not sure');
+                        //console.log('You are not sure');
                         //stay in this view
                     }
                 });
@@ -268,7 +268,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.saveChangesNeeded = false;
         $scope.$on('$ionicView.enter', function(){
             //if the scope says need to save set the global need to save after reentering the tab
-            console.log("Round detail view re-entered from other tab.");
+            //console.log("Round detail view re-entered from other tab.");
 
             var diffFlag = false;
 
@@ -308,7 +308,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 //Increment the number of times the tutorials have been shown
                 User.incrementTutorialSeenCount();
-                console.log(User.tutorialSeenCount());
+                //console.log(User.tutorialSeenCount());
 
             }
         }
@@ -333,7 +333,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //if (data != null) {
                 //    $scope.existingPredictions = data;
                 //    //go to the list view, new controller instance
-                //    console.log("User already predicted for this round, going to list view");
+                //    //console.log("User already predicted for this round, going to list view");
                 //    //$state.go('tab.round-detail', {roundId : $stateParams.roundId});
                 //}
 
@@ -355,7 +355,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //will need to use a nested loop
 
                     //debugger;
-                    console.log("Now matching existing predictions to thier corresponding fixtures.");
+                    //console.log("Now matching existing predictions to thier corresponding fixtures.");
 
                     //outer loop - go over all of the listFixtures - iterate through the list of fixtures
                     for (var i = 0; i < $scope.listFixtures.length; i++) {
@@ -381,10 +381,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //Then determing the first card details globally for the skip function
                     //debugger;
                     $scope.currentCardFixture = $scope.fixtures[$scope.fixtures.length - 1];
-                    console.log("The fixture for the first card is: " + JSON.stringify($scope.currentCardFixture));
+                    //console.log("The fixture for the first card is: " + JSON.stringify($scope.currentCardFixture));
 
                     $scope.currentCardIndex = $scope.fixtures.length - 1;
-                    console.log("To begin with, the current card index is: " + $scope.currentCardIndex);
+                    //console.log("To begin with, the current card index is: " + $scope.currentCardIndex);
 
                     $scope.deleteDisabled = true;
                     $scope.clearDisabled = true;
@@ -448,11 +448,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 if ($scope.listFixtures[i]._id == fixture) {
                     //then appropriately update the prediction
                     $scope.listFixtures[i].prediction = predictionMap[prediction];
-                    console.log($scope.listFixtures[i].prediction);
+                    //console.log($scope.listFixtures[i].prediction);
 
                     if ($scope.cardView) {
                         $scope.fixtures[i].prediction = predictionMap[prediction];
-                        console.log($scope.listFixtures[i].prediction);
+                        //console.log($scope.listFixtures[i].prediction);
                     }
 
                     break; //exit the loop
@@ -472,13 +472,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         function _predictionDiffCheck(fixture, predictionType) {
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 if (($scope.listFixtures[i]._id == fixture) && ($scope.listFixtures[i].prediction == predictionMap[predictionType])) {
-                    console.log("The prediction for this fixture is already the same, exiting.");
+                    //console.log("The prediction for this fixture is already the same, exiting.");
                     return 0; //prediction same
                 }
             }
 
             //otherwise if not found return 1 for different
-            console.log("This is an updated prediction, updating.");
+            //console.log("This is an updated prediction, updating.");
             return 1;
         }
 
@@ -486,16 +486,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 if ($scope.listFixtures[i]._id == fixId) {
                     return $scope.listFixtures[i].fixResult.fixResult;
-                }
-            }
-
-            return -1; //if not found.
-        }
-
-        function _findFix(fixture) {
-            for (var i = 0; i < $scope.listFixtures.length; i++) {
-                if ($scope.listFixtures[i]._id == fixture) {
-                    return $scope.listFixtures[i];
                 }
             }
 
@@ -516,7 +506,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //$ionicLoading.hide();
             $scope.fixtures = data;
             $scope.fixCount = $scope.fixtures.length;
-            console.log("fix count is " + $scope.fixCount);
+            //console.log("fix count is " + $scope.fixCount);
             $scope.fixtures.reverse();
 
             for (var i = 0; i < $scope.fixtures.length; i++) {
@@ -533,7 +523,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
-            $scope.listFixtures.reverse();
+            //$scope.listFixtures.reverse();
 
             var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {
@@ -544,7 +534,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 if ($scope.listFixtures[i].fixDate < today) {
                     //$scope.listFixtures.splice(i, 1); //delete from card view
                     $scope.listFixtures[i].status = 'Complete'; //delete from card view
-                    console.log('Fixture marked as complete here');
+                    //console.log('Fixture marked as complete here');
                     completeCount++;
                 } else {
                     $scope.listFixtures[i].status = 'Ongoing';
@@ -640,7 +630,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
                 //Before iterating, check to see if any new predictions have been made that aren't on the server
                 if (predictionExists == false) {
-                    console.log("A new prediction has been made.");
+                    //console.log("A new prediction has been made.");
                     diffFlag = true;
                     break;
                 }
@@ -705,7 +695,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             //Now send any predictions to be added
                             //once you have a list of predictions to update, async for loop and update
                             if (predictionsToAdd.length > 0) {
-                                console.log('There have been completely new predictions made, sending these to server.');
+                                //console.log('There have been completely new predictions made, sending these to server.');
                                 Rounds.makePredictions(auth.profile.user_id, $stateParams.roundId, predictionsToAdd).then(function(){
                                     //mark changes as not being required.
                                     SaveChanges.saveChangesNotNeeded();
@@ -758,7 +748,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                         //if user first time sign in - re-enable
                         debugger;
-                        console.log(User.tutorialSeenCount());
+                        //console.log(User.tutorialSeenCount());
                         if (User.firstTimeSignIn() && (User.tutorialSeenCount() < 2)){
                             User.showTutorials();
                         }
@@ -772,7 +762,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.predictHomeWin = function (fixture) {
             //debugger;
-            console.log("Predict home win");
+            //console.log("Predict home win");
 
             var result = _getFixResult(fixture);
 
@@ -786,14 +776,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             var result = _getFixResult(fixture);
 
-            console.log("Predict away win");
+            //console.log("Predict away win");
             if (_predictionDiffCheck(fixture, 2) && (result == 0)) {
                 _addFixturePrediction(fixture, 2);
             }
         };
 
         $scope.predictDraw = function (fixture) {
-            console.log("Predict draw");
+            //console.log("Predict draw");
 
             //debugger;
 
@@ -805,37 +795,40 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.cardDestroyed = function (index) {
+            debugger;
             $scope.currentCardIndex = index - 1;
             $scope.fixtures.splice(index, 1); //is this a reference to the same fixtures array!?
             _cardViewDoneCheck();
         };
 
         $scope.cardSwipedLeft = function (fixtureId) {
-            console.log('LEFT SWIPE - PREDICT HOME WIN');
+            //console.log('LEFT SWIPE - PREDICT HOME WIN');
             _addFixturePrediction(fixtureId, 1);
         };
 
         $scope.cardSwipedRight = function (fixtureId) {
-            console.log('RIGHT SWIPE - PREDICT AWAY WIN');
+            //console.log('RIGHT SWIPE - PREDICT AWAY WIN');
             _addFixturePrediction(fixtureId, 2);
         };
 
         $scope.cardTapped = function (fixtureId, index) {
-            console.log('PREDICT DRAW');
+            //console.log('PREDICT DRAW');
             //debugger;
+            debugger;
             _addFixturePrediction(fixtureId, 3);
 
-            console.log('Card tapped, button pressed: ' + $scope.dontSkip);
+            //console.log('Card tapped, button pressed: ' + $scope.dontSkip);
 
 
             $timeout(function () {
+                //$scope.cardDestroyed(index);
                 $scope.cardDestroyed(index);
             }, 500);
 
         };
 
         $scope.cardSkipped = function (index) {
-            console.log("SKIP FIXTURE - NO PREDICTION");
+            //console.log("SKIP FIXTURE - NO PREDICTION");
 
             //Retrieve the fixture at this index
             var fix = $scope.fixtures[index]._id;
@@ -863,6 +856,15 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             });
 
         };
+
+        $scope.showTutorial = function() {
+            //Show the tutorial pop up
+            var tutorial = $ionicPopup.alert({
+                title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
+                template: '<img class="tutorial-image" src=\'img/tutorial.png\'>',
+                okText: 'GOT IT'
+            });
+        }
     })
 
     .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, $ionicActionSheet, Leaderboard, SaveChanges) {
@@ -878,7 +880,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //Assign the season overall leaderboard data to a scope variable
                 $scope.overallLeague = data;
                 debugger;
-                console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
+                //console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
 
                 //For each league will have to add data pertaining to logged in user to scope manually
                 for (var i = 0; i < $scope.overallLeague.length; i++) {
@@ -893,7 +895,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             //userRdPts: globalLeagueData[i].roundScores
                         }
 
-                        console.log('LOGGED IN USER DATA IN GLOBAL LEAGUE IS: ' + JSON.stringify($scope.overallLeague.thisUser));
+                        //console.log('LOGGED IN USER DATA IN GLOBAL LEAGUE IS: ' + JSON.stringify($scope.overallLeague.thisUser));
                         break;
                     }
                 }
@@ -902,7 +904,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
                     ////debugger;
                     $scope.privateLeagues = data;
-                    console.log(data);
+                    //console.log(data);
 
                     for (var i = 0; i < $scope.privateLeagues.length; i++) {
                         //split league name into words, place in array
@@ -918,16 +920,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //for (var i = 0; i < data.length; i++) {
                     //    if (data[i].captain = auth.profile.user_id) {
                     //        //then is a league created by the currently logged in user, so add to list
-                    //        console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
+                    //        //console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
                     //        $scope.createdLeagues.push(data[i]);
                     //    } else {
                     //        //the user is simply a participating member of this league
-                    //        console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
+                    //        //console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
                     //        $scope.inLeagues.push(data[i]);
                     //    }
                     //}
                     //
-                    //console.log('User\'s created leagues are: ' + $scope.createdLeagues);
+                    ////console.log('User\'s created leagues are: ' + $scope.createdLeagues);
 
                 });
             })
@@ -1004,7 +1006,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         function (res) {
 
                             //check the message that was returned...
-                            console.log(res);
+                            //console.log(res);
 
                             //Confirm that the invitation has been sent
                             $ionicPopup.alert({
@@ -1054,7 +1056,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 if (!cancelled) {
                     //validate the code, check 8 characters and all numbers
 
-                    console.log("Now attempting validation before sending code");
+                    //console.log("Now attempting validation before sending code");
 
                     //check that the code is 7 characters long
                     var isnum = /^\d+$/.test($scope.data.leagueToJoin);
@@ -1087,7 +1089,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         function (res) {
 
                             //check the message that was returned...
-                            console.log(res);
+                            //console.log(res);
 
                             //Confirm that the invitation has been sent
                             $ionicPopup.alert({
@@ -1102,7 +1104,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             //TODO: REFRESH  the page to display that new league
                             //Would have to go and get leagues again
 
-                            console.log("Now attempting to refresh the page");
+                            //console.log("Now attempting to refresh the page");
 
                             //_getUserLeagues();
                             $state.go($state.current, {}, {reload: true});
@@ -1121,7 +1123,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.shouldShowDelete = false;
         $scope.currentRound = Leaderboard.getCurrentRound();
-        console.log($scope.currentRound);
+        //console.log($scope.currentRound);
         debugger;
         $scope.roundDates = Leaderboard.getRoundDates();
         $scope.roundInView = 0; //0 represents overall season round
@@ -1135,7 +1137,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             $scope.shouldShowDelete = !$scope.shouldShowDelete;
         };
 
-        console.log('Now getting the private league with id: ' + $stateParams.privateLeagueId);//Get the data for this particular league from the server
+        //console.log('Now getting the private league with id: ' + $stateParams.privateLeagueId);//Get the data for this particular league from the server
         //Get the data for this particular round from the server
 
         //call this functino whenever the private leage data needs to be refreshed
@@ -1147,7 +1149,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //Get the data for scores for leaderboard
                 Leaderboard.overall().then(function (data) {
 
-                    console.log("DATA RETRIEVED FOR THE GLOBAL LEAGUE IS: " + JSON.stringify(data));
+                    //console.log("DATA RETRIEVED FOR THE GLOBAL LEAGUE IS: " + JSON.stringify(data));
                     $scope.privateLeague = {};
                     $scope.privateLeague.members = data;
                     $scope.privateLeague.privateLeagueName = 'Global League';
@@ -1160,7 +1162,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //$ionicLoading.hide();
                     $scope.privateLeague = data;
                     //$scope.privateLeague.privateLeagueName =  Array.prototype.join.call($scope.privateLeague.privateLeagueName, ' ');
-                    console.log('Retrieved private league:' + JSON.stringify($scope.privateLeague));
+                    //console.log('Retrieved private league:' + JSON.stringify($scope.privateLeague));
                 });
             }
         }
@@ -1215,7 +1217,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             return true;
                             break;
                         case 1:
-                            console.log("The league captain is: " + $scope.privateLeague.captain);
+                            //console.log("The league captain is: " + $scope.privateLeague.captain);
                             if (auth.profile.user_id == $scope.privateLeague.captain) {
                                 $scope.renameLeague();
                                 return true;
@@ -1329,14 +1331,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 if (!cancelled) {
                     //validate the username, check not user's or existing member
 
-                    console.log("Now attempting validation before renaming");
+                    //console.log("Now attempting validation before renaming");
 
-                    console.log("The captain of the private league is: " + $scope.privateLeague.captain);
+                    //console.log("The captain of the private league is: " + $scope.privateLeague.captain);
 
                     //check that the user has not attempted to invite themselves
                     if ($scope.data.newLeagueName == $scope.privateLeague.privateLeagueName) {
-                        console.log("The username of the captain of the private league is: " + $scope.privateLeague.captain);
-                        console.log("You can only rename the league if you are giving it a new name.");
+                        //console.log("The username of the captain of the private league is: " + $scope.privateLeague.captain);
+                        //console.log("You can only rename the league if you are giving it a new name.");
 
                         //then this user has already been invited
                         $ionicPopup.alert({
@@ -1352,7 +1354,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         function (res) {
 
                             //check the message that was returned...
-                            console.log(res);
+                            //console.log(res);
 
                             //Confirm that the invitation has been sent
                             $ionicPopup.alert({
@@ -1388,7 +1390,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     Leaderboard.leaveLeague(auth.profile.user_id, $scope.privateLeague.privateLeagueId).then(
                         function (res) {
                             //check the message that was returned...
-                            console.log(res);
+                            //console.log(res);
 
                             //Confirm that the invitation has been sent
                             $ionicPopup.alert({
@@ -1445,13 +1447,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     myPopup.then(function (res) {
                         if (res) {
 
-                            console.log("Attempting to make member captain: " + JSON.stringify($scope.newCaptain));
+                            //console.log("Attempting to make member captain: " + JSON.stringify($scope.newCaptain));
 
                             //use the data to call through to the user and pass through the provided username
                             Leaderboard.changeCaptain(auth.profile.user_id, $scope.newCaptain.user_id, $scope.privateLeague.privateLeagueId).then(
                                 function (res) {
                                     //check the message that was returned...
-                                    console.log(res);
+                                    //console.log(res);
 
                                     //Confirm that the invitation has been sent
                                     $ionicPopup.alert({
@@ -1509,13 +1511,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     myPopup.then(function (res) {
                         if (res) {
 
-                            console.log("Attempting to make member captain: " + JSON.stringify($scope.newViceCaptain));
+                            //console.log("Attempting to make member captain: " + JSON.stringify($scope.newViceCaptain));
 
                             //use the data to call through to the user and pass through the provided username
                             Leaderboard.changeCaptain(auth.profile.user_id, $scope.newViceCaptain.user_id, $scope.privateLeague.privateLeagueId).then(
                                 function (res) {
                                     //check the message that was returned...
-                                    console.log(res);
+                                    //console.log(res);
 
                                     //Confirm that the invitation has been sent
                                     $ionicPopup.alert({
@@ -1576,13 +1578,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     myPopup.then(function (res) {
                         if (res) {
 
-                            console.log("Attempting to delte members: " + JSON.stringify(_membersToDelete));
+                            //console.log("Attempting to delte members: " + JSON.stringify(_membersToDelete));
 
                             //use the data to call through to the user and pass through the provided username
                             Leaderboard.deleteMembers(auth.profile.user_id, _membersToDelete, $scope.privateLeague.privateLeagueId).then(
                                 function (res) {
                                     //check the message that was returned...
-                                    console.log(res);
+                                    //console.log(res);
 
                                     //Confirm that the invitation has been sent
                                     $ionicPopup.alert({
@@ -1606,9 +1608,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.chooseMemberToDelete = function(memberUserId) {
-            console.log("Adding user with id %s to list of members to delete", memberUserId);
+            //console.log("Adding user with id %s to list of members to delete", memberUserId);
             _membersToDelete.push(memberUserId);
-            console.log("List of members to delete is: " + JSON.stringify(_membersToDelete));
+            //console.log("List of members to delete is: " + JSON.stringify(_membersToDelete));
         };
 
         $scope.deleteLeague = function () {
@@ -1625,8 +1627,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //TODO: Remove this is it is an unnecessary precaution
                     //check that the user has not attempted to invite themselves
                     if (!$scope.user_id == $scope.privateLeague.captain) {
-                        console.log("The username of the captain of the private league is: " + $scope.privateLeague.captain);
-                        console.log("Only the captain of a league can delete it!.");
+                        //console.log("The username of the captain of the private league is: " + $scope.privateLeague.captain);
+                        //console.log("Only the captain of a league can delete it!.");
 
                         //then this user has already been invited
                         $ionicPopup.alert({
@@ -1641,7 +1643,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     Leaderboard.deleteLeague(auth.profile.user_id, $scope.privateLeague.privateLeagueId).then(
                         function (res) {
                             //check the message that was returned...
-                            console.log(res);
+                            //console.log(res);
 
                             //Confirm that the invitation has been sent
                             $ionicPopup.alert({
@@ -1660,17 +1662,17 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 //Implementing sharing of the private league code - for an open invitation
         $scope.shareLeague = function () {
             //$cordovaSocialSharing.share("This is your message", "This is your subject", "www/imagefile.png", "http://blog.nraboy.com");
-            console.log("Share functin invoked.");
+            //console.log("Share functin invoked.");
             $cordovaSocialSharing.share("Join my Yes! Get In! Private league using code: \n\t" + $scope.privateLeague.privateLeagueCode, "Join my Yes! Get In! Private League", null, "http://www.yesgetin.com");
         };
 
         $scope.memberRoundScore = function(memberIndex) {
             //debugger;
-            console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
+            //console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
             for (var i = 0; i < $scope.privateLeague.members[memberIndex].roundScores.length; i++) {
                 if ($scope.privateLeague.members[memberIndex].roundScores[i].roundNo == $scope.roundInView.roundNo) {
-                    console.log('MEMBER ROUND SCORE IS: '
-                        + $scope.privateLeague.members[memberIndex].roundScores[i].roundScore);
+                    //console.log('MEMBER ROUND SCORE IS: '
+                    //    + $scope.privateLeague.members[memberIndex].roundScores[i].roundScore);
                     return $scope.privateLeague.members[memberIndex].roundScores[i].roundScore;
                 }
             }
@@ -1740,17 +1742,17 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 User.sync(auth.profile).then(function () {
                     //Once the user data has been synced, get the user data object from our server also
                     //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
-                    console.log('Logging in after logging out and sending user_id: ' + auth.profile.user_id);
+                    //console.log('Logging in after logging out and sending user_id: ' + auth.profile.user_id);
                     User.getUserData(auth.profile.user_id).then(function (results) {
-                        console.log("Getting the current user data from our server... : " + JSON.stringify(User.currentUser()));
+                        //console.log("Getting the current user data from our server... : " + JSON.stringify(User.currentUser()));
 
                         //expose the user's invitations to the scope
                         $scope.userData = User.currentUser();
 
                         //debugger;
 
-                        console.log("Invitations are: " + $scope.userData.invitations);
-                        console.log("Notifications are: " + $scope.userData.notifications);
+                        //console.log("Invitations are: " + $scope.userData.invitations);
+                        //console.log("Notifications are: " + $scope.userData.notifications);
 
                         $state.go('tab.rounds');
 
@@ -1759,13 +1761,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             title: 'Login successful!',
                             template: 'Welcome ' + auth.profile.nickname + '!'
                         }).then(function (res) {
-                            console.log(auth.profile);
+                            //console.log(auth.profile);
                         });
                     });
                 });
             }, function (error) {
                 // Oops something went wrong during login:
-                console.log("There was an error logging in", error);
+                //console.log("There was an error logging in", error);
             });
         };
 

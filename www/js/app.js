@@ -75,7 +75,9 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
             request: function (config) {
                 //check flag in service, if active don't show loader
                 //debugger;
-                if (config.url != "https://push.ionic.io/dev/push/check") {
+                //unless a request to our server, don't show it
+                if (config.url.indexOf("http://nodejs-getin.rhcloud.com/api") > -1) {
+                    console.log("Showing load for url: " + config.url);
                     $rootScope.$broadcast('loading:show');
                 }
                 return config
@@ -536,7 +538,7 @@ app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $i
                     function(){
                         //Testing the user global service
                         var currentUser = User.currentUser();
-                        console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
+                        //console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
 
                         $state.go('tab.rounds');
 

@@ -258,6 +258,22 @@ ion-nav-view {
     border-top: none !important;
   }
 
+  .item-complex {
+    background-color: transparent;
+    .item-content {
+      background-color: transparent;
+      padding-left: 0 !important;
+
+      .round-no-container {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+      }
+    }
+  }
   //.total-points {
   //  border: 2px solid $ygi-green;
   //  height: 4rem;
@@ -383,6 +399,7 @@ ion-nav-view {
         align-items: center;
         flex-direction: row;
         background: rgb(242, 108, 79) !important;
+        opacity: 0.8;
 
         .round-label {
           text-align: right;
@@ -391,7 +408,6 @@ ion-nav-view {
           color: white !important;
           align-self: center;
         }
-
 
         .predictions-made, &.predictions-made {
           background-color: white !important;
@@ -407,8 +423,6 @@ ion-nav-view {
           background-color: green !important;
           color: white !important;
         }
-
-
       }
     }
   }
@@ -1264,11 +1278,19 @@ ion-view[view-title="LEAGUE TABLE"] {
   }
 }
 
-.card-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.button.how-to {
+  background-color: transparent !important;
+  border-color: transparent !important;
+
+  &.activated {
+    box-shadow: none !important;
+  }
+
+  &:before {
+    font-size: 1.75rem !important;
+  }
 }
+
 /* Styling for the card view */
 td-cards {
   display: block ;
@@ -1276,7 +1298,7 @@ td-cards {
   td-card {
     position: absolute ;
     left: 50% ;
-    margin-top: 3.5rem;
+    margin-top: 5.5rem;
     margin-bottom: 40px ;
     margin-left: -150px ;
     width: 300px ;
@@ -1401,7 +1423,7 @@ td-cards {
     transform:translateY(-500px) !important;
   }
 
-  /* Fades the text for the prediction in but not out as the card is destroyed */
+  /* Fades the text for the prediction in but not out as the  is destroyed */
   .fade {
     transition: 0.2s opacity linear;
     opacity: 0;
@@ -1460,7 +1482,6 @@ td-cards {
       color: white ;
       font-size: 0.75rem ;
       flex-basis: 90%;
-      margin-left: 2rem;
     }
 
     .button-container {
@@ -1776,4 +1797,16 @@ td-cards {
     }
   }
 }
+
+/*Disabling platform specific tweaks */
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+  height: 44px !important; }
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+  margin-top: 0px !important; }
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+  margin-top: 0px !important; }
+.platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+  top: 44px !important; }
+.platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
+  top: 44px !important; }
 

@@ -199,6 +199,13 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                         roundDates = data[data.length - 1];
                         roundDates.roundsList.unshift({roundNo: 'OVERALL SEASON'});
+
+                        //Prepend 'Round' to each element
+                        for (var i = 1; i < roundDates.roundsList.length; i++) {
+                            roundDates.roundsList[i].roundNo = "Round " + roundDates.roundsList[i].roundNo;
+                        }
+                        debugger;
+
                         console.log('roundDates are: ' + JSON.stringify(roundDates));
 
                         data.splice(data.length -2, 2);
@@ -275,6 +282,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             getRoundDates: function() {
                 if (roundDates) {
                     //Prepend this value to the array
+                    debugger;
                     return roundDates.roundsList;
                 } else {
                     console.log("ERROR: User requested round dates list when none was set");
@@ -514,11 +522,11 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 $http.get(SERVER + '/users/' + user_id
                 ).success(function(response){
-                        console.log("function getUserData in the User service successfully synced data:");
-                        console.log(response); //should be the newly loggied in user, not the old!
-                        //assign the returned user data to the factory
+                        //console.log("function getUserData in the User service successfully synced data:");
+                        //console.log(response); //should be the newly loggied in user, not the old!
+                        ////assign the returned user data to the factory
                         currentUserData = response[0];
-                        console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
+                        //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
                         deferred.resolve(response);
                     }).error(function(){
                         console.log("Error while making HTTP call.");

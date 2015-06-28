@@ -6939,6 +6939,26 @@ ion-nav-view ion-tabs {
   background-color: transparent !important; }
   .rounds-content ion-item:first-child {
     border-top: none !important; }
+  .rounds-content .item-complex {
+    background-color: transparent; }
+    .rounds-content .item-complex .item-content {
+      background-color: transparent;
+      padding-left: 0 !important; }
+      .rounds-content .item-complex .item-content .round-no-container {
+        height: 100%;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        background-color: white; }
   .rounds-content ion-item {
     border: none !important;
     display: -webkit-flex;
@@ -7003,7 +7023,8 @@ ion-nav-view ion-tabs {
         -webkit-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
-        background: #f26c4f !important; }
+        background: #f26c4f !important;
+        opacity: 0.8; }
         .rounds-content ion-item a.item-content .label-button .round-label {
           text-align: right;
           font-size: 0.75rem;
@@ -7728,16 +7749,13 @@ ion-view[view-title="LEAGUE TABLE"] .last-empty-row {
   height: 1.75rem;
   border-top: 1px solid #3bb665 !important; }
 
-.card-container {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center; }
+.button.how-to {
+  background-color: transparent !important;
+  border-color: transparent !important; }
+  .button.how-to.activated {
+    box-shadow: none !important; }
+  .button.how-to:before {
+    font-size: 1.75rem !important; }
 
 /* Styling for the card view */
 td-cards {
@@ -7751,11 +7769,11 @@ td-cards {
     100% {
       top: 31rem; } }
 
-  /* Fades the text for the prediction in but not out as the card is destroyed */ }
+  /* Fades the text for the prediction in but not out as the  is destroyed */ }
   td-cards td-card {
     position: absolute;
     left: 50%;
-    margin-top: 3.5rem;
+    margin-top: 5.5rem;
     margin-bottom: 40px;
     margin-left: -150px;
     width: 300px;
@@ -7918,8 +7936,7 @@ td-cards {
       font-size: 0.75rem;
       -webkit-flex-basis: 90%;
       -ms-flex-preferred-size: 90%;
-      flex-basis: 90%;
-      margin-left: 2rem; }
+      flex-basis: 90%; }
     .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8191,3 +8208,19 @@ td-cards {
         color: white; }
   .slider .slider-pager span {
     color: white !important; }
+
+/*Disabling platform specific tweaks */
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+  height: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+  margin-top: 0px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+  margin-top: 0px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+  top: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
+  top: 44px !important; }

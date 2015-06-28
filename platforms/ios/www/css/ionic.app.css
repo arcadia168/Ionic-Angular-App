@@ -7133,7 +7133,7 @@ ion-nav-view ion-tabs {
         color: gold !important; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
         position: relative !important;
-        top: 0.5rem !important;
+        top: 0.4rem !important;
         right: 1.21rem !important; }
       .leaderboard-content ion-item .league-overview .leader-row .user-pic {
         position: relative;
@@ -7194,9 +7194,27 @@ ion-nav-view ion-tabs {
           font-size: 0.75rem !important; }
   .leaderboard-content .global-league {
     border-radius: 1%; }
-    .leaderboard-content .global-league .league-label-container .league-label .global-league-icon {
-      font-size: 4rem;
-      margin-top: -1rem; }
+    .leaderboard-content .global-league .league-label-container .league-label .label {
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
+      -webkit-flex-basis: 6.5rem;
+      -ms-flex-preferred-size: 6.5rem;
+      flex-basis: 6.5rem;
+      margin: 0 !important;
+      position: relative;
+      bottom: 0.5rem;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+      justify-content: space-around; }
+      .leaderboard-content .global-league .league-label-container .league-label .label h5 {
+        height: inherit; }
   .leaderboard-content .user-league .league-label-container .league-label .label {
     -webkit-align-self: center;
     -ms-flex-item-align: center;
@@ -7266,18 +7284,19 @@ ion-view.league-detail .bar-subheader {
       border: 1px solid black;
       top: 0.3rem;
       right: 0.3rem;
-      padding: 0.7rem 1.8rem 0.3rem 0.5rem;
+      padding: 0.5rem 1.8rem 0.3rem 0.5rem;
       color: #6A6A6A !important;
       background-color: transparent !important;
       margin-top: -0.28rem !important; }
     ion-view.league-detail .bar-subheader .item-select:after {
-      top: 40% !important;
+      top: 35% !important;
       margin-top: 0 !important; }
 ion-view.league-detail .scroll {
   background-color: white;
   height: 100%; }
 ion-view.league-detail .league-live-table {
-  padding-top: 0 !important; }
+  padding-top: 0 !important;
+  background-color: white !important; }
   ion-view.league-detail .league-live-table .row-header-container {
     width: 100%;
     padding-top: 0.2rem; }
@@ -7709,16 +7728,13 @@ ion-view[view-title="LEAGUE TABLE"] .last-empty-row {
   height: 1.75rem;
   border-top: 1px solid #3bb665 !important; }
 
-.card-container {
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center; }
+.button.how-to {
+  background-color: transparent !important;
+  border-color: transparent !important; }
+  .button.how-to.activated {
+    box-shadow: none !important; }
+  .button.how-to:before {
+    font-size: 1.75rem !important; }
 
 /* Styling for the card view */
 td-cards {
@@ -8172,3 +8188,19 @@ td-cards {
         color: white; }
   .slider .slider-pager span {
     color: white !important; }
+
+/*Disabling platform specific tweaks */
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+  height: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+  margin-top: 0px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+  margin-top: 0px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+  top: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
+  top: 44px !important; }

@@ -522,11 +522,11 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 $http.get(SERVER + '/users/' + user_id
                 ).success(function(response){
-                        console.log("function getUserData in the User service successfully synced data:");
-                        console.log(response); //should be the newly loggied in user, not the old!
-                        //assign the returned user data to the factory
+                        //console.log("function getUserData in the User service successfully synced data:");
+                        //console.log(response); //should be the newly loggied in user, not the old!
+                        ////assign the returned user data to the factory
                         currentUserData = response[0];
-                        console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
+                        //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
                         deferred.resolve(response);
                     }).error(function(){
                         console.log("Error while making HTTP call.");

@@ -41,14 +41,12 @@
 
             <div class="score">
                 <div ng-if="roundInView.roundNo == 'OVERALL SEASON'">
-                    <p ng-if="member.overallSeasonScore == 0">0 PTS</p>
-                    <p ng-if="member.overallSeasonScore != 0">{{member.overallSeasonScore}} PTS</p>
+                    <p ng-if="member.overallSeasonScore == 0">0</p>
+                    <p ng-if="member.overallSeasonScore != 0">{{member.overallSeasonScore}}</p>
                 </div>
                 <div ng-if="roundInView.roundNo != 'OVERALL SEASON'">
-                    <p ng-if="memberRoundScore($index) == 0">0 PTS</p>
-                    <p ng-if="memberRoundScore($index) != 0">
-                        {{memberRoundScore($index)}} PTS
-                    </p>
+                    <p ng-if="memberRoundScore($index) == 0">0</p>
+                    <p ng-if="memberRoundScore($index) != 0">{{memberRoundScore($index)}}</p>
                 </div>
             </div>
         </div>
