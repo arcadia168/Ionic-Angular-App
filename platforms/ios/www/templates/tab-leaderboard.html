@@ -12,9 +12,15 @@
             </div>
             <div class="league-overview">
                 <div class="label-row">
-                    <div class="pos-label">POS</div>
-                    <div class="pos-player">PLAYER</div>
-                    <div class="pos-points">POINTS</div>
+                    <div class="pos-label">
+                        <p>POS</p>
+                    </div>
+                    <div class="pos-player">
+                        <p>PLAYER</p>
+                    </div>
+                    <div class="pos-points">
+                        <p>POINTS</p>
+                    </div>
                 </div>
                 <div class="leader-row">
                     <div class="leader-pos">
@@ -23,7 +29,9 @@
                     </div>
                     <img ng-if="overallLeague[0].pic != 'none'" class="user-pic" ng-src="{{overallLeague[0].pic}}">
                     <i ng-if="overallLeague[0].pic == 'none'" class="non-pic icon ion-person"></i>
-                    <div class="leader-name">{{overallLeague[0].username | uppercase | limitTo: 8}}</div>
+                    <div class="leader-name">
+                        <p>{{overallLeague[0].username | uppercase | limitTo: 8}}</p>
+                    </div>
                     <div class="leader-points">
                         <p ng-if="!overallLeague[0].currentRoundScore">0</p>
                         <p ng-if="overallLeague[0].currentRoundScore">{{overallLeague[0].currentRoundScore}}</p>
@@ -55,9 +63,9 @@
             </div>
             <div class="league-overview">
                 <div class="label-row">
-                    <div class="pos-label">POS</div>
-                    <div class="pos-player">PLAYER</div>
-                    <div class="pos-points">POINTS</div>
+                    <div class="pos-label"><p>POS</p></div>
+                    <div class="pos-player"><p>PLAYER</p></div>
+                    <div class="pos-points"><p>POINTS</p></div>
                 </div>
                 <div class="leader-row">
                     <div class="leader-pos">
@@ -66,7 +74,9 @@
                     </div>
                     <img ng-if="league.members[0].pic != 'none'" class="user-pic" ng-src="{{league.members[0].pic}}">
                     <i ng-if="league.members[0].pic == 'none'" class="non-pic icon ion-person"></i>
-                    <div class="leader-name">{{league.members[0].username | uppercase | limitTo: 8}}</div>
+                    <div class="leader-name">
+                        <p>{{league.members[0].username | uppercase | limitTo: 20}}</p>
+                    </div>
                     <div class="leader-points">
                         <p ng-if="!league.members[0].currentRoundScore">0</p>
                         <p ng-if="league.members[0].currentRoundScore">{{league.members[0].currentRoundScore}}</p>

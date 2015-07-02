@@ -74,7 +74,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
         return {
             request: function (config) {
                 //check flag in service, if active don't show loader
-                debugger;
+                //debugger;
                 //unless a request to our server, don't show it
                 if (config.url.indexOf("http://nodejs-getin.rhcloud.com/api") > -1) {
                     console.log("Showing load for url: " + config.url);

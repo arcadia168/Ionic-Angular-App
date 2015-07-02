@@ -540,7 +540,37 @@ ion-nav-view {
         position: relative;
       }
 
+      .label-row {
+        border-bottom: 1px solid $ygi-green;
+
+        .pos-label {
+          width: 15%;
+        }
+
+        .pos-points {
+          width: 20%;
+          padding-left: 0.1rem;
+        }
+
+        .pos-player {
+          width: 65%;
+          border-left: 1px solid $ygi-green;
+          border-right: 1px solid $ygi-green;
+          border-bottom: 3px solid transparent;
+        }
+
+        div {
+          width: 33%;
+          text-align: center;
+
+          p {
+            width: 100%;
+          }
+        }
+      }
+
       .leader-row {
+
         .leader-pos {
           .leader-icon {
             position: relative;
@@ -563,11 +593,16 @@ ion-nav-view {
         }
 
         .leader-name {
+          flex-basis: 7rem;
           display: flex;
           align-items: center;
           flex-basis: 4.75rem;
           position: relative;
           left: 0.4rem;
+
+          p {
+            width: 100%;
+          }
         }
 
         .leader-points{
@@ -712,6 +747,7 @@ ion-view.league-detail {
   .bar-subheader {
     background-color: white !important;
     color: $ygi-trade !important;
+    border-bottom: 1px solid $ygi-green;
     //margin-top: 4rem;
     //top: 2.5rem;
 
@@ -908,6 +944,18 @@ ion-view.league-detail {
           //right: 1.21rem !important;
         }
       }
+
+      .score {
+        flex-basis: 2.5rem;
+      }
+
+      .username {
+        flex-basis: 9rem;
+
+        p {
+          text-align: center;
+        }
+      }
     }
   }
 }
@@ -1033,11 +1081,13 @@ ion-view.league-detail {
 
         .lose {
           color: $ygi-loss;
+          //text-align: center;
           margin-left: 1rem !important;
         }
 
         .trade {
           color: $ygi-trade;
+          text-align: right;
           margin-left: .6rem !important;
         }
       }
@@ -1352,6 +1402,7 @@ td-cards {
         }
 
         h4 {
+          text-align: center;
           font-size: 0.8rem;
           width: 60%;
           margin: 0 auto 25px auto;
@@ -1443,11 +1494,9 @@ td-cards {
 
 .button-fact {
   position: relative;
-  margin: 1rem auto;
-  //left: 1.5rem!important;
   z-index: -10000;
-  top: 22.5rem;
-  width: 85% !important;
+  top: 25rem;
+  width: 100% !important;
   font-weight: 600;
   border: 1px solid $ygi-green !important;
   display: table-cell;
@@ -1515,7 +1564,9 @@ td-cards {
     display: flex ;
     flex-direction: row ;
     justify-content: space-between ;
-    margin-top: 0.4rem ;
+    margin-top: 0.4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 
     &.faded {
       opacity: 0.2 !important;
@@ -1551,9 +1602,10 @@ td-cards {
       flex-direction: row ;
       justify-content: space-between ;
       margin-top: 0.4rem ;
+      width: 100%;
 
       .vs {
-        width: 100% ;
+        //width: 100% ;
         text-align: center ;
         font-size: x-large;
       }
@@ -1563,6 +1615,10 @@ td-cards {
         flex-direction: column ;
         text-align: center;
 
+        img {
+          width: 6rem;
+        }
+
         em {
           font-size: 0.75rem ;
           font-weight: 700 ;
@@ -1570,7 +1626,7 @@ td-cards {
         }
 
         .list-home-shirt-icon, .list-away-shirt-icon {
-          width: 50%;
+          //width: 50%;
           margin: 0 auto;
 
           &.faded {
@@ -1646,13 +1702,27 @@ td-cards {
     flex-direction: column;
     align-items: center;
 
+    &:first-child {
+      border-top: none !important;
+    }
+
     .item {
+
+      &:first-child {
+        border-top: none !important;
+      }
+
+      display: flex;
       border-color: transparent !important;
       font-size: 0.8rem;
       width: 95%;
       border-top: 1px solid $ygi-green !important;
       padding-left: 0;
       padding-right: 0;
+
+      a {
+        width: 100%;
+      }
 
       .team-link {
         display: flex;
@@ -1661,7 +1731,7 @@ td-cards {
         width: 100%;
         align-items: center;
 
-        p {
+        .outer-container {
           display: flex;
           flex-direction: row;
           align-items: center;

@@ -618,6 +618,11 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                     team = team.trim();
                 }
 
+                if (team.indexOf("AFC" > -1)) {
+                    team = team.replace('AFC', "");
+                    team = team.trim();
+                }
+
                 return team;
             }
         }

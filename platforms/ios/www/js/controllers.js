@@ -523,7 +523,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
-            $scope.listFixtures.reverse();
+            //$scope.listFixtures.reverse();
 
             var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {
@@ -795,6 +795,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.cardDestroyed = function (index) {
+            debugger;
             $scope.currentCardIndex = index - 1;
             $scope.fixtures.splice(index, 1); //is this a reference to the same fixtures array!?
             _cardViewDoneCheck();
@@ -813,12 +814,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.cardTapped = function (fixtureId, index) {
             //console.log('PREDICT DRAW');
             //debugger;
+            debugger;
             _addFixturePrediction(fixtureId, 3);
 
             //console.log('Card tapped, button pressed: ' + $scope.dontSkip);
 
 
             $timeout(function () {
+                //$scope.cardDestroyed(index);
                 $scope.cardDestroyed(index);
             }, 500);
 
@@ -1790,7 +1793,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 'Watford',
                 'West Bromwich Albion',
                 'West Ham United',
-                'Other'
+                'z0ther'
             ];
 
         $scope.updateTeam = function() {

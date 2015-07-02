@@ -36,7 +36,9 @@
             <div class="user-details">
                 <i ng-if="member.pic == 'none'" class="non-pic icon ion-person"></i>
                 <img ng-if="member.pic != 'none'" class="user-pic" ng-src="{{member.pic}}">
-                <div class="username"><p class="stat">{{member.username}}</p></div>
+                <div class="username">
+                    <p class="stat">{{member.username | limitTo: 20}}</p>
+                </div>
             </div>
 
             <div class="score">

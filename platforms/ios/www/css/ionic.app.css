@@ -6939,6 +6939,26 @@ ion-nav-view ion-tabs {
   background-color: transparent !important; }
   .rounds-content ion-item:first-child {
     border-top: none !important; }
+  .rounds-content .item-complex {
+    background-color: transparent; }
+    .rounds-content .item-complex .item-content {
+      background-color: transparent;
+      padding-left: 0 !important; }
+      .rounds-content .item-complex .item-content .round-no-container {
+        height: 100%;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        background-color: white; }
   .rounds-content ion-item {
     border: none !important;
     display: -webkit-flex;
@@ -7003,7 +7023,8 @@ ion-nav-view ion-tabs {
         -webkit-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
-        background: #f26c4f !important; }
+        background: #f26c4f !important;
+        opacity: 0.8; }
         .rounds-content ion-item a.item-content .label-button .round-label {
           text-align: right;
           font-size: 0.75rem;
@@ -7126,6 +7147,23 @@ ion-nav-view ion-tabs {
         height: 2rem !important;
         border-radius: 100%;
         position: relative; }
+      .leaderboard-content ion-item .league-overview .label-row {
+        border-bottom: 1px solid #3bb665; }
+        .leaderboard-content ion-item .league-overview .label-row .pos-label {
+          width: 15%; }
+        .leaderboard-content ion-item .league-overview .label-row .pos-points {
+          width: 20%;
+          padding-left: 0.1rem; }
+        .leaderboard-content ion-item .league-overview .label-row .pos-player {
+          width: 65%;
+          border-left: 1px solid #3bb665;
+          border-right: 1px solid #3bb665;
+          border-bottom: 3px solid transparent; }
+        .leaderboard-content ion-item .league-overview .label-row div {
+          width: 33%;
+          text-align: center; }
+          .leaderboard-content ion-item .league-overview .label-row div p {
+            width: 100%; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-icon {
         position: relative;
         bottom: 0.1rem;
@@ -7140,6 +7178,9 @@ ion-nav-view ion-tabs {
         right: 0.1rem;
         bottom: 0.1rem; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-name {
+        -webkit-flex-basis: 7rem;
+        -ms-flex-preferred-size: 7rem;
+        flex-basis: 7rem;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -7151,6 +7192,8 @@ ion-nav-view ion-tabs {
         flex-basis: 4.75rem;
         position: relative;
         left: 0.4rem; }
+        .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
+          width: 100%; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-points {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -7273,7 +7316,8 @@ ion-nav-view ion-tabs {
 /*Private Leagues styling */
 ion-view.league-detail .bar-subheader {
   background-color: white !important;
-  color: #6A6A6A !important; }
+  color: #6A6A6A !important;
+  border-bottom: 1px solid #3bb665; }
   ion-view.league-detail .bar-subheader .item-select {
     border: none !important;
     padding-left: 5px !important; }
@@ -7470,6 +7514,16 @@ ion-view.league-detail .league-live-table {
         position: relative !important;
         bottom: 1.45rem !important;
         left: 1rem !important; }
+    ion-view.league-detail .league-live-table .row .score {
+      -webkit-flex-basis: 2.5rem;
+      -ms-flex-preferred-size: 2.5rem;
+      flex-basis: 2.5rem; }
+    ion-view.league-detail .league-live-table .row .username {
+      -webkit-flex-basis: 9rem;
+      -ms-flex-preferred-size: 9rem;
+      flex-basis: 9rem; }
+      ion-view.league-detail .league-live-table .row .username p {
+        text-align: center; }
 
 .item-icon-left ion-spinner {
   float: left;
@@ -7569,6 +7623,7 @@ ion-view.league-detail .league-live-table {
         margin-left: 1rem !important; }
       .rulebook-content .points-table .title-row .title-container .trade {
         color: #6A6A6A;
+        text-align: right;
         margin-left: 0.6rem !important; }
   .rulebook-content .points-table .lose-title-row {
     border-bottom: 1px solid #F26C4F !important;
@@ -7748,11 +7803,11 @@ td-cards {
     100% {
       top: 31rem; } }
 
-  /* Fades the text for the prediction in but not out as the card is destroyed */ }
+  /* Fades the text for the prediction in but not out as the  is destroyed */ }
   td-cards td-card {
     position: absolute;
     left: 50%;
-    margin-top: 3.5rem;
+    margin-top: 5.5rem;
     margin-bottom: 40px;
     margin-left: -150px;
     width: 300px;
@@ -7812,6 +7867,7 @@ td-cards {
           max-width: 100%;
           border-radius: 6px; }
         td-cards td-card .card-content .shirt-container h4 {
+          text-align: center;
           font-size: 0.8rem;
           width: 60%;
           margin: 0 auto 25px auto; }
@@ -7872,10 +7928,9 @@ td-cards {
 
 .button-fact {
   position: relative;
-  margin: 1rem auto;
   z-index: -10000;
-  top: 22.5rem;
-  width: 85% !important;
+  top: 25rem;
+  width: 100% !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
   display: table-cell;
@@ -7915,8 +7970,7 @@ td-cards {
       font-size: 0.75rem;
       -webkit-flex-basis: 90%;
       -ms-flex-preferred-size: 90%;
-      flex-basis: 90%;
-      margin-left: 2rem; }
+      flex-basis: 90%; }
     .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -7943,7 +7997,9 @@ td-cards {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    margin-top: 0.4rem; }
+    margin-top: 0.4rem;
+    padding-left: 1rem;
+    padding-right: 1rem; }
     .fix-pred-li .fix-pred-li-shirts.faded {
       opacity: 0.2 !important; }
     .fix-pred-li .fix-pred-li-shirts .finished-label {
@@ -7986,9 +8042,9 @@ td-cards {
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
       justify-content: space-between;
-      margin-top: 0.4rem; }
+      margin-top: 0.4rem;
+      width: 100%; }
       .fix-pred-li .fix-pred-li-shirts .fix-details .vs {
-        width: 100%;
         text-align: center;
         font-size: x-large; }
       .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away {
@@ -7999,12 +8055,13 @@ td-cards {
         -ms-flex-direction: column;
         flex-direction: column;
         text-align: center; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away img {
+          width: 6rem; }
         .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away em {
           font-size: 0.75rem;
           font-weight: 700;
           padding-top: 0.75rem; }
         .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon {
-          width: 50%;
           margin: 0 auto; }
           .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.faded {
             opacity: 0.2 !important; }
@@ -8064,13 +8121,22 @@ td-cards {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
+    .settings-content .list:first-child {
+      border-top: none !important; }
     .settings-content .list .item {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
       border-color: transparent !important;
       font-size: 0.8rem;
       width: 95%;
       border-top: 1px solid #3bb665 !important;
       padding-left: 0;
       padding-right: 0; }
+      .settings-content .list .item:first-child {
+        border-top: none !important; }
+      .settings-content .list .item a {
+        width: 100%; }
       .settings-content .list .item .team-link {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -8085,7 +8151,7 @@ td-cards {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center; }
-        .settings-content .list .item .team-link p {
+        .settings-content .list .item .team-link .outer-container {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
@@ -8102,7 +8168,7 @@ td-cards {
           -webkit-justify-content: space-around;
           -ms-flex-pack: distribute;
           justify-content: space-around; }
-          .settings-content .list .item .team-link p .settings-shirt {
+          .settings-content .list .item .team-link .outer-container .settings-shirt {
             height: 1.5rem;
             width: 1.95rem; }
       .settings-content .list .item .item-content {

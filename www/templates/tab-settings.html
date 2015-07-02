@@ -1,7 +1,15 @@
 <ion-view cache-view="false" view-title="SETTINGS">
     <ion-content class="settings-content">
         <div class="list">
-            <div class="item"><a class="team-link" href="#/tab/settings/team">MY TEAM: <p><img ng-if="userData.userTeam != 'Please Select'" class='settings-shirt' ng-src="img/team_shirts/{{userData.userTeam}}.png">{{userData.userTeam | uppercase}}</p></a></div>
+            <div class="item">
+                <a class="team-link" href="#/tab/settings/team">MY TEAM:
+                    <div class="outer-container">
+                        <img ng-if="userData.userTeam != 'Please Select'" class='settings-shirt' ng-src="img/team_shirts/{{userData.userTeam}}.png">
+                        <p ng-if="userData.userTeam != 'z0ther'" class="team-label">{{userData.userTeam | uppercase}}</p>
+                        <p ng-if="userData.userTeam == 'z0ther'" class="team-label">Other</p>
+                    </div>
+                </a>
+            </div>
             <!--<div class="item item-divider">-->
                 <!--<p>PUSH NOTIFICATIONS</p>-->
             <!--</div>-->

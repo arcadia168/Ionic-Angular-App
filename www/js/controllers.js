@@ -1793,7 +1793,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 'Watford',
                 'West Bromwich Albion',
                 'West Ham United',
-                'Other'
+                'z0ther'
             ];
 
         $scope.updateTeam = function() {
