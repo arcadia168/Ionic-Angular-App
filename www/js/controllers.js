@@ -1,111 +1,5 @@
 angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push'])
 
-    //.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
-    //
-    //    auth.signin({
-    //
-    //        //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
-    //
-    //        // This is a must for mobile projects
-    //        popup: true,
-    //        // Make the widget non closeable
-    //        standalone: true,
-    //        closable: false,
-    //        // This asks for the refresh token
-    //        // So that the user never has to log in again
-    //        offline_mode: true,
-    //        scope: 'openid offline_access',
-    //        device: 'Phone'
-    //    }, function (profile, idToken, accessToken, state, refreshToken) {
-    //
-    //        //debugger;
-    //        //console.log('Profile is: ' + profile);
-    //        //console.log('Access Token is: ' + accessToken);
-    //        //console.log('idToken is: ' + idToken);
-    //        //console.log('refreshToken is: ' + refreshToken);
-    //
-    //        // Success callback
-    //        store.set('profile', profile);
-    //        store.set('token', accessToken);
-    //        store.set('refreshToken', refreshToken);
-    //        $location.path('/');
-    //
-    //        //console.log('registering push');
-    //
-    //        // Login was successful
-    //        User.sync(auth.profile).then(function (response) {
-    //            //hide the loader
-    //
-    //            $ionicPush.register({
-    //                    canShowAlert: true, // Should new pushes show an alert on your
-    //                    // screen?
-    //                    canSetBadge: true, // Should new pushes be allowed to update app icon
-    //                    // badges?
-    //                    canPlaySound: true, // Should notifications be allowed to play a
-    //                    // sound?
-    //                    canRunActionsOnWake: true, // Whether to run auto actions outside the
-    //                    // app,
-    //                    onNotification: function (notification) {
-    //                        //console.log('notification received: ' + JSON.stringify(notification));
-    //                    }
-    //                },
-    //                {
-    //                    user_id: auth.profile.user_id,
-    //                    name: auth.profile.nickname
-    //                }
-    //            ).then(
-    //                function () {
-    //                    //console.log('registration successful');
-    //                },
-    //                function (err) {
-    //                    //console.log('registration failed');
-    //                    //console.log(err);
-    //                }
-    //            );
-    //
-    //            //Once the user data has been synced, get the user data object from our server also
-    //            //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
-    //            //Check to see if the user is a new user, if so set service variable appropriately
-    //            //console.log("Response from the userSync method on the server is: " + response);
-    //
-    //            //User.hideTutorials();
-    //
-    //            if (response == 201) {
-    //                //then mark this user as being new and show them the tutorials
-    //                //console.log("This user is a new user, activating tutorials.");
-    //                User.showTutorials();
-    //            } else if (response == 202) {
-    //                //console.log("This is an existing user, so not showing any tutorials");
-    //                User.hideTutorials();
-    //            }
-    //
-    //            User.getUserData(auth.profile.user_id).then(
-    //                function(){
-    //                    //Testing the user global service
-    //                    var currentUser = User.currentUser();
-    //                    //console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
-    //
-    //                    $state.go('tab.rounds');
-    //
-    //                    //show an alert for testing purposes
-    //                    //todo: perhaps make this another tutorial
-    //                    $ionicPopup.alert({
-    //                        title: 'Login successful!',
-    //                        template: 'Welcome ' + auth.profile.nickname + '!'
-    //                    }).then(function (res) {
-    //                        //console.log(auth.profile);
-    //                    });
-    //                }
-    //            );
-    //        });
-    //
-    //    }, function (error) {
-    //        // Oops something went wrong during login:
-    //        //console.log("There was an error logging in:" + JSON.stringify(error));
-    //    });
-    //
-    //})
-
     .controller('LeagueTableCtrl', function ($scope, LeagueTable) {
 
         //First retrieve all of the league table data and add it to the scope
@@ -368,7 +262,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                             if (currentExistingPrediction == $scope.listFixtures[i]._id) {
                                 currentFixturePrediction = predictionMap[$scope.existingPredictions[j].prediction];
+                                debugger;
                                 $scope.listFixtures[i].prediction = currentFixturePrediction;
+                                //$scope.listFixtures[i].predictionWindow = 'Fixture Finished';
                                 $scope.listFixtures[i].predictionWindow = $scope.existingPredictions[j].predictValue.predictWindow;
                             }
                         }
@@ -533,6 +429,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 var today = new Date();
                 if ($scope.listFixtures[i].fixDate < today) {
                     //$scope.listFixtures.splice(i, 1); //delete from card view
+                    debugger;
                     $scope.listFixtures[i].status = 'Complete'; //delete from card view
                     //console.log('Fixture marked as complete here');
                     completeCount++;
@@ -764,21 +661,21 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //debugger;
             //console.log("Predict home win");
 
-            var result = _getFixResult(fixture);
+            var result = _getFixResult(fixture._id);
 
-            if (_predictionDiffCheck(fixture, 1) && (result == 0)) {
-                _addFixturePrediction(fixture, 1);
+            if ((fixture.status != 'Complete') && (_predictionDiffCheck(fixture._id, 1) && (result == 0))) {
+                _addFixturePrediction(fixture._id, 1);
             }
         };
 
-        $scope.predictAwayWin = function (fixture) {
+        $scope.predictAwayWin = function (fixture){
             //debugger;
 
-            var result = _getFixResult(fixture);
+            var result = _getFixResult(fixture._id);
 
             //console.log("Predict away win");
-            if (_predictionDiffCheck(fixture, 2) && (result == 0)) {
-                _addFixturePrediction(fixture, 2);
+            if ((fixture.status != 'Complete') && (_predictionDiffCheck(fixture._id, 2) && (result == 0))) {
+                _addFixturePrediction(fixture._id, 2);
             }
         };
 
@@ -787,10 +684,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //debugger;
 
-            var result = _getFixResult(fixture);
+            var result = _getFixResult(fixture._id);
 
-            if (_predictionDiffCheck(fixture, 3) && (result == 0)) {
-                _addFixturePrediction(fixture, 3);
+            if ((fixture.status != 'Complete') && (_predictionDiffCheck(fixture._id, 3) && (result == 0))) {
+                _addFixturePrediction(fixture._id, 3);
             }
         };
 

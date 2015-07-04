@@ -466,6 +466,8 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             all: function() {
                 var deferred = $q.defer();
 
+                debugger;
+
                 //Retrieve the English Premiere League standings
                 $http.get(SERVER + '/standings').success(
                     function(data) {
@@ -619,7 +621,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 }
 
                 if (team.indexOf("AFC" > -1)) {
-                    team = team.replace('AFC', "");
+                    team = team.replace("AFC", " ");
                     team = team.trim();
                 }
 

@@ -14,13 +14,13 @@
 
         <p class="col-10 pt">Pts</p>
     </ion-header-bar>
-    <ion-content class="live-table has-header has-subheader">
+    <ion-content class="live-table">
         <div class="row" ng-model="standings" ng-repeat="standing in standings track by $index">
             <div class="col-10 border"><p class="stat">{{standing.stand_position}}</p></div>
             <div class="team-name-shirt col-45 border"><img class="standing-shirt"
                                                             ng-src="img/team_shirts/{{standing.stand_team_name}}.png">
 
-                <p class="team-name">{{standing.stand_team_name | limitTo: 13}}</p></div>
+                <p class="team-name">{{standing.stand_team_name | limitTo: 14}}</p></div>
             <div class="col-10"><p class="stat">{{standing.stand_overall_gp}}</p></div>
             <div class="col-10"><p class="stat">{{standing.stand_overall_w}}</p></div>
             <div class="col-10"><p class="stat">{{standing.stand_overall_d}}</p></div>

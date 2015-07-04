@@ -6935,6 +6935,7 @@ ion-nav-view ion-tabs {
     margin-right: 2rem; }
 
 .rounds-content {
+  overflow: hidden;
   border-radius: 3px;
   background-color: transparent !important; }
   .rounds-content ion-item:first-child {
@@ -6949,9 +6950,9 @@ ion-nav-view ion-tabs {
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        -webkit-flex-direction: row;
-        -ms-flex-direction: row;
-        flex-direction: row;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
@@ -7003,8 +7004,7 @@ ion-nav-view ion-tabs {
         .rounds-content ion-item a.item-content .round-no-container .round-no {
           color: #3bb665;
           text-transform: uppercase;
-          font-size: 1.2rem;
-          margin-right: 1rem; }
+          font-size: 1.2rem; }
       .rounds-content ion-item a.item-content .label-button {
         border: 1px solid white !important;
         display: -webkit-flex;
@@ -7187,9 +7187,9 @@ ion-nav-view ion-tabs {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
-        -webkit-flex-basis: 4.75rem;
-        -ms-flex-preferred-size: 4.75rem;
-        flex-basis: 4.75rem;
+        -webkit-flex-basis: 7.5rem;
+        -ms-flex-preferred-size: 7.5rem;
+        flex-basis: 7.5rem;
         position: relative;
         left: 0.4rem; }
         .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
@@ -7218,9 +7218,9 @@ ion-nav-view ion-tabs {
         left: 0.1rem;
         top: -0.5rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-name {
-        -webkit-flex-basis: 4.5rem;
-        -ms-flex-preferred-size: 4.5rem;
-        flex-basis: 4.5rem;
+        -webkit-flex-basis: 7.5rem;
+        -ms-flex-preferred-size: 7.5rem;
+        flex-basis: 7.5rem;
         position: relative;
         left: 0.5rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-points {
@@ -7517,7 +7517,8 @@ ion-view.league-detail .league-live-table {
     ion-view.league-detail .league-live-table .row .score {
       -webkit-flex-basis: 2.5rem;
       -ms-flex-preferred-size: 2.5rem;
-      flex-basis: 2.5rem; }
+      flex-basis: 2.5rem;
+      text-align: center; }
     ion-view.league-detail .league-live-table .row .username {
       -webkit-flex-basis: 9rem;
       -ms-flex-preferred-size: 9rem;
@@ -7525,7 +7526,7 @@ ion-view.league-detail .league-live-table {
       ion-view.league-detail .league-live-table .row .username p {
         text-align: center; }
 
-.item-icon-left ion-spinner {
+.item-icon-left .ion-spinner {
   float: left;
   margin-left: -3.2em;
   margin-right: 1em;
@@ -7544,9 +7545,10 @@ ion-view.league-detail .league-live-table {
 
 /* Stylings for rulebook */
 .rulebook-content {
-  border-radius: 3px;
   background-color: white !important;
-  text-align: center; }
+  text-align: center;
+  margin-top: 3rem;
+  top: 0 !important; }
   .rulebook-content .rulebook-title {
     text-align: center; }
   .rulebook-content .summary-title, .rulebook-content .winning-title {
@@ -7703,6 +7705,7 @@ ion-view.league-detail .league-live-table {
 
 /*Styling for the live table standings */
 ion-view[view-title="LEAGUE TABLE"] .bar-subheader {
+  height: 2rem;
   font-size: 0.75rem;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7731,8 +7734,6 @@ ion-view[view-title="LEAGUE TABLE"] .bar-subheader {
     -webkit-flex-basis: 10rem !important;
     -ms-flex-preferred-size: 10rem !important;
     flex-basis: 10rem !important; }
-ion-view[view-title="LEAGUE TABLE"] .has-subheader {
-  top: 77px; }
 ion-view[view-title="LEAGUE TABLE"] .live-table {
   padding-top: 0 !important; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2) {
@@ -7850,7 +7851,7 @@ td-cards {
       td-cards td-card .card-content .shirt-container {
         position: relative;
         top: 1.5rem;
-        height: 8rem;
+        height: 10rem;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -7875,16 +7876,18 @@ td-cards {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
+          width: 15rem;
+          height: 100%;
           -webkit-flex-direction: column;
           -ms-flex-direction: column;
           flex-direction: column;
-          -webkit-justify-content: space-between;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
+          -webkit-justify-content: space-around;
+          -ms-flex-pack: distribute;
+          justify-content: space-around;
           text-align: center; }
           td-cards td-card .card-content .shirt-container .home-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .home-team .away-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .away-shirt-icon {
             top: 10px;
-            width: 70%;
+            width: 7rem !important;
             margin: 0 auto 1.5rem auto; }
   td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
@@ -7948,7 +7951,7 @@ td-cards {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  height: 13rem;
+  height: 18rem;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -8255,6 +8258,9 @@ td-cards {
   .slider .slider-pager span {
     color: white !important; }
 
+.item-radio input:checked ~ .item-content {
+  background: none !important; }
+
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
   height: 44px !important; }
@@ -8270,3 +8276,15 @@ td-cards {
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
   top: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .rounds-content {
+  top: 5.5rem; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .league-live-table {
+  top: 5.5rem; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .live-table {
+  top: 4.6rem; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
+  top: 10.5rem; }

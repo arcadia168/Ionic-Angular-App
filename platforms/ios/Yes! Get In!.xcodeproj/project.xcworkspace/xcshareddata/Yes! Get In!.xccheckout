@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C0EA5050-FA11-4710-A4EF-E9B540A6BA17</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Yes! Get In!</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>EED5AF2696FC16B9663BCFA7B92D3A37AFB1556F</key>
+		<string>https://bitbucket.org/arcadia168/yes-get-in-ionic-frontend.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>platforms/ios/Yes! Get In!.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>EED5AF2696FC16B9663BCFA7B92D3A37AFB1556F</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bitbucket.org/arcadia168/yes-get-in-ionic-frontend.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>EED5AF2696FC16B9663BCFA7B92D3A37AFB1556F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>EED5AF2696FC16B9663BCFA7B92D3A37AFB1556F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>YGI!%20Frontend</string>
+		</dict>
+	</array>
+</dict>
+</plist>

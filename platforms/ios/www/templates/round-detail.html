@@ -26,16 +26,16 @@
                          on-swipe-right="predictAwayWin(fixture._id)"
                             >
                         <div class="fix-home-away">
-                            <img ng-click="predictHomeWin(fixture._id)"
+                            <img ng-click="predictHomeWin(fixture)"
                                  ng-class="{faded : fixture.prediction == 'AWAY WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
                                  class="image list-home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
                             <em class="list-home-team-name">{{fixture.homeTeam | uppercase}}</em>
                         </div>
 
-                        <h1 class="vs" ng-click="predictDraw(fixture._id)">vs</h1>
+                        <h1 class="vs" ng-click="predictDraw(fixture)">vs</h1>
 
                         <div class="fix-home-away">
-                            <img ng-click="predictAwayWin(fixture._id)"
+                            <img ng-click="predictAwayWin(fixture)"
                                  ng-class="{faded : fixture.prediction == 'HOME WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
                                  class="image list-away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
                             <em class="list-away-team-name">{{fixture.awayTeam | uppercase}}</em>
@@ -45,7 +45,7 @@
                 <div class="user-prediction">
                     <div>
                         <p>KICK OFF:</p>
-                        <p ng-model="fixture">{{fixture.kickOff | date:'h:mma dd MM yyyy'}}</p>
+                        <p ng-model="fixture">{{fixture.kickOff | date:'h:mma dd.MM.yyyy'}}</p>
                     </div>
                     <div>
                         <p>YOUR PREDICTION:</p>
