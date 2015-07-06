@@ -55,8 +55,9 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
         // Your GCM sender ID/project number (Uncomment if using GCM)
         gcm_id: '299929618833',
         // If true, will attempt to send development pushes
-        dev_push: true
+        //dev_push: true
     });
+
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.backButton.text('').previousTitleText(false);
     $ionicConfigProvider.views.transition('android');
@@ -91,7 +92,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
 
     //add the auth0 jwt http interceptor
     var refreshingToken = null;
-    jwtInterceptorProvider.tokenGetter = function(store, $http, jwtHelper) {
+    jwtInterceptorProvider.tokenGetter = function (store, $http, jwtHelper) {
         //notify app that chekcing for refresh token, don't show loader;
         //debugger;
         //tokenRefreshCheck.activateCheckingToken();
@@ -106,10 +107,10 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
                 return store.get('token');
             } else {
                 if (refreshingToken === null) {
-                    refreshingToken =  auth.refreshIdToken(refreshToken).then(function(idToken) {
+                    refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
                         store.set('token', idToken);
                         return idToken;
-                    }).finally(function() {
+                    }).finally(function () {
                         refreshingToken = null;
                     });
                 }
@@ -213,16 +214,16 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
                 requiresLogin: true
             }
         })
-        .state('tab.rulebook',{
+        .state('tab.rulebook', {
             url: '/rulebook',
             views: {
                 'tab-rulebook': {
                     templateUrl: 'templates/tab-rulebook.html',
-                    abstract:   true
+                    abstract: true
                 }
             }
         })
-        .state('tab.rulebook.summary',{
+        .state('tab.rulebook.summary', {
             url: "/summary",
             views: {
                 'rulebook-summary': {
@@ -238,7 +239,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
                 }
             }
         })
-        .state('tab.rulebook.lose',{
+        .state('tab.rulebook.lose', {
             url: "/lose",
             views: {
                 'rulebook-lose': {
@@ -246,7 +247,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
                 }
             }
         })
-        .state('tab.rulebook.trade',{
+        .state('tab.rulebook.trade', {
             url: "/trade",
             views: {
                 'rulebook-trade': {
@@ -314,6 +315,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
             views: {
                 'tab-settings': {
                     templateUrl: 'templates/settings-about.html',
+                    controller: 'SettingsCtrl'
                 }
             }
         })
@@ -349,6 +351,21 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
 
 app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicDeploy, $ionicAnalytics) {
 
+    //Check for an internet connection
+    if (window.Connection) {
+        if (navigator.connection.type == Connection.NONE) {
+            $ionicPopup.confirm({
+                title: "No internet connection",
+                content: "This app needs an internet connection, go get one then come back!"
+            })
+                .then(function (result) {
+                    if (!result) {
+                        ionic.Platform.exitApp();
+                    }
+                });
+        }
+    }
+
     //Register for app analytics
     $ionicAnalytics.register();
 
@@ -360,9 +377,9 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
         //only show loader if NOT checking refresh token
         //debugger;
         //if (!tokenRefreshCheck.checkingToken()) {
-            $ionicLoading.show({
-                template: '<p>Loading<br><ion-spinner icon="ripple" class="spinner-calm"></ion-spinner></p>'
-            });
+        $ionicLoading.show({
+            template: '<p>Loading<br><ion-spinner icon="ripple" class="spinner-calm"></ion-spinner></p>'
+        });
         //}
     });
 
@@ -380,35 +397,18 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
         }
+        //ionic.Platform.fullscreen();
     });
 
     // Disable BACK button on home
     $ionicPlatform.registerBackButtonAction(function (event) {
-        if($state.current.name=="tab.rounds"){
+        if ($state.current.name == "tab.rounds") {
             navigator.app.exitApp();
         }
         else {
             navigator.app.backHistory();
         }
     }, 100);
-
-    //Configure back button functionality
-    //$ionicPlatform.registerBackButtonAction(function (event) {
-    //    if($state.current.name=="tab.rounds"){
-    //        navigator.app.exitApp();
-    //    }
-    //    else {
-    //        navigator.app.backHistory();
-    //    }
-    //}, 100);
-
-
-    //$rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
-    //    console.log('Got token', data.token, data.platform);
-    //    // Do something with the token
-    //    //alert('THE DEVICE TOKEN FOR YOUR DEVICE IS: ' + JSON.stringify(data.token));
-    //    //console.log('THE DEVICE TOKEN FOR YOUR DEVICE IS: ' + JSON.stringify(data.token));
-    //});
 
     // This events gets triggered on refresh or URL change
     var refreshingToken = null;
@@ -446,10 +446,10 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
     });
 
     //Watch out for updates published from Ionic Deploy
-    $ionicDeploy.check().then(function(hasUpdate) {
+    $ionicDeploy.check().then(function (hasUpdate) {
         $rootScope.lastChecked = new Date();
         $scope.hasUpdate = hasUpdate;
-    }, function(err) {
+    }, function (err) {
         console.error('Unable to check for updates:', err);
     });
 })
@@ -535,7 +535,7 @@ app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $i
                 }
 
                 User.getUserData(auth.profile.user_id).then(
-                    function(){
+                    function () {
                         //Testing the user global service
                         var currentUser = User.currentUser();
                         //console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));

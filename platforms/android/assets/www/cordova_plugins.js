@@ -48,6 +48,29 @@ module.exports = [
         "clobbers": [
             "IonicDeploy"
         ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.network-information/www/network.js",
+        "id": "org.apache.cordova.network-information.network",
+        "clobbers": [
+            "navigator.connection",
+            "navigator.network.connection"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.network-information/www/Connection.js",
+        "id": "org.apache.cordova.network-information.Connection",
+        "clobbers": [
+            "Connection"
+        ]
+    },
+    {
+        "file": "plugins/de.appplant.cordova.plugin.email-composer/www/email_composer.js",
+        "id": "de.appplant.cordova.plugin.email-composer.EmailComposer",
+        "clobbers": [
+            "cordova.plugins.email",
+            "plugin.email"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -60,7 +83,9 @@ module.exports.metadata =
     "org.apache.cordova.device": "0.3.1-dev",
     "org.apache.cordova.inappbrowser": "0.6.0",
     "cordova-plugin-statusbar": "1.0.0",
-    "com.ionic.deploy": "0.1.6"
+    "com.ionic.deploy": "0.1.6",
+    "org.apache.cordova.network-information": "0.2.15",
+    "de.appplant.cordova.plugin.email-composer": "0.8.2"
 }
 // BOTTOM OF METADATA
 });

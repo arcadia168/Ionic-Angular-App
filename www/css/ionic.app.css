@@ -8006,11 +8006,9 @@ td-cards {
     .fix-pred-li .fix-pred-li-shirts.faded {
       opacity: 0.2 !important; }
     .fix-pred-li .fix-pred-li-shirts .finished-label {
-      width: 100%;
+      width: 93%;
       font-size: 3rem;
       opacity: 1 !important;
-      -webkit-transform: rotate(-12deg);
-      transform: rotate(-12deg);
       position: absolute;
       top: 3rem;
       margin: auto;
@@ -8104,6 +8102,9 @@ td-cards {
   .settings-content.about-content {
     text-align: center;
     font-size: smaller; }
+    .settings-content.about-content .support-email-link {
+      color: blue;
+      text-underline: blue; }
   .settings-content.cookies-content, .settings-content.privacy-content, .settings-content.tcs-content {
     text-align: start;
     font-size: smaller !important; }
@@ -8262,6 +8263,9 @@ td-cards {
   background: none !important; }
 
 /*Disabling platform specific tweaks */
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header {
+  height: 44px !important; }
+
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
   height: 44px !important; }
 

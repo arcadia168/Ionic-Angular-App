@@ -1585,6 +1585,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 //}
 
     })
+
     .controller('RulebookCtrl', function($scope, $state, SaveChanges) {
 
         //set the need for changes to be saved to be false by default
@@ -1594,7 +1595,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $state.go('tab.rulebook.summary');
     })
 
-    .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
+    .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges, $ionicDeploy, $ionicLoading, $cordovaDevice) {
 
         //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
@@ -1716,7 +1717,94 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
             );
         }
+
+        $scope.doUpdate = function() {
+            $ionicDeploy.update().then(function(res) {
+                console.log('Ionic Deploy: Update Success! ', res);
+            }, function(err) {
+                console.log('Ionic Deploy: Update error! ', err);
+            }, function(prog) {
+                console.log('Ionic Deploy: Progress... ', prog);
+            });
+        };
+
+        // Check Ionic Deploy for new code
+        $scope.checkForUpdates = function() {
+            console.log('Ionic Deploy: Checking for updates');
+            $ionicDeploy.check().then(function(hasUpdate) {
+                console.log('Ionic Deploy: Update available: ' + hasUpdate);
+                $scope.hasUpdate = hasUpdate;
+
+                $ionicPopup.confirm({
+                    title: 'Updates Available',
+                    template: 'Would you like to apply the updates?'
+                });
+                confirmPopup.then(function(res) {
+                    if(res) {
+                        console.log('You are sure');
+
+                        $ionicDeploy.update().then(function(res) {
+                            console.log('Ionic Deploy: Update Success! ', res);
+
+                            $ionicLoading.hide();
+
+                            $ionicPopup.alert({
+                                title: 'Update Successful',
+                                template: 'The latest updates were applied successfully.'
+                            });
+                        }, function(err) {
+                            console.log('Ionic Deploy: Update error! ', err);
+
+                            $ionicPopup.alert({
+                                title: 'Something went wrong...',
+                                template: 'Update failed with error: ' + err
+                            });
+                        }, function(prog) {
+                            console.log('Ionic Deploy: Progress... ', prog);
+
+                            $ionicLoading.show({
+                                template: "<ion-spinner></ion-spinner>"
+                            });
+                        });
+
+                    } else {
+                        console.log('You are not sure');
+                    }
+                });
+            }, function(err) {
+                console.error('Ionic Deploy: Unable to check for updates', err);
+
+                $ionicPopup.alert({
+                    title: 'Something went wrong...',
+                    template: 'Checking for updates failed with error: ' + err
+                });
+            });
+        }
+
+        $scope.sendSupportEmail = function() {
+            console.log("Support link clicked");
+
+            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                    console.log("Response -> " + result);
+                },
+                "App Support or Feedback", // Subject
+                "Hi! \n I'd like support with the Yes! Get In! app. \n " +
+                + "I'm sending this email from: \n" +
+                + "\tDevice: " + $cordovaDevice.getDevice()
+                + "\n\tModel: " + $cordovaDevice.getModel()
+                + "\n\tPlatform: " + $cordovaDevice.getPlatform()
+                + "\n\tCordova Version: " + $cordovaDevice.getCordova()
+                +"(Insert your message below):",// Body
+                ["info@yesgetin.com"],    // To
+                null,                    // CC
+                null,                    // BCC
+                false,                   // isHTML
+                null,                    // Attachments
+                null);                   // Attachment Data
+
+        }
     })
+
     .controller('SignUpCtrl', function ($scope, $timeout, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
 
         //anything you need

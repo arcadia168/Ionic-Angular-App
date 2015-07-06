@@ -86,6 +86,10 @@
 		F719A90C5EA24566850A8171 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = FAAD4EDDE4094079965B5D8E /* trees.c */; };
 		FEEC0168D7F142F4A615183D /* IonicDeploy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250FD61D46F4724BE59C5BD /* IonicDeploy.m */; };
 		FF6703444939473C800B8ADA /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = AE3B2EFEFB504DDFAA89E738 /* gzread.c */; };
+		974047FBE2B0456993888209 /* CDVConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B7CB859BF444CEBE7D39A5 /* CDVConnection.m */; };
+		2542D182C1DB4B11BDE7DA69 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E0A02C7954327B6BB07D1 /* CDVReachability.m */; };
+		CDE52A02139C4448AC16E77F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED92E5E38E5B44FC8C8B0A98 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3BA3B030B7594846B5DB2F6E /* APPEmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = E68A753D305E491DB6768004 /* APPEmailComposer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -240,6 +244,13 @@
 		FAAD4EDDE4094079965B5D8E /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = unknown; name = trees.c; path = com.ionic.deploy/trees.c; sourceTree = "<group>"; };
 		FC36ED7648EA4DEF99579BA1 /* UNIHTTPClientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UNIHTTPClientHelper.h; path = com.ionic.deploy/UNIHTTPClientHelper.h; sourceTree = "<group>"; };
 		FC48B403F66640D48931A57D /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inffixed.h; path = com.ionic.deploy/inffixed.h; sourceTree = "<group>"; };
+		87B7CB859BF444CEBE7D39A5 /* CDVConnection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVConnection.m"; path = "org.apache.cordova.network-information/CDVConnection.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		9B3E0A02C7954327B6BB07D1 /* CDVReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVReachability.m"; path = "org.apache.cordova.network-information/CDVReachability.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		02B8AC1376A648108890E6AB /* CDVConnection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVConnection.h"; path = "org.apache.cordova.network-information/CDVConnection.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		033164FA59144DDE844A828A /* CDVReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVReachability.h"; path = "org.apache.cordova.network-information/CDVReachability.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		ED92E5E38E5B44FC8C8B0A98 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
+		E68A753D305E491DB6768004 /* APPEmailComposer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "APPEmailComposer.m"; path = "de.appplant.cordova.plugin.email-composer/APPEmailComposer.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		015D7ADB9CB94641AC583382 /* APPEmailComposer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "APPEmailComposer.h"; path = "de.appplant.cordova.plugin.email-composer/APPEmailComposer.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +264,7 @@
 				305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */,
 				E795650C08FD4C12838D417B /* Social.framework in Frameworks */,
 				7BA258F5016B42EC9A21E30E /* MessageUI.framework in Frameworks */,
+				CDE52A02139C4448AC16E77F /* SystemConfiguration.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +339,7 @@
 				305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */,
 				30AB560D796043DE834F5297 /* Social.framework */,
 				CF0A5553BEE8437CA8709B93 /* MessageUI.framework */,
+				ED92E5E38E5B44FC8C8B0A98 /* SystemConfiguration.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -431,6 +444,12 @@
 				6FB2944301DC44B291B48260 /* UNIHTTPResponse.h */,
 				C763809C26F146558CA7D423 /* UNIHTTPStringResponse.h */,
 				63308C676E794CB385B911AB /* UNIJsonNode.h */,
+				87B7CB859BF444CEBE7D39A5 /* CDVConnection.m */,
+				9B3E0A02C7954327B6BB07D1 /* CDVReachability.m */,
+				02B8AC1376A648108890E6AB /* CDVConnection.h */,
+				033164FA59144DDE844A828A /* CDVReachability.h */,
+				E68A753D305E491DB6768004 /* APPEmailComposer.m */,
+				015D7ADB9CB94641AC583382 /* APPEmailComposer.h */,
 			);
 			name = Plugins;
 			path = "Yes! Get In!/Plugins";
@@ -660,6 +679,9 @@
 				AF6CEB6A4E0D4826B98A1A7E /* UNIHTTPResponse.m in Sources */,
 				8ED5E43BC2D5417C8FF5B46C /* UNIHTTPStringResponse.m in Sources */,
 				74B4A9DBC6244EBE85CB20E9 /* UNIJsonNode.m in Sources */,
+				974047FBE2B0456993888209 /* CDVConnection.m in Sources */,
+				2542D182C1DB4B11BDE7DA69 /* CDVReachability.m in Sources */,
+				3BA3B030B7594846B5DB2F6E /* APPEmailComposer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

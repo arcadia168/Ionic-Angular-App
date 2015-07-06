@@ -1579,10 +1579,10 @@ td-cards {
     }
 
     .finished-label {
-      width: 100%;
+      width: 93%;
       font-size: 3rem;
       opacity: 1 !important;
-      transform: rotate(-12deg);
+      //transform: rotate(-12deg);
       position: absolute;
       top: 3rem;
       margin: auto;
@@ -1686,6 +1686,11 @@ td-cards {
   &.about-content {
     text-align: center;
     font-size: smaller;
+
+    .support-email-link {
+      color: blue;
+      text-underline: blue;
+    }
   }
 
   &.cookies-content, &.privacy-content, &.tcs-content {
@@ -1879,6 +1884,8 @@ td-cards {
 }
 
 /*Disabling platform specific tweaks */
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header {
+  height: 44px !important; }
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
   height: 44px !important; }
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
