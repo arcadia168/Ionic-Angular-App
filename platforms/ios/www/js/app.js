@@ -8,41 +8,6 @@
 var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'ionic.service.deploy',
     'ionic.service.analytics', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards']);
 
-//app.constant('$ionicLoadingConfig', {
-//    templateUrl: '<ion-spinner></ion-spinner>'
-//})
-
-//.directive('noScroll', function() {
-//    return {
-//        restrict: 'A',
-//        link: function($scope, $element, $attr) {
-//            $element.on('touchmove', function(e) {
-//                e.preventDefault();
-//            });
-//        }
-//    }
-//})
-
-//app.provider('tokenRefreshCheck', function(){
-//    return {
-//        $get: function() {
-//            var checkingToken = false;
-//
-//            return {
-//                activateCheckingToken: function() {
-//                    checkingToken = true
-//                },
-//                deactivateCheckingToken: function(){
-//                    checkingToken = false
-//                },
-//                checkingToken: function(){
-//                    return checkingToken;
-//                }
-//            }
-//        }
-//    }
-//});
-
 app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider,
                      $ionicConfigProvider, $compileProvider, $ionicAppProvider) {
 
@@ -373,14 +338,9 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
     auth.hookEvents();
 
     $rootScope.$on('loading:show', function () {
-
-        //only show loader if NOT checking refresh token
-        //debugger;
-        //if (!tokenRefreshCheck.checkingToken()) {
         $ionicLoading.show({
             template: '<p>Loading<br><ion-spinner icon="ripple" class="spinner-calm"></ion-spinner></p>'
         });
-        //}
     });
 
     $rootScope.$on('loading:hide', function () {

@@ -71,6 +71,13 @@ module.exports = [
             "cordova.plugins.email",
             "plugin.email"
         ]
+    },
+    {
+        "file": "plugins/com.jcjee.plugins.emailcomposer/www/EmailComposer.js",
+        "id": "com.jcjee.plugins.emailcomposer.EmailComposer",
+        "clobbers": [
+            "EmailComposer"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -85,7 +92,8 @@ module.exports.metadata =
     "cordova-plugin-statusbar": "1.0.0",
     "com.ionic.deploy": "0.1.6",
     "org.apache.cordova.network-information": "0.2.15",
-    "de.appplant.cordova.plugin.email-composer": "0.8.2"
+    "de.appplant.cordova.plugin.email-composer": "0.8.2",
+    "com.jcjee.plugins.emailcomposer": "1.4.6"
 }
 // BOTTOM OF METADATA
 });

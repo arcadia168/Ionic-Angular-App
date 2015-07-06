@@ -43,6 +43,10 @@
                         {
                             "xml": "<feature name=\"EmailComposer\"><param name=\"android-package\" value=\"de.appplant.cordova.emailcomposer.EmailComposer\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"EmailComposer\"><param name=\"android-package\" value=\"com.jcjee.plugins.EmailComposer\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -102,6 +106,12 @@
                             "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
                             "count": 1
                         }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<provider android:authorities=\"com.projectmoonshot.YesGetIn.plugins.emailcomposer.provider\" android:name=\"com.jcjee.plugins.EmailAttachmentProvider\" />",
+                            "count": 1
+                        }
                     ]
                 }
             }
@@ -136,6 +146,9 @@
             "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
         },
         "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
+        },
+        "com.jcjee.plugins.emailcomposer": {
             "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
         }
     },

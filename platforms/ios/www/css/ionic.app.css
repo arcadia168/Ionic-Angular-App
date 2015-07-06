@@ -6900,6 +6900,7 @@ ion-nav-view ion-tabs {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  border-bottom: 1px solid #3bb665 !important;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -7526,13 +7527,7 @@ ion-view.league-detail .league-live-table {
       ion-view.league-detail .league-live-table .row .username p {
         text-align: center; }
 
-.item-icon-left .ion-spinner {
-  float: left;
-  margin-left: -3.2em;
-  margin-right: 1em;
-  margin-top: -0.2em; }
-
-.spinner svg, .spinner-loader {
+.spinner-calm svg {
   width: 28px;
   height: 28px;
   stroke: red;
@@ -7705,7 +7700,6 @@ ion-view.league-detail .league-live-table {
 
 /*Styling for the live table standings */
 ion-view[view-title="LEAGUE TABLE"] .bar-subheader {
-  height: 2rem;
   font-size: 0.75rem;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -7720,11 +7714,23 @@ ion-view[view-title="LEAGUE TABLE"] .bar-subheader {
   -ms-flex-align: center;
   align-items: center;
   font-weight: bold;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  background-color: white !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-bottom: 1px solid #3bb665 !important; }
   ion-view[view-title="LEAGUE TABLE"] .bar-subheader p {
-    padding-top: 0.3rem;
+    color: #3bb665 !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     height: 1.75rem !important;
-    margin-top: 0.27rem;
     margin-bottom: 0 !important; }
   ion-view[view-title="LEAGUE TABLE"] .bar-subheader .gp {
     margin-left: -0.1rem; }
@@ -8102,6 +8108,8 @@ td-cards {
   .settings-content.about-content {
     text-align: center;
     font-size: smaller; }
+    .settings-content.about-content .about-logo:before {
+      content: url('../img/Logov2.png') !important; }
     .settings-content.about-content .support-email-link {
       color: blue;
       text-underline: blue; }
@@ -8281,14 +8289,14 @@ td-cards {
 .platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
   top: 44px !important; }
 
+.platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
+  top: 88px !important; }
+
 .platform-ios.platform-cordova:not(.fullscreen) .rounds-content {
   top: 5.5rem; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .league-live-table {
   top: 5.5rem; }
-
-.platform-ios.platform-cordova:not(.fullscreen) .live-table {
-  top: 4.6rem; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
   top: 10.5rem; }

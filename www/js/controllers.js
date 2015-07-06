@@ -159,6 +159,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             2: 'AWAY WIN',
             3: 'DRAW'
         };
+        $scope.UpdatedUserPredictions = {};
         $scope.saveChangesNeeded = false;
         $scope.$on('$ionicView.enter', function(){
             //if the scope says need to save set the global need to save after reentering the tab
@@ -495,7 +496,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.sendPredictions = function () {
 
-            //debugger;
+            debugger;
             var predictionsToUpdate = [];
             var predictionsToAdd = [];
             var diffFlag = false;
@@ -658,7 +659,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.predictHomeWin = function (fixture) {
-            //debugger;
+            debugger;
             //console.log("Predict home win");
 
             var result = _getFixResult(fixture._id);
@@ -669,20 +670,20 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.predictAwayWin = function (fixture){
-            //debugger;
+            debugger;
 
             var result = _getFixResult(fixture._id);
 
-            //console.log("Predict away win");
+            console.log("Predict away win");
             if ((fixture.status != 'Complete') && (_predictionDiffCheck(fixture._id, 2) && (result == 0))) {
                 _addFixturePrediction(fixture._id, 2);
             }
         };
 
         $scope.predictDraw = function (fixture) {
-            //console.log("Predict draw");
+            console.log("Predict draw");
 
-            //debugger;
+            debugger;
 
             var result = _getFixResult(fixture._id);
 
@@ -1082,10 +1083,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 buttons: [
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-share\'></i><p>Share League Code</p></div>'},
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-edit\'></i><p>Rename League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-add\'></i><p>Choose Captain</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-add\'></i><p>Choose Vice Captain</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-close\'></i><p>Leave Private League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person\'></i><p>Delete Members</p></div>'}
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person\'></i><p>Choose Captain</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-stalker\'></i><p>Choose Vice Captain</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-log-out\'></i><p>Leave Private League</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trash-a\'></i><p>Delete Members</p></div>'}
                 ],
                 destructiveText: 'Delete League',
                 titleText: 'Private League Options',
@@ -1784,24 +1785,39 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.sendSupportEmail = function() {
             console.log("Support link clicked");
 
-            window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
-                    console.log("Response -> " + result);
-                },
-                "App Support or Feedback", // Subject
-                "Hi! \n I'd like support with the Yes! Get In! app. \n " +
-                + "I'm sending this email from: \n" +
-                + "\tDevice: " + $cordovaDevice.getDevice()
-                + "\n\tModel: " + $cordovaDevice.getModel()
-                + "\n\tPlatform: " + $cordovaDevice.getPlatform()
-                + "\n\tCordova Version: " + $cordovaDevice.getCordova()
-                +"(Insert your message below):",// Body
-                ["info@yesgetin.com"],    // To
-                null,                    // CC
-                null,                    // BCC
-                false,                   // isHTML
-                null,                    // Attachments
-                null);                   // Attachment Data
+            //window.plugins.emailComposer.showEmailComposerWithCallback(
+            //    function(result) {
+            //        console.log("Response -> " + result);
+            //    },
+            //    "App Support or Feedback", // Subject
+            //    "Hi! \n I'd like support with the Yes! Get In! app. \n " +
+            //    + "I'm sending this email from: \n" +
+            //    + "\tDevice: " + $cordovaDevice.getDevice()
+            //    + "\n\tModel: " + $cordovaDevice.getModel()
+            //    + "\n\tPlatform: " + $cordovaDevice.getPlatform()
+            //    + "\n\tCordova Version: " + $cordovaDevice.getCordova()
+            //    +"(Insert your message below):",// Body
+            //    ["info@yesgetin.com"],    // To
+            //    null,                    // CC
+            //    null,                    // BCC
+            //    false,                   // isHTML
+            //    null,                    // Attachments
+            //    null                    // Attachment Data
+            //);
 
+            if(window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+                        console.log("Response -> " + result);
+                    },
+                    "Feedback for your App", // Subject
+                    "",                      // Body
+                    ["test@example.com"],    // To
+                    null,                    // CC
+                    null,                    // BCC
+                    false,                   // isHTML
+                    null,                    // Attachments
+                    null);                   // Attachment Data
+            }
         }
     })
 

@@ -7,21 +7,22 @@ For example, you might change some of the default colors:
 YES! GET IN! GREEN  #50EF8C !default !important;
 
 */
-$light:                           #e9f5e7 !default ;
-$stable:                          #f8f8f8 !default ;
-$positive:                        #3bb665 ;//#387ef5 !default ;
-$calm:                            #11c1f3 !default ;
-$balanced:                        #33cd5f !default ;
-$energized:                       #ffc900 !default ;
-$assertive:                       #ef473a !default ;
-$royal:                           black !default ;
-$dark:                            #929292 !default ;
-$ygi-green:                       #3bb665 !default ;
-$ygi-loss:                        #F26C4F !default;
-$ygi-trade:                       #6A6A6A !default;
+$light: #e9f5e7 !default;
+$stable: #f8f8f8 !default;
+$positive: #3bb665;
+//#387ef5 !default ;
+$calm: #11c1f3 !default;
+$balanced: #33cd5f !default;
+$energized: #ffc900 !default;
+$assertive: #ef473a !default;
+$royal: black !default;
+$dark: #929292 !default;
+$ygi-green: #3bb665 !default;
+$ygi-loss: #F26C4F !default;
+$ygi-trade: #6A6A6A !default;
 
 // The path for our ionicons font files, relative to the built CSS in www/css
-$ionicons-font-path: "../lib/ionic/fonts" !default ;
+$ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
@@ -108,7 +109,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
           cursor: default;
 
           i:before {
-            content:url('../img/Logov2.png') !important;
+            content: url('../img/Logov2.png') !important;
           }
         }
       }
@@ -119,8 +120,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default ;
 body {
   /*Set the background image of the body here*/
   background: url(../img/pitch_bg.png) fixed center;
-  background-position: -30rem -4rem;
-;
+  background-position: -30rem -4rem;;
 
   .view-container.tab-content {
     background-color: transparent;
@@ -168,13 +168,13 @@ ion-nav-view {
       }
     }
     /*Styling nested tabs */
-    ion-nav-view{
+    ion-nav-view {
       ion-view {
-        ion-tabs{
-          .tab-nav.tabs{
+        ion-tabs {
+          .tab-nav.tabs {
             background-color: #EBEBEC !important;
             border: 1px solid $ygi-green !important;
-            .tab-item{
+            .tab-item {
               .tab-title {
                 color: $ygi-trade !important;
               }
@@ -210,6 +210,7 @@ ion-nav-view {
   background-color: white !important;
   color: $ygi-green !important;
   display: flex;
+  border-bottom: 1px solid $ygi-green !important;
   flex-direction: row;
   justify-content: space-between;
   text-transform: uppercase;
@@ -431,12 +432,9 @@ ion-nav-view {
 
 /*Stylings for the leaderboard */
 .leaderboard-content {
-  //margin: 1.1rem 1.1rem 5rem 1.1rem;
   border-radius: 3px;
   overflow: hidden !important;
   background-color: transparent !important;
-  //padding-top: 0px !important;
-  //bottom: inherit !important;
 
   .scroll {
     overflow: hidden;
@@ -490,7 +488,7 @@ ion-nav-view {
           .label {
             margin: 0.5rem 0 0 0.2rem;
 
-            h5 , p {
+            h5, p {
               font-size: 0.65rem;
               align-self: center;
               word-break: break-all;
@@ -521,7 +519,7 @@ ion-nav-view {
       }
 
       .non-pic {
-        background-color: lightgrey  !important;
+        background-color: lightgrey !important;
         width: 2rem !important;
         height: 2rem !important;
         border-radius: 100% !important;
@@ -577,7 +575,7 @@ ion-nav-view {
             position: relative;
             bottom: 0.1rem;
             font-size: 2rem !important;
-            color: gold !important;//rgb(215, 223 , 35) !important;
+            color: gold !important; //rgb(215, 223 , 35) !important;
           }
 
           .leader-no {
@@ -606,7 +604,7 @@ ion-nav-view {
           }
         }
 
-        .leader-points{
+        .leader-points {
           display: flex;
           align-items: center;
           text-align: left;
@@ -655,16 +653,7 @@ ion-nav-view {
   }
 
   .global-league {
-    border-radius: 1% ;
-
-    //.league-label-container {
-    //  .league-label {
-    //    .global-league-icon {
-    //      font-size: 4rem;
-    //      margin-top: -1rem;
-    //    }
-    //  }
-    //}
+    border-radius: 1%;
 
     .league-label-container {
       .league-label {
@@ -725,17 +714,17 @@ ion-nav-view {
 
 .league-edit-btn {
   display: flex !important;
-  flex-direction: row!important;
-  justify-content: space-around!important;
-  align-items: center!important;
+  flex-direction: row !important;
+  justify-content: space-around !important;
+  align-items: center !important;
 
   .icon {
-    align-self: flex-start!important;
+    align-self: flex-start !important;
     padding-left: 2.5rem !important;
   }
 
   p {
-    align-self: center!important;
+    align-self: center !important;
     margin: auto !important;
     padding-right: 2.5rem !important;
   }
@@ -804,7 +793,7 @@ ion-view.league-detail {
         color: white;
         font-weight: bold;
         font-size: 0.75rem;
-        text-transform: uppercase ;
+        text-transform: uppercase;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -902,7 +891,7 @@ ion-view.league-detail {
 
         .non-pic {
           align-self: flex-start;
-          background-color: lightgrey  !important;
+          background-color: lightgrey !important;
           width: 2rem !important;
           height: 2rem !important;
           border-radius: 100% !important;
@@ -925,7 +914,6 @@ ion-view.league-detail {
         }
       }
 
-
       .leader-pos {
         height: 2rem;
 
@@ -934,7 +922,7 @@ ion-view.league-detail {
           top: 0.05rem;
           left: 0.2rem;
           font-size: 2rem !important;
-          color: gold !important;//rgb(215, 223 , 35) !important;
+          color: gold !important; //rgb(215, 223 , 35) !important;
         }
 
         .leader-no {
@@ -962,18 +950,18 @@ ion-view.league-detail {
   }
 }
 
-.item-icon-left .ion-spinner {
-  float: left;
-  margin-left: -3.2em;
-  margin-right: 1em;
-  margin-top: -0.2em;
-}
+//.spinner-calm {
+//  float: left;
+//  margin-left: -3.2em;
+//  margin-right: 1em;
+//  margin-top: -0.2em;
+//}
 
-.spinner svg, .spinner-loader {
+.spinner-calm svg {
   width: 28px;
   height: 28px;
-  stroke: red;//#999;
-  fill: red;//#999;
+  stroke: red; //#999;
+  fill: red; //#999;
 }
 
 .tutorial-image {
@@ -1069,7 +1057,7 @@ ion-view.league-detail {
         margin-right: 0.5rem;
       }
 
-      .title-container{
+      .title-container {
         flex-basis: 48%;
 
         p {
@@ -1165,7 +1153,7 @@ ion-view.league-detail {
       border-bottom: 1px solid $ygi-green;
     }
 
-    .pre-season-row, .during-season-row ,.pre-round-row, .pre-fixture-row, .during-fixture-row{
+    .pre-season-row, .during-season-row, .pre-round-row, .pre-fixture-row, .during-fixture-row {
       height: 2.5rem !important;
     }
 
@@ -1213,12 +1201,7 @@ ion-view.league-detail {
 /*Styling for the live table standings */
 ion-view[view-title="LEAGUE TABLE"] {
 
-  //.scroll {
-  //  border: 2px solid $ygi-green;
-  //  border-radius: 5px;
-  //}
   .bar-subheader {
-    height: 2rem;
     font-size: 0.75rem;
     display: flex;
     flex-direction: row;
@@ -1226,16 +1209,17 @@ ion-view[view-title="LEAGUE TABLE"] {
     align-items: center;
     font-weight: bold;
     text-transform: uppercase;
-
-    p:first-child, p:nth-child(2), p:nth-last-child(2) {
-      //border-right: 1px solid white;
-      //border-bottom: 1px solid $ygi-green;
-    }
+    background-color: white !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-bottom: 1px solid $ygi-green !important;
 
     p {
-      padding-top: 0.3rem;
+      color: $ygi-green !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 1.75rem !important;
-      margin-top: 0.27rem;
       margin-bottom: 0 !important;
     }
 
@@ -1252,12 +1236,7 @@ ion-view[view-title="LEAGUE TABLE"] {
     }
   }
 
-  //.has-subheader {
-  //  top: 77px;
-  //}
-
   .live-table {
-    //margin-top: 1.1rem;
     padding-top: 0 !important;
   }
 
@@ -1347,29 +1326,29 @@ ion-view[view-title="LEAGUE TABLE"] {
 
 /* Styling for the card view */
 td-cards {
-  display: block ;
+  display: block;
 
   td-card {
-    position: absolute ;
-    left: 50% ;
+    position: absolute;
+    left: 50%;
     margin-top: 5.5rem;
-    margin-bottom: 40px ;
-    margin-left: -150px ;
-    width: 300px ;
-    height: 300px ;
-    border: 1px solid #999 ;
-    box-shadow: 0px 1px 3px rgba(0,0,0,0.2) ;
-    border-radius: 6px  ;
+    margin-bottom: 40px;
+    margin-left: -150px;
+    width: 300px;
+    height: 300px;
+    border: 1px solid #999;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
     background-color: white;
 
     .card-header {
-      text-align: center ;
-      background-color: $ygi-green ;
-      height: 2.5rem ;
-      color: white ;
+      text-align: center;
+      background-color: $ygi-green;
+      height: 2.5rem;
+      color: white;
 
       .fix-title {
-        padding-top: 0.5rem ;
+        padding-top: 0.5rem;
       }
     }
 
@@ -1397,12 +1376,12 @@ td-cards {
         padding: 0.5rem;
 
         .image {
-          position: relative ;
+          position: relative;
         }
 
         img {
-          max-width: 100% ;
-          border-radius: 6px ;
+          max-width: 100%;
+          border-radius: 6px;
         }
 
         h4 {
@@ -1466,18 +1445,20 @@ td-cards {
     color: $royal;
   }
 
-  @keyframes fly-down{
-    100% {top: 31rem;}
+  @keyframes fly-down {
+    100% {
+      top: 31rem;
+    }
   }
 
-  .drawfade , .skippedfade {
+  .drawfade, .skippedfade {
     transition: 0.1s linear all;
-    opacity:1;
+    opacity: 1;
   }
 
   .flyout {
     transition: 0.2s linear all 0.2s;
-    transform:translateY(-500px) !important;
+    transform: translateY(-500px) !important;
   }
 
   /* Fades the text for the prediction in but not out as the  is destroyed */
@@ -1489,7 +1470,7 @@ td-cards {
 
 .button-skip {
   margin: 1rem auto;
-  left: 2rem!important;
+  left: 2rem !important;
   top: 27rem;
   width: 150px !important;
   font-weight: 600;
@@ -1512,30 +1493,30 @@ td-cards {
 
 /*Styling for the list view of fixture predictions*/
 .fix-pred-li {
-  display: flex ;
-  flex-direction: column ;
-  justify-content: space-between ;
-  height: 18rem ;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 18rem;
   background-color: white !important;
-  padding: 0rem ;
+  padding: 0rem;
   margin-bottom: 1rem;
 
   p {
-    text-align: center ;
-    font-size: 0.75rem ;
-    font-weight: 800 ;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 800;
   }
 
   .fix-pred-header {
-    background-color: green ;
+    background-color: green;
     //border-radius: 4px ;
     display: flex;
     flex-direction: row;
 
     p {
-      text-align: center ;
-      color: white ;
-      font-size: 0.75rem ;
+      text-align: center;
+      color: white;
+      font-size: 0.75rem;
       flex-basis: 90%;
     }
 
@@ -1567,9 +1548,9 @@ td-cards {
   }
 
   .fix-pred-li-shirts {
-    display: flex ;
-    flex-direction: row ;
-    justify-content: space-between ;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     margin-top: 0.4rem;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -1604,21 +1585,21 @@ td-cards {
     //border-bottom: 1px solid $ygi-green;
 
     .fix-details {
-      display: flex ;
-      flex-direction: row ;
-      justify-content: space-between ;
-      margin-top: 0.4rem ;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-top: 0.4rem;
       width: 100%;
 
       .vs {
         //width: 100% ;
-        text-align: center ;
+        text-align: center;
         font-size: x-large;
       }
 
       .fix-home-away {
-        display: flex ;
-        flex-direction: column ;
+        display: flex;
+        flex-direction: column;
         text-align: center;
 
         img {
@@ -1626,8 +1607,8 @@ td-cards {
         }
 
         em {
-          font-size: 0.75rem ;
-          font-weight: 700 ;
+          font-size: 0.75rem;
+          font-weight: 700;
           padding-top: 0.75rem;
         }
 
@@ -1687,6 +1668,10 @@ td-cards {
     text-align: center;
     font-size: smaller;
 
+    .about-logo:before{
+        content: url('../img/Logov2.png') !important;
+    }
+
     .support-email-link {
       color: blue;
       text-underline: blue;
@@ -1697,7 +1682,6 @@ td-cards {
     text-align: start;
     font-size: smaller !important;
   }
-
 
   &.team {
     .scroll {
@@ -1840,9 +1824,6 @@ td-cards {
     margin: auto;
   }
 
-
-
-
 }
 
 /*Stylins for the sign up/in screen */
@@ -1885,32 +1866,44 @@ td-cards {
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
-  height: 44px !important; }
+  height: 44px !important;
+}
+
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
-  height: 44px !important; }
+  height: 44px !important;
+}
+
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
-  margin-top: 0px !important; }
+  margin-top: 0px !important;
+}
+
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
-  margin-top: 0px !important; }
+  margin-top: 0px !important;
+}
 
 .platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
-  top: 44px !important; }
+  top: 44px !important;
+}
 
 .platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
-  top: 44px !important; }
+  top: 44px !important;
+}
+
+.platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
+  top: 88px !important;
+}
 
 //Rounds tab - works - leave in
-.platform-ios.platform-cordova:not(.fullscreen) .rounds-content{
-  top: 5.5rem;}
+.platform-ios.platform-cordova:not(.fullscreen) .rounds-content {
+  top: 5.5rem;
+}
 
 //Private leagues - works - leave in
-.platform-ios.platform-cordova:not(.fullscreen) .league-live-table{
-  top: 5.5rem;}
-
-//Live standings stats - needs fixing
-.platform-ios.platform-cordova:not(.fullscreen) .live-table{
-  top: 4.6rem;}
+.platform-ios.platform-cordova:not(.fullscreen) .league-live-table {
+  top: 5.5rem;
+}
 
 //Rulebook contents standings stats - needs fixing
-.platform-ios.platform-cordova:not(.fullscreen) .rulebook-content{
-  top: 10.5rem;}
+.platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
+  top: 10.5rem;
+}

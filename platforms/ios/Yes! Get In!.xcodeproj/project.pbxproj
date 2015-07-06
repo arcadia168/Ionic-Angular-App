@@ -90,6 +90,8 @@
 		2542D182C1DB4B11BDE7DA69 /* CDVReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3E0A02C7954327B6BB07D1 /* CDVReachability.m */; };
 		CDE52A02139C4448AC16E77F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED92E5E38E5B44FC8C8B0A98 /* SystemConfiguration.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		3BA3B030B7594846B5DB2F6E /* APPEmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = E68A753D305E491DB6768004 /* APPEmailComposer.m */; };
+		A045429D66F54353B294C4FF /* EmailComposer.m in Sources */ = {isa = PBXBuildFile; fileRef = BCF4A01BFCFF4BC1A37E65FA /* EmailComposer.m */; };
+		97A80808EA5246AFBFAEF84C /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 3272231D853E4A47B3B05513 /* NSData+Base64.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +253,10 @@
 		ED92E5E38E5B44FC8C8B0A98 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "SystemConfiguration.framework"; path = "System/Library/Frameworks/SystemConfiguration.framework"; sourceTree = SDKROOT; fileEncoding = 4; };
 		E68A753D305E491DB6768004 /* APPEmailComposer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "APPEmailComposer.m"; path = "de.appplant.cordova.plugin.email-composer/APPEmailComposer.m"; sourceTree = "<group>"; fileEncoding = 4; };
 		015D7ADB9CB94641AC583382 /* APPEmailComposer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "APPEmailComposer.h"; path = "de.appplant.cordova.plugin.email-composer/APPEmailComposer.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		BCF4A01BFCFF4BC1A37E65FA /* EmailComposer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "EmailComposer.m"; path = "com.jcjee.plugins.emailcomposer/EmailComposer.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		3272231D853E4A47B3B05513 /* NSData+Base64.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "com.jcjee.plugins.emailcomposer/NSData+Base64.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		5DE1220DC5F743FA98AA0E66 /* EmailComposer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "EmailComposer.h"; path = "com.jcjee.plugins.emailcomposer/EmailComposer.h"; sourceTree = "<group>"; fileEncoding = 4; };
+		7458F1E59C2E42EAA1B9C3A6 /* NSData+Base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "com.jcjee.plugins.emailcomposer/NSData+Base64.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -450,6 +456,10 @@
 				033164FA59144DDE844A828A /* CDVReachability.h */,
 				E68A753D305E491DB6768004 /* APPEmailComposer.m */,
 				015D7ADB9CB94641AC583382 /* APPEmailComposer.h */,
+				BCF4A01BFCFF4BC1A37E65FA /* EmailComposer.m */,
+				3272231D853E4A47B3B05513 /* NSData+Base64.m */,
+				5DE1220DC5F743FA98AA0E66 /* EmailComposer.h */,
+				7458F1E59C2E42EAA1B9C3A6 /* NSData+Base64.h */,
 			);
 			name = Plugins;
 			path = "Yes! Get In!/Plugins";
@@ -682,6 +692,8 @@
 				974047FBE2B0456993888209 /* CDVConnection.m in Sources */,
 				2542D182C1DB4B11BDE7DA69 /* CDVReachability.m in Sources */,
 				3BA3B030B7594846B5DB2F6E /* APPEmailComposer.m in Sources */,
+				A045429D66F54353B294C4FF /* EmailComposer.m in Sources */,
+				97A80808EA5246AFBFAEF84C /* NSData+Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
