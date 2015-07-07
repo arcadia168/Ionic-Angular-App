@@ -23,83 +23,86 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         });
     })
 
-    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds, User) {
+    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds, User, auth) {
 
         //only publicly accessible elements get added to the scope
 
-        $scope.user = User.currentUser();
+        //Refresh the user data to account for updated predictions
+        debugger;
+        User.getUserData(auth.profile.user_id).then(
+            function(){
+                $scope.user = User.currentUser();
 
-        //todo: sort the scores based on round score
+                Rounds.all().then(function (data){
 
-        Rounds.all().then(function (data){
+                    var today = new Date();
 
-            var today = new Date();
+                    //debugger;
+                    $scope.rounds = data.rounds;
+                    $scope.rounds = $scope.rounds.reverse();
 
-            //debugger;
-            $scope.rounds = data.rounds;
-            $scope.rounds = $scope.rounds.reverse();
+                    debugger;
+                    for (var i = 0; i < $scope.rounds.length; i++) {
+                        var currentRoundFixtures = $scope.rounds[i].data;
 
-            //todo: test this implementation
-            for (var i = 0; i < $scope.rounds.length; i++) {
-                var currentRoundFixtures = $scope.rounds[i].data;
+                        //check if round is completed
+                        var complete = true;
+                        var inPast = true;
+                        for (var j = 0; j < currentRoundFixtures.length; j++) {
 
-                //check if round is completed
-                var complete = true;
-                var inPast = true;
-                for (var j = 0; j < currentRoundFixtures.length; j++) {
+                            currentRoundFixture = currentRoundFixtures[j];
 
-                    currentRoundFixture = currentRoundFixtures[j];
+                            var fixDateAsDate = new Date(currentRoundFixture.fixDate);
 
-                    var fixDateAsDate = new Date(currentRoundFixture.fixDate);
-
-                    if (fixDateAsDate > today) {
-                        inPast = false;
-                    }
-                }
-
-                //if all of the fixtures are in the past, then round is complete
-                if (inPast == true) {
-                    $scope.rounds[i].status = 'Complete'
-                } else {
-                    //else if there are fixtures in future still in round
-                    for (var l = 0; l < currentRoundFixtures.length; l++) {
-
-                        currentRoundFixture = currentRoundFixtures[l];
-
-                        //look for this fixture in user predictions
-                        var predictionsMade = false;
-                        for (var k = 0; k < $scope.user.predictions.length; k++) {
-                            //if user prediction matches one of the fixtures in the round
-                            if ($scope.user.predictions[k].fixture == currentRoundFixture._id) {
-                                predictionsMade = true;
-                                $scope.rounds[i].status = "Predictions Made";
-                                //console.log(JSON.stringify($scope.rounds[i]));
-
-                                //Set this round to go into the card view, round index
-                                // + 1 because index is base 0
-                                $scope.rounds[i].roundLink = i+1;
-
-                                break
+                            if (fixDateAsDate > today) {
+                                inPast = false;
                             }
                         }
 
-                        if (predictionsMade == false) {
-                            $scope.rounds[i].status = "Unpredicted";
-                            //console.log(JSON.stringify($scope.rounds[i]));
-
-                            //Set the round link
-                            $scope.rounds[i].roundLink = "cards/" + (i+1);
-
-                            break;
+                        //if all of the fixtures are in the past, then round is complete
+                        if (inPast == true) {
+                            $scope.rounds[i].status = 'Complete'
                         } else {
-                            break;
-                        }
-                    };
-                }
-            }
-        });
+                            //else if there are fixtures in future still in round
+                            for (var l = 0; l < currentRoundFixtures.length; l++) {
 
-        ////debugger
+                                currentRoundFixture = currentRoundFixtures[l];
+
+                                //look for this fixture in user predictions
+                                var predictionsMade = false;
+                                for (var k = 0; k < $scope.user.predictions.length; k++) {
+                                    //if user prediction matches one of the fixtures in the round
+                                    if (($scope.user.predictions[k].fixture == currentRoundFixture._id) && ($scope.user.predictions[k].prediction != 0)) {
+                                        predictionsMade = true;
+                                        $scope.rounds[i].status = "Predictions Made";
+                                        //console.log(JSON.stringify($scope.rounds[i]));
+
+                                        //Set this round to go into the card view, round index
+                                        // + 1 because index is base 0
+                                        $scope.rounds[i].roundLink = i+1;
+
+                                        break
+                                    }
+                                }
+
+                                if (predictionsMade == false) {
+                                    $scope.rounds[i].status = "Unpredicted";
+                                    //console.log(JSON.stringify($scope.rounds[i]));
+
+                                    //Set the round link
+                                    $scope.rounds[i].roundLink = "cards/" + (i+1);
+
+                                    break;
+                                } else {
+                                    break;
+                                }
+                            };
+                        }
+                    }
+                });
+            }
+        );
+
         $scope.remove = function (round) {
             Rounds.remove(round);
         };
@@ -153,13 +156,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             3: 'DRAW'
         };
 
+        $scope.cardView = true;
         $scope.predictionMap = {
             0: 'NONE',
             1: 'HOME WIN',
             2: 'AWAY WIN',
             3: 'DRAW'
         };
-        $scope.UpdatedUserPredictions = {};
+        $scope.UpdatedUserPredictions = {
+            predictions: []
+        };
         $scope.saveChangesNeeded = false;
         $scope.$on('$ionicView.enter', function(){
             //if the scope says need to save set the global need to save after reentering the tab
@@ -168,10 +174,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             var diffFlag = false;
 
             //if the predictions array is different to the predictions on the server
-            for (var i = 0; i < _predictions.length; i++) {
+            for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
                 for (var j = 0; j < $scope.existingPredictions.length; j++) {
-                    if (_predictions[i].fixture == $scope.existingPredictions[j].fixture &&
-                        _predictions[i].prediction == $scope.existingPredictions[j].prediction) {
+                    if ($scope.UpdatedUserPredictions.predictions[i].fixture == $scope.existingPredictions[j].fixture &&
+                        $scope.UpdatedUserPredictions.predictions[i].prediction == $scope.existingPredictions[j].prediction) {
                         SaveChanges.saveChangesNeeded();
                         diffFlag = true;
                         break;
@@ -222,6 +228,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 _predictions = [];
 
+                $scope.UpdatedUserPredictions.predictions = [];
+
                 //debugger;
 
                 //if the user has made predictions previously, go straight to the list view
@@ -239,6 +247,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 if ($scope.existingPredictions.length) {
 
                     //if the user has already made predictions on this round, then just show list view
+                    debugger;
                     $scope.cardView = false;
 
                     //as there are some predictions, enable the delete and clear buttons
@@ -274,6 +283,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     updatePredictions = true; //only set this if there are existing predictions!
                 } else {
                     /*if there are no existing predictions on the server for this round for this user*/
+                    //$scope.cardView = true;
 
                     //Then determing the first card details globally for the skip function
                     //debugger;
@@ -288,7 +298,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
 
                 for (var k = 0; k < $scope.existingPredictions.length; k++) {
-                    _predictions.push({
+                    $scope.UpdatedUserPredictions.predictions.push({
                         fixture: $scope.existingPredictions[k].fixture,
                         prediction: $scope.existingPredictions[k].prediction
                     });
@@ -301,8 +311,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             var found = -1;
 
-            for (var i = 0; i < _predictions.length; i++) {
-                if (fixture == _predictions[i].fixture) {
+            for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
+                if (fixture == $scope.UpdatedUserPredictions.predictions[i].fixture) {
                     //then the fixture has had a prediction made for it
                     found = i;
                     break; //breaks out of the inner loop
@@ -331,10 +341,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 //check to see if the prediction will actually be changed, if not, do nothing
 
-                _predictions[existingPredictionPosition] = {fixture: fixture, prediction: prediction};
+                $scope.UpdatedUserPredictions.predictions[existingPredictionPosition] = {fixture: fixture, prediction: prediction};
             } else { //else if a prediction for this fixture does not already exist...
                 if (prediction != 0) { //don't add none predictions to the list
-                    _predictions.push({fixture: fixture, prediction: prediction});
+                    $scope.UpdatedUserPredictions.predictions.push({fixture: fixture, prediction: prediction});
                 }
             }
 
@@ -389,8 +399,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             return -1; //if not found.
         }
 
-        $scope.cardView = true;
-
 //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
 
@@ -398,7 +406,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         Rounds.get($stateParams.roundId).then(function (data) {
 
             //when first loading the page, clear out any local existing predictions.
-            _predictions = [];
+            $scope.UpdatedUserPredictions.predictions = [];
 
             //$ionicLoading.hide();
             $scope.fixtures = data;
@@ -416,6 +424,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
             }
 
+            debugger;
             if ($scope.fixtures.length == 0) $scope.cardView = false;
 
             //clone into a separate array to use for the cards
@@ -466,10 +475,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //debugger;
 
                         //delete the prediction from the private array
-                        for (var i = 0; i < _predictions.length; i++) {
-                            if (fixture._id == _predictions[i].fixture) {
+                        for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
+                            if (fixture._id == $scope.UpdatedUserPredictions.predictions[i].fixture) {
                                 //set this prediction to be 0 - denoting no prediction
-                                _predictions[i].prediction = 0;
+                                $scope.UpdatedUserPredictions.predictions[i].prediction = 0;
                                 break; //exit loop once updated.
                             }
                         }
@@ -503,19 +512,19 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //todo replace with the use of underscore contains
             //determine if the user has made changes upon pressing the submit button
-            for (var i = 0; i < _predictions.length; i++) {
+            for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
                 //if there are existing predictions, compare, if not then must be making new predictions
                 if ($scope.existingPredictions.length) {
                     var predictionExists = false;
                     for (var j = 0; j < $scope.existingPredictions.length; j++) {
                         //if the prediction for matching fixtures is different...
                         ////debugger;
-                        if (_predictions[i].fixture == $scope.existingPredictions[j].fixture) {
+                        if ($scope.UpdatedUserPredictions.predictions[i].fixture == $scope.existingPredictions[j].fixture) {
                             //then the prediction existed previously and needs to be updated
                             predictionExists = true;
 
                             //Check if the prediction is different, and hence needs to be updated
-                            if (_predictions[i].prediction != $scope.existingPredictions[j].prediction) {
+                            if ($scope.UpdatedUserPredictions.predictions[i].prediction != $scope.existingPredictions[j].prediction) {
                                 //trigger the diffFlag
                                 diffFlag = true; //there is a difference between the predictions on the server and new ones.
                                 break; //break out of the inner loop
@@ -553,9 +562,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     if (res) {
 
                         //compare differences of new predictions to old ones, add to array of predictions to update
-                        for (var i = 0; i < _predictions.length; i++) {
+                        for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
                             var predictionExists = false;
-                            var currentUpdatedPrediction = _predictions[i];
+                            var currentUpdatedPrediction = $scope.UpdatedUserPredictions.predictions[i];
 
                             for (var j = 0; j < $scope.existingPredictions.length; j++) {
 
@@ -630,7 +639,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             }
             else { //there are no existing predictions so simply make a fresh set of new predictions
                 //debugger;
-                Rounds.makePredictions(user, $stateParams.roundId, _predictions).then(function() {
+                Rounds.makePredictions(user, $stateParams.roundId, $scope.UpdatedUserPredictions.predictions).then(function() {
                     $ionicPopup.alert({
                         title: 'Your new predictions have been made!',
                         template: 'Let\'s hope you do well!'
