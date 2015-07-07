@@ -23,9 +23,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         });
     })
 
-    .controller('RoundsCtrl', function ($scope, $ionicLoading, Rounds, User, auth) {
-
-        //only publicly accessible elements get added to the scope
+    .controller('RoundsCtrl', function ($scope, Rounds, User, auth, $ionicLoading, $ionicDeploy, $ionicPopup) {
 
         //Refresh the user data to account for updated predictions
         debugger;
@@ -769,6 +767,15 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             var tutorial = $ionicPopup.alert({
                 title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
                 template: '<img class="tutorial-image" src=\'img/tutorial.png\'>',
+                okText: 'GOT IT'
+            });
+        };
+
+        $scope.showListTutorial = function() {
+            //Show the tutorial pop up
+            var tutorial = $ionicPopup.alert({
+                title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
+                template: '<img class="tutorial-image" src=\'img/listsummodal.png\'>',
                 okText: 'GOT IT'
             });
         }
@@ -1605,7 +1612,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $state.go('tab.rulebook.summary');
     })
 
-    .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges, $ionicDeploy, $ionicLoading, $cordovaDevice) {
+    .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges, $ionicDeploy, $ionicLoading) {
 
         //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
@@ -1681,9 +1688,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.teams =
             [
-                'AFC Bournemouth',
                 'Arsenal',
                 'Aston Villa',
+                'Bournemouth',
                 'Chelsea',
                 'Crystal Palace',
                 'Everton',
@@ -1728,69 +1735,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             );
         }
 
-        $scope.doUpdate = function() {
-            $ionicDeploy.update().then(function(res) {
-                console.log('Ionic Deploy: Update Success! ', res);
-            }, function(err) {
-                console.log('Ionic Deploy: Update error! ', err);
-            }, function(prog) {
-                console.log('Ionic Deploy: Progress... ', prog);
-            });
-        };
-
-        // Check Ionic Deploy for new code
-        $scope.checkForUpdates = function() {
-            console.log('Ionic Deploy: Checking for updates');
-            $ionicDeploy.check().then(function(hasUpdate) {
-                console.log('Ionic Deploy: Update available: ' + hasUpdate);
-                $scope.hasUpdate = hasUpdate;
-
-                $ionicPopup.confirm({
-                    title: 'Updates Available',
-                    template: 'Would you like to apply the updates?'
-                });
-                confirmPopup.then(function(res) {
-                    if(res) {
-                        console.log('You are sure');
-
-                        $ionicDeploy.update().then(function(res) {
-                            console.log('Ionic Deploy: Update Success! ', res);
-
-                            $ionicLoading.hide();
-
-                            $ionicPopup.alert({
-                                title: 'Update Successful',
-                                template: 'The latest updates were applied successfully.'
-                            });
-                        }, function(err) {
-                            console.log('Ionic Deploy: Update error! ', err);
-
-                            $ionicPopup.alert({
-                                title: 'Something went wrong...',
-                                template: 'Update failed with error: ' + err
-                            });
-                        }, function(prog) {
-                            console.log('Ionic Deploy: Progress... ', prog);
-
-                            $ionicLoading.show({
-                                template: "<ion-spinner></ion-spinner>"
-                            });
-                        });
-
-                    } else {
-                        console.log('You are not sure');
-                    }
-                });
-            }, function(err) {
-                console.error('Ionic Deploy: Unable to check for updates', err);
-
-                $ionicPopup.alert({
-                    title: 'Something went wrong...',
-                    template: 'Checking for updates failed with error: ' + err
-                });
-            });
-        }
-
         $scope.sendSupportEmail = function() {
             console.log("Support link clicked");
 
@@ -1827,6 +1771,73 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     null,                    // Attachments
                     null);                   // Attachment Data
             }
+        }
+
+        $scope.checkForUpdates = function() {
+            // Check Ionic Deploy for new code
+            console.log('Ionic Deploy: Checking for updates');
+            $ionicDeploy.check().then(
+                function(hasUpdate) {
+                    console.log('Ionic Deploy: Update available: ' + hasUpdate);
+
+                    $ionicPopup.confirm({
+                        title: 'Updates Available',
+                        template: 'Would you like to apply the updates?'
+                    }).then(
+                        function(res) {
+                            if(res) {
+                                console.log('Attempting to update.');
+
+                                $ionicLoading.show(
+                                    {
+                                        template: 'Updating... <ion-spinner></ion-spinner>'
+                                    }
+                                );
+
+                                $ionicDeploy.update().then(
+                                    function(res) {
+                                        console.log('Ionic Deploy: Update Success! ', res);
+
+                                        $ionicLoading.hide();
+
+                                        $ionicPopup.alert(
+                                            {
+                                                title: 'Update Successful',
+                                                template: 'The latest updates were applied successfully.'
+                                            }
+                                        );
+                                    },
+                                    function(err) {
+                                        console.log('Ionic Deploy: Update error! ', err);
+
+                                        $ionicPopup.alert(
+                                            {
+                                                title: 'Something went wrong...',
+                                                template: 'Update failed with error: ' + err
+                                            }
+                                        );
+                                    },
+                                    function(prog) {
+                                        console.log('Ionic Deploy: Progress... ', prog);
+
+                                    }
+                                );
+                            } else {
+                                console.log('Not updating, resuming execution.');
+                            }
+                        }
+                    );
+                }, function(err) {
+                    console.error('Ionic Deploy: Unable to check for updates', err);
+
+                    $ionicPopup.alert(
+                        {
+                            title: 'Something went wrong...',
+                            template: 'Checking for updates failed with error: ' + err
+                        }
+                    );
+                }
+            );
         }
     })
 

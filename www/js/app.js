@@ -18,7 +18,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
         // The public API key all services will use for this app
         api_key: 'f8917dfff3085d16c84a347669fff2e0750bbd0d34431531',
         // Your GCM sender ID/project number (Uncomment if using GCM)
-        gcm_id: '299929618833',
+        gcm_id: '299929618833'
         // If true, will attempt to send development pushes
         //dev_push: true
     });
@@ -288,7 +288,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
             url: '/settings/privacy',
             views: {
                 'tab-settings': {
-                    templateUrl: 'templates/settings-privacy.html',
+                    templateUrl: 'templates/settings-privacy.html'
                 }
             }
         })
@@ -296,7 +296,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
             url: '/settings/cookies',
             views: {
                 'tab-settings': {
-                    templateUrl: 'templates/settings-cookies.html',
+                    templateUrl: 'templates/settings-cookies.html'
                 }
             }
         })
@@ -304,7 +304,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
             url: '/settings/tcs',
             views: {
                 'tab-settings': {
-                    templateUrl: 'templates/settings-tcs.html',
+                    templateUrl: 'templates/settings-tcs.html'
                 }
             }
         });
@@ -314,7 +314,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
 
 });
 
-app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicDeploy, $ionicAnalytics) {
+app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicAnalytics, $ionicPopup) {
 
     //Check for an internet connection
     if (window.Connection) {
@@ -361,7 +361,7 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
     });
 
     // Disable BACK button on home
-    $ionicPlatform.registerBackButtonAction(function (event) {
+    $ionicPlatform.registerBackButtonAction(function () {
         if ($state.current.name == "tab.rounds") {
             navigator.app.exitApp();
         }
@@ -404,15 +404,7 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
             }
         }
     });
-
-    //Watch out for updates published from Ionic Deploy
-    $ionicDeploy.check().then(function (hasUpdate) {
-        $rootScope.lastChecked = new Date();
-        $scope.hasUpdate = hasUpdate;
-    }, function (err) {
-        console.error('Unable to check for updates:', err);
-    });
-})
+});
 
 app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $ionicPopup, $ionicLoading, User, $ionicUser, $ionicPush) {
 
@@ -497,19 +489,10 @@ app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $i
                 User.getUserData(auth.profile.user_id).then(
                     function () {
                         //Testing the user global service
-                        var currentUser = User.currentUser();
+                        //var currentUser = User.currentUser();
                         //console.log("The current user data stored on our server is: " + JSON.stringify(currentUser));
 
                         $state.go('tab.rounds');
-
-                        //show an alert for testing purposes
-                        //todo: perhaps make this another tutorial
-                        //$ionicPopup.alert({
-                        //    title: 'Login successful!',
-                        //    template: 'Welcome ' + auth.profile.nickname + '!'
-                        //}).then(function (res) {
-                        //    console.log(auth.profile);
-                        //});
                     }
                 );
             });

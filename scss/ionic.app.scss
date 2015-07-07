@@ -10,7 +10,6 @@ YES! GET IN! GREEN  #50EF8C !default !important;
 $light: #e9f5e7 !default;
 $stable: #f8f8f8 !default;
 $positive: #3bb665;
-//#387ef5 !default ;
 $calm: #11c1f3 !default;
 $balanced: #33cd5f !default;
 $energized: #ffc900 !default;
@@ -34,8 +33,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 .a0-active {
   /*Set the background image of the body here*/
-  //background: url(../img/pitch_bg.png) fixed center;
-  //background-position: 0rem -8rem;
   background-color: $ygi-green !important;
 
   .a0-centrix {
@@ -282,70 +279,6 @@ ion-nav-view {
       }
     }
   }
-  //.total-points {
-  //  border: 2px solid $ygi-green;
-  //  height: 4rem;
-  //  border: none !important;
-  //  //border-top: 1px solid $ygi-green;
-  //  display: flex;
-  //  align-items: center;
-  //  flex-direction: row;
-  //  padding: 0.2rem;
-  //  justify-content: center;
-  //  background-color: transparent;
-  //
-  //  .round-no-container {
-  //    height: 100%;
-  //    flex-basis: 50%;
-  //    background-color: white !important;
-  //    display: flex;
-  //    flex-direction: row;
-  //    align-items: center;
-  //
-  //    &:after {
-  //      content:'';
-  //      transform:rotate(135deg);
-  //      transform-origin: bottom right;
-  //      height: 100%;
-  //      width: 100%;
-  //      background-color: white;
-  //      position: absolute;
-  //      right: 10.1rem;
-  //      border-top: 1px solid $ygi-green;
-  //    }
-  //
-  //    flex-basis: 35%;
-  //    text-align: center;
-  //
-  //    .round-no {
-  //      color: $ygi-green;
-  //      text-transform: uppercase;
-  //      font-size: 1.2rem;
-  //      margin-top: 0.2rem;
-  //      margin-bottom: -.2rem;
-  //      margin-right: 1rem;
-  //    }
-  //  }
-  //
-  //  .label-button {
-  //    display: flex;
-  //    height: 100%;
-  //    justify-content: flex-end;
-  //    flex-basis: 47%;
-  //    align-items: center;
-  //    flex-direction: row;
-  //    background: rgb(242, 108, 79) !important;
-  //
-  //    .round-label {
-  //      text-align: right;
-  //      font-size: 0.75rem;
-  //      margin-right: 1rem;
-  //      color: white !important;
-  //      align-self: center;
-  //    }
-  //
-  //  }
-  //}
 
   ion-item {
     border: none !important;
@@ -541,6 +474,7 @@ ion-nav-view {
       .user-pic {
         width: 2rem !important;
         height: 2rem !important;
+        min-width: 2rem !important;
         border-radius: 100%;
         position: relative;
       }
@@ -558,9 +492,6 @@ ion-nav-view {
         }
 
         .pos-player {
-          //width: 65%;
-          //border-left: 1px solid $ygi-green;
-          //border-right: 1px solid $ygi-green;
           border-bottom: 3px solid transparent;
         }
 
@@ -787,14 +718,16 @@ ion-view.league-detail {
     background-color: white !important;
 
     .row-header-container {
-      //position: absolute;
-      //top: 3.9rem;
-      width: 100%;
-      //padding: 0.1rem;
-      padding-top: 0.2rem;
-      //padding: 0 10px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0 !important;
+      height: 1.5rem !important;
 
       .row-header {
+        padding: 0 !important;
+        align-self: center !important;
+        height: 100% !important;
         background-color: $ygi-green !important;
         color: white;
         font-weight: bold;
@@ -805,9 +738,6 @@ ion-view.league-detail {
         justify-content: space-between;
         text-align: center;
         border-bottom: 0px solid transparent !important;
-        //border-radius: 3px 3px 0px 0px !important;
-        height: 1.5rem;
-        //border-radius: 3px;
         align-items: flex-start;
 
         p:first-child {
@@ -815,10 +745,11 @@ ion-view.league-detail {
         }
 
         p {
-          //padding-top: 0.3rem;
-          height: 1.75rem !important;
-          //margin-top: 0.27rem;
           margin-bottom: 0 !important;
+          height: 100%;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
         }
       }
     }
@@ -914,6 +845,7 @@ ion-view.league-detail {
           align-self: flex-start;
           width: 2rem !important;
           height: 2rem !important;
+          min-width: 2rem !important;
           border-radius: 100%;
           position: relative;
           right: 0.2rem;
@@ -1027,11 +959,13 @@ ion-view.league-detail {
   .sub-table-lose-title {
     margin-left: 10.2rem !important;
     color: $ygi-loss !important;
+    min-width: 1.8rem !important;
   }
 
   .sub-table-trade-title {
     margin-left: 9.75rem !important;
     color: $ygi-trade !important;
+    min-width: 2.4rem !important;
   }
 
   .sub-table-win-title {
@@ -1087,6 +1021,7 @@ ion-view.league-detail {
           color: $ygi-trade;
           text-align: right;
           margin-left: .6rem !important;
+          min-width: 2.4rem !important;
         }
       }
 
@@ -1142,18 +1077,6 @@ ion-view.league-detail {
     .trade-pts {
       background-color: $ygi-trade;
     }
-    //
-    //.pre-fixture-trade {
-    //  padding: 0.35rem 0 0 0.43rem;
-    //}
-    //
-    //.during-fixture-trade {
-    //  padding: 0.3rem 0 0 0.3rem;
-    //}
-    //
-    //.loss-during-fixture-trade {
-    //  padding: 0.3rem 0 0 0.4rem;
-    //}
 
     .green-border-bottom {
       border-bottom: 1px solid $ygi-green;
@@ -1795,14 +1718,23 @@ td-cards {
       //}
 
       &.sign-out {
-        padding-top: 0px;
-        padding-bottom: 10px;
+        width: 100%;
+        height: 3.5rem;
+        padding: 0px 0.75rem !important;
 
-        .ion-log-out {
-          font-size: 2rem;
-          position: relative;
-          left: 15rem;
-          top: 0.3rem;
+        p {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+
+          .ion-log-out {
+            font-size: 2rem;
+            position: relative;
+            //top: 0.3rem;
+            //left: 15rem;
+          }
         }
       }
     }
@@ -1926,6 +1858,30 @@ td-cards {
   }
 
   .label-row {
-    justify-content: space-around;
+    //justify-content: center !important;
+
+    .pos-points {
+      min-width: 3.1rem !important;
+
+      p {
+        min-width: 3.1rem !important;
+      }
+    }
+
+    .pos-player {
+      min-width: 3.2rem !important;
+
+      p {
+        min-width: 3.2rem !important;
+      }
+    }
+  }
+
+  .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
+    right: 0.9rem !important;
+  }
+
+  ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
+    left: 1.1rem !important;
   }
 }

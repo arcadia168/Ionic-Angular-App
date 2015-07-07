@@ -7149,6 +7149,7 @@ ion-nav-view ion-tabs {
       .leaderboard-content ion-item .league-overview .user-pic {
         width: 2rem !important;
         height: 2rem !important;
+        min-width: 2rem !important;
         border-radius: 100%;
         position: relative; }
       .leaderboard-content ion-item .league-overview .label-row {
@@ -7343,9 +7344,23 @@ ion-view.league-detail .league-live-table {
   padding-top: 0 !important;
   background-color: white !important; }
   ion-view.league-detail .league-live-table .row-header-container {
-    width: 100%;
-    padding-top: 0.2rem; }
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 !important;
+    height: 1.5rem !important; }
     ion-view.league-detail .league-live-table .row-header-container .row-header {
+      padding: 0 !important;
+      -webkit-align-self: center !important;
+      -ms-flex-item-align: center !important;
+      align-self: center !important;
+      height: 100% !important;
       background-color: #3bb665 !important;
       color: white;
       font-weight: bold;
@@ -7362,15 +7377,23 @@ ion-view.league-detail .league-live-table {
       justify-content: space-between;
       text-align: center;
       border-bottom: 0px solid transparent !important;
-      height: 1.5rem;
       -webkit-align-items: flex-start;
       -ms-flex-align: start;
       align-items: flex-start; }
       ion-view.league-detail .league-live-table .row-header-container .row-header p:first-child {
         margin-left: 0.1rem; }
       ion-view.league-detail .league-live-table .row-header-container .row-header p {
-        height: 1.75rem !important;
-        margin-bottom: 0 !important; }
+        margin-bottom: 0 !important;
+        height: 100%;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center; }
   ion-view.league-detail .league-live-table .title-row {
     border-bottom: 1px solid #3bb665; }
     ion-view.league-detail .league-live-table .title-row .title-row-container {
@@ -7500,6 +7523,7 @@ ion-view.league-detail .league-live-table {
         align-self: flex-start;
         width: 2rem !important;
         height: 2rem !important;
+        min-width: 2rem !important;
         border-radius: 100%;
         position: relative;
         right: 0.2rem; }
@@ -7568,10 +7592,12 @@ ion-view.league-detail .league-live-table {
     margin-left: 3.75rem; }
   .rulebook-content .sub-table-lose-title {
     margin-left: 10.2rem !important;
-    color: #F26C4F !important; }
+    color: #F26C4F !important;
+    min-width: 1.8rem !important; }
   .rulebook-content .sub-table-trade-title {
     margin-left: 9.75rem !important;
-    color: #6A6A6A !important; }
+    color: #6A6A6A !important;
+    min-width: 2.4rem !important; }
   .rulebook-content .sub-table-win-title {
     margin-left: 10rem !important;
     color: #3bb665 !important; }
@@ -7621,7 +7647,8 @@ ion-view.league-detail .league-live-table {
       .rulebook-content .points-table .title-row .title-container .trade {
         color: #6A6A6A;
         text-align: right;
-        margin-left: 0.6rem !important; }
+        margin-left: 0.6rem !important;
+        min-width: 2.4rem !important; }
   .rulebook-content .points-table .lose-title-row {
     border-bottom: 1px solid #F26C4F !important;
     border-top: 1px solid #F26C4F !important; }
@@ -8210,9 +8237,7 @@ td-cards {
         padding-bottom: 10px; }
         .settings-content .list .item.sign-out .ion-log-out {
           font-size: 2rem;
-          position: relative;
-          left: 15rem;
-          top: 0.3rem; }
+          position: relative; }
     .settings-content .list .item-divider {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8303,6 +8328,18 @@ td-cards {
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) and (orientation: portrait) {
   td-card {
-    margin-top: -0.4rem !important; }
+    margin-top: -0.25rem !important; }
   .button-fact {
-    top: 19rem; } }
+    top: 19rem; }
+  .label-row .pos-points {
+    min-width: 3.1rem !important; }
+    .label-row .pos-points p {
+      min-width: 3.1rem !important; }
+  .label-row .pos-player {
+    min-width: 3.2rem !important; }
+    .label-row .pos-player p {
+      min-width: 3.2rem !important; }
+  .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
+    right: 0.9rem !important; }
+  ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
+    left: 1.1rem !important; } }

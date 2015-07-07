@@ -1,6 +1,6 @@
 <ion-view view-title="PREDICT ROUND {{currentRound}}">
     <ion-nav-buttons side="secondary">
-        <button class="icon button how-to ion-ios-information-outline" ng-click="showTutorial()"></button>
+        <button class="icon button how-to ion-ios-information-outline" ng-click="showListTutorial()"></button>
     </ion-nav-buttons>
     <ion-content scroll="true" ng-controller="RoundDetailCtrl" class="padding">
         <ion-list class="list" ng-if="!cardView">
@@ -72,8 +72,8 @@
                 </div>
             </ion-item>
         </ion-list>
-        <button class="button button-stable button-block button-submit" ng-click="sendPredictions()">UPDATE
-            PREDICTIONS
+        <button ng-if="" class="button button-stable button-block button-submit" ng-click="sendPredictions()">
+            UPDATE PREDICTIONS
         </button>
     </ion-content>
 </ion-view>
