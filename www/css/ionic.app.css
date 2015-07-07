@@ -8303,6 +8303,10 @@ td-cards {
 
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) and (orientation: portrait) {
   td-card {
-    margin-top: -0.4rem !important; }
+    margin-top: -0.25rem !important; }
   .button-fact {
-    top: 19rem; } }
+    top: 19rem; }
+  .label-row {
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around; } }
