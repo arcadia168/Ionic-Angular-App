@@ -1,0 +1,10 @@
+<ul class="list">
+    <li ng-repeat="member in privateLeague.members track by $index"
+        ng-if="member.user_id != privateLeague.creator || member.user_id != currentUser.user_id"
+        class="item item-checkbox">
+        <label class="checkbox">
+            <input ng-click=chooseMemberToDelete(member.user_id) type="checkbox">
+        </label>
+        {{member.username}}
+    </li>
+</ul>

@@ -1,0 +1,16 @@
+<ion-view view-title="MY TEAM">
+    <ion-content class="settings-content">
+        <div class="list">
+            <label ng-repeat="team in teams | orderBy:'toString()'" class="item item-radio">
+                <input ng-model="$parent.userData.userTeam" ng-value="team" ng-change="updateTeam()" type="radio" name="group">
+                <div class="item-content">
+                    <img class="settings-shirt" ng-src="img/team_shirts/{{team}}.png">
+                    <p ng-if="team != 'z0ther'">{{team}}</p>
+                    <p ng-if="team == 'z0ther'">Other</p>
+                </div>
+                <i class="radio-icon ion-checkmark"></i>
+            </label>
+        </div>
+        <!--<button class="button button-block button-positive" ng-click="updateTeam()">Update your team</button>-->
+    </ion-content>
+</ion-view>

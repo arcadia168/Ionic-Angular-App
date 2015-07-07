@@ -6791,6 +6791,12 @@ a.button {
 * {
   font-family: 'Roboto', sans-serif !important; }
 
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.8) !important; }
+
+.loading-container .loading {
+  background-color: transparent !important; }
+
 .a0-active {
   /*Set the background image of the body here*/
   background-color: #3bb665 !important; }
@@ -7289,6 +7295,16 @@ ion-nav-view ion-tabs {
   .league-edit.activated {
     border-color: #3bb665 !important;
     box-shadow: none !important; }
+
+.action-sheet-group button:nth-child(2) .league-edit-btn *:first-child {
+  padding-left: 1rem !important; }
+.action-sheet-group button:nth-child(2) .league-edit-btn *:last-child {
+  padding-right: 1rem !important; }
+.action-sheet-group button:nth-child(2) .league-edit-btn .share-text-container .share-explanation {
+  margin-top: -0.9rem !important;
+  color: #2f8f4f;
+  font-size: 0.6rem;
+  line-height: 1rem; }
 
 .league-edit-btn {
   display: -webkit-flex !important;
@@ -8235,8 +8251,9 @@ td-cards {
       .settings-content .list .item.sign-out {
         width: 100%;
         height: 3.5rem;
-        padding: 0px 0.75rem !important; }
-        .settings-content .list .item.sign-out p {
+        padding: 0px 0.55rem !important;
+        border-top: none !important; }
+        .settings-content .list .item.sign-out .sign-out-contents {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
@@ -8249,8 +8266,12 @@ td-cards {
           -webkit-align-items: center;
           -ms-flex-align: center;
           align-items: center;
-          width: 100%; }
-          .settings-content .list .item.sign-out p .ion-log-out {
+          width: 100%;
+          border-top: 1px solid #3bb665 !important; }
+          .settings-content .list .item.sign-out .sign-out-contents .sign-out-label {
+            min-width: 4rem;
+            width: 4rem; }
+          .settings-content .list .item.sign-out .sign-out-contents .ion-log-out {
             font-size: 2rem;
             position: relative; }
     .settings-content .list .item-divider {

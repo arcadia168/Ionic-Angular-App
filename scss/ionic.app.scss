@@ -31,6 +31,15 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   font-family: 'Roboto', sans-serif !important;
 }
 
+//Styling the ionic loader to hide more - cover up rendering
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.80) !important;
+}
+
+.loading-container .loading {
+  background-color: transparent !important;
+}
+
 .a0-active {
   /*Set the background image of the body here*/
   background-color: $ygi-green !important;
@@ -646,6 +655,34 @@ ion-nav-view {
   &.activated {
     border-color: $ygi-green !important;
     box-shadow: none !important;
+  }
+}
+
+.action-sheet-group {
+  button:nth-child(2){
+    .league-edit-btn {
+      *:first-child{
+        padding-left: 1rem !important;
+      }
+
+      *:last-child {
+        padding-right: 1rem !important;
+      }
+
+      .share-text-container {
+
+        .share-label {
+
+        }
+
+        .share-explanation {
+          margin-top: -0.9rem !important;
+          color: darken($ygi-green, 10%);
+          font-size: 0.6rem;
+          line-height: 1rem;
+        }
+      }
+    }
   }
 }
 
@@ -1699,35 +1736,24 @@ td-cards {
         color: inherit;
       }
 
-      //.toggle {
-      //  padding-top: 10px !important;
-      //  right: 5px;
-      //
-      //  .track {
-      //    border-radius: 7px !important;
-      //    width: 45px !important;
-      //    height: 24px !important;
-      //  }
-      //  .handle {
-      //    height: 20px !important;
-      //    width: 20px !important;
-      //    border-radius: 5px !important;
-      //    border: 2px solid grey !important;
-      //    top: 12px !important;
-      //  }
-      //}
-
       &.sign-out {
         width: 100%;
         height: 3.5rem;
-        padding: 0px 0.75rem !important;
+        padding: 0px 0.55rem !important;
+        border-top: none !important;
 
-        p {
+        .sign-out-contents {
           display: flex;
           justify-content: space-between;
           flex-direction: row;
           align-items: center;
           width: 100%;
+          border-top: 1px solid #3bb665 !important;
+
+          .sign-out-label {
+            min-width: 4rem;
+            width: 4rem;
+          }
 
           .ion-log-out {
             font-size: 2rem;
@@ -1885,3 +1911,4 @@ td-cards {
     left: 1.1rem !important;
   }
 }
+

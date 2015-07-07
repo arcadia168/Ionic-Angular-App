@@ -1,0 +1,57 @@
+<ion-view cache-view="false" class="league-detail" view-title="{{privateLeague.privateLeagueName}}">
+    <ion-nav-buttons side="secondary">
+        <button ng-if="privateLeague.privateLeagueName != 'Global League'" class="league-edit button icon ion-edit" ng-click="editLeague()"></button>
+    </ion-nav-buttons>
+    <ion-header-bar class="bar-subheader">
+        <label class="item item-input item-select">
+            <div class="input-label">
+                ROUND VIEW
+            </div>
+            <select ng-init="roundInView = roundDates[0]" ng-model="roundInView" ng-options="round.roundNo for round in roundDates">
+            </select>
+        </label>
+    </ion-header-bar>
+    <ion-content class="league-live-table">
+        <div class="row-header-container">
+            <div class="row row-header">
+                <p>{{privateLeague.privateLeagueName | uppercase}}</p>
+                <p ng-if="privateLeague.members.length > 0">{{privateLeague.members.length}} PLAYERS</p>
+                <p ng-if="privateLeague.members.length == 0">0 PLAYERS</p>
+            </div>
+        </div>
+        <div class="title-row">
+            <div class="title-row-container">
+                <div class="border"><p class="stat">POS</p></div>
+                <div class=""><p class="stat">PLAYER</p></div>
+                <div class=""><p class="stat">PTS</p></div>
+            </div>
+        </div>
+        <div class="row" ng-repeat="member in privateLeague.members track by $index">
+            <div ng-if="$index == 0" class="leader-pos">
+                <i class="leader-icon icon ion-android-star"></i>
+                <p class="leader-no">1</p>
+            </div>
+            <div ng-if="$index > 0" class="pos contender"><p class="stat">{{$index + 1}}</p></div>
+
+            <div class="user-details">
+                <i ng-if="member.pic == 'none'" class="non-pic icon ion-person"></i>
+                <img ng-if="member.pic != 'none'" class="user-pic" ng-src="{{member.pic}}">
+                <div class="username">
+                    <p class="stat">{{member.username | limitTo: 20}}</p>
+                </div>
+            </div>
+
+            <div class="score">
+                <div ng-if="roundInView.roundNo == 'OVERALL SEASON'">
+                    <p ng-if="member.overallSeasonScore == 0">0</p>
+                    <p ng-if="member.overallSeasonScore != 0">{{member.overallSeasonScore}}</p>
+                </div>
+                <div ng-if="roundInView.roundNo != 'OVERALL SEASON'">
+                    <p ng-if="memberRoundScore($index) == 0">0</p>
+                    <p ng-if="memberRoundScore($index) != 0">{{memberRoundScore($index)}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row last-empty-row"></div>
+    </ion-content>
+</ion-view>
