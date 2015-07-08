@@ -191,7 +191,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 $http.get(SERVER + '/leaderboard/'
                 ).success(function(data){
                         //Process the data
-                        //debugger;
+                        debugger;
 
                         globalLeagueData = data;
                         currentRound = data[data.length - 2];
@@ -212,6 +212,9 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                         console.log('now removed currentRound from private leagues, last list item is:' + JSON.stringify(data[data.length -1]));
                         //roundDates = data[data.length - 1];
                         //console.log("The list of round dates is: " + roundDates);
+
+                        //todo: sort the members based on their scores
+
 
                         deferred.resolve(globalLeagueData);
                     }).error(function(){
@@ -248,6 +251,10 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                                     break;
                                 }
                             }
+
+                            //todo: sort the members in the league descending based on scores
+
+
                         }
 
                         deferred.resolve(userPrivateLeagues);
@@ -329,6 +336,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
             },
             leaveLeague: function(user_id, private_league_id) {
+                debugger;
 
                 var deferred = $q.defer();
 
@@ -338,7 +346,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 console.log("Now leaving the private league: " + private_league_id);
 
 
-                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_id
+                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){
@@ -413,6 +421,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             },
             changeCaptain: function(user_id, new_captain_id, private_league_id) {
 
+                debugger;
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
 
                 var deferred = $q.defer();
@@ -435,6 +444,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             changeViceCaptain: function(user_id, new_vice_captain_id, private_league_id) {
 
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
+                debugger;
 
                 var deferred = $q.defer();
 
@@ -443,8 +453,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 //sends the user_id of the invited user and the league to which they have been invited
                 console.log("Now altering captain for league: " + private_league_id + " to " + new_vice_captain_id);
 
-
-                $http.get(SERVER + "/users/private_leagues/edit/captain/" + user_id + "/" + private_league_id + "/" + new_captain_id
+                $http.get(SERVER + "/users/private_leagues/edit/vcaptain/" + user_id + "/" + private_league_id + "/" + new_vice_captain_id
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){

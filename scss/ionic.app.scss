@@ -37,8 +37,40 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 .loading-container .loading {
+  margin-bottom: 12rem !important;
+  //position: relative;
+  //bottom: 4rem !important;
   background-color: transparent !important;
 }
+
+.popup-container{
+  .popup {
+    .popup-body {
+      span {
+        display: flex;
+        text-align: center;
+      }
+
+      .list{
+        .item{
+          .item-content{
+            display: flex;
+            flex-direction: row;
+            height: 4rem;
+            align-items: center;
+            justify-content: space-around;
+
+            .user-pic{
+              border-radius: 100%;
+              width: 2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 
 .a0-active {
   /*Set the background image of the body here*/
@@ -660,7 +692,7 @@ ion-nav-view {
 
 .action-sheet-group {
   button:nth-child(2){
-    .league-edit-btn {
+    .share-edit-btn {
       *:first-child{
         padding-left: 1rem !important;
       }
@@ -916,9 +948,15 @@ ion-view.league-detail {
 
       .username {
         flex-basis: 9rem;
+        display: flex;
+        flex-direction: row;
 
         p {
           text-align: center;
+        }
+
+        .captain-label, .vice-captain-label {
+          margin-left: 0.15rem;
         }
       }
     }
@@ -1752,7 +1790,6 @@ td-cards {
 
           .sign-out-label {
             min-width: 4rem;
-            width: 4rem;
           }
 
           .ion-log-out {

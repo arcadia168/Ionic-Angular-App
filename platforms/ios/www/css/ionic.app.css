@@ -6795,7 +6795,31 @@ a.button {
   background-color: rgba(0, 0, 0, 0.8) !important; }
 
 .loading-container .loading {
+  margin-bottom: 12rem !important;
   background-color: transparent !important; }
+
+.popup-container .popup .popup-body span {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center; }
+.popup-container .popup .popup-body .list .item .item-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 4rem;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around; }
+  .popup-container .popup .popup-body .list .item .item-content .user-pic {
+    border-radius: 100%;
+    width: 2rem; }
 
 .a0-active {
   /*Set the background image of the body here*/
@@ -7296,11 +7320,11 @@ ion-nav-view ion-tabs {
     border-color: #3bb665 !important;
     box-shadow: none !important; }
 
-.action-sheet-group button:nth-child(2) .league-edit-btn *:first-child {
+.action-sheet-group button:nth-child(2) .share-edit-btn *:first-child {
   padding-left: 1rem !important; }
-.action-sheet-group button:nth-child(2) .league-edit-btn *:last-child {
+.action-sheet-group button:nth-child(2) .share-edit-btn *:last-child {
   padding-right: 1rem !important; }
-.action-sheet-group button:nth-child(2) .league-edit-btn .share-text-container .share-explanation {
+.action-sheet-group button:nth-child(2) .share-edit-btn .share-text-container .share-explanation {
   margin-top: -0.9rem !important;
   color: #2f8f4f;
   font-size: 0.6rem;
@@ -7563,9 +7587,17 @@ ion-view.league-detail .league-live-table {
     ion-view.league-detail .league-live-table .row .username {
       -webkit-flex-basis: 9rem;
       -ms-flex-preferred-size: 9rem;
-      flex-basis: 9rem; }
+      flex-basis: 9rem;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row; }
       ion-view.league-detail .league-live-table .row .username p {
         text-align: center; }
+      ion-view.league-detail .league-live-table .row .username .captain-label, ion-view.league-detail .league-live-table .row .username .vice-captain-label {
+        margin-left: 0.15rem; }
 
 .spinner-calm svg {
   width: 28px;
@@ -8269,8 +8301,7 @@ td-cards {
           width: 100%;
           border-top: 1px solid #3bb665 !important; }
           .settings-content .list .item.sign-out .sign-out-contents .sign-out-label {
-            min-width: 4rem;
-            width: 4rem; }
+            min-width: 4rem; }
           .settings-content .list .item.sign-out .sign-out-contents .ion-log-out {
             font-size: 2rem;
             position: relative; }

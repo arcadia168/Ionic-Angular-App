@@ -7,7 +7,7 @@
             <div class="input-label">
                 ROUND VIEW
             </div>
-            <select ng-init="roundInView = roundDates[0]" ng-model="roundInView" ng-options="round.roundNo for round in roundDates">
+            <select ng-init="roundInView = roundDates[0]" ng-model="roundInView" ng-change="reOrderMembers()" ng-options="round.roundNo for round in roundDates">
             </select>
         </label>
     </ion-header-bar>
@@ -26,7 +26,7 @@
                 <div class=""><p class="stat">PTS</p></div>
             </div>
         </div>
-        <div class="row" ng-repeat="member in privateLeague.members track by $index">
+        <div class="row" ng-repeat="member in privateLeague.members track by $index | orderBy: '-roundInViewScore' ">
             <div ng-if="$index == 0" class="leader-pos">
                 <i class="leader-icon icon ion-android-star"></i>
                 <p class="leader-no">1</p>
@@ -38,6 +38,8 @@
                 <img ng-if="member.pic != 'none'" class="user-pic" ng-src="{{member.pic}}">
                 <div class="username">
                     <p class="stat">{{member.username | limitTo: 20}}</p>
+                    <p class="captain-label" ng-if="(privateLeague.privateLeagueName != 'Global League') && (member.user_id == privateLeague.captain)">(Captain)</p>
+                    <p class="vice-captain-label" ng-if="(privateLeague.privateLeagueName != 'Global League') && (member.user_id == privateLeague.viceCaptain)">(V Captain)</p>
                 </div>
             </div>
 

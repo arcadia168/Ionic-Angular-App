@@ -96,6 +96,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 }
                             };
                         }
+
+                        //todo: remove this, purely for testing complete round functionality
+                        //$scope.rounds[i].status = 'Complete'
                     }
                 });
             }
@@ -444,12 +447,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 } else {
                     $scope.listFixtures[i].status = 'Ongoing';
                 }
+
+                //todo: REMOVE THIS, PURELY FOR TESTING
+                //$scope.listFixtures[i].status = 'Complete';
             }
 
             if (completeCount == $scope.listFixtures.length) {
                 $scope.allComplete = true;
             }
 
+            //$scope.allComplete = true;
 
             //every time a new set of fixtures is loaded, clear predictions
             _getExistingPredictions();
@@ -814,6 +821,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     }
                 }
 
+                debugger;
+                //sort the overall league into descending order.
+                $scope.overallLeague.sort(_keySort('overallSeasonScore'));
+                $scope.overallLeague.reverse();
+
                 //debugger;
                 Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
                     ////debugger;
@@ -823,28 +835,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     for (var i = 0; i < $scope.privateLeagues.length; i++) {
                         //split league name into words, place in array
                         $scope.privateLeagues[i].privateLeagueName = $scope.privateLeagues[i].privateLeagueName.split(" ");
+
+                        debugger;
+                        $scope.privateLeagues[i].members.sort(_keySort('overallSeasonScore'));
+                        $scope.privateLeagues[i].members.reverse();
                     }
-
-                    ////work out which of the private leagues were made by user and which part of
-                    //$scope.createdLeagues = [];
-                    //
-                    ////the private league's of which the user is only a member
-                    //$scope.inLeagues = [];
-                    //
-                    //for (var i = 0; i < data.length; i++) {
-                    //    if (data[i].captain = auth.profile.user_id) {
-                    //        //then is a league created by the currently logged in user, so add to list
-                    //        //console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
-                    //        $scope.createdLeagues.push(data[i]);
-                    //    } else {
-                    //        //the user is simply a participating member of this league
-                    //        //console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
-                    //        $scope.inLeagues.push(data[i]);
-                    //    }
-                    //}
-                    //
-                    ////console.log('User\'s created leagues are: ' + $scope.createdLeagues);
-
                 });
             })
         }
@@ -859,7 +854,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             var hideSheet = $ionicActionSheet.show({
                 buttons: [
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-plus\'></i><p>Create New League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Enter League Code</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Join League (Enter Code)</p></div>'},
                 ],
                 titleText: 'Private Leagues',
                 cancelText: 'Cancel',
@@ -1028,6 +1023,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
             });
         };
+
+        function _keySort(key,desc) {
+            return function(a,b){
+                return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+            }
+        }
+
     })
 
     .controller('LeaderboardLeagueDetailCtrl', function ($scope, auth, $stateParams, $ionicPopup, $state,
@@ -1040,10 +1042,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //console.log($scope.currentRound);
         debugger;
         $scope.roundDates = Leaderboard.getRoundDates();
-        $scope.roundInView = 0; //0 represents overall season round
+        $scope.roundInView = 'OVERALL SEASON'; //0 represents overall season round
         var _membersToDelete = [];
-        $scope.newCaptain = null;
-        $scope.newViceCaptain = null;
+        $scope.newCaptainId = null;
+        $scope.newViceCaptainId = null;
         $scope.currentUser = auth.profile;
 
         //enable delete buttons
@@ -1058,25 +1060,74 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         function _getPrivateLeagueData() {
 
             if ($stateParams.privateLeagueId == 'global') {
-                //then just get the global leaderboard scores
-                //Get the global scoreboard
-                //Get the data for scores for leaderboard
+                //Get the data for scores for gloabl leaderboard
                 Leaderboard.overall().then(function (data) {
+
+                    debugger;
 
                     //console.log("DATA RETRIEVED FOR THE GLOBAL LEAGUE IS: " + JSON.stringify(data));
                     $scope.privateLeague = {};
                     $scope.privateLeague.members = data;
                     $scope.privateLeague.privateLeagueName = 'Global League';
 
-                    //$scope.privateLeague.privateLeagueName =  $scope.privateLeague.privateLeagueName.join(' ');
+
+                    //iterate over members check if we are viewing overall season or round
+                    for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                        //we are looking at a round, so organise
+                        //iterate over round scores
+                        if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
+                            $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
+                        } else {
+                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                                if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
+                                    //assign the score for the round in the current view to the member
+                                    $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
+
+                                    //break out of the inner loop and get next member
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    //Once iterated over all of the members, sort them based on score
+                    debugger;
+                    $scope.privateLeague.members.sort(_keySort('roundInViewScore'));
+                    $scope.privateLeague.members.reverse();
                 });
             } else {
                 Leaderboard.get(auth.profile.user_id, $stateParams.privateLeagueId).then(function (data) {
+
+                    debugger;
 
                     //$ionicLoading.hide();
                     $scope.privateLeague = data;
                     //$scope.privateLeague.privateLeagueName =  Array.prototype.join.call($scope.privateLeague.privateLeagueName, ' ');
                     //console.log('Retrieved private league:' + JSON.stringify($scope.privateLeague));
+
+                    //iterate over members check if we are viewing overall season or round
+                    for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                        //we are looking at a round, so organise
+                        //iterate over round scores
+                        if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
+                            $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
+                        } else {
+                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                                if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
+                                    //assign the score for the round in the current view to the member
+                                    $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
+
+                                    //break out of the inner loop and get next member
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    //Once iterated over all of the members, sort them based on score
+                    debugger;
+                    $scope.privateLeague.members.sort(_keySort('roundInViewScore'));
+                    $scope.privateLeague.members.reverse();
                 });
             }
         }
@@ -1097,12 +1148,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             // Show the action sheet
             var hideSheet = $ionicActionSheet.show({
                 buttons: [
-                    { text: "<div class=\'league-edit-btn\'><i class=\'icon ion-share\'></i><div class='share-text-container'><p class='share-label'>Invite Friends</p><p class='share-explanation'>*Friends can join this league using league code: " + $scope.privateLeague.privateLeagueCode + "</p></div></div>"},
+                    { text: "<div class=\'league-edit-btn share-edit-btn\'><i class=\'icon ion-share\'></i><div class='share-text-container'><p class='share-label'>Invite Friends</p><p class='share-explanation'>*Friends can join this league using league code: " + $scope.privateLeague.privateLeagueCode + "</p></div></div>"},
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-edit\'></i><p>Rename League</p></div>'},
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person\'></i><p>Choose Captain</p></div>'},
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-stalker\'></i><p>Choose Vice Captain</p></div>'},
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-log-out\'></i><p>Leave Private League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trash-a\'></i><p>Delete Members</p></div>'}
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trash-a\'></i><p>Delete Members</p></div>'},
                 ],
                 destructiveText: 'Delete League',
                 titleText: 'Private League Options',
@@ -1125,6 +1176,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 buttonClicked: function(index) {
 
                     //0 index is to rename the league
+                    debugger;
                     switch(index) {
                         case 0:
                             $scope.shareLeague();
@@ -1148,7 +1200,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             if (auth.profile.user_id == $scope.privateLeague.captain && $scope.privateLeague.members.length > 1) {
                                 $scope.changeLeagueCaptain();
                                 return true;
-                            } else if (!auth.profile.user_id == $scope.privateLeague.captain) {
+                            } else if (auth.profile.user_id != $scope.privateLeague.captain) {
                                 $ionicPopup.alert({
                                     title: 'Access Denied!',
                                     template: 'To choose a new captain for this league you must be a team captain'
@@ -1161,13 +1213,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 });
                                 return true
                             }
-
                             break;
                         case 3:
                             if ((auth.profile.user_id == $scope.privateLeague.captain || auth.profile.user_id == $scope.privateLeague.viceCaptain) && $scope.privateLeague.members.length > 1) {
                                 $scope.changeLeagueViceCaptain();
                                 return true;
-                            } else if (!(auth.profile.user_id == $scope.privateLeague.captain || auth.profile.user_id == $scope.privateLeague.viceCaptain)) {
+                            } else if (auth.profile.user_id != $scope.privateLeague.captain && auth.profile.user_id != $scope.privateLeague.viceCaptain) {
                                 $ionicPopup.alert({
                                     title: 'Access Denied!',
                                     template: 'To choose a new captain for this league you must be a team captain.'
@@ -1293,6 +1344,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.leaveLeague = function () {
+            debugger;
+
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.confirm({
                 title: 'Confirm Leaving',
@@ -1326,9 +1379,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.changeLeagueCaptain = function() {
 
+            debugger;
+
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.show({
-                templateUrl: '../templates/changeCaptain.html',
+                //templateUrl: '/templates/changeCaptain.html',
+                template: "<div class=\"list\"><label ng-repeat=\"member in privateLeague.members track by $index\" class=\"item item-radio\" ng-if=\"member.user_id != privateLeague.captain && member.user_id != privateLeague.viceCaptain\"> <input ng-click=\"chooseNewCaptain(member.user_id)\" type=\"radio\" name=\"group\"> <div class=\"item-content\"> <img class=\"user-pic\" ng-if=\"member.pic != null\" ng-src=\"{{member.pic}}\">{{member.username}} </div> <i class=\"radio-icon ion-checkmark\"></i> </label> </div>",
                 title: 'Choose New Captain',
                 subTitle: 'Choose a league member to become the new captain.',
                 scope: $scope,
@@ -1340,7 +1396,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         text: '<b>Choose</b>',
                         type: 'button-positive',
                         onTap: function (e) {
-                            if ($scope.newCaptain == null) {
+                            if ($scope.newCaptainId == null) {
                                 //don't allow the user to close unless he enters a username
                                 e.preventDefault();
                             } else {
@@ -1361,10 +1417,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     myPopup.then(function (res) {
                         if (res) {
 
-                            //console.log("Attempting to make member captain: " + JSON.stringify($scope.newCaptain));
+                            //console.log(\"Attempting to make member captain: " + JSON.stringify($scope.newCaptain));
 
                             //use the data to call through to the user and pass through the provided username
-                            Leaderboard.changeCaptain(auth.profile.user_id, $scope.newCaptain.user_id, $scope.privateLeague.privateLeagueId).then(
+                            Leaderboard.changeCaptain(auth.profile.user_id, $scope.newCaptainId, $scope.privateLeague.privateLeagueId).then(
                                 function (res) {
                                     //check the message that was returned...
                                     //console.log(res);
@@ -1376,10 +1432,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                     });
 
                                     //Reset the list of members to be deleted
-                                    $scope.newCaptain = null;
+                                    $scope.newCaptainId = null;
 
                                     //Reload the information for this private league
-                                    _getPrivateLeagueData();
+                                    //_getPrivateLeagueData();
+
+                                    //Refresh the tab
+                                    $state.go($state.current, {}, {reload: true});
                                 }
                             );
                         }
@@ -1389,9 +1448,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.changeLeagueViceCaptain = function() {
+
+            debugger;
+
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.show({
-                templateUrl: '../templates/changeViceCaptain.html',
+                //templateUrl: '/templates/changeViceCaptain.html',
+                template: "<div class=\"list\"><label ng-repeat=\"member in privateLeague.members track by $index\" class=\"item item-radio\" ng-if=\"member.user_id != privateLeague.captain && member.user_id != privateLeague.viceCaptain\"> <input ng-click=\"chooseNewViceCaptain(member.user_id)\" type=\"radio\" name=\"group\"> <div class=\"item-content\"> <img class=\"user-pic\" ng-if=\"member.pic != null\" ng-src=\"{{member.pic}}\">{{member.username}} </div> <i class=\"radio-icon ion-checkmark\"></i></label></div>",
                 title: 'Choose New Vice Captain',
                 subTitle: 'Choose a league member to become the new vice captain.',
                 scope: $scope,
@@ -1403,7 +1466,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         text: '<b>Choose</b>',
                         type: 'button-positive',
                         onTap: function (e) {
-                            if ($scope.newViceCaptain == null) {
+                            if ($scope.newViceCaptainId == null) {
                                 //don't allow the user to close unless he enters a username
                                 e.preventDefault();
                             } else {
@@ -1425,10 +1488,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     myPopup.then(function (res) {
                         if (res) {
 
+                            debugger;
+
                             //console.log("Attempting to make member captain: " + JSON.stringify($scope.newViceCaptain));
 
                             //use the data to call through to the user and pass through the provided username
-                            Leaderboard.changeCaptain(auth.profile.user_id, $scope.newViceCaptain.user_id, $scope.privateLeague.privateLeagueId).then(
+                            Leaderboard.changeViceCaptain(auth.profile.user_id, $scope.newViceCaptainId, $scope.privateLeague.privateLeagueId).then(
                                 function (res) {
                                     //check the message that was returned...
                                     //console.log(res);
@@ -1440,10 +1505,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                     });
 
                                     //Reset the list of members to be deleted
-                                    $scope.newViceCaptain = null;
+                                    $scope.newViceCaptainId = null;
 
                                     //Reload the information for this private league
-                                    _getPrivateLeagueData();
+                                    //_getPrivateLeagueData();
+
+                                    //Refresh the tab
+                                    $state.go($state.current, {}, {reload: true});
                                 }
                             );
                         }
@@ -1455,7 +1523,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.deleteMembers = function() {
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.show({
-                templateUrl: '../templates/deleteMembers.html',
+                //templateUrl: '../templates/deleteMembers.html',
+                template: "<ul class=\"list\"><li ng-repeat=\"member in privateLeague.members track by $index\" ng-if=\"member.user_id != privateLeague.creator && member.user_id != privateLeague.captain && member.user_id != privateLeague.viceCaptain && member.user_id != currentUser.user_id\" class=\"item item-checkbox\"><label class=\"checkbox\"><input ng-click=chooseMemberToDelete(member.user_id) type=\"checkbox\"></label>{{member.username}}</li></ul>",
                 title: 'Delete League Members',
                 subTitle: 'Choose members to delete from the league',
                 scope: $scope,
@@ -1512,7 +1581,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                     //update the local user data
                                     User.getUserData();
 
-                                    _getPrivateLeagueData();
+                                    //_getPrivateLeagueData();
+
+                                    //Refresh the tab
+                                    $state.go($state.current, {}, {reload: true});
                                 }
                             );
                         }
@@ -1525,6 +1597,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //console.log("Adding user with id %s to list of members to delete", memberUserId);
             _membersToDelete.push(memberUserId);
             //console.log("List of members to delete is: " + JSON.stringify(_membersToDelete));
+        };
+
+        $scope.chooseNewViceCaptain = function(newViceCaptainId) {
+            $scope.newViceCaptainId = newViceCaptainId;
+        };
+
+        $scope.chooseNewCaptain = function(newCaptainId) {
+            $scope.newCaptainId = newCaptainId;
         };
 
         $scope.deleteLeague = function () {
@@ -1575,22 +1655,58 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.shareLeague = function () {
             //console.log("Share functin invoked.");
-            $cordovaSocialSharing.share("Yes! Get In! \n\nDownload our brand new app for Android or iOS and join my Private League by entering League Code: " + $scope.privateLeague.privateLeagueCode + "\n\n", "Join my Yes! Get In! Private League Using Code " + $scope.privateLeague.privateLeagueCode, null, "http://www.yesgetin.com");
+            $cordovaSocialSharing.share("The new way to play fantasy football. Download the app on Android and iOS and join my league with code: " + $scope.privateLeague.privateLeagueCode + "\n", "Join my Yes! Get In! Private League Using Code " + $scope.privateLeague.privateLeagueCode, null, "http://www.yesgetin.com");
         };
 
         $scope.memberRoundScore = function(memberIndex) {
-            //debugger;
+            debugger;
             //console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
+            var i = 0;
             for (var i = 0; i < $scope.privateLeague.members[memberIndex].roundScores.length; i++) {
-                if ($scope.privateLeague.members[memberIndex].roundScores[i].roundNo == $scope.roundInView.roundNo) {
+                if ($scope.privateLeague.members[memberIndex].roundScores[i].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
                     //console.log('MEMBER ROUND SCORE IS: '
                     //    + $scope.privateLeague.members[memberIndex].roundScores[i].roundScore);
                     return $scope.privateLeague.members[memberIndex].roundScores[i].roundScore;
                 }
             }
             return 0; //if no other thing returned
-        }
+        };
 
+        //updated the round in view score on members to enable angular to sort it
+        $scope.reOrderMembers = function(){
+
+            debugger;
+
+            //iterate over members check if we are viewing overall season or round
+            for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                //we are looking at a round, so organise
+                //iterate over round scores
+                if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
+                    $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
+                } else {
+                    for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                        if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
+                            //assign the score for the round in the current view to the member
+                            $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
+
+                            //break out of the inner loop and get next member
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //Once iterated over all of the members, sort them based on score
+            debugger;
+            $scope.privateLeague.members.sort(_keySort('roundInViewScore'));
+            $scope.privateLeague.members.reverse();
+        };
+
+        function _keySort(key,desc) {
+            return function(a,b){
+                return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+            }
+        }
     })
 
     .controller('RulebookCtrl', function($scope, $state, SaveChanges) {

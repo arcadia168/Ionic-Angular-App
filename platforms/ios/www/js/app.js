@@ -346,7 +346,6 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
     });
 
     $rootScope.$on('loading:hide', function () {
-        debugger;
         $ionicLoading.hide()
     });
 
