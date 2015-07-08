@@ -15,7 +15,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         } else if (debugRelease == 'deviceDebug') {
             //running the app on the device hosting server on mac
             //use the ip address of mac from router, port 8000 as usual
-            var code = 'seikshfljw';
+            var code = 'tonglofuva';
             var localTunnelUrl = 'https://' + code + '.localtunnel.me'; //THIS WILL CHANGE DYNAMICALLY, UPDATE ALWAYS
             console.log("Local tunnel url is: %s", localTunnelUrl);
             serverToUse = localTunnelUrl + "/api";
@@ -66,6 +66,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 $http.get(SERVER + '/fixtures/' + roundId
                 ).success(function(data){
                         rounds = data;
+                        //debugger;
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
@@ -84,7 +85,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 console.log('SENDING PREDICTIONS:' + predictions);
 
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -111,7 +112,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 console.log('UPDATING PREDICTIONS:' + predictions);
 
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -131,7 +132,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 //make a call to the server to get the existing predictions made by a user
                 //do this for a given round
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -150,7 +151,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             //deleteRoundPredictions: function(userid, round) {
             //
             //    //make a call to the server to get the existing predictions made by a user
-            //    debugger;
+            //    //debugger;
             //
             //    var deferred = $q.defer();
             //
@@ -198,12 +199,22 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                         roundDates = data[data.length - 1];
                         roundDates.roundsList.unshift({roundNo: 'OVERALL SEASON'});
+
+                        //Prepend 'Round' to each element
+                        for (var i = 1; i < roundDates.roundsList.length; i++) {
+                            roundDates.roundsList[i].roundNo = "Round " + roundDates.roundsList[i].roundNo;
+                        }
+                        debugger;
+
                         console.log('roundDates are: ' + JSON.stringify(roundDates));
 
                         data.splice(data.length -2, 2);
                         console.log('now removed currentRound from private leagues, last list item is:' + JSON.stringify(data[data.length -1]));
                         //roundDates = data[data.length - 1];
                         //console.log("The list of round dates is: " + roundDates);
+
+                        //todo: sort the members based on their scores
+
 
                         deferred.resolve(globalLeagueData);
                     }).error(function(){
@@ -219,7 +230,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 // Make a call to ye olde server
                 $http.get(SERVER + '/users/private_leagues/list/' + user_id
                 ).success(function(data){
-                        debugger;
+                        //debugger;
 
                         userPrivateLeagues = data;
 
@@ -229,7 +240,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                             for (var k = 0; k < userPrivateLeagues[j].members.length; k++) {
                                 if (userPrivateLeagues[j].members[k].user_id == user_id) {
                                     //then we have found the currently logged in user, add key to this object
-                                    debugger;
+                                    //debugger;
                                     userPrivateLeagues[j].thisUser = {
                                         //need pts, username and pick
                                         userSeasonPts: userPrivateLeagues[j].members[k].overallSeasonScore,  //todo: assign round pts
@@ -240,6 +251,10 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                                     break;
                                 }
                             }
+
+                            //todo: sort the members in the league descending based on scores
+
+
                         }
 
                         deferred.resolve(userPrivateLeagues);
@@ -274,6 +289,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             getRoundDates: function() {
                 if (roundDates) {
                     //Prepend this value to the array
+                    debugger;
                     return roundDates.roundsList;
                 } else {
                     console.log("ERROR: User requested round dates list when none was set");
@@ -320,6 +336,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
             },
             leaveLeague: function(user_id, private_league_id) {
+                debugger;
 
                 var deferred = $q.defer();
 
@@ -329,7 +346,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 console.log("Now leaving the private league: " + private_league_id);
 
 
-                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id + '/' + user_id
+                $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){
@@ -404,6 +421,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             },
             changeCaptain: function(user_id, new_captain_id, private_league_id) {
 
+                debugger;
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
 
                 var deferred = $q.defer();
@@ -426,6 +444,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             changeViceCaptain: function(user_id, new_vice_captain_id, private_league_id) {
 
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
+                debugger;
 
                 var deferred = $q.defer();
 
@@ -434,8 +453,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 //sends the user_id of the invited user and the league to which they have been invited
                 console.log("Now altering captain for league: " + private_league_id + " to " + new_vice_captain_id);
 
-
-                $http.get(SERVER + "/users/private_leagues/edit/captain/" + user_id + "/" + private_league_id + "/" + new_captain_id
+                $http.get(SERVER + "/users/private_leagues/edit/vcaptain/" + user_id + "/" + private_league_id + "/" + new_vice_captain_id
                 ).success(function(data){
                         deferred.resolve(data);
                     }).error(function(){
@@ -456,6 +474,8 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         return {
             all: function() {
                 var deferred = $q.defer();
+
+                debugger;
 
                 //Retrieve the English Premiere League standings
                 $http.get(SERVER + '/standings').success(
@@ -479,6 +499,8 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         //return this object once retrieved
         var currentUserData = {};
         var showTutorials = true;
+        var firstTimeSignIn = false;
+        var tutorialSeenCount = 0;
 
         return {
             sync: function(user) {
@@ -511,11 +533,11 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 $http.get(SERVER + '/users/' + user_id
                 ).success(function(response){
-                        console.log("function getUserData in the User service successfully synced data:");
-                        console.log(response); //should be the newly loggied in user, not the old!
-                        //assign the returned user data to the factory
+                        //console.log("function getUserData in the User service successfully synced data:");
+                        //console.log(response); //should be the newly loggied in user, not the old!
+                        ////assign the returned user data to the factory
                         currentUserData = response[0];
-                        console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
+                        //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
                         deferred.resolve(response);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
@@ -539,6 +561,18 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             },
             hideTutorials: function() {
                 showTutorials = false;
+            },
+            setFirstTimeSignIn: function(){
+                firstTimeSignIn = true;
+            },
+            firstTimeSignIn: function() {
+                return firstTimeSignIn;
+            },
+            incrementTutorialSeenCount: function() {
+                tutorialSeenCount++;
+            },
+            tutorialSeenCount: function(){
+                return tutorialSeenCount;
             },
             tutorialsActiveCheck: function() {
                 return showTutorials;
@@ -592,6 +626,11 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 if (team.indexOf("Queens Park Rangers" > -1)) {
                     team = team.replace('Queens Park Rangers', 'QPR');
+                    team = team.trim();
+                }
+
+                if (team.indexOf("AFC" > -1)) {
+                    team = team.replace("AFC", " ");
                     team = team.trim();
                 }
 

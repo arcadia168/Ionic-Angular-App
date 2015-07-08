@@ -1,46 +1,68 @@
 <ion-view cache-view="false" view-title="SETTINGS">
     <ion-content class="settings-content">
         <div class="list">
-            <div class="item"><a class="team-link" href="#/tab/settings/team">MY TEAM: <p><img ng-if="userData.userTeam != 'Please Select'" class='settings-shirt' ng-src="img/team_shirts/{{userData.userTeam}}.png">{{userData.userTeam | uppercase}}</p></a></div>
-            <div class="item item-divider">
-                <p>PUSH NOTIFICATIONS</p>
+            <div class="item">
+                <a class="team-link" href="#/tab/settings/team">MY TEAM:
+                    <div class="outer-container">
+                        <img ng-if="userData.userTeam != 'Please Select'" class='settings-shirt' ng-src="img/team_shirts/{{userData.userTeam}}.png">
+                        <p ng-if="userData.userTeam != 'z0ther'" class="team-label">{{userData.userTeam | uppercase}}</p>
+                        <p ng-if="userData.userTeam == 'z0ther'" class="team-label">Other</p>
+                    </div>
+                </a>
             </div>
-            <li class="item item-toggle">
-                PREDICTION UPDATES
-                <label class="toggle toggle-positive">
-                    <input type="checkbox">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
-            </li>
-            <li class="item item-toggle">
-                SCORE UPDATES
-                <label class="toggle toggle-positive">
-                    <input type="checkbox">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
-            </li>
-            <li class="item item-toggle">
-                HT/FT SCORE UPDATES
-                <label class="toggle toggle-positive">
-                    <input type="checkbox">
-                    <div class="track">
-                        <div class="handle"></div>
-                    </div>
-                </label>
-            </li>
+            <!--<div class="item item-divider">-->
+                <!--<p>PUSH NOTIFICATIONS</p>-->
+            <!--</div>-->
+            <!--<li class="item item-toggle">-->
+                <!--PREDICTION UPDATES-->
+                <!--<label class="toggle toggle-positive">-->
+                    <!--<input type="checkbox">-->
+                    <!--<div class="track">-->
+                        <!--<div class="handle"></div>-->
+                    <!--</div>-->
+                <!--</label>-->
+            <!--</li>-->
+            <!--<li class="item item-toggle">-->
+                <!--SCORE UPDATES-->
+                <!--<label class="toggle toggle-positive">-->
+                    <!--<input type="checkbox">-->
+                    <!--<div class="track">-->
+                        <!--<div class="handle"></div>-->
+                    <!--</div>-->
+                <!--</label>-->
+            <!--</li>-->
+            <!--<li class="item item-toggle">-->
+                <!--HT/FT SCORE UPDATES-->
+                <!--<label class="toggle toggle-positive">-->
+                    <!--<input type="checkbox">-->
+                    <!--<div class="track">-->
+                        <!--<div class="handle"></div>-->
+                    <!--</div>-->
+                <!--</label>-->
+            <!--</li>-->
             <div class="item item-divider">
                 <p>USER INFORMATION</p>
             </div>
-            <div class="item"><a href="#/tab/settings/about">ABOUT APP & ACKNOWLEDGEMENTS</a></div>
-            <div class="item"><a href="#/tab/settings/cookies">COOKIE POLICY</a></div>
-            <div class="item"><a href="#/tab/settings/privacy">PRIVACY POLICY</a></div>
-            <div class="item"><a href="#/tab/settings/tcs">TERMS AND CONDITIONS</a></div>
+            <div class="item">
+                <a href="#/tab/settings/about">ABOUT APP & ACKNOWLEDGEMENTS</a>
+            </div>
+            <div class="item">
+                <a href="#/tab/settings/cookies">COOKIE POLICY</a>
+            </div>
+            <div class="item">
+                <a href="#/tab/settings/privacy">PRIVACY POLICY</a>
+            </div>
+            <div class="item">
+                <a href="#/tab/settings/tcs">TERMS AND CONDITIONS</a>
+            </div>
+            <div class="item" ng-click="checkForUpdates()">
+                <p>CHECK FOR UPDATES</p>
+            </div>
             <div class="item sign-out" ng-click="signOut()">
-                <p>SIGN OUT <i class="icon icon-right ion-log-out"></i></p>
+                <div class="sign-out-contents">
+                    <p class="sign-out-label">SIGN OUT USER {{userData.username | uppercase}}</p>
+                    <i class="icon icon-right ion-log-out"></i>
+                </div>
             </div>
         </div>
     </ion-content>

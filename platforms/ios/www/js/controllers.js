@@ -96,6 +96,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 }
                             };
                         }
+
+                        //todo: remove this, purely for testing complete round functionality
+                        //$scope.rounds[i].status = 'Complete'
                     }
                 });
             }
@@ -444,12 +447,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 } else {
                     $scope.listFixtures[i].status = 'Ongoing';
                 }
+
+                //todo: REMOVE THIS, PURELY FOR TESTING
+                //$scope.listFixtures[i].status = 'Complete';
             }
 
             if (completeCount == $scope.listFixtures.length) {
                 $scope.allComplete = true;
             }
 
+            //$scope.allComplete = true;
 
             //every time a new set of fixtures is loaded, clear predictions
             _getExistingPredictions();
@@ -814,6 +821,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     }
                 }
 
+                debugger;
+                //sort the overall league into descending order.
+                $scope.overallLeague.sort(_keySort('overallSeasonScore'));
+                $scope.overallLeague.reverse();
+
                 //debugger;
                 Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
                     ////debugger;
@@ -823,28 +835,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     for (var i = 0; i < $scope.privateLeagues.length; i++) {
                         //split league name into words, place in array
                         $scope.privateLeagues[i].privateLeagueName = $scope.privateLeagues[i].privateLeagueName.split(" ");
+
+                        debugger;
+                        $scope.privateLeagues[i].members.sort(_keySort('overallSeasonScore'));
+                        $scope.privateLeagues[i].members.reverse();
                     }
-
-                    ////work out which of the private leagues were made by user and which part of
-                    //$scope.createdLeagues = [];
-                    //
-                    ////the private league's of which the user is only a member
-                    //$scope.inLeagues = [];
-                    //
-                    //for (var i = 0; i < data.length; i++) {
-                    //    if (data[i].captain = auth.profile.user_id) {
-                    //        //then is a league created by the currently logged in user, so add to list
-                    //        //console.log('Now pushing private league ' + data[i] + ' on to user\'s created league\'s array');
-                    //        $scope.createdLeagues.push(data[i]);
-                    //    } else {
-                    //        //the user is simply a participating member of this league
-                    //        //console.log('Now pushing private league ' + data[i] + ' on to user\'s member array');
-                    //        $scope.inLeagues.push(data[i]);
-                    //    }
-                    //}
-                    //
-                    ////console.log('User\'s created leagues are: ' + $scope.createdLeagues);
-
                 });
             })
         }
@@ -1028,6 +1023,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
             });
         };
+
+        function _keySort(key,desc) {
+            return function(a,b){
+                return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+            }
+        }
+
     })
 
     .controller('LeaderboardLeagueDetailCtrl', function ($scope, auth, $stateParams, $ionicPopup, $state,
@@ -1040,7 +1042,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //console.log($scope.currentRound);
         debugger;
         $scope.roundDates = Leaderboard.getRoundDates();
-        $scope.roundInView = 0; //0 represents overall season round
+        $scope.roundInView = 'OVERALL SEASON'; //0 represents overall season round
         var _membersToDelete = [];
         $scope.newCaptainId = null;
         $scope.newViceCaptainId = null;
@@ -1058,9 +1060,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         function _getPrivateLeagueData() {
 
             if ($stateParams.privateLeagueId == 'global') {
-                //then just get the global leaderboard scores
-                //Get the global scoreboard
-                //Get the data for scores for leaderboard
+                //Get the data for scores for gloabl leaderboard
                 Leaderboard.overall().then(function (data) {
 
                     debugger;
@@ -1070,7 +1070,30 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     $scope.privateLeague.members = data;
                     $scope.privateLeague.privateLeagueName = 'Global League';
 
-                    //$scope.privateLeague.privateLeagueName =  $scope.privateLeague.privateLeagueName.join(' ');
+
+                    //iterate over members check if we are viewing overall season or round
+                    for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                        //we are looking at a round, so organise
+                        //iterate over round scores
+                        if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
+                            $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
+                        } else {
+                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                                if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
+                                    //assign the score for the round in the current view to the member
+                                    $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
+
+                                    //break out of the inner loop and get next member
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    //Once iterated over all of the members, sort them based on score
+                    debugger;
+                    $scope.privateLeague.members.sort(_keySort('roundInViewScore'));
+                    $scope.privateLeague.members.reverse();
                 });
             } else {
                 Leaderboard.get(auth.profile.user_id, $stateParams.privateLeagueId).then(function (data) {
@@ -1081,6 +1104,30 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     $scope.privateLeague = data;
                     //$scope.privateLeague.privateLeagueName =  Array.prototype.join.call($scope.privateLeague.privateLeagueName, ' ');
                     //console.log('Retrieved private league:' + JSON.stringify($scope.privateLeague));
+
+                    //iterate over members check if we are viewing overall season or round
+                    for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                        //we are looking at a round, so organise
+                        //iterate over round scores
+                        if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
+                            $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
+                        } else {
+                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                                if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
+                                    //assign the score for the round in the current view to the member
+                                    $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
+
+                                    //break out of the inner loop and get next member
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    //Once iterated over all of the members, sort them based on score
+                    debugger;
+                    $scope.privateLeague.members.sort(_keySort('roundInViewScore'));
+                    $scope.privateLeague.members.reverse();
                 });
             }
         }
@@ -1612,11 +1659,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.memberRoundScore = function(memberIndex) {
-            //debugger;
-            //console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
             debugger;
+            //console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
+            var i = 0;
             for (var i = 0; i < $scope.privateLeague.members[memberIndex].roundScores.length; i++) {
-                if ($scope.privateLeague.members[memberIndex].roundScores[i].roundNo == $scope.roundInView.roundNo) {
+                if ($scope.privateLeague.members[memberIndex].roundScores[i].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
                     //console.log('MEMBER ROUND SCORE IS: '
                     //    + $scope.privateLeague.members[memberIndex].roundScores[i].roundScore);
                     return $scope.privateLeague.members[memberIndex].roundScores[i].roundScore;
@@ -1625,6 +1672,41 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             return 0; //if no other thing returned
         };
 
+        //updated the round in view score on members to enable angular to sort it
+        $scope.reOrderMembers = function(){
+
+            debugger;
+
+            //iterate over members check if we are viewing overall season or round
+            for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                //we are looking at a round, so organise
+                //iterate over round scores
+                if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
+                    $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
+                } else {
+                    for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                        if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
+                            //assign the score for the round in the current view to the member
+                            $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
+
+                            //break out of the inner loop and get next member
+                            break;
+                        }
+                    }
+                }
+            }
+
+            //Once iterated over all of the members, sort them based on score
+            debugger;
+            $scope.privateLeague.members.sort(_keySort('roundInViewScore'));
+            $scope.privateLeague.members.reverse();
+        };
+
+        function _keySort(key,desc) {
+            return function(a,b){
+                return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+            }
+        }
     })
 
     .controller('RulebookCtrl', function($scope, $state, SaveChanges) {

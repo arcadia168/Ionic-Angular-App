@@ -6791,6 +6791,36 @@ a.button {
 * {
   font-family: 'Roboto', sans-serif !important; }
 
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.8) !important; }
+
+.loading-container .loading {
+  margin-bottom: 12rem !important;
+  background-color: transparent !important; }
+
+.popup-container .popup .popup-body span {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: center; }
+.popup-container .popup .popup-body .list .item .item-content {
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  height: 4rem;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: space-around;
+  -ms-flex-pack: distribute;
+  justify-content: space-around; }
+  .popup-container .popup .popup-body .list .item .item-content .user-pic {
+    border-radius: 100%;
+    width: 2rem; }
+
 .a0-active {
   /*Set the background image of the body here*/
   background-color: #3bb665 !important; }
@@ -6830,8 +6860,13 @@ a.button {
         color: white !important; }
       .a0-active .a0-centrix .a0-onestep .ao-separator span {
         color: white !important; }
+      .a0-active .a0-centrix .a0-onestep .a0-emailPassword .a0-error-message {
+        border: none !important;
+        color: transparent !important; }
       .a0-active .a0-centrix .a0-onestep .a0-emailPassword input {
         color: #6A6A6A !important; }
+      .a0-active .a0-centrix .a0-onestep .a0-btn-small:hover {
+        background-color: #65ef80 !important; }
       .a0-active .a0-centrix .a0-onestep .ao-mode-container .ao-notloggedin form .a0-collapse-social .ao-separator span {
         color: white !important; }
       .a0-active .a0-centrix .a0-onestep .a0-footer a {
@@ -6898,6 +6933,7 @@ ion-nav-view ion-tabs {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  border-bottom: 1px solid #3bb665 !important;
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
@@ -6933,10 +6969,31 @@ ion-nav-view ion-tabs {
     margin-right: 2rem; }
 
 .rounds-content {
+  overflow: hidden;
   border-radius: 3px;
   background-color: transparent !important; }
   .rounds-content ion-item:first-child {
     border-top: none !important; }
+  .rounds-content .item-complex {
+    background-color: transparent; }
+    .rounds-content .item-complex .item-content {
+      background-color: transparent;
+      padding-left: 0 !important; }
+      .rounds-content .item-complex .item-content .round-no-container {
+        height: 100%;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
+        justify-content: center;
+        background-color: white; }
   .rounds-content ion-item {
     border: none !important;
     display: -webkit-flex;
@@ -6981,8 +7038,7 @@ ion-nav-view ion-tabs {
         .rounds-content ion-item a.item-content .round-no-container .round-no {
           color: #3bb665;
           text-transform: uppercase;
-          font-size: 1.2rem;
-          margin-right: 1rem; }
+          font-size: 1.2rem; }
       .rounds-content ion-item a.item-content .label-button {
         border: 1px solid white !important;
         display: -webkit-flex;
@@ -7001,7 +7057,8 @@ ion-nav-view ion-tabs {
         -webkit-flex-direction: row;
         -ms-flex-direction: row;
         flex-direction: row;
-        background: #f26c4f !important; }
+        background: #f26c4f !important;
+        opacity: 0.8; }
         .rounds-content ion-item a.item-content .label-button .round-label {
           text-align: right;
           font-size: 0.75rem;
@@ -7122,8 +7179,23 @@ ion-nav-view ion-tabs {
       .leaderboard-content ion-item .league-overview .user-pic {
         width: 2rem !important;
         height: 2rem !important;
+        min-width: 2rem !important;
         border-radius: 100%;
         position: relative; }
+      .leaderboard-content ion-item .league-overview .label-row {
+        border-bottom: 1px solid #3bb665; }
+        .leaderboard-content ion-item .league-overview .label-row .pos-label {
+          width: 15%; }
+        .leaderboard-content ion-item .league-overview .label-row .pos-points {
+          width: 20%;
+          padding-left: 0.1rem; }
+        .leaderboard-content ion-item .league-overview .label-row .pos-player {
+          border-bottom: 3px solid transparent; }
+        .leaderboard-content ion-item .league-overview .label-row div {
+          width: 33%;
+          text-align: center; }
+          .leaderboard-content ion-item .league-overview .label-row div p {
+            width: 100%; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-icon {
         position: relative;
         bottom: 0.1rem;
@@ -7131,24 +7203,29 @@ ion-nav-view ion-tabs {
         color: gold !important; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
         position: relative !important;
-        top: 0.5rem !important;
+        top: 0.4rem !important;
         right: 1.21rem !important; }
       .leaderboard-content ion-item .league-overview .leader-row .user-pic {
         position: relative;
         right: 0.1rem;
         bottom: 0.1rem; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-name {
+        -webkit-flex-basis: 7rem;
+        -ms-flex-preferred-size: 7rem;
+        flex-basis: 7rem;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
-        -webkit-flex-basis: 4.75rem;
-        -ms-flex-preferred-size: 4.75rem;
-        flex-basis: 4.75rem;
+        -webkit-flex-basis: 7.5rem;
+        -ms-flex-preferred-size: 7.5rem;
+        flex-basis: 7.5rem;
         position: relative;
         left: 0.4rem; }
+        .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
+          width: 100%; }
       .leaderboard-content ion-item .league-overview .leader-row .leader-points {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -7173,9 +7250,9 @@ ion-nav-view ion-tabs {
         left: 0.1rem;
         top: -0.5rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-name {
-        -webkit-flex-basis: 4.5rem;
-        -ms-flex-preferred-size: 4.5rem;
-        flex-basis: 4.5rem;
+        -webkit-flex-basis: 7.5rem;
+        -ms-flex-preferred-size: 7.5rem;
+        flex-basis: 7.5rem;
         position: relative;
         left: 0.5rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-points {
@@ -7192,9 +7269,27 @@ ion-nav-view ion-tabs {
           font-size: 0.75rem !important; }
   .leaderboard-content .global-league {
     border-radius: 1%; }
-    .leaderboard-content .global-league .league-label-container .league-label .global-league-icon {
-      font-size: 4rem;
-      margin-top: -1rem; }
+    .leaderboard-content .global-league .league-label-container .league-label .label {
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
+      -webkit-flex-basis: 6.5rem;
+      -ms-flex-preferred-size: 6.5rem;
+      flex-basis: 6.5rem;
+      margin: 0 !important;
+      position: relative;
+      bottom: 0.5rem;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-justify-content: space-around;
+      -ms-flex-pack: distribute;
+      justify-content: space-around; }
+      .leaderboard-content .global-league .league-label-container .league-label .label h5 {
+        height: inherit; }
   .leaderboard-content .user-league .league-label-container .league-label .label {
     -webkit-align-self: center;
     -ms-flex-item-align: center;
@@ -7225,6 +7320,16 @@ ion-nav-view ion-tabs {
     border-color: #3bb665 !important;
     box-shadow: none !important; }
 
+.action-sheet-group button:nth-child(2) .share-edit-btn *:first-child {
+  padding-left: 1rem !important; }
+.action-sheet-group button:nth-child(2) .share-edit-btn *:last-child {
+  padding-right: 1rem !important; }
+.action-sheet-group button:nth-child(2) .share-edit-btn .share-text-container .share-explanation {
+  margin-top: -0.9rem !important;
+  color: #2f8f4f;
+  font-size: 0.6rem;
+  line-height: 1rem; }
+
 .league-edit-btn {
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
@@ -7253,7 +7358,8 @@ ion-nav-view ion-tabs {
 /*Private Leagues styling */
 ion-view.league-detail .bar-subheader {
   background-color: white !important;
-  color: #6A6A6A !important; }
+  color: #6A6A6A !important;
+  border-bottom: 1px solid #3bb665; }
   ion-view.league-detail .bar-subheader .item-select {
     border: none !important;
     padding-left: 5px !important; }
@@ -7262,23 +7368,39 @@ ion-view.league-detail .bar-subheader {
       padding-top: 5px !important; }
     ion-view.league-detail .bar-subheader .item-select select {
       border: 1px solid black;
-      top: 0.25rem;
+      top: 0.3rem;
       right: 0.3rem;
-      padding: 0.7rem 1.8rem 0.3rem 0.5rem;
+      padding: 0.5rem 1.8rem 0.3rem 0.5rem;
       color: #6A6A6A !important;
       background-color: transparent !important;
       margin-top: -0.28rem !important; }
     ion-view.league-detail .bar-subheader .item-select:after {
-      top: 40% !important; }
+      top: 35% !important;
+      margin-top: 0 !important; }
 ion-view.league-detail .scroll {
   background-color: white;
   height: 100%; }
 ion-view.league-detail .league-live-table {
-  padding-top: 0 !important; }
+  padding-top: 0 !important;
+  background-color: white !important; }
   ion-view.league-detail .league-live-table .row-header-container {
-    width: 100%;
-    padding-top: 0.2rem; }
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 0 !important;
+    height: 1.5rem !important; }
     ion-view.league-detail .league-live-table .row-header-container .row-header {
+      padding: 0 !important;
+      -webkit-align-self: center !important;
+      -ms-flex-item-align: center !important;
+      align-self: center !important;
+      height: 100% !important;
       background-color: #3bb665 !important;
       color: white;
       font-weight: bold;
@@ -7295,15 +7417,23 @@ ion-view.league-detail .league-live-table {
       justify-content: space-between;
       text-align: center;
       border-bottom: 0px solid transparent !important;
-      height: 1.5rem;
       -webkit-align-items: flex-start;
       -ms-flex-align: start;
       align-items: flex-start; }
       ion-view.league-detail .league-live-table .row-header-container .row-header p:first-child {
         margin-left: 0.1rem; }
       ion-view.league-detail .league-live-table .row-header-container .row-header p {
-        height: 1.75rem !important;
-        margin-bottom: 0 !important; }
+        margin-bottom: 0 !important;
+        height: 100%;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center; }
   ion-view.league-detail .league-live-table .title-row {
     border-bottom: 1px solid #3bb665; }
     ion-view.league-detail .league-live-table .title-row .title-row-container {
@@ -7433,6 +7563,7 @@ ion-view.league-detail .league-live-table {
         align-self: flex-start;
         width: 2rem !important;
         height: 2rem !important;
+        min-width: 2rem !important;
         border-radius: 100%;
         position: relative;
         right: 0.2rem; }
@@ -7448,14 +7579,27 @@ ion-view.league-detail .league-live-table {
         position: relative !important;
         bottom: 1.45rem !important;
         left: 1rem !important; }
+    ion-view.league-detail .league-live-table .row .score {
+      -webkit-flex-basis: 2.5rem;
+      -ms-flex-preferred-size: 2.5rem;
+      flex-basis: 2.5rem;
+      text-align: center; }
+    ion-view.league-detail .league-live-table .row .username {
+      -webkit-flex-basis: 9rem;
+      -ms-flex-preferred-size: 9rem;
+      flex-basis: 9rem;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row; }
+      ion-view.league-detail .league-live-table .row .username p {
+        text-align: center; }
+      ion-view.league-detail .league-live-table .row .username .captain-label, ion-view.league-detail .league-live-table .row .username .vice-captain-label {
+        margin-left: 0.15rem; }
 
-.item-icon-left ion-spinner {
-  float: left;
-  margin-left: -3.2em;
-  margin-right: 1em;
-  margin-top: -0.2em; }
-
-.spinner svg, .spinner-loader {
+.spinner-calm svg {
   width: 28px;
   height: 28px;
   stroke: red;
@@ -7468,9 +7612,10 @@ ion-view.league-detail .league-live-table {
 
 /* Stylings for rulebook */
 .rulebook-content {
-  border-radius: 3px;
   background-color: white !important;
-  text-align: center; }
+  text-align: center;
+  margin-top: 3rem;
+  top: 0 !important; }
   .rulebook-content .rulebook-title {
     text-align: center; }
   .rulebook-content .summary-title, .rulebook-content .winning-title {
@@ -7495,10 +7640,12 @@ ion-view.league-detail .league-live-table {
     margin-left: 3.75rem; }
   .rulebook-content .sub-table-lose-title {
     margin-left: 10.2rem !important;
-    color: #F26C4F !important; }
+    color: #F26C4F !important;
+    min-width: 1.8rem !important; }
   .rulebook-content .sub-table-trade-title {
     margin-left: 9.75rem !important;
-    color: #6A6A6A !important; }
+    color: #6A6A6A !important;
+    min-width: 2.4rem !important; }
   .rulebook-content .sub-table-win-title {
     margin-left: 10rem !important;
     color: #3bb665 !important; }
@@ -7547,7 +7694,9 @@ ion-view.league-detail .league-live-table {
         margin-left: 1rem !important; }
       .rulebook-content .points-table .title-row .title-container .trade {
         color: #6A6A6A;
-        margin-left: 0.6rem !important; }
+        text-align: right;
+        margin-left: 0.6rem !important;
+        min-width: 2.4rem !important; }
   .rulebook-content .points-table .lose-title-row {
     border-bottom: 1px solid #F26C4F !important;
     border-top: 1px solid #F26C4F !important; }
@@ -7559,31 +7708,27 @@ ion-view.league-detail .league-live-table {
       margin-top: auto !important;
       margin-bottom: auto !important; }
   .rulebook-content .points-table .win-pts, .rulebook-content .points-table .lose-pts, .rulebook-content .points-table .trade-pts {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
     height: 1.75rem;
     border-radius: 100%;
     width: 1.75rem;
-    color: white !important;
-    padding: 0.4rem 0 0 0.4rem; }
-  .rulebook-content .points-table .double-digits {
-    padding: 0.3rem 0 0 0.4rem; }
-  .rulebook-content .points-table .single-digit {
-    padding: 0.3rem 0 0 0.575rem !important; }
+    color: white !important; }
+    .rulebook-content .points-table .win-pts p, .rulebook-content .points-table .lose-pts p, .rulebook-content .points-table .trade-pts p {
+      margin: 0 !important; }
   .rulebook-content .points-table .win-pts {
     background-color: #3bb665; }
   .rulebook-content .points-table .lose-pts {
-    background-color: #F26C4F;
-    padding: 0.3rem 0 0 0.3rem; }
-  .rulebook-content .points-table .during-loss {
-    padding: 0.3rem 0 0 0.4rem; }
+    background-color: #F26C4F; }
   .rulebook-content .points-table .trade-pts {
-    background-color: #6A6A6A;
-    padding: 0.35rem 0 0 0.575rem; }
-  .rulebook-content .points-table .pre-fixture-trade {
-    padding: 0.35rem 0 0 0.43rem; }
-  .rulebook-content .points-table .during-fixture-trade {
-    padding: 0.3rem 0 0 0.3rem; }
-  .rulebook-content .points-table .loss-during-fixture-trade {
-    padding: 0.3rem 0 0 0.4rem; }
+    background-color: #6A6A6A; }
   .rulebook-content .points-table .green-border-bottom {
     border-bottom: 1px solid #3bb665; }
   .rulebook-content .points-table .pre-season-row, .rulebook-content .points-table .during-season-row, .rulebook-content .points-table .pre-round-row, .rulebook-content .points-table .pre-fixture-row, .rulebook-content .points-table .during-fixture-row {
@@ -7644,11 +7789,23 @@ ion-view[view-title="LEAGUE TABLE"] .bar-subheader {
   -ms-flex-align: center;
   align-items: center;
   font-weight: bold;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  background-color: white !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  border-bottom: 1px solid #3bb665 !important; }
   ion-view[view-title="LEAGUE TABLE"] .bar-subheader p {
-    padding-top: 0.3rem;
+    color: #3bb665 !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
     height: 1.75rem !important;
-    margin-top: 0.27rem;
     margin-bottom: 0 !important; }
   ion-view[view-title="LEAGUE TABLE"] .bar-subheader .gp {
     margin-left: -0.1rem; }
@@ -7658,8 +7815,6 @@ ion-view[view-title="LEAGUE TABLE"] .bar-subheader {
     -webkit-flex-basis: 10rem !important;
     -ms-flex-preferred-size: 10rem !important;
     flex-basis: 10rem !important; }
-ion-view[view-title="LEAGUE TABLE"] .has-subheader {
-  top: 77px; }
 ion-view[view-title="LEAGUE TABLE"] .live-table {
   padding-top: 0 !important; }
 ion-view[view-title="LEAGUE TABLE"] .row:nth-child(2) {
@@ -7710,6 +7865,14 @@ ion-view[view-title="LEAGUE TABLE"] .last-empty-row {
   height: 1.75rem;
   border-top: 1px solid #3bb665 !important; }
 
+.button.how-to {
+  background-color: transparent !important;
+  border-color: transparent !important; }
+  .button.how-to.activated {
+    box-shadow: none !important; }
+  .button.how-to:before {
+    font-size: 1.75rem !important; }
+
 /* Styling for the card view */
 td-cards {
   display: block;
@@ -7722,11 +7885,11 @@ td-cards {
     100% {
       top: 31rem; } }
 
-  /* Fades the text for the prediction in but not out as the card is destroyed */ }
+  /* Fades the text for the prediction in but not out as the  is destroyed */ }
   td-cards td-card {
     position: absolute;
     left: 50%;
-    margin-top: 5.5rem;
+    margin-top: 4.5rem;
     margin-bottom: 40px;
     margin-left: -150px;
     width: 300px;
@@ -7767,7 +7930,9 @@ td-cards {
         -ms-flex-align: center;
         align-items: center; }
       td-cards td-card .card-content .shirt-container {
-        height: 8rem;
+        position: relative;
+        top: 1.5rem;
+        height: 10rem;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -7784,6 +7949,7 @@ td-cards {
           max-width: 100%;
           border-radius: 6px; }
         td-cards td-card .card-content .shirt-container h4 {
+          text-align: center;
           font-size: 0.8rem;
           width: 60%;
           margin: 0 auto 25px auto; }
@@ -7791,37 +7957,30 @@ td-cards {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
+          width: 15rem;
+          height: 100%;
           -webkit-flex-direction: column;
           -ms-flex-direction: column;
           flex-direction: column;
-          -webkit-justify-content: space-between;
-          -ms-flex-pack: justify;
-          justify-content: space-between;
+          -webkit-justify-content: space-around;
+          -ms-flex-pack: distribute;
+          justify-content: space-around;
           text-align: center; }
           td-cards td-card .card-content .shirt-container .home-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .home-team .away-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .away-shirt-icon {
             top: 10px;
-            width: 70%;
+            width: 7rem !important;
             margin: 0 auto 1.5rem auto; }
-  td-cards .yes-text {
+  td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
-    top: 84%;
-    right: 25%;
+    top: 41%;
+    right: 23%;
     font-size: 1rem;
-    opacity: 0;
+    opacity: 0; }
+  td-cards .yes-text {
     color: #ef473a; }
   td-cards .no-text {
-    position: absolute;
-    top: 84%;
-    right: 25%;
-    font-size: 1rem;
-    opacity: 0;
     color: #33cd5f; }
   td-cards .draw-text {
-    position: absolute;
-    top: 84%;
-    right: 25%;
-    font-size: 1rem;
-    opacity: 0;
     color: #ffc900; }
   td-cards .skipped-text {
     position: absolute;
@@ -7853,10 +8012,9 @@ td-cards {
 
 .button-fact {
   position: relative;
-  margin: 1rem auto;
-  left: 1.5rem !important;
+  z-index: -10000;
   top: 25rem;
-  width: 90% !important;
+  width: 100% !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
   display: table-cell;
@@ -7874,7 +8032,7 @@ td-cards {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  height: 10rem;
+  height: 18rem;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -7884,18 +8042,35 @@ td-cards {
     font-weight: 800; }
   .fix-pred-li .fix-pred-header {
     background-color: green;
-    text-align: center;
-    color: white;
-    font-size: 0.75rem; }
-    .fix-pred-li .fix-pred-header .ion-ios-close-empty {
-      right: 0% !important;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row; }
+    .fix-pred-li .fix-pred-header p {
+      text-align: center;
+      color: white;
+      font-size: 0.75rem;
+      -webkit-flex-basis: 90%;
+      -ms-flex-preferred-size: 90%;
+      flex-basis: 90%; }
+    .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      top: -0.35rem !important;
-      -webkit-align-items: baseline;
-      -ms-flex-align: baseline;
-      align-items: baseline; }
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      margin-right: 0.1rem; }
+      .fix-pred-li .fix-pred-header .button-container .ion-ios-close-empty, .fix-pred-li .fix-pred-header .button-container .ion-ios-help-empty {
+        width: 1rem;
+        height: 1rem;
+        right: inherit !important;
+        left: inherit !important;
+        color: white !important;
+        position: relative;
+        margin: auto 0.1rem; }
   .fix-pred-li .fix-pred-li-shirts {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -7906,32 +8081,74 @@ td-cards {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    margin-top: 0.4rem; }
+    margin-top: 0.4rem;
+    padding-left: 1rem;
+    padding-right: 1rem; }
     .fix-pred-li .fix-pred-li-shirts.faded {
       opacity: 0.2 !important; }
-    .fix-pred-li .fix-pred-li-shirts .vs {
-      width: 100%;
-      text-align: center;
-      font-size: x-large; }
-    .fix-pred-li .fix-pred-li-shirts .fix-home-away {
+    .fix-pred-li .fix-pred-li-shirts .finished-label {
+      width: 93%;
+      font-size: 3rem;
+      opacity: 1 !important;
+      position: absolute;
+      top: 3rem;
+      margin: auto;
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-flex-direction: column;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      text-align: center; }
-      .fix-pred-li .fix-pred-li-shirts .fix-home-away em {
-        font-size: 0.75rem;
-        font-weight: 700;
-        padding-top: 0.75rem; }
-      .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon {
-        width: 50%;
-        margin: 0 auto; }
-        .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon.faded {
-          opacity: 0.2 !important; }
-        .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-home-away .list-away-shirt-icon.slightlyfaded {
-          opacity: 0.35; }
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .fix-pred-li .fix-pred-li-shirts .finished-label p {
+        width: 70%;
+        margin: auto;
+        color: red !important;
+        border: 2px solid red;
+        border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .fix-details {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+      justify-content: space-between;
+      margin-top: 0.4rem;
+      width: 100%; }
+      .fix-pred-li .fix-pred-li-shirts .fix-details .vs {
+        text-align: center;
+        font-size: x-large; }
+      .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away {
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        text-align: center; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away img {
+          width: 6rem; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away em {
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding-top: 0.75rem; }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon {
+          margin: 0 auto; }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.faded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.faded {
+            opacity: 0.2 !important; }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.slightlyfaded {
+            opacity: 0.35; }
   .fix-pred-li .user-prediction {
     border-top: 1px solid #3bb665;
     display: -webkit-flex;
@@ -7966,6 +8183,11 @@ td-cards {
   .settings-content.about-content {
     text-align: center;
     font-size: smaller; }
+    .settings-content.about-content .about-logo:before {
+      content: url('../img/Logov2.png') !important; }
+    .settings-content.about-content .support-email-link {
+      color: blue;
+      text-underline: blue; }
   .settings-content.cookies-content, .settings-content.privacy-content, .settings-content.tcs-content {
     text-align: start;
     font-size: smaller !important; }
@@ -7986,13 +8208,22 @@ td-cards {
     -webkit-align-items: center;
     -ms-flex-align: center;
     align-items: center; }
+    .settings-content .list:first-child {
+      border-top: none !important; }
     .settings-content .list .item {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
       border-color: transparent !important;
       font-size: 0.8rem;
       width: 95%;
       border-top: 1px solid #3bb665 !important;
       padding-left: 0;
       padding-right: 0; }
+      .settings-content .list .item:first-child {
+        border-top: none !important; }
+      .settings-content .list .item a {
+        width: 100%; }
       .settings-content .list .item .team-link {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -8007,7 +8238,7 @@ td-cards {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center; }
-        .settings-content .list .item .team-link p {
+        .settings-content .list .item .team-link .outer-container {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
@@ -8024,7 +8255,7 @@ td-cards {
           -webkit-justify-content: space-around;
           -ms-flex-pack: distribute;
           justify-content: space-around; }
-          .settings-content .list .item .team-link p .settings-shirt {
+          .settings-content .list .item .team-link .outer-container .settings-shirt {
             height: 1.5rem;
             width: 1.95rem; }
       .settings-content .list .item .item-content {
@@ -8049,27 +8280,31 @@ td-cards {
       .settings-content .list .item a {
         text-decoration: none;
         color: inherit; }
-      .settings-content .list .item .toggle {
-        padding-top: 10px !important;
-        right: 5px; }
-        .settings-content .list .item .toggle .track {
-          border-radius: 7px !important;
-          width: 45px !important;
-          height: 24px !important; }
-        .settings-content .list .item .toggle .handle {
-          height: 20px !important;
-          width: 20px !important;
-          border-radius: 5px !important;
-          border: 2px solid grey !important;
-          top: 12px !important; }
       .settings-content .list .item.sign-out {
-        padding-top: 0px;
-        padding-bottom: 10px; }
-        .settings-content .list .item.sign-out .ion-log-out {
-          font-size: 2rem;
-          position: relative;
-          left: 15rem;
-          top: 0.3rem; }
+        width: 100%;
+        height: 3.5rem;
+        padding: 0px 0.55rem !important;
+        border-top: none !important; }
+        .settings-content .list .item.sign-out .sign-out-contents {
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: flex;
+          -webkit-justify-content: space-between;
+          -ms-flex-pack: justify;
+          justify-content: space-between;
+          -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+          flex-direction: row;
+          -webkit-align-items: center;
+          -ms-flex-align: center;
+          align-items: center;
+          width: 100%;
+          border-top: 1px solid #3bb665 !important; }
+          .settings-content .list .item.sign-out .sign-out-contents .sign-out-label {
+            min-width: 4rem; }
+          .settings-content .list .item.sign-out .sign-out-contents .ion-log-out {
+            font-size: 2rem;
+            position: relative; }
     .settings-content .list .item-divider {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8090,3 +8325,88 @@ td-cards {
   .settings-content .button.button-block {
     width: 90%;
     margin: auto; }
+
+/*Stylins for the sign up/in screen */
+.slider {
+  height: 100% !important;
+  background-color: #3bb665 !important; }
+  .slider ion-slide {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-justify-content: space-around;
+    -ms-flex-pack: distribute;
+    justify-content: space-around; }
+    .slider ion-slide .box {
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .slider ion-slide .box img {
+        width: 65%;
+        height: auto; }
+      .slider ion-slide .box .signup-text {
+        text-align: center;
+        color: white; }
+  .slider .slider-pager span {
+    color: white !important; }
+
+.item-radio input:checked ~ .item-content {
+  background: none !important; }
+
+/*Disabling platform specific tweaks */
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header {
+  height: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) {
+  height: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader).item-input-inset .item-input-wrapper {
+  margin-top: 0px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .bar-header:not(.bar-subheader) > * {
+  margin-top: 0px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .tabs-top > .tabs, .platform-ios.platform-cordova:not(.fullscreen) .tabs.tabs-top {
+  top: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .has-header, .platform-ios.platform-cordova:not(.fullscreen) .bar-subheader {
+  top: 44px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .has-subheader {
+  top: 88px !important; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .rounds-content {
+  top: 5.5rem; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .league-live-table {
+  top: 5.5rem; }
+
+.platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
+  top: 10.5rem; }
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) and (orientation: portrait) {
+  td-card {
+    margin-top: -0.25rem !important; }
+  .button-fact {
+    top: 19rem; }
+  .label-row .pos-points {
+    min-width: 3.1rem !important; }
+    .label-row .pos-points p {
+      min-width: 3.1rem !important; }
+  .label-row .pos-player {
+    min-width: 3.2rem !important; }
+    .label-row .pos-player p {
+      min-width: 3.2rem !important; }
+  .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
+    right: 0.9rem !important; }
+  ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
+    left: 1.1rem !important; } }

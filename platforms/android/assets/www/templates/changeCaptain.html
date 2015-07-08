@@ -1,8 +1,8 @@
 <div class="list">
     <label ng-repeat="member in privateLeague.members track by $index"
            class="item item-radio"
-            ng-if="member.user_id != privateLeague.captain">
-        <input ng-model="newCaptainId" type="radio" name="group">
+            ng-if="member.user_id != privateLeague.captain && member.user_id != privateLeague.viceCaptain">
+        <input ng-click="chooseNewCaptain(member.user_id)" type="radio" name="group">
         <div class="item-content">
             <img class="user-pic" ng-if="member.pic != null" ng-src="{{member.pic}}">
             {{member.username}}
