@@ -7188,7 +7188,8 @@ ion-nav-view ion-tabs {
           width: 15%; }
         .leaderboard-content ion-item .league-overview .label-row .pos-points {
           width: 20%;
-          padding-left: 0.1rem; }
+          padding-left: 0.1rem;
+          min-width: 3.1rem !important; }
         .leaderboard-content ion-item .league-overview .label-row .pos-player {
           border-bottom: 3px solid transparent; }
         .leaderboard-content ion-item .league-overview .label-row div {
@@ -7524,9 +7525,9 @@ ion-view.league-detail .league-live-table {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-flex-basis: 50%;
-      -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+      -webkit-flex-basis: 70%;
+      -ms-flex-preferred-size: 70%;
+      flex-basis: 70%;
       -webkit-flex-direction: row;
       -ms-flex-direction: row;
       flex-direction: row;
@@ -7585,9 +7586,9 @@ ion-view.league-detail .league-live-table {
       flex-basis: 2.5rem;
       text-align: center; }
     ion-view.league-detail .league-live-table .row .username {
-      -webkit-flex-basis: 9rem;
-      -ms-flex-preferred-size: 9rem;
-      flex-basis: 9rem;
+      -webkit-flex-basis: 80%;
+      -ms-flex-preferred-size: 80%;
+      flex-basis: 80%;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -7595,7 +7596,9 @@ ion-view.league-detail .league-live-table {
       -ms-flex-direction: row;
       flex-direction: row; }
       ion-view.league-detail .league-live-table .row .username p {
-        text-align: center; }
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden; }
       ion-view.league-detail .league-live-table .row .username .captain-label, ion-view.league-detail .league-live-table .row .username .vice-captain-label {
         margin-left: 0.15rem; }
 
@@ -8393,7 +8396,7 @@ td-cards {
 .platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
   top: 10.5rem; }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) and (orientation: portrait) {
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
   td-card {
     margin-top: -0.25rem !important; }
   .button-fact {
@@ -8409,4 +8412,7 @@ td-cards {
   .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
     right: 0.9rem !important; }
   ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
-    left: 1.1rem !important; } }
+    left: 1rem !important;
+    bottom: 1.55rem !important; }
+  .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
+    max-width: 6rem !important; } }
