@@ -318,7 +318,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
 
 });
 
-app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHelper, $location, $ionicAnalytics, $ionicPopup) {
+app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, jwtHelper, $location, $ionicAnalytics, $ionicPopup) {
 
     //Check for an internet connection
     if (window.Connection) {
@@ -405,6 +405,18 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, store, jwtHel
                 }
             }
         }
+    });
+
+    debugger;
+    //should be triggered after registered with push notification server
+    $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
+        console.log('Got token', data.token, data.platform);
+
+        //call backend token to register device token with user
+        debugger;
+        User.registerDeviceToken(auth.profile.user_id, data.token).then(function(){
+           console.log("New device token was registered successfully registered against the user");
+        });
     });
 });
 
