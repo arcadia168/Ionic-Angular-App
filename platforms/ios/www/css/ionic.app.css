@@ -7889,7 +7889,7 @@ td-cards {
   td-cards td-card {
     position: absolute;
     left: 50%;
-    margin-top: 4.5rem;
+    margin-top: 4rem;
     margin-bottom: 40px;
     margin-left: -150px;
     width: 300px;
@@ -8013,7 +8013,7 @@ td-cards {
 .button-fact {
   position: relative;
   z-index: -10000;
-  top: 25rem;
+  top: 24rem;
   width: 100% !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
