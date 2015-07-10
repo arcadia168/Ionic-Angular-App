@@ -8035,7 +8035,7 @@ td-cards {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  height: 18rem;
+  height: 19rem;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -8094,7 +8094,7 @@ td-cards {
       font-size: 3rem;
       opacity: 1 !important;
       position: absolute;
-      top: 3rem;
+      top: 1.7rem;
       margin: auto;
       -webkit-align-self: center;
       -ms-flex-item-align: center;
@@ -8117,6 +8117,39 @@ td-cards {
         color: red !important;
         border: 2px solid red;
         border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .prediction-label {
+      width: 93%;
+      font-size: 3rem;
+      opacity: 1 !important;
+      position: absolute;
+      top: 10.2rem;
+      right: 3%;
+      margin: auto;
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .fix-pred-li .fix-pred-li-shirts .prediction-label p {
+        width: 70%;
+        margin: auto;
+        border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .correct p {
+      color: green !important;
+      border: 2px solid green; }
+    .fix-pred-li .fix-pred-li-shirts .incorrect p {
+      color: red !important;
+      border: 2px solid red; }
     .fix-pred-li .fix-pred-li-shirts .fix-details {
       display: -webkit-flex;
       display: -ms-flexbox;

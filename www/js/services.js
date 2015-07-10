@@ -4,7 +4,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
     .factory('RunMode', [function(){
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
-        var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
+        var debugRelease = 'debug';//'debug'//'release';//'deviceDebug';
 
         var serverToUse = '';
 

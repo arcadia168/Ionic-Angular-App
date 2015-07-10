@@ -550,6 +550,25 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 //simply return the user data of the user who is currently logged in
                 return currentUserData;
             },
+            registerDeviceToken: function(user_id, new_device_token) {
+                //get the data for a particular user from the server
+
+                var deferred = $q.defer();
+
+                $http.get(SERVER + '/users/devices/register/' + user_id + '/' + new_device_token
+                ).success(
+                    function(response){
+                        deferred.resolve(response);
+                    }
+                ).error(
+                    function(){
+                        console.log("Error while making HTTP call.");
+                        deferred.reject();
+                    }
+                );
+
+                return deferred.promise;
+            },
             clearCurrentUser: function() {
                 //for use when logging out
                 currentUserData = {};

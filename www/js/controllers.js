@@ -256,7 +256,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     $scope.clearDisabled = false;
 
                     //now loop over fixtures and add in these predictions!
-                    //todo: this is a bug, need to match predictions to fixtures using the fixture ids
                     //will need to use a nested loop
 
                     //debugger;
@@ -275,8 +274,17 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 currentFixturePrediction = predictionMap[$scope.existingPredictions[j].prediction];
                                 debugger;
                                 $scope.listFixtures[i].prediction = currentFixturePrediction;
-                                //$scope.listFixtures[i].predictionWindow = 'Fixture Finished';
                                 $scope.listFixtures[i].predictionWindow = $scope.existingPredictions[j].predictValue.predictWindow;
+
+                                //set score for user's prediction for this fixture
+                                if ($scope.existingPredictions[j].predictionResult == 'Correct') {
+                                    $scope.listFixtures[i].predictionScore = $scope.existingPredictions[j].predictValue.correctPoints;
+                                    $scope.listFixtures[i].predictionOutcome = 'Correct';
+                                } else if ($scope.existingPredictions[j].predictionResult == 'Incorrect') {
+                                    $scope.listFixtures[i].predictionScore = $scope.existingPredictions[j].predictValue.incorrectPoints;
+                                    $scope.listFixtures[i].predictionOutcome = 'Incorrect';
+                                }
+
                             }
                         }
                     }
@@ -420,7 +428,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 $scope.fixtures[i].awayTeam = User.filterTeam($scope.fixtures[i].awayTeam);
 
                 var today = new Date();
-                if ($scope.fixtures[i].fixDate < today) {
+                var fixtureDate = new Date($scope.fixtures[i].fixDate);
+                if (fixtureDate < today) {
                     $scope.fixtures.splice(i, 1); //delete from card view
                 }
             }
@@ -432,13 +441,15 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             $scope.listFixtures = angular.copy(data);
             //$scope.listFixtures.reverse();
 
+            debugger;
             var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 $scope.listFixtures[i].homeTeam = User.filterTeam($scope.listFixtures[i].homeTeam);
                 $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
-                //debugger;
+                debugger;
                 var today = new Date();
-                if ($scope.listFixtures[i].fixDate < today) {
+                var fixtureDate = new Date($scope.fixtures[i].fixDate);
+                if (fixtureDate < today) {
                     //$scope.listFixtures.splice(i, 1); //delete from card view
                     debugger;
                     $scope.listFixtures[i].status = 'Complete'; //delete from card view
