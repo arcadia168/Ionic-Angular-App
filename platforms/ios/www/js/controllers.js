@@ -904,7 +904,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             var hideSheet = $ionicActionSheet.show({
                 buttons: [
                     { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-plus\'></i><p>Create New League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Join League (Enter Code)</p></div>'},
+                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Join League (Use Code)</p></div>'},
                 ],
                 titleText: 'Private Leagues',
                 cancelText: 'Cancel',

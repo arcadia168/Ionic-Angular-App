@@ -1172,10 +1172,6 @@ ion-view.league-detail {
         flex-basis: 48%;
         display: flex;
         justify-content: center;
-
-        .lose-pts{
-          margin-left: 1.75rem;
-        }
       }
 
       .lose-tab {
@@ -2001,16 +1997,20 @@ td-cards {
   .leaderboard-content ion-item .league-overview .user-row .user-name {
     left: 0.5rem !important;
   }
+
+  .rulebook-content .points-table .no-prediction-row .lose-pts-container  .lose-pts{
+      margin-left: 1rem !important;
+  }
 }
 
 //iPhone 5 media query
 @media screen and (device-aspect-ratio: 40/71) {
   td-card {
-    margin-top: 3rem !important;
+    margin-top: 2.5rem !important;
   }
 
   .button-fact {
-    top: 23rem;
+    top: 22.5rem;
   }
 
   .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
@@ -2024,6 +2024,18 @@ td-cards {
 
   .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
     max-width: 6rem !important;
+  }
+
+  .leaderboard-content ion-item .league-overview .user-row .user-pic {
+    left: 0.05rem !important;
+  }
+
+  .leaderboard-content ion-item .league-overview .user-row .user-name {
+    left: 0.5rem !important;
+  }
+
+  .rulebook-content .points-table .no-prediction-row .lose-pts-container  .lose-pts{
+    margin-left: 1rem !important;
   }
 
   .label-row {

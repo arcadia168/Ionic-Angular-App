@@ -7753,8 +7753,6 @@ ion-view.league-detail .league-live-table {
       -webkit-justify-content: center;
       -ms-flex-pack: center;
       justify-content: center; }
-      .rulebook-content .points-table .no-prediction-row .lose-pts-container .lose-pts {
-        margin-left: 1.75rem; }
     .rulebook-content .points-table .no-prediction-row .lose-tab {
       margin-right: 0.35rem !important; }
   .rulebook-content .footnotes {
@@ -8455,13 +8453,15 @@ td-cards {
   .leaderboard-content ion-item .league-overview .user-row .user-pic {
     left: 0.05rem !important; }
   .leaderboard-content ion-item .league-overview .user-row .user-name {
-    left: 0.5rem !important; } }
+    left: 0.5rem !important; }
+  .rulebook-content .points-table .no-prediction-row .lose-pts-container .lose-pts {
+    margin-left: 1rem !important; } }
 
 @media screen and (device-aspect-ratio: 40/71) {
   td-card {
-    margin-top: 3rem !important; }
+    margin-top: 2.5rem !important; }
   .button-fact {
-    top: 23rem; }
+    top: 22.5rem; }
   .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
     right: 0.9rem !important; }
   ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
@@ -8469,6 +8469,12 @@ td-cards {
     bottom: 1.55rem !important; }
   .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
     max-width: 6rem !important; }
+  .leaderboard-content ion-item .league-overview .user-row .user-pic {
+    left: 0.05rem !important; }
+  .leaderboard-content ion-item .league-overview .user-row .user-name {
+    left: 0.5rem !important; }
+  .rulebook-content .points-table .no-prediction-row .lose-pts-container .lose-pts {
+    margin-left: 1rem !important; }
   .label-row .pos-points {
     min-width: 3.1rem !important; }
     .label-row .pos-points p {
