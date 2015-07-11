@@ -1172,6 +1172,10 @@ ion-view.league-detail {
         flex-basis: 48%;
         display: flex;
         justify-content: center;
+
+        .lose-pts{
+          margin-left: 1.75rem;
+        }
       }
 
       .lose-tab {
@@ -1982,12 +1986,20 @@ td-cards {
   }
 
   ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
-    left: 1rem !important;
+    left: 0.95rem !important;
     bottom: 1.55rem !important;
   }
 
   .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
     max-width: 6rem !important;
+  }
+
+  .leaderboard-content ion-item .league-overview .user-row .user-pic {
+    left: 0.05rem !important;
+  }
+
+  .leaderboard-content ion-item .league-overview .user-row .user-name {
+    left: 0.5rem !important;
   }
 }
 
