@@ -35,6 +35,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                     var today = new Date();
 
+                    //used for testing past fixtures.
+                    //var today = new Date(2016, 11, 11);
+
                     //debugger;
                     $scope.rounds = data.rounds;
                     $scope.rounds = $scope.rounds.reverse();
@@ -60,6 +63,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //if all of the fixtures are in the past, then round is complete
                         if (inPast == true) {
                             $scope.rounds[i].status = 'Complete'
+
+                            debugger;
+                            //fixed bug where round view would load in ALL fixtures from server.
+                            $scope.rounds[i].roundLink = i+1;
+
                         } else {
                             //else if there are fixtures in future still in round
                             for (var l = 0; l < currentRoundFixtures.length; l++) {
@@ -170,7 +178,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.saveChangesNeeded = false;
         $scope.$on('$ionicView.enter', function(){
             //if the scope says need to save set the global need to save after reentering the tab
-            //console.log("Round detail view re-entered from other tab.");
+            console.log("Round detail view re-entered from other tab.");
 
             var diffFlag = false;
 
@@ -217,7 +225,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         function _getExistingPredictions() {
 
-            //debugger;
+            debugger;
 
             //go and get all of the predictions for the user
             Rounds.getExistingPredictions(user, $stateParams.roundId).then(function (data) {
@@ -277,10 +285,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 $scope.listFixtures[i].predictionWindow = $scope.existingPredictions[j].predictValue.predictWindow;
 
                                 //set score for user's prediction for this fixture
-                                if ($scope.existingPredictions[j].predictionResult == 'Correct') {
+                                if ($scope.listFixtures[i].fixResult.fixResult != 0 && $scope.existingPredictions[j].predictionResult == 'Correct') {
                                     $scope.listFixtures[i].predictionScore = $scope.existingPredictions[j].predictValue.correctPoints;
                                     $scope.listFixtures[i].predictionOutcome = 'Correct';
-                                } else if ($scope.existingPredictions[j].predictionResult == 'Incorrect') {
+                                } else if ($scope.listFixtures[i].fixResult.fixResult != 0 && $scope.existingPredictions[j].predictionResult == 'Incorrect') {
                                     $scope.listFixtures[i].predictionScore = $scope.existingPredictions[j].predictValue.incorrectPoints;
                                     $scope.listFixtures[i].predictionOutcome = 'Incorrect';
                                 }
@@ -428,6 +436,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 $scope.fixtures[i].awayTeam = User.filterTeam($scope.fixtures[i].awayTeam);
 
                 var today = new Date();
+
                 var fixtureDate = new Date($scope.fixtures[i].fixDate);
                 if (fixtureDate < today) {
                     $scope.fixtures.splice(i, 1); //delete from card view
@@ -448,6 +457,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
                 debugger;
                 var today = new Date();
+                //used for testing the behaviour of past fixtures
+                //var today = new Date(2016, 11, 11);
+
                 var fixtureDate = new Date($scope.fixtures[i].fixDate);
                 if (fixtureDate < today) {
                     //$scope.listFixtures.splice(i, 1); //delete from card view

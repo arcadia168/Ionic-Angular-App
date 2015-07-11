@@ -606,16 +606,14 @@ ion-nav-view {
         }
 
         .user-pic {
-          left: 0.1rem;
-          //right: 0.1rem;
+          left: 0.25rem;
           top: -0.5rem;
         }
 
         .user-name {
           flex-basis: 7.5rem;
           position: relative;
-          left: 0.5rem;
-          //width: 4rem;
+          left: 0.6rem;
         }
 
         .user-points {
@@ -1352,6 +1350,7 @@ td-cards {
       text-align: center;
       background-color: $ygi-green;
       height: 2.5rem;
+      border-radius: 5px 5px 0px 0px !important;
       color: white;
 
       .fix-title {
@@ -1949,7 +1948,7 @@ td-cards {
 }
 
 //For iPhone 4/4S
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (orientation:portrait) {
+@media only screen and (min-device-width: 320px) and (device-aspect-ratio: 2/3) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (orientation:portrait) {
   td-card {
     margin-top: -0.25rem !important;
   }
@@ -1992,3 +1991,46 @@ td-cards {
   }
 }
 
+//iPhone 5 media query
+@media screen and (device-aspect-ratio: 40/71) {
+  td-card {
+    margin-top: 3rem !important;
+  }
+
+  .button-fact {
+    top: 23rem;
+  }
+
+  .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
+    right: 0.9rem !important;
+  }
+
+  ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
+    left: 1rem !important;
+    bottom: 1.55rem !important;
+  }
+
+  .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
+    max-width: 6rem !important;
+  }
+
+  .label-row {
+    //justify-content: center !important;
+
+    .pos-points {
+      min-width: 3.1rem !important;
+
+      p {
+        min-width: 3.1rem !important;
+      }
+    }
+
+    .pos-player {
+      min-width: 3.2rem !important;
+
+      p {
+        min-width: 3.2rem !important;
+      }
+    }
+  }
+}
