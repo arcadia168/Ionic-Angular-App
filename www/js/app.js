@@ -44,7 +44,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
         return {
             request: function (config) {
                 //check flag in service, if active don't show loader
-                //debugger;
+                ////debugger;;
                 //unless a request to our server, don't show it
                 if (config.url.indexOf("http://nodejs-getin.rhcloud.com/api") > -1) {
                     console.log("Showing load for url: " + config.url);
@@ -60,21 +60,24 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
     });
 
     //add the auth0 jwt http interceptor
+    //debugger;;
     var refreshingToken = null;
-    jwtInterceptorProvider.tokenGetter = function (store, $http, jwtHelper) {
+    jwtInterceptorProvider.tokenGetter = function (auth, store, $http, jwtHelper) {
         //notify app that chekcing for refresh token, don't show loader;
-        //debugger;
+        //todo: this is seriously broken!!! use site to fix and try to get working with refresh token, use ionic deploy to deploy
+        //debugger;;
         //tokenRefreshCheck.activateCheckingToken();
 
         var token = store.get('token');
-        //console.log(token);
+        console.log("The regular token is: " + token);
         var refreshToken = store.get('refreshToken');
-        //console.log(refreshToken);
+        console.log("The refresh token is: " + refreshToken);
         if (token) {
             if (!jwtHelper.isTokenExpired(token)) {
                 //tokenRefreshCheck.deactivateCheckingToken();
                 return store.get('token');
             } else {
+                console.log("Attempting to get a refresh token");
                 if (refreshingToken === null) {
                     refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
                         store.set('token', idToken);
@@ -83,7 +86,7 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
                         refreshingToken = null;
                     });
                 }
-                //debugger;
+                ////debugger;;
                 //tokenRefreshCheck.deactivateCheckingToken();
                 return refreshingToken;
             }
@@ -376,30 +379,41 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
     var refreshingToken = null;
     $rootScope.$on('$locationChangeStart', function () {
         //stop loading screen from showing
-        //debugger;
+        //debugger;;
+        console.log("$locationChangeStart event triggered. ");
         //tokenRefreshCheck.activateCheckingToken();
         var token = store.get('token');
+        console.log("Regular token: " + token);
         //console.log(token);
         var refreshToken = store.get('refreshToken');
+        console.log("Refresh token: " + token);
         if (token) {
             if (!jwtHelper.isTokenExpired(token)) {
+                console.log("Token expired, getting new token.");
                 if (!auth.isAuthenticated) {
+                    console.log("User not authenticated, authenticating.");
                     auth.authenticate(store.get('profile'), token);
                     //tokenRefreshCheck.deactivateCheckingToken();
                 }
             } else {
+                console.log("Token is not expired, checking the refresh token.");
                 if (refreshToken) {
+                    console.log("There is a refresh token.");
                     if (refreshingToken === null) {
+                        console.log("Getting a new refresh token from auth service.");
                         refreshingToken = auth.refreshIdToken(refreshToken).then(function (idToken) {
+                            console.log("Set the new tokens");
                             store.set('token', idToken);
                             auth.authenticate(store.get('profile'), idToken);
                         }).finally(function () {
+                            console.log("Reset the temporary refreshing token variable");
                             refreshingToken = null;
                         });
                     }
                     //tokenRefreshCheck.deactivateCheckingToken();
                     return refreshingToken;
                 } else {
+                    console.log("There is no refresh token available, so asking user to log in again.");
                     //tokenRefreshCheck.deactivateCheckingToken();
                     $location.path('/login');
                 }
@@ -407,13 +421,13 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
         }
     });
 
-    debugger;
+    //debugger;;
     //should be triggered after registered with push notification server
     $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
         console.log('Got token', data.token, data.platform);
 
         //call backend token to register device token with user
-        debugger;
+        //debugger;;
         User.registerDeviceToken(auth.profile.user_id, data.token).then(function(){
            console.log("New device token was registered successfully registered against the user");
         });
@@ -425,29 +439,32 @@ app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $i
     auth.signin(
         {
             //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
-            //authParams: {
-            scope: 'openid offline_access',
-            device: 'Mobile device',
-            // This is a must for mobile projects
+            closable: false,
             popup: true,
             // Make the widget non closeable
             standalone: true,
-            closable: false
-            //}
+            authParams: {
+                scope: 'openid offline_access',
+                device: 'Mobile device',
+                // This is a must for mobile projects
+                popup: true,
+                // Make the widget non closeable
+                standalone: true,
+            }
 
-        }, function (profile, id_token, access_token, state, refresh_token) {
+        }, function (profile, idToken, access_token, state, refreshToken) {
 
-            ////debugger;
-            //console.log('Profile is: ' + profile);
-            ////debugger;
-            //console.log('idToken is: ' + id_token);
-            ////debugger;
-            //console.log('refreshToken is: ' + refresh_token);
+            //debugger;;
+            console.log('Profile is: ' + profile);
+            //////debugger;;
+            console.log('idToken is: ' + idToken);
+            //////debugger;;
+            console.log('refreshToken is: ' + refreshToken);
 
             // Success callback
             store.set('profile', profile);
-            store.set('token', id_token);
-            store.set('refreshToken', refresh_token);
+            store.set('token', idToken);
+            store.set('refreshToken', refreshToken);
             $location.path('/');
 
             console.log('registering push');

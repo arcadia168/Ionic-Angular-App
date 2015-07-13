@@ -8377,6 +8377,14 @@ td-cards {
     -webkit-justify-content: space-around;
     -ms-flex-pack: distribute;
     justify-content: space-around; }
+    .slider ion-slide .button-signin {
+      margin: 0 !important;
+      margin-top: 1rem !important;
+      font-weight: 700;
+      border: 1px solid #3bb665 !important;
+      display: table-cell;
+      vertical-align: middle;
+      width: 70% !important; }
     .slider ion-slide .box {
       display: -webkit-flex;
       display: -ms-flexbox;

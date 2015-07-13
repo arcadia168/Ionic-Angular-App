@@ -4,7 +4,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         //First retrieve all of the league table data and add it to the scope
         LeagueTable.all().then(function (data) {
-            //debugger;
+            //////debugger;
             $scope.standings = data.teams; //we only want the actual standings data
 
             //Go through and replace 'United' with 'Utd' and 'Manchester' with 'Man'
@@ -26,7 +26,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     .controller('RoundsCtrl', function ($scope, Rounds, User, auth, $ionicLoading, $ionicDeploy, $ionicPopup) {
 
         //Refresh the user data to account for updated predictions
-        debugger;
+        ////debugger;
         User.getUserData(auth.profile.user_id).then(
             function(){
                 $scope.user = User.currentUser();
@@ -38,11 +38,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //used for testing past fixtures.
                     //var today = new Date(2016, 11, 11);
 
-                    //debugger;
+                    //////debugger;
                     $scope.rounds = data.rounds;
                     $scope.rounds = $scope.rounds.reverse();
 
-                    debugger;
+                    ////debugger;
                     for (var i = 0; i < $scope.rounds.length; i++) {
                         var currentRoundFixtures = $scope.rounds[i].data;
 
@@ -64,7 +64,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         if (inPast == true) {
                             $scope.rounds[i].status = 'Complete'
 
-                            debugger;
+                            ////debugger;
                             //fixed bug where round view would load in ALL fixtures from server.
                             $scope.rounds[i].roundLink = i+1;
 
@@ -123,9 +123,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.makeUnsavedChanges = function () {
 
             //ask if they are sure they want to go back if there are unsaved changes that would be lost
-            //debugger;
+            debugger;
 
-            if (SaveChanges.check()) {
+            //console.log("THE CURRENT VIEW IS: " + JSON.stringify($ionicHistory.currentStateName()));
+
+            var currentState = $ionicHistory.currentStateName();
+
+            //If the back button is being clicked from round-detail, check for unsaved changes and alert user
+            if (currentState == 'tab.round-detail' && SaveChanges.check()) {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Unsaved Changes',
                     template: 'Any unsaved changes to predictions will be lost'
@@ -147,7 +152,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //just go back
 
                 $ionicHistory.goBack();
-
             }
         };
     })
@@ -162,7 +166,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             0: 'NONE',
             1: 'HOME WIN',
             2: 'AWAY WIN',
-            3: 'DRAW'
+            3: 'DRAW',
+            "AWAY WIN": 2,
+            "HOME WIN": 1,
+            "DRAW": 3
         };
 
         $scope.cardView = true;
@@ -176,33 +183,51 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             predictions: []
         };
         $scope.saveChangesNeeded = false;
-        $scope.$on('$ionicView.enter', function(){
-            //if the scope says need to save set the global need to save after reentering the tab
-            console.log("Round detail view re-entered from other tab.");
-
-            var diffFlag = false;
-
-            //if the predictions array is different to the predictions on the server
-            for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
-                for (var j = 0; j < $scope.existingPredictions.length; j++) {
-                    if ($scope.UpdatedUserPredictions.predictions[i].fixture == $scope.existingPredictions[j].fixture &&
-                        $scope.UpdatedUserPredictions.predictions[i].prediction == $scope.existingPredictions[j].prediction) {
-                        SaveChanges.saveChangesNeeded();
-                        diffFlag = true;
-                        break;
-                    }
-
-                    if (diffFlag) {
-                        break;
-                    }
-                }
-            }
-
-        });
         $scope.fixCount = 0;
         $scope.currentRound = $stateParams.roundId;
 
-        //debugger;
+        //$scope.$on('$ionicView.enter', function(){
+        //    //if the scope says need to save set the global need to save after reentering the tab
+        //    console.log("Round detail view re-entered from other tab.");
+        //
+        //    var diffFlag = false;
+        //    debugger;
+        //
+        //    //before comparing lists of fixtures, sort by fixture id
+        //    if ($scope.existingPredictions && $scope.UpdatedUserPredictions) {
+        //        var existingPredictions = _sortByKey($scope.existingPredictions, "fixture");
+        //        var userPredictions = _sortByKey($scope.listFixtures, "_id");
+        //
+        //        console.log("Sorted existing predictions are: " + JSON.stringify(existingPredictions));
+        //        console.log("Sorted user predictions are: " + JSON.stringify(userPredictions));
+        //
+        //        //if the predictions array is different to the predictions on the server
+        //        for (var i = 0; i < userPredictions.length; i++) {
+        //            for (var j = 0; j < existingPredictions.length; j++) {
+        //                if (userPredictions[i]._id == existingPredictions[j].fixture){
+        //                    debugger;
+        //                    if (predictionMap[userPredictions[i].prediction] != existingPredictions[j].prediction) {
+        //                        debugger;
+        //
+        //                        //THIS CODE BLOCK IS NEVER ENTERED.
+        //
+        //                        SaveChanges.saveChangesNeeded();
+        //                        console.log("SAVE CHANGES NEEDED AT LINE 191");
+        //                        diffFlag = true;
+        //                        break;
+        //                    }
+        //                }
+        //
+        //                if (diffFlag) {
+        //                    break;
+        //                }
+        //            }
+        //        }
+        //    }
+        //});
+
+
+        //////debugger;
         function _checkAndShowTutorials() {
             //check to see if this is a new user
             if (User.tutorialsActiveCheck()) {
@@ -232,14 +257,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //clear existing predictions
 
                 //Check if the tutorials need to be shown and if so, show them!
-                debugger;
+                ////debugger;
                 _checkAndShowTutorials();
 
                 _predictions = [];
 
                 $scope.UpdatedUserPredictions.predictions = [];
 
-                //debugger;
+                //////debugger;
 
                 //if the user has made predictions previously, go straight to the list view
                 //if (data != null) {
@@ -256,7 +281,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 if ($scope.existingPredictions.length) {
 
                     //if the user has already made predictions on this round, then just show list view
-                    debugger;
+                    ////debugger;
                     $scope.cardView = false;
 
                     //as there are some predictions, enable the delete and clear buttons
@@ -266,7 +291,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //now loop over fixtures and add in these predictions!
                     //will need to use a nested loop
 
-                    //debugger;
+                    //////debugger;
                     //console.log("Now matching existing predictions to thier corresponding fixtures.");
 
                     //outer loop - go over all of the listFixtures - iterate through the list of fixtures
@@ -280,7 +305,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                             if (currentExistingPrediction == $scope.listFixtures[i]._id) {
                                 currentFixturePrediction = predictionMap[$scope.existingPredictions[j].prediction];
-                                debugger;
+                                ////debugger;
                                 $scope.listFixtures[i].prediction = currentFixturePrediction;
                                 $scope.listFixtures[i].predictionWindow = $scope.existingPredictions[j].predictValue.predictWindow;
 
@@ -303,7 +328,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //$scope.cardView = true;
 
                     //Then determing the first card details globally for the skip function
-                    //debugger;
+                    //////debugger;
                     $scope.currentCardFixture = $scope.fixtures[$scope.fixtures.length - 1];
                     //console.log("The fixture for the first card is: " + JSON.stringify($scope.currentCardFixture));
 
@@ -342,7 +367,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         function _addFixturePrediction(fixture, prediction) {
 
             //mark changes as requiring saving
+            debugger;
             SaveChanges.saveChangesNeeded();
+            console.log("SAVE CHANGES NEEDED AT LINE 347");
             $scope.saveChangesNeeded = true;
 
             //enable the clear button now that a prediction has been made
@@ -388,7 +415,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //if there are no elements left in the cards array, show list
             if ($scope.fixtures.length == 0) {
                 //Send the predictions off to the server.
-                //debugger;
+                //////debugger;
                 $scope.sendPredictions();
             }
         }
@@ -415,6 +442,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             return -1; //if not found.
         }
+
+        function _sortByKey(array, key) {
+            return array.sort(function(a, b) {
+                var x = a[key]; var y = b[key];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        };
 
 //set the need for changes to be saved to be false by default
         SaveChanges.saveChangesNotNeeded();
@@ -443,19 +477,19 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 }
             }
 
-            debugger;
+            ////debugger;
             if ($scope.fixtures.length == 0) $scope.cardView = false;
 
             //clone into a separate array to use for the cards
             $scope.listFixtures = angular.copy(data);
             //$scope.listFixtures.reverse();
 
-            debugger;
+            ////debugger;
             var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 $scope.listFixtures[i].homeTeam = User.filterTeam($scope.listFixtures[i].homeTeam);
                 $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
-                debugger;
+                ////debugger;
                 var today = new Date();
                 //used for testing the behaviour of past fixtures
                 //var today = new Date(2016, 11, 11);
@@ -463,7 +497,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 var fixtureDate = new Date($scope.fixtures[i].fixDate);
                 if (fixtureDate < today) {
                     //$scope.listFixtures.splice(i, 1); //delete from card view
-                    debugger;
+                    ////debugger;
                     $scope.listFixtures[i].status = 'Complete'; //delete from card view
                     //console.log('Fixture marked as complete here');
                     completeCount++;
@@ -488,7 +522,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.deleteSinglePrediction = function (fixture) {
 
-            //debugger;
+            //////debugger;
             if (fixture.prediction && fixture.prediction != 'NONE') {
                 //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
                 var confirmPopup = $ionicPopup.confirm({
@@ -500,7 +534,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                     if (res) {
 
-                        //debugger;
+                        //////debugger;
 
                         //delete the prediction from the private array
                         for (var i = 0; i < $scope.UpdatedUserPredictions.predictions.length; i++) {
@@ -519,7 +553,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         }
 
                         //assume that a save will be needed and negate this if necessary
+                        ////debugger;
                         SaveChanges.saveChangesNeeded();
+                        console.log("SAVE CHANGES NEEDED AT LINE 191");
                         $scope.saveChangesNeeded = true;
                     }
                 });
@@ -533,7 +569,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.sendPredictions = function () {
 
-            debugger;
+            ////debugger;
             var predictionsToUpdate = [];
             var predictionsToAdd = [];
             var diffFlag = false;
@@ -546,7 +582,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     var predictionExists = false;
                     for (var j = 0; j < $scope.existingPredictions.length; j++) {
                         //if the prediction for matching fixtures is different...
-                        ////debugger;
+                        ////////debugger;
                         if ($scope.UpdatedUserPredictions.predictions[i].fixture == $scope.existingPredictions[j].fixture) {
                             //then the prediction existed previously and needs to be updated
                             predictionExists = true;
@@ -618,14 +654,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                             //if after comparison the prediction did not exist on the server, then add it to list to create
                             if (!predictionExists) {
-                                //debugger;
+                                //////debugger;
                                 predictionsToAdd.push(currentUpdatedPrediction);
                             }
                         }
 
                         //Send the predictions to be updated
                         //call the async function
-                        //debugger;
+                        //////debugger;
                         Rounds.updatePredictions(auth.profile.user_id, predictionsToUpdate).then(function(){
                             //Now send any predictions to be added
                             //once you have a list of predictions to update, async for loop and update
@@ -666,7 +702,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 });
             }
             else { //there are no existing predictions so simply make a fresh set of new predictions
-                //debugger;
+                //////debugger;
                 Rounds.makePredictions(user, $stateParams.roundId, $scope.UpdatedUserPredictions.predictions).then(function() {
                     $ionicPopup.alert({
                         title: 'Your new predictions have been made!',
@@ -676,13 +712,13 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //changes have just been saved so no longer need this
                     SaveChanges.saveChangesNotNeeded();
 
-                    //debugger;
+                    //////debugger;
                     //Before returning to this screen, get updated user info (new predictions)
                     User.getUserData(user).then(function(){
                         //Now the round tab should reflect updated round predictions
 
                         //if user first time sign in - re-enable
-                        debugger;
+                        ////debugger;
                         //console.log(User.tutorialSeenCount());
                         if (User.firstTimeSignIn() && (User.tutorialSeenCount() < 2)){
                             User.showTutorials();
@@ -696,7 +732,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.predictHomeWin = function (fixture) {
-            debugger;
+            ////debugger;
             //console.log("Predict home win");
 
             var result = _getFixResult(fixture._id);
@@ -707,7 +743,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.predictAwayWin = function (fixture){
-            debugger;
+            ////debugger;
 
             var result = _getFixResult(fixture._id);
 
@@ -720,7 +756,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.predictDraw = function (fixture) {
             console.log("Predict draw");
 
-            debugger;
+            ////debugger;
 
             var result = _getFixResult(fixture._id);
 
@@ -730,7 +766,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.cardDestroyed = function (index) {
-            debugger;
+            ////debugger;
             $scope.currentCardIndex = index - 1;
             $scope.fixtures.splice(index, 1); //is this a reference to the same fixtures array!?
             _cardViewDoneCheck();
@@ -748,8 +784,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.cardTapped = function (fixtureId, index) {
             //console.log('PREDICT DRAW');
-            //debugger;
-            debugger;
+            //////debugger;
+            ////debugger;
             _addFixturePrediction(fixtureId, 3);
 
             //console.log('Card tapped, button pressed: ' + $scope.dontSkip);
@@ -812,18 +848,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
     })
 
     .controller('LeaderboardCtrl', function ($scope, $state, auth, $ionicPopup, $ionicActionSheet, Leaderboard, SaveChanges) {
-        //set the need for changes to be saved to be false by default
-        SaveChanges.saveChangesNotNeeded();
 
         //get all of the private leagues for the user from the private league service
         //call this  whenever the user's leagues need to be updated within the app
         function _getUserLeagues() {
-            //debugger;
+            //////debugger;
             Leaderboard.overall(auth.profile.user_id, auth.profile.picture).then(function (data) {
 
                 //Assign the season overall leaderboard data to a scope variable
                 $scope.overallLeague = data;
-                debugger;
+                ////debugger;
                 //console.log("The overall season league is: " + JSON.stringify($scope.overallLeague));
 
                 //For each league will have to add data pertaining to logged in user to scope manually
@@ -844,7 +878,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     }
                 }
 
-                debugger;
+                ////debugger;
                 //for debugging
                 console.log('\nOVERALL LEAGUE BEFORE SORTING: ');
                 for (var k = 0; k < $scope.overallLeague.length; k++){
@@ -852,7 +886,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 };
 
                 //Once iterated over all of the members, sort them based on score
-                debugger;
+                ////debugger;
                 $scope.overallLeague = sortByKey($scope.overallLeague, 'overallSeasonScore');
                 $scope.overallLeague.reverse();
 
@@ -862,12 +896,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.overallLeague[k].overallSeasonScore);
                 };
 
-                //debugger;
+                //////debugger;
                 Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
-                    ////debugger;
+                    ////////debugger;
                     $scope.privateLeagues = data;
                     //console.log(data);
-                    debugger;
+                    ////debugger;
 
                     for (var i = 0; i < $scope.privateLeagues.length; i++) {
                         //split league name into words, place in array
@@ -880,7 +914,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         };
 
                         //Once iterated over all of the members, sort them based on score
-                        debugger;
+                        ////debugger;
                         $scope.privateLeagues[i].members = sortByKey($scope.privateLeagues[i].members, 'overallSeasonScore');
                         $scope.privateLeagues[i].members.reverse();
 
@@ -1084,13 +1118,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
     .controller('LeaderboardLeagueDetailCtrl', function ($scope, auth, $stateParams, $ionicPopup, $state,
                                                          $cordovaSocialSharing ,$ionicActionSheet, User, Leaderboard, SaveChanges) {
-        //set the need for changes to be saved to be false by default
-        SaveChanges.saveChangesNotNeeded();
-
         $scope.shouldShowDelete = false;
         $scope.currentRound = Leaderboard.getCurrentRound();
         //console.log($scope.currentRound);
-        debugger;
+        ////debugger;
         $scope.roundDates = Leaderboard.getRoundDates();
         $scope.roundInView = 'OVERALL SEASON'; //0 represents overall season round
         var _membersToDelete = [];
@@ -1113,7 +1144,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //Get the data for scores for gloabl leaderboard
                 Leaderboard.overall().then(function (data) {
 
-                    debugger;
+                    ////debugger;
 
                     //console.log("DATA RETRIEVED FOR THE GLOBAL LEAGUE IS: " + JSON.stringify(data));
                     $scope.privateLeague = {};
@@ -1155,7 +1186,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     };
 
                     //Once iterated over all of the members, sort them based on score
-                    debugger;
+                    ////debugger;
                     $scope.privateLeague.members = sortByKey($scope.privateLeague.members, 'roundInViewScore');
                     $scope.privateLeague.members.reverse();
 
@@ -1168,7 +1199,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             } else {
                 Leaderboard.get(auth.profile.user_id, $stateParams.privateLeagueId).then(function (data) {
 
-                    debugger;
+                    ////debugger;
 
                     //$ionicLoading.hide();
                     $scope.privateLeague = data;
@@ -1201,8 +1232,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     }
 
                     //Once iterated over all of the members, sort them based on score
-                    debugger;
-                    debugger;
+                    ////debugger;
+                    ////debugger;
                     $scope.privateLeague.members = sortByKey($scope.privateLeague.members, 'roundInViewScore');
                     $scope.privateLeague.members.reverse();
 
@@ -1258,7 +1289,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 buttonClicked: function(index) {
 
                     //0 index is to rename the league
-                    debugger;
+                    ////debugger;
                     switch(index) {
                         case 0:
                             $scope.shareLeague();
@@ -1426,7 +1457,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         $scope.leaveLeague = function () {
-            debugger;
+            ////debugger;
 
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.confirm({
@@ -1461,7 +1492,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.changeLeagueCaptain = function() {
 
-            debugger;
+            ////debugger;
 
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.show({
@@ -1531,7 +1562,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.changeLeagueViceCaptain = function() {
 
-            debugger;
+            ////debugger;
 
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.show({
@@ -1570,7 +1601,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     myPopup.then(function (res) {
                         if (res) {
 
-                            debugger;
+                            ////debugger;
 
                             //console.log("Attempting to make member captain: " + JSON.stringify($scope.newViceCaptain));
 
@@ -1756,7 +1787,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //updated the round in view score on members to enable angular to sort it
         $scope.reOrderMembers = function(){
 
-            debugger;
+            ////debugger;
 
             //iterate over members check if we are viewing overall season or round
             for (var i = 0; i < $scope.privateLeague.members.length; i++){
@@ -1790,7 +1821,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             };
 
             //Once iterated over all of the members, sort them based on score
-            debugger;
+            ////debugger;
             $scope.privateLeague.members = sortByKey($scope.privateLeague.members, 'roundInViewScore');
             $scope.privateLeague.members.reverse();
 
@@ -1811,17 +1842,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
     .controller('RulebookCtrl', function($scope, $state, SaveChanges) {
 
-        //set the need for changes to be saved to be false by default
-        SaveChanges.saveChangesNotNeeded();
-
         //$state.go('tab.rulebook.win');
         $state.go('tab.rulebook.summary');
     })
 
     .controller('SettingsCtrl', function ($scope, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges, $ionicDeploy, $ionicLoading) {
-
-        //set the need for changes to be saved to be false by default
-        SaveChanges.saveChangesNotNeeded();
 
         //hopefully this should get run every time the user navigates to this tab
         User.getUserData(auth.profile.user_id);
@@ -1843,13 +1868,18 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             auth.signin({
                 //THIS IS WHERE TO CONFIGURE THE AUTH0 OPTIONS SUCH AS CLOSABLE ETC...
 
-                scope: 'openid offline_access',
-                device: 'Mobile device',
-                // This is a must for mobile projects
+                closable: false,
                 popup: true,
                 // Make the widget non closeable
                 standalone: true,
-                closable: false
+                authParams: {
+                    scope: 'openid offline_access',
+                    device: 'Mobile device',
+                    // This is a must for mobile projects
+                    popup: true,
+                    // Make the widget non closeable
+                    standalone: true,
+                }
 
             }, function (profile, id_token, access_token, state, refresh_token) {
                 // Login was successful
@@ -1859,7 +1889,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 $location.path('/');
 
                 //check to see if this user exists on the server already, if not, create this user using auth0 details
-                //debugger;
+                //////debugger;
                 User.sync(auth.profile).then(function () {
                     //Once the user data has been synced, get the user data object from our server also
                     //Have to do in this callback otherwise we attempt to get the user data before the sync has finished
@@ -1870,7 +1900,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //expose the user's invitations to the scope
                         $scope.userData = User.currentUser();
 
-                        //debugger;
+                        //////debugger;
 
                         //console.log("Invitations are: " + $scope.userData.invitations);
                         //console.log("Notifications are: " + $scope.userData.notifications);
@@ -2053,7 +2083,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.showLogIn = function (index) {
             //call sign in
 
-            debugger;
+            ////debugger;
             //if we are at last state
             //go to login state
             if (index == 2) {
@@ -2062,6 +2092,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     $state.go('login');
                 }, 3000)
             }
+        }
+
+        $scope.logIn = function () {
+            $state.go('login');
         }
     });
 

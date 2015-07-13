@@ -1875,6 +1875,16 @@ td-cards {
     flex-direction: column;
     justify-content: space-around;
 
+    .button-signin {
+      margin: 0 !important;
+      margin-top: 1rem !important;
+      font-weight: 700;
+      border: 1px solid $ygi-green !important;
+      display: table-cell;
+      vertical-align: middle;
+      width: 70% !important;
+    }
+
     .box {
       display: flex;
       flex-direction: column;
@@ -1897,6 +1907,7 @@ td-cards {
       color: white !important;
     }
   }
+
 }
 
 .item-radio input:checked ~ .item-content {

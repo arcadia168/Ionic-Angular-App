@@ -66,7 +66,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 $http.get(SERVER + '/fixtures/' + roundId
                 ).success(function(data){
                         rounds = data;
-                        //debugger;
+                        ////debugger;
                         deferred.resolve(data);
                     }).error(function(){
                         console.log("Error while making HTTP call.");
@@ -85,7 +85,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 console.log('SENDING PREDICTIONS:' + predictions);
 
-                //debugger;
+                ////debugger;
 
                 var deferred = $q.defer();
 
@@ -112,7 +112,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 console.log('UPDATING PREDICTIONS:' + predictions);
 
-                //debugger;
+                ////debugger;
 
                 var deferred = $q.defer();
 
@@ -132,7 +132,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 //make a call to the server to get the existing predictions made by a user
                 //do this for a given round
-                //debugger;
+                ////debugger;
 
                 var deferred = $q.defer();
 
@@ -151,7 +151,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             //deleteRoundPredictions: function(userid, round) {
             //
             //    //make a call to the server to get the existing predictions made by a user
-            //    //debugger;
+            //    ////debugger;
             //
             //    var deferred = $q.defer();
             //
@@ -191,7 +191,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 $http.get(SERVER + '/leaderboard/'
                 ).success(function(data){
                         //Process the data
-                        debugger;
+                        //debugger;
 
                         globalLeagueData = data;
                         currentRound = data[data.length - 2];
@@ -204,7 +204,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                         for (var i = 1; i < roundDates.roundsList.length; i++) {
                             roundDates.roundsList[i].roundNo = "Round " + roundDates.roundsList[i].roundNo;
                         }
-                        debugger;
+                        //debugger;
 
                         console.log('roundDates are: ' + JSON.stringify(roundDates));
 
@@ -230,7 +230,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 // Make a call to ye olde server
                 $http.get(SERVER + '/users/private_leagues/list/' + user_id
                 ).success(function(data){
-                        //debugger;
+                        ////debugger;
 
                         userPrivateLeagues = data;
 
@@ -240,7 +240,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                             for (var k = 0; k < userPrivateLeagues[j].members.length; k++) {
                                 if (userPrivateLeagues[j].members[k].user_id == user_id) {
                                     //then we have found the currently logged in user, add key to this object
-                                    //debugger;
+                                    ////debugger;
                                     userPrivateLeagues[j].thisUser = {
                                         //need pts, username and pick
                                         userSeasonPts: userPrivateLeagues[j].members[k].overallSeasonScore,  //todo: assign round pts
@@ -289,7 +289,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             getRoundDates: function() {
                 if (roundDates) {
                     //Prepend this value to the array
-                    debugger;
+                    //debugger;
                     return roundDates.roundsList;
                 } else {
                     console.log("ERROR: User requested round dates list when none was set");
@@ -336,7 +336,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
             },
             leaveLeague: function(user_id, private_league_id) {
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -421,7 +421,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             },
             changeCaptain: function(user_id, new_captain_id, private_league_id) {
 
-                debugger;
+                //debugger;
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
 
                 var deferred = $q.defer();
@@ -444,7 +444,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             changeViceCaptain: function(user_id, new_vice_captain_id, private_league_id) {
 
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
-                debugger;
+                //debugger;
 
                 var deferred = $q.defer();
 
@@ -475,7 +475,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
             all: function() {
                 var deferred = $q.defer();
 
-                debugger;
+                //debugger;
 
                 //Retrieve the English Premiere League standings
                 $http.get(SERVER + '/standings').success(
@@ -666,15 +666,19 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
         //add functions
         saveChanges.saveChangesNeeded = function() {
+            //debugger;
+            console.log("SAVE CHAGNES NEEDED SET TO TRUE IN SERVICE.");
             saveChangesNeeded = true;
         };
 
         saveChanges.saveChangesNotNeeded = function() {
+            console.log("Setting the save flag to be false");
             saveChangesNeeded = false;
         };
 
         //give access to the property
         saveChanges.check = function () {
+            console.log("Setting the save flag to be TRUE");
             return saveChangesNeeded;
         };
 
