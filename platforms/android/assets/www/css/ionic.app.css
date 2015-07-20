@@ -7188,7 +7188,8 @@ ion-nav-view ion-tabs {
           width: 15%; }
         .leaderboard-content ion-item .league-overview .label-row .pos-points {
           width: 20%;
-          padding-left: 0.1rem; }
+          padding-left: 0.1rem;
+          min-width: 3.1rem !important; }
         .leaderboard-content ion-item .league-overview .label-row .pos-player {
           border-bottom: 3px solid transparent; }
         .leaderboard-content ion-item .league-overview .label-row div {
@@ -7247,14 +7248,14 @@ ion-nav-view ion-tabs {
         left: 0.75rem;
         min-width: 2rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-pic {
-        left: 0.1rem;
+        left: 0.25rem;
         top: -0.5rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-name {
         -webkit-flex-basis: 7.5rem;
         -ms-flex-preferred-size: 7.5rem;
         flex-basis: 7.5rem;
         position: relative;
-        left: 0.5rem; }
+        left: 0.6rem; }
       .leaderboard-content ion-item .league-overview .user-row .user-points {
         -webkit-flex-basis: 3rem;
         -ms-flex-preferred-size: 3rem;
@@ -7524,9 +7525,9 @@ ion-view.league-detail .league-live-table {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
-      -webkit-flex-basis: 50%;
-      -ms-flex-preferred-size: 50%;
-      flex-basis: 50%;
+      -webkit-flex-basis: 70%;
+      -ms-flex-preferred-size: 70%;
+      flex-basis: 70%;
       -webkit-flex-direction: row;
       -ms-flex-direction: row;
       flex-direction: row;
@@ -7585,9 +7586,9 @@ ion-view.league-detail .league-live-table {
       flex-basis: 2.5rem;
       text-align: center; }
     ion-view.league-detail .league-live-table .row .username {
-      -webkit-flex-basis: 9rem;
-      -ms-flex-preferred-size: 9rem;
-      flex-basis: 9rem;
+      -webkit-flex-basis: 80%;
+      -ms-flex-preferred-size: 80%;
+      flex-basis: 80%;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -7595,7 +7596,9 @@ ion-view.league-detail .league-live-table {
       -ms-flex-direction: row;
       flex-direction: row; }
       ion-view.league-detail .league-live-table .row .username p {
-        text-align: center; }
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden; }
       ion-view.league-detail .league-live-table .row .username .captain-label, ion-view.league-detail .league-live-table .row .username .vice-captain-label {
         margin-left: 0.15rem; }
 
@@ -7889,7 +7892,7 @@ td-cards {
   td-cards td-card {
     position: absolute;
     left: 50%;
-    margin-top: 4.5rem;
+    margin-top: 4rem;
     margin-bottom: 40px;
     margin-left: -150px;
     width: 300px;
@@ -7902,6 +7905,7 @@ td-cards {
       text-align: center;
       background-color: #3bb665;
       height: 2.5rem;
+      border-radius: 5px 5px 0px 0px !important;
       color: white; }
       td-cards td-card .card-header .fix-title {
         padding-top: 0.5rem; }
@@ -8013,7 +8017,7 @@ td-cards {
 .button-fact {
   position: relative;
   z-index: -10000;
-  top: 25rem;
+  top: 24rem;
   width: 100% !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
@@ -8032,7 +8036,7 @@ td-cards {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  height: 18rem;
+  height: 19rem;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -8091,7 +8095,7 @@ td-cards {
       font-size: 3rem;
       opacity: 1 !important;
       position: absolute;
-      top: 3rem;
+      top: 1.7rem;
       margin: auto;
       -webkit-align-self: center;
       -ms-flex-item-align: center;
@@ -8114,6 +8118,39 @@ td-cards {
         color: red !important;
         border: 2px solid red;
         border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .prediction-label {
+      width: 93%;
+      font-size: 3rem;
+      opacity: 1 !important;
+      position: absolute;
+      top: 10.2rem;
+      right: 3%;
+      margin: auto;
+      -webkit-align-self: center;
+      -ms-flex-item-align: center;
+      align-self: center;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-justify-content: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-flex-direction: row;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -webkit-align-items: center;
+      -ms-flex-align: center;
+      align-items: center; }
+      .fix-pred-li .fix-pred-li-shirts .prediction-label p {
+        width: 70%;
+        margin: auto;
+        border-radius: 3px; }
+    .fix-pred-li .fix-pred-li-shirts .correct p {
+      color: green !important;
+      border: 2px solid green; }
+    .fix-pred-li .fix-pred-li-shirts .incorrect p {
+      color: red !important;
+      border: 2px solid red; }
     .fix-pred-li .fix-pred-li-shirts .fix-details {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8340,6 +8377,14 @@ td-cards {
     -webkit-justify-content: space-around;
     -ms-flex-pack: distribute;
     justify-content: space-around; }
+    .slider ion-slide .button-signin {
+      margin: 0 !important;
+      margin-top: 1rem !important;
+      font-weight: 700;
+      border: 1px solid #3bb665 !important;
+      display: table-cell;
+      vertical-align: middle;
+      width: 70% !important; }
     .slider ion-slide .box {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8393,7 +8438,7 @@ td-cards {
 .platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
   top: 10.5rem; }
 
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) and (orientation: portrait) {
+@media only screen and (min-device-width: 320px) and (device-aspect-ratio: 2/3) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
   td-card {
     margin-top: -0.25rem !important; }
   .button-fact {
@@ -8409,4 +8454,40 @@ td-cards {
   .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
     right: 0.9rem !important; }
   ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
-    left: 1.1rem !important; } }
+    left: 0.95rem !important;
+    bottom: 1.55rem !important; }
+  .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
+    max-width: 6rem !important; }
+  .leaderboard-content ion-item .league-overview .user-row .user-pic {
+    left: 0.05rem !important; }
+  .leaderboard-content ion-item .league-overview .user-row .user-name {
+    left: 0.5rem !important; }
+  .rulebook-content .points-table .no-prediction-row .lose-pts-container .lose-pts {
+    margin-left: 1rem !important; } }
+
+@media screen and (device-aspect-ratio: 40/71) {
+  td-card {
+    margin-top: 2.5rem !important; }
+  .button-fact {
+    top: 22.5rem; }
+  .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
+    right: 0.9rem !important; }
+  ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
+    left: 1rem !important;
+    bottom: 1.55rem !important; }
+  .leaderboard-content ion-item .league-overview .leader-row .leader-name p {
+    max-width: 6rem !important; }
+  .leaderboard-content ion-item .league-overview .user-row .user-pic {
+    left: 0.05rem !important; }
+  .leaderboard-content ion-item .league-overview .user-row .user-name {
+    left: 0.5rem !important; }
+  .rulebook-content .points-table .no-prediction-row .lose-pts-container .lose-pts {
+    margin-left: 1rem !important; }
+  .label-row .pos-points {
+    min-width: 3.1rem !important; }
+    .label-row .pos-points p {
+      min-width: 3.1rem !important; }
+  .label-row .pos-player {
+    min-width: 3.2rem !important; }
+    .label-row .pos-player p {
+      min-width: 3.2rem !important; } }

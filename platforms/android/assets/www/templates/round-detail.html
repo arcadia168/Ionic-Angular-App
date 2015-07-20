@@ -42,6 +42,9 @@
                             <em class="list-away-team-name">{{fixture.awayTeam | uppercase}}</em>
                         </div>
                     </div>
+                    <div class="prediction-label" ng-class="{correct: fixture.predictionOutcome == 'Correct', incorrect: fixture.predictionOutcome == 'Incorrect'}" ng-if="fixture.prediction != 'NONE'">
+                        <p>{{fixture.predictionOutcome | uppercase}}</p>
+                    </div>
                 </div>
                 <div class="user-prediction">
                     <div>
@@ -67,7 +70,7 @@
                     <div ng-if="fixture.fixResult.fixResult != 0 || fixture.predictionWindow == 'Fixture Finished'">
                         <p>POINTS:</p>
 
-                        <p ng-model="fixture">{{fixture.fixResult.fixScore || "N/A" | uppercase}}</p>
+                        <p ng-model="fixture">{{fixture.predictionScore || "N/A" | uppercase}}</p>
                     </div>
                 </div>
             </ion-item>

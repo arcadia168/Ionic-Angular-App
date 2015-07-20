@@ -2079,21 +2079,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
     .controller('SignUpCtrl', function ($scope, $timeout, $location, store, $state, User, auth, $ionicPopup, Leaderboard, SaveChanges) {
 
-        //anything you need
-        $scope.showLogIn = function (index) {
-            //call sign in
-
-            ////debugger;
-            //if we are at last state
-            //go to login state
-            if (index == 2) {
-                //wait a while then log in
-                $timeout(function(){
-                    $state.go('login');
-                }, 3000)
-            }
-        }
-
+        //When the user taps the sign up button show the Auth0 lock widget.
         $scope.logIn = function () {
             $state.go('login');
         }
