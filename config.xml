@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.projectmoonshot.YesGetIn" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.projectmoonshot.YesGetIn" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
   <name>Yes! Get In!</name>
   <description>
-        A new way to play fantasy football.
+        The new way to play fantasy football.
     </description>
   <author email="info@yesgetin.com" href="http://yesgetin.com/">
       ***REMOVED*** ***REMOVED***
@@ -18,7 +18,7 @@
   <preference name="SplashScreen" value="screen"/>
   <preference name="StatusBarOverlaysWebView" value="false"/>
   <preference name="SplashScreenDelay" value="3000"/>
-  <plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io"/>
+  <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>
