@@ -153,7 +153,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             if (currentState == 'tab.round-cards') {
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'All fixtures need a prediction',
-                    template: 'Otherwise your predicitions for this would won\'t be save and you\'ll have to re-enter them. Tap OK if you do want go back or CANCEL to stay and complete your predictions for this round'
+                    template: 'Otherwise your predicitions for this round won\'t be save and you\'ll have to re-enter them. Tap OK to go back or CANCEL to stay and complete your predictions for this round'
                 });
                 confirmPopup.then(function (res) {
                     if (res) {
