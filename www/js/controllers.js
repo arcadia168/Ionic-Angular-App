@@ -166,8 +166,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 });
             }else {
                 //just go back
-
-                $ionicHistory.goBack();
             }
         };
     })
