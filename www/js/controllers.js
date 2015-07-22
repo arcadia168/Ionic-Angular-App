@@ -721,7 +721,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //////debugger;
                 Rounds.makePredictions(user, $stateParams.roundId, $scope.UpdatedUserPredictions.predictions).then(function() {
                     $ionicPopup.alert({
-                        title: 'Your new predictions have been made!',
+                        title: 'Your predictions have been updated!',
                         template: 'Let\'s hope you do well!'
                     });
 
