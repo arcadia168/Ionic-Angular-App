@@ -118,7 +118,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
     })
 
-    .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
+        .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
         //function to check that user is ready to leave without saving changes
         $scope.makeUnsavedChanges = function () {
 
@@ -148,13 +148,26 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //stay in this view
                     }
                 });
-            }else {
-                //just go back
-                $ionicHistory.goBack();
-            }
-        };
-    })
+            } else if (currentState == 'tab.round-cards') {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'All fixtures need a prediction',
+                    template: 'Otherwise your predicitions for this round won\'t be save and you\'ll have to re-enter them. Tap OK to go back or CANCEL to stay and complete your predictions for this round'
+                    });
+                    confirmPopup.then(function (res) {
+                    if (res) {
 
+                                $ionicHistory.goBack();
+                    }else {
+                    //console.log('You are not sure');
+                    //stay in this view
+                    }
+                });
+            }else {
+              //just go back
+              $ionicHistory.goBack();
+            }
+      };
+})
     .controller('RoundDetailCtrl', function ($scope, $state, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
                                              Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout, $ionicHistory) {
 
