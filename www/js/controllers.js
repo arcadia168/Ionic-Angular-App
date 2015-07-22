@@ -148,24 +148,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //stay in this view
                     }
                 });
-            }             
-            //If the back button is being clicked from round-cards, check for unsaved changes and alert user
-            if (currentState == 'tab.round-cards') {
-                var confirmPopup = $ionicPopup.confirm({
-                    title: 'All fixtures need a prediction',
-                    template: 'Otherwise your predicitions for this round won\'t be save and you\'ll have to re-enter them. Tap OK to go back or CANCEL to stay and complete your predictions for this round'
-                });
-                confirmPopup.then(function (res) {
-                    if (res) {
-
-                        $ionicHistory.goBack();
-                    } else {
-                        //console.log('You are not sure');
-                        //stay in this view
-                    }
-                });
             }else {
                 //just go back
+                $ionicHistory.goBack();
             }
         };
     })
