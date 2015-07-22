@@ -148,7 +148,23 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //stay in this view
                     }
                 });
-            } else {
+            }             
+            //If the back button is being clicked from round-cards, check for unsaved changes and alert user
+            if (currentState == 'tab.round-cards') {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'All fixtures need a prediction',
+                    template: 'This is so your predictions for this round are saved. If not, you will lose predictions on fixtures you have made in the round and have to start again. Tap OK if you do want go back'
+                });
+                confirmPopup.then(function (res) {
+                    if (res) {
+
+                        $ionicHistory.goBack();
+                    } else {
+                        //console.log('You are not sure');
+                        //stay in this view
+                    }
+                });
+            }else {
                 //just go back
 
                 $ionicHistory.goBack();
@@ -524,10 +540,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //////debugger;
             if (fixture.prediction && fixture.prediction != 'NONE') {
-                //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
+                //Warn the user about the loss of 6 points for completely withdrawing a fixture prediction
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirm Delete',
-                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 6 points if left unpredicted!'
+                    template: 'Are you sure you want to delete the prediction for this fixture? \n Remember, you\'ll lose 6 points if left unpredicted!'
                 });
 
                 confirmPopup.then(function (res) {
@@ -620,8 +636,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             else if (updatePredictions) {
                 //Warn user that updating will mean points get lost
                 $ionicPopup.confirm({
-                    title: 'Updating means less points!',
-                    template: 'Are you sure you want to update? Doing so will mean you earn less points. \n Remember: Fixtures without predictions lose 6 points!'
+                    title: 'Confirm updates to predictions',
+                    template: 'As the saying goes - change is good. Just tap OK to register your updates! Good luck :) \n Remember: Fixtures without predictions lose 6 points!'
                 }).then(function (res) {
                     if (res) {
 
