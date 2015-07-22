@@ -1780,7 +1780,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.shareLeague = function () {
             //console.log("Share functin invoked.");
-            $cordovaSocialSharing.share("The new way to play fantasy football. Download the app on Android and iOS and join my league with code: " + $scope.privateLeague.privateLeagueCode + "\n", "Join my Yes! Get In! Private League Using Code " + $scope.privateLeague.privateLeagueCode, null, "http://www.yesgetin.com");
+            $cordovaSocialSharing.share("Yes! Get In! The new way to play fantasy football. Download the app on Android and iOS and join my league with code: " + $scope.privateLeague.privateLeagueCode + "\n", null, null, "http://www.yesgetin.com");
         };
 
         $scope.memberRoundScore = function(memberIndex) {
