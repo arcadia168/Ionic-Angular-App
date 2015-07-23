@@ -708,6 +708,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                                 //Now load any predictions down from the server
                                 _getExistingPredictions();
+                                //Return to home screen
+                                $state.go('tab.rounds', {reload : true});
                             }
                         });
                     }
