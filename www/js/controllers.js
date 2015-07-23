@@ -623,7 +623,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             if (diffFlag == false) {
                 $ionicPopup.alert({
                     title: 'Predictions Unchanged!',
-                    template: 'The predictions you are submitting are the same as those on the server, change some and try again.'
+                    template: 'There doesn\'t seem to be any changes to your predictions, update some and try again.'
                 });
 
                 //exit the function
