@@ -329,7 +329,7 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
         if (navigator.connection.type == Connection.NONE) {
             $ionicPopup.confirm({
                 title: "No internet connection",
-                content: "This app needs an internet connection, go get one then come back!"
+                content: "To experience full functionality, please connect to the internet!"
             })
                 .then(function (result) {
                     if (!result) {
