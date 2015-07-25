@@ -363,11 +363,13 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
         }
-       
-            document.addEventListener("offline",function() {
-            alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
+        document.addEventListener("offline",function() {
+        alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
         },false);
-        //ionic.Platform.fullscreen();
+        document.addEventListener("online",function() {
+        alert("Yes! Get In! You're back online.");
+        },false);
+      //ionic.Platform.fullscreen();
 });
 
     });
