@@ -30,6 +30,8 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.backButton.text('').previousTitleText(false);
     $ionicConfigProvider.views.transition('android');
+    $ionicConfigProvider.views.maxCache(1000);
+    //$ionicConfigProvider.views.forwardCache(true);
     $ionicConfigProvider.platform.android.navBar.alignTitle('center');
 
     //Attempting to configure the use of Auth0
