@@ -2131,6 +2131,21 @@ textarea {
 img {
   -webkit-user-drag: none; }
 
+.startupscreen img {
+  -webkit-user-drag: none;
+width: 100vw;
+position:absolute;
+}
+.startupscreen p {
+  position: relative;
+  text-align: center;
+  font-size: 13x!important;
+  color: white;
+  font-family: 'Roboto', sans-serif !important;
+  top: 1.75vh;
+}
+
+
 /* ==========================================================================
    Tables
    ========================================================================== */
