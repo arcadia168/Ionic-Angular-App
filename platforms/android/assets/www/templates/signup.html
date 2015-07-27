@@ -2,27 +2,39 @@
     <ion-slide-box>
         <ion-slide>
             <div class="box">
-                <h3 class="signup-text">SIMPLE AS 1,2,3...</h3>
-                <img ng-src="img\Screen1.png">
-                <h3 class="signup-text">PREDICT RESULTS OF PREMIER LEAGUE FIXTURES</h3>
-                <button class="button button-signin"ng-click="logIn()">SIGN IN</button>
+              <h3 class="signup-text">PREDICT RESULTS OF</h3>
+              <h3 class="signup-text">PREMIER LEAGUE FIXTURES</h3>
+              <br>
+              <br>
+              <img ng-src="img\Screen1.png">
             </div>
         </ion-slide>
         <ion-slide>
             <div class="box">
-                <h3 class="signup-text">THE EARLIER YOU PREDICT</h3>
-                <img ng-src="img\Screen2.png">
-                <h3 class="signup-text">THE MORE POINTS YOU EARN</h3>
-                <button class="button button-signin"ng-click="logIn()">SIGN IN</button>
+              <h3 class="signup-text">THE EARLIER YOU PREDICT</h3>
+              <h3 class="signup-text">THE MORE POINTS YOU EARN</h3>
+              <br>
+              <br>
+              <img ng-src="img\Screen2.png">
             </div>
         </ion-slide>
         <ion-slide>
             <div class="box">
-                <h3 class="signup-text">CLAIM BRAGGING RIGHTS</h3>
-                <img ng-src="img\Screen3.png">
-                <h3 class="signup-text">AGAINST YOUR FRIENDS!</h3>
-                <button class="button button-signin"ng-click="logIn()">SIGN IN</button>
-            </div>
+              <h3 class="signup-text">CLAIM BRAGGING RIGHTS</h3>
+              <h3 class="signup-text">AGAINST YOUR FRIENDS!</h3>
+              <br>
+              <br>
+              <img ng-src="img\Screen3.png">
+              </div>
         </ion-slide>
     </ion-slide-box>
+    <button class="signupbutton button-signup"ng-click="logIn()">SIGN UP</button><button class="signinbutton button-signin"ng-click="logIn()">LOG IN</button>
+    <div class="startupscreen">
+    <img ng-src="img\Startupscreenbackground.png"/>
+    <p> By signing up/logging in, you agree to the <br>
+    <a class="terms" href="#" onclick="window.open('https://www.yesgetin.com/terms---conditions.html','_system','location=yes');return false;">Terms & Conditions</a>
+    and have read our
+    <a class="privacy" href="#" onclick="window.open('https:www.yesgetin.com/privacy-policy.html','_system','location=yes');return false;">
+    Privacy Policy</a></p>
+    </div>
 </ion-view>

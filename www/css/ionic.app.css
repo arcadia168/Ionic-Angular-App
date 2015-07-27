@@ -8429,6 +8429,7 @@ td-cards {
 
 .item-radio input:checked ~ .item-content {
   background: none !important; }
+
   .signupbutton{
     border-color: #b2b2b2;
     background-color: rgba(220, 90, 38, 0.9);
@@ -8506,6 +8507,42 @@ a.terms {
 a.privacy {
   color: #FFF
 }
+
+.p1signinbutton{
+  border-color: #b2b2b2;
+  /*background-color: rgba(220, 90, 38, 0.9);*/
+  background-color: rgba(50, 134, 74, 0.9);
+  color: #444;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 52px;
+  min-height: 47px;
+  border-width: 1px;
+  border-style: solid;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 42px;
+  cursor: pointer; }
+
+  .button-p1signin {
+    margin: 0 !important;
+    font-weight: 700;
+    border: 1px solid #3bb665 !important;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100vw !important;
+    height: 12.5vh !important;
+    padding: 0 0px!important;
+    margin-top: 0px!important;
+    font-size: 28px!important;
+    color: #FFF!important;
+    border-width: 0!important;
+    letter-spacing: 1.25px;
+  }
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
