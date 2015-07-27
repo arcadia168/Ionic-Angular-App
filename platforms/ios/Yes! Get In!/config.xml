@@ -90,4 +90,7 @@
     <preference name="SplashScreenDelay" value="3000" />
     <gap:plugin name="nl.x-services.plugins.socialsharing" source="plugins.cordova.io" />
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
+    <feature name="AppVersion">
+        <param name="ios-package" value="AppVersion" />
+    </feature>
 </widget>

@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		06D403AC72C1405DB44C9159 /* CDVStatusBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D7D15341149F6ACAD2E11 /* CDVStatusBar.m */; };
 		1547EEB3924B4540BE9F7206 /* UNIHTTPRequestWithBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D59A4B9176C4BECA0059C22 /* UNIHTTPRequestWithBody.m */; };
@@ -95,6 +94,7 @@
 		F719A90C5EA24566850A8171 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = FAAD4EDDE4094079965B5D8E /* trees.c */; };
 		FEEC0168D7F142F4A615183D /* IonicDeploy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8250FD61D46F4724BE59C5BD /* IonicDeploy.m */; };
 		FF6703444939473C800B8ADA /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = AE3B2EFEFB504DDFAA89E738 /* gzread.c */; };
+		F99913A5895D489EAD7C94B6 /* AppVersion.m in Sources */ = {isa = PBXBuildFile; fileRef = D60A57C99108444E8D6E0D7C /* AppVersion.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -262,6 +262,8 @@
 		FAAD4EDDE4094079965B5D8E /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = unknown; name = trees.c; path = com.ionic.deploy/trees.c; sourceTree = "<group>"; };
 		FC36ED7648EA4DEF99579BA1 /* UNIHTTPClientHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UNIHTTPClientHelper.h; path = com.ionic.deploy/UNIHTTPClientHelper.h; sourceTree = "<group>"; };
 		FC48B403F66640D48931A57D /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = inffixed.h; path = com.ionic.deploy/inffixed.h; sourceTree = "<group>"; };
+		D60A57C99108444E8D6E0D7C /* AppVersion.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "AppVersion.m"; path = "uk.co.whiteoctober.cordova.appversion/AppVersion.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		2F21E749F858469EA6D10882 /* AppVersion.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "AppVersion.h"; path = "uk.co.whiteoctober.cordova.appversion/AppVersion.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -469,6 +471,8 @@
 				3272231D853E4A47B3B05513 /* NSData+Base64.m */,
 				5DE1220DC5F743FA98AA0E66 /* EmailComposer.h */,
 				7458F1E59C2E42EAA1B9C3A6 /* NSData+Base64.h */,
+				D60A57C99108444E8D6E0D7C /* AppVersion.m */,
+				2F21E749F858469EA6D10882 /* AppVersion.h */,
 			);
 			name = Plugins;
 			path = "Yes! Get In!/Plugins";
@@ -716,6 +720,7 @@
 				3BA3B030B7594846B5DB2F6E /* APPEmailComposer.m in Sources */,
 				A045429D66F54353B294C4FF /* EmailComposer.m in Sources */,
 				97A80808EA5246AFBFAEF84C /* NSData+Base64.m in Sources */,
+				F99913A5895D489EAD7C94B6 /* AppVersion.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

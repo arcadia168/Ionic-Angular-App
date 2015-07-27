@@ -59,6 +59,10 @@
                         {
                             "xml": "<feature name=\"EmailComposer\"><param name=\"ios-package\" value=\"EmailComposer\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"AppVersion\"><param name=\"ios-package\" value=\"AppVersion\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -125,6 +129,12 @@
             "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
         },
         "com.jcjee.plugins.emailcomposer": {
+            "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
+        },
+        "uk.co.whiteoctober.cordova.appversion": {
+            "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
+        },
+        "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "com.projectmoonshot.YesGetIn"
         }
     },
