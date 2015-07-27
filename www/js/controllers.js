@@ -623,7 +623,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             if (diffFlag == false) {
                 $ionicPopup.alert({
                     title: 'Predictions Unchanged!',
-                    template: 'There doesn\'t seem to be any changes to your predictions, update some and try again.'
+                    template: 'The predictions you are submitting are the same as those on the server, change some and try again.'
                 });
 
                 //exit the function
@@ -708,9 +708,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                                 //Now load any predictions down from the server
                                 _getExistingPredictions();
-                                //Return to home screen
-                                $state.go('tab.rounds', {reload : true});
                             }
+                            //Return to home screen
+                            $state.go('tab.rounds', {reload : true});
                         });
                     }
                 });
@@ -1986,7 +1986,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         }
 
         $scope.sendSupportEmail = function() {
-            console.log("Support link clicked");
+            //console.log("Support link clicked");
 
             //window.plugins.emailComposer.showEmailComposerWithCallback(
             //    function(result) {
@@ -2098,4 +2098,3 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             $state.go('login');
         }
     });
-
