@@ -2129,7 +2129,8 @@ textarea {
   /* 2 */ }
 
 img {
-  -webkit-user-drag: none; }
+  -webkit-user-drag: none;
+  }
 
 .startupscreen img {
   -webkit-user-drag: none;
@@ -2139,12 +2140,11 @@ position:absolute;
 .startupscreen p {
   position: relative;
   text-align: center;
-  font-size: 13x!important;
+  font-size: 13px!important;
   color: white;
   font-family: 'Roboto', sans-serif !important;
   top: 1.75vh;
 }
-
 
 /* ==========================================================================
    Tables
@@ -5004,7 +5004,7 @@ a.item-content {
   bottom: 20px;
   z-index: 1;
   width: 100%;
-  height: 15px;
+  height: 13px;
   text-align: center; }
   .slider-pager .slider-pager-page {
     display: inline-block;
@@ -6838,7 +6838,7 @@ a.button {
 
 .a0-active {
   /*Set the background image of the body here*/
-  background-color: #3bb665 !important; }
+  background-color: rgba(59, 182, 101, 0.85) !important}
   .a0-active .a0-centrix {
     height: 100%;
     display: -webkit-flex;
@@ -6857,7 +6857,8 @@ a.button {
       color: white !important; }
     .a0-active .a0-centrix .a0-onestep {
       margin-top: 5rem;
-      height: 60%;
+      height: 75vh;
+      top: 12.5vh;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -6887,13 +6888,20 @@ a.button {
       .a0-active .a0-centrix .a0-onestep .a0-footer a {
         pointer-events: none;
         cursor: default; }
-        .a0-active .a0-centrix .a0-onestep .a0-footer a i:before {
-          content: url('../img/Logov2.png') !important; }
+      .a0-active .a0-centrix .a0-onestep .a0-footer a i:before {
+      content: url('../img/Logov2.png') !important;}
+
+      #a0-lock.a0-theme-default .a0-popup .a0-centrix .a0-panel .a0-footer{
+        margin-top: 30px!important;
+      }
+      #a0-lock.a0-theme-default .a0-popup .a0-centrix .a0-panel .a0-mode{
+          padding:0 20px 10px!important;
+        }
 
 body {
   /*Set the background image of the body here*/
   background: url(../img/pitch_bg.png) fixed center;
-  background-position: -30rem -4rem; }
+  background-position: -30rem -3rem; }
   body .view-container.tab-content {
     background-color: transparent; }
   body .pane, body .menu, body .view, body .list, body .item {
@@ -7632,7 +7640,7 @@ ion-view.league-detail .league-live-table {
 .rulebook-content {
   background-color: white !important;
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 5.65rem;
   top: 0 !important; }
   .rulebook-content .rulebook-title {
     text-align: center; }
@@ -8380,8 +8388,8 @@ td-cards {
 
 /*Stylins for the sign up/in screen */
 .slider {
-  height: 100% !important;
-  background-color: #3bb665 !important; }
+  height: 78vh !important;
+  background-color: rgba(59, 182, 101, 0.85) !important}
   .slider ion-slide {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -8411,7 +8419,7 @@ td-cards {
       -ms-flex-align: center;
       align-items: center; }
       .slider ion-slide .box img {
-        width: 65%;
+        width: 100vw;
         height: auto; }
       .slider ion-slide .box .signup-text {
         text-align: center;
@@ -8419,6 +8427,8 @@ td-cards {
   .slider .slider-pager span {
     color: white !important; }
 
+.item-radio input:checked ~ .item-content {
+  background: none !important; }
   .signupbutton{
     border-color: #b2b2b2;
     background-color: rgba(220, 90, 38, 0.9);
@@ -8496,10 +8506,6 @@ a.terms {
 a.privacy {
   color: #FFF
 }
-
-
-.item-radio input:checked ~ .item-content {
-  background: none !important; }
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
