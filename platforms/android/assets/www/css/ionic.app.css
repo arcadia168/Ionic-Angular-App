@@ -6838,7 +6838,7 @@ a.button {
 
 .a0-active {
   /*Set the background image of the body here*/
-  background-color: rgba(59, 182, 101, 0.85) !important}
+  background-color: rgba(59, 182, 101, 0.80) !important}
   .a0-active .a0-centrix {
     height: 100%;
     display: -webkit-flex;
@@ -6857,8 +6857,8 @@ a.button {
       color: white !important; }
     .a0-active .a0-centrix .a0-onestep {
       margin-top: 5rem;
-      height: 75vh;
-      top: 12.5vh;
+      height: 100vh;
+      top: 0vh;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -6869,7 +6869,7 @@ a.button {
       -ms-flex-pack: center;
       justify-content: center; }
       .a0-active .a0-centrix .a0-onestep .a0-next {
-        background-color: #65ef80 !important; }
+        background-color: rgba(42, 111, 62, 0.9)!important; }
       .a0-active .a0-centrix .a0-onestep i {
         color: #3bb665 !important; }
       .a0-active .a0-centrix .a0-onestep .a0-header {
@@ -6892,7 +6892,7 @@ a.button {
       content: url('../img/Logov2.png') !important;}
 
       #a0-lock.a0-theme-default .a0-popup .a0-centrix .a0-panel .a0-footer{
-        margin-top: 30px!important;
+        margin-top: 10px!important;
       }
       #a0-lock.a0-theme-default .a0-popup .a0-centrix .a0-panel .a0-mode{
           padding:0 20px 10px!important;
@@ -8078,10 +8078,12 @@ td-cards {
     .fix-pred-li .fix-pred-header p {
       text-align: center;
       color: white;
-      font-size: 0.75rem;
+      font-size: 0.9rem;
       -webkit-flex-basis: 90%;
       -ms-flex-preferred-size: 90%;
-      flex-basis: 90%; }
+      flex-basis: 90%;
+    margin-top: 5px
+  }
     .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8091,8 +8093,8 @@ td-cards {
       flex-direction: row;
       margin-right: 0.1rem; }
       .fix-pred-li .fix-pred-header .button-container .ion-ios-close-empty, .fix-pred-li .fix-pred-header .button-container .ion-ios-help-empty {
-        width: 1rem;
-        height: 1rem;
+        width: 2rem;
+        height: 2rem;
         right: inherit !important;
         left: inherit !important;
         color: white !important;
@@ -8423,7 +8425,8 @@ td-cards {
         height: auto; }
       .slider ion-slide .box .signup-text {
         text-align: center;
-        color: white; }
+        color: white;
+      font-size: 28px!important;}
   .slider .slider-pager span {
     color: white !important; }
 
@@ -8459,7 +8462,7 @@ td-cards {
       height: 12.5vh !important;
       padding: 0 0px!important;
       margin-top: 0px!important;
-      font-size: 28px!important;
+      font-size: 32px!important;
       color: #FFF!important;
       border-width: 0!important;
       letter-spacing: 1.25px;
@@ -8467,7 +8470,7 @@ td-cards {
 
       .signinbutton{
         border-color: #b2b2b2;
-        background-color: rgba(50, 134, 74, 0.9);
+        background-color: rgba(42, 111, 62, 0.9);
         color: #444;
         position: relative;
         display: inline-block;
@@ -8495,7 +8498,7 @@ td-cards {
     height: 12.5vh !important;
     padding: 0 0px!important;
     margin-top: 0px!important;
-    font-size: 28px!important;
+    font-size: 32px!important;
     color: #FFF!important;
     border-width: 0!important;
     letter-spacing: 1.25px;
@@ -8511,7 +8514,7 @@ a.privacy {
 .p1signinbutton{
   border-color: #b2b2b2;
   /*background-color: rgba(220, 90, 38, 0.9);*/
-  background-color: rgba(50, 134, 74, 0.9);
+  background-color: rgba(42, 111, 62, 0.9);
   color: #444;
   position: relative;
   display: inline-block;
@@ -8531,7 +8534,6 @@ a.privacy {
   .button-p1signin {
     margin: 0 !important;
     font-weight: 700;
-    border: 1px solid #3bb665 !important;
     display: table-cell;
     vertical-align: middle;
     width: 100vw !important;
@@ -8543,6 +8545,44 @@ a.privacy {
     border-width: 0!important;
     letter-spacing: 1.25px;
   }
+
+  #a0-lock.a0-theme-default .a0-panel button.a0-primary.a0-next{
+    padding: 18px 0px!important;
+    margin-bottom: 10px!important;
+    margin-bottom: 10px!important;
+    border-radius: 0px!important;
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif !important;
+  }
+
+#a0-lock.a0-theme-default .a0-btn-small.a0-sign-up{
+    border: 0px!important;
+    background-color: rgba(220, 90, 38, 0.9)!important;
+    color: #fff;
+    border-radius: 0px!important;
+    margin-bottom: 20px !important;
+    margin-top: 0px!important;
+    margin-right: 0px!important;
+    margin-left: 0px!important;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    font-weight: 700;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100vw !important;
+    height: 11.5vh !important;
+    padding: 0 0px!important;
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #FFF!important;
+    letter-spacing: 1.25px;
+  }
+
+  #a0-lock.a0-theme-default .a0-btn-small.a0-forgot-pass{
+    margin-top: 20px!important;
+  }
+
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
