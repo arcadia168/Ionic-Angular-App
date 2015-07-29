@@ -99,6 +99,13 @@ module.exports = [
         "clobbers": [
             "cordova.getAppVersion"
         ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -116,7 +123,9 @@ module.exports.metadata =
     "de.appplant.cordova.plugin.email-composer": "0.8.2",
     "com.jcjee.plugins.emailcomposer": "1.4.6",
     "uk.co.whiteoctober.cordova.appversion": "0.1.7",
-    "cordova-plugin-whitelist": "1.0.0"
+    "cordova-plugin-whitelist": "1.0.0",
+    "cordova-plugin-crosswalk-webview": "1.2.0",
+    "cordova-plugin-splashscreen": "2.1.0"
 }
 // BOTTOM OF METADATA
 });

@@ -387,9 +387,9 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
         document.addEventListener("offline",function() {
         alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
         },false);
-        document.addEventListener("online",function() {
-        alert("Yes! Get In! You're back online.");
-        },false);
+        //document.addEventListener("online",function() {
+        //alert("Yes! Get In! You're back online.");
+        //},false);
       //ionic.Platform.fullscreen();
     });
 
