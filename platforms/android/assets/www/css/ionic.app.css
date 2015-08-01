@@ -4114,7 +4114,7 @@ ion-tabs.tabs-color-active-dark .tab-item {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both; }
   .popup-container .popup {
-    width: 85vw;
+    width: 85vw ;
     max-width: 100%;
     max-height: 90%;
     border-radius: 0px;
@@ -7914,12 +7914,15 @@ td-cards {
   /* Fades the text for the prediction in but not out as the  is destroyed */ }
   td-cards td-card {
     position: absolute;
-    left: 50%;
-    margin-top: 4rem;
+    /*left: 50%;*/
+    left:5vw;
+    margin-top: 3vh;
     margin-bottom: 40px;
-    margin-left: -150px;
-    width: 300px;
-    height: 300px;
+    /*margin-left: -150px;*/
+    width: 90vw;
+    height: 55vh;
+    /*width: 300px;*/
+    /*height: 300px;*/
     border: 1px solid #999;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
@@ -7927,11 +7930,11 @@ td-cards {
     td-cards td-card .card-header {
       text-align: center;
       background-color: #3bb665;
-      height: 2.5rem;
+      height: 5vh;
       border-radius: 5px 5px 0px 0px !important;
       color: white; }
       td-cards td-card .card-header .fix-title {
-        padding-top: 0.5rem; }
+        padding-top: 0.3rem; }
     td-cards td-card .card-content {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -7994,13 +7997,13 @@ td-cards {
           justify-content: space-around;
           text-align: center; }
           td-cards td-card .card-content .shirt-container .home-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .home-team .away-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .away-shirt-icon {
-            top: 10px;
-            width: 7rem !important;
+            width: 5rem !important;
             margin: 0 auto 1.5rem auto; }
   td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
-    top: 41%;
-    right: 23%;
+    top: 17vh;
+    right: 10vw;
+    left: 10vw;
     font-size: 1rem;
     opacity: 0; }
   td-cards .yes-text {
@@ -8038,14 +8041,15 @@ td-cards {
   text-transform: uppercase; }
 
 .button-fact {
-  position: relative;
-  z-index: -10000;
-  top: 24rem;
-  width: 100% !important;
+  position: absolute;
+  /* z-index: -10000; */
+  bottom: 5.5vh;
+  width: 90vw !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
-  display: table-cell;
-  vertical-align: middle;
+  /* display: table-cell; */
+  /* text-align: center!important; */
+  left: 5vw;
   text-transform: uppercase; }
 
 /*Styling for the list view of fixture predictions*/
@@ -8583,43 +8587,53 @@ a.privacy {
     margin-top: 20px!important;
   }
 
-  .FBimg{
+  .SOimg{
     width: 100vw!important;
     padding: 0px!important;
+    margin-top: 0.70vh;
+  }
+
+  .FBimg{
     margin-top: 0.75vh;
+    width: 33vw;
   }
 
   .settings-content .list .item.FBsocial.item{
-    text-align: center!important;
     margin: 0px!important;
+    margin-left: 0.4vw!important;
     padding: 0px!important;
-    width: 100vw!important;
     border-width: 0px!important;
+    width:33vw;
+    position: absolute;
   }
 
-  .TWimg {
-    width: 100vw!important;
-    padding: 0px!important;
-}
+  .TWimg{
+    margin-top: 0.75vh;
+    width: 33vw;
+  }
+
   .settings-content .list .item.TWsocial.item{
-    text-align: center!important;
     margin: 0px!important;
+    margin-left: 33.3vw!important;
     padding: 0px!important;
-    width: 100vw!important;
     border-width: 0px!important;
+    width:33vw;
+    position: absolute;
   }
 
-  .GOimg {
-    width: 100vw!important;
-    padding: 0px!important;
+  .GOimg{
+    margin-top: 0.75vh;
+    width: 33vw;
   }
 
   .settings-content .list .item.GOsocial.item{
-    text-align: center!important;
     margin: 0px!important;
+    margin-left: 66vw!important;
+    margin-right:0.4vw!important;
     padding: 0px!important;
-    width: 100vw!important;
     border-width: 0px!important;
+    width:33vw;
+    text-align: right!important ;
   }
 
   .about.item.cookies {
@@ -8669,6 +8683,18 @@ a.privacy {
         padding-top: 1.5vh;
       }
 
+      /*.button.button.button-stable.button-block.button-submit {
+          vertical-align: bottom!Important;
+          position: fixed;
+          bottom: 13VW;
+        }*/
+
+        .card-fix-date p.ng-binding {
+    margin: 1vh!important;
+    margin-top: 0.3vh!important;
+    font-weight: 200;
+    font-size: medium;
+}
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
   height: 44px !important; }
@@ -8698,13 +8724,13 @@ a.privacy {
   top: 5.5rem; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
-  top: 10.5rem; }
+  top: 0rem!important; }
 
 @media only screen and (min-device-width: 320px) and (device-aspect-ratio: 2/3) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
   td-card {
     margin-top: -0.25rem !important; }
   .button-fact {
-    top: 19rem; }
+    bottom:5.5vh; }
   .label-row .pos-points {
     min-width: 3.1rem !important; }
     .label-row .pos-points p {
@@ -8731,7 +8757,7 @@ a.privacy {
   td-card {
     margin-top: 2.5rem !important; }
   .button-fact {
-    top: 22.5rem; }
+    bottom: 5.5vh; }
   .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
     right: 0.9rem !important; }
   ion-view.league-detail .league-live-table .row .leader-pos .leader-no {

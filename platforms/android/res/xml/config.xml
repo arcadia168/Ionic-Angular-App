@@ -56,6 +56,7 @@
     <splash density="port-hdpi" src="resources/android/splash/drawable-port-hdpi-screen.png" />
     <splash density="port-xhdpi" src="resources/android/splash/drawable-port-xhdpi-screen.png" />
     <splash density="port-xxhdpi" src="resources/android/splash/drawable-port-xxhdpi-screen.png" />
+    <allow-intent href="market:*" />
     <name>Yes! Get In!</name>
     <description>
         The new way to play fantasy football.
@@ -66,6 +67,11 @@
     <content src="index.html" />
     <access origin="*" />
     <access origin="*.ionic.io" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
