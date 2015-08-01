@@ -8371,23 +8371,20 @@ td-cards {
           .settings-content .list .item.sign-out .sign-out-contents .ion-log-out {
             font-size: 2rem;
             position: relative; }
-    .settings-content .list .item-divider {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      background-color: #3bb665;
-      width: 100vw;
-      padding-top: 4px;
-      padding-bottom: 3px; }
-      .settings-content .list .item-divider p {
-        margin-top: 0.15rem;
-        -webkit-align-self: center;
-        -ms-flex-item-align: center;
-        align-self: center;
-        color: white; }
+
+        .settings-content .list .item-divider{
+        display: flex;
+        background-color: rgba(55, 138, 78, 0.9);
+        width: 100vw!important;
+        color: #FFF;
+        border-top: 0px!important;
+        }
+        .settings-content .list .item-divider p{
+        padding-left: 2vw!important;
+            color: white;
+            margin: 0px!important;
+          }
+
   .settings-content .button.button-block {
     width: 90%;
     margin: auto; }
@@ -8695,6 +8692,21 @@ a.privacy {
     font-weight: 200;
     font-size: medium;
 }
+
+.Settingsitem.item-divider{
+border-top: 0px!important;
+margin-top: 0.0vh!important;
+display: flex;
+background-color: rgba(55, 138, 78, 0.9);
+width: 100vw!important;
+color: #FFF;
+}
+.Settingsitem.item-divider p{
+padding-left: 2vw!important;
+    color: white;
+    margin: 0px!important;
+  }
+
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
   height: 44px !important; }
