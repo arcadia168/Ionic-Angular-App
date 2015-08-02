@@ -8283,7 +8283,7 @@ td-cards {
       border-color: transparent !important;
       font-size: 0.85rem;
       width: 95vw;
-      border-top: 1px solid #3bb665 !important;
+      border-top: 1px solid rgba(55, 138, 78, 0.9)!important;
       padding-left: 0;
       padding-right: 0; }
       .settings-content .list .item:first-child {
@@ -8365,7 +8365,7 @@ td-cards {
           -ms-flex-align: center;
           align-items: center;
           width: 100%;
-          border-top: 1px solid #3bb665 !important; }
+          border-top: 1px solid rgba(55, 138, 78, 0.9) !important; }
           .settings-content .list .item.sign-out .sign-out-contents .sign-out-label {
             min-width: 4rem; }
           .settings-content .list .item.sign-out .sign-out-contents .ion-log-out {
@@ -8374,7 +8374,7 @@ td-cards {
 
         .settings-content .list .item-divider{
         display: flex;
-        background-color: rgba(55, 138, 78, 0.9);
+        background-color: rgba(55, 138, 78, 0.9)!important;
         width: 100vw!important;
         color: #FFF;
         border-top: 0px!important;
