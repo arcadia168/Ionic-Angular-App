@@ -21,24 +21,40 @@
                                       <div class="shirt-container">
                         <div class="home-team col-40">
                             <img class="image home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
-                            <!-- TODO: team league pos here -->
                             <em class="home-team-label">{{fixture.homeTeam | uppercase}}</em>
-                            <!-- TODO: wld for past six matches here -->
+                                <!-- TODO: team league pos here -->
+                            <em class="home-team-pos">{{fixture.homeTeamPos}}</em>
+                                <!-- TODO: wld for past six matches here -->
+                            <!--<em class="home-team-form">{{fixture.homeTeamForm}}</em>-->
                         </div>
+                        <!--<div class="home-team col-40-extra">-->
+                            <!-- TODO: team league pos here -->
+                            <!--<em class="home-team-pos">{{fixture.homeTeamPos}}</em>-->
+                            <!-- TODO: wld for past six matches here -->
+                            <!--<em class="home-team-form">{{fixture.homeTeamForm}}</em>-->
+                          <!--</div>-->
 
                         <h4>VS</h4>
 
                         <div class="away-team col-40">
                             <img class="image away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
-                            <!-- TODO: team league pos here -->
                             <em class="away-team-label">{{fixture.awayTeam | uppercase}}</em>
-                            <!-- TODO: wld for past six matches here -->
+                                <!-- TODO: team league pos here -->
+                            <em class="away-team-pos">{{fixture.awayTeamPos}}</em>
+                                <!-- TODO: wld for past six matches here -->
+                            <!--<em class="away-team-form">{{fixture.awayTeamForm}}</em> -->
                         </div>
+                        <!--<div class="away-team col-40-extra">-->
+                            <!-- TODO: team league pos here -->
+                            <!--<em class="away-team-pos">{{fixture.awayTeamPos}}</em>-->
+                            <!-- TODO: wld for past six matches here -->
+                            <!--<em class="home-team-away">{{fixture.awayTeamForm}}</em>-->
+                          <!--</div>-->
                     </div>
-                    <div class="no-text"><img class="homeWin" ng-src="img\HW.png"><!--PREDICTION: HOME WIN--></div>
-                    <div class="yes-text"><img class="awayWin" ng-src="img\AW.png"><!--PREDICTION: AWAY WIN--></div>
-                    <div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>
-                    <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text"><img class="Draw" ng-src="img\D.png"><!--PREDICTION: DRAW--></div>
+                    <div class="no-text"><img class="homeWin" ng-src="img\HWPre.png"><!--PREDICTION: HOME WIN--></div>
+                    <div class="yes-text"><img class="awayWin" ng-src="img\AWPre.png"><!--PREDICTION: AWAY WIN--></div>
+                    <!--<div ng-class="{skippedfade: fixture.prediction == 'NONE'}" class="skipped-text">PREDICTION: NONE</div>-->
+                    <div ng-class="{drawfade : fixture.prediction == 'DRAW'}" class="draw-text"><img class="Draw" ng-src="img\DPre.png"><!--PREDICTION: DRAW--></div>
                 </div>
             </td-card>
         </td-cards>

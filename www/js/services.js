@@ -652,6 +652,30 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                     team = team.replace("AFC", " ");
                     team = team.trim();
                 }
+                if (team.indexOf("Newcastle Utd" > -1)) {
+                    team = team.replace("Newcastle Utd", "Newcastle");
+                    team = team.trim();
+                }
+                if (team.indexOf("West Ham Utd" > -1)) {
+                    team = team.replace("West Ham Utd", "West Ham");
+                    team = team.trim();
+                }
+                if (team.indexOf("Leicester City" > -1)) {
+                    team = team.replace('Leicester City', 'Leicester');
+                    team = team.trim();
+                }
+                if (team.indexOf("Norwich City" > -1)) {
+                    team = team.replace('Norwich City', 'Norwich');
+                    team = team.trim();
+                }
+                if (team.indexOf("Swansea City" > -1)) {
+                    team = team.replace('Swansea City', 'Swansea');
+                    team = team.trim();
+                }
+                if (team.indexOf("Crystal Palace" > -1)) {
+                    team = team.replace('Crystal Palace', 'Crystal Pal');
+                    team = team.trim();
+                }
 
                 return team;
             }

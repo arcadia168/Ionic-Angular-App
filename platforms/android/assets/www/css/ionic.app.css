@@ -7920,7 +7920,7 @@ td-cards {
     margin-bottom: 40px;
     /*margin-left: -150px;*/
     width: 90vw;
-    height: 55vh;
+    height: 50vh;
     /*width: 300px;*/
     /*height: 300px;*/
     border: 1px solid #999;
@@ -7961,8 +7961,10 @@ td-cards {
         align-items: center; }
       td-cards td-card .card-content .shirt-container {
         position: relative;
-        top: 1.5rem;
-        height: 10rem;
+        /*top: 1.5rem;*/
+        top:3.3vh;
+        /*height: 10rem;*/
+        height:24vh;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -7972,7 +7974,10 @@ td-cards {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
-        padding: 0.5rem; }
+        /*padding: 0.5rem;*/
+      margin-right: 5vh;
+      margin-left: 5vh;
+    }
         td-cards td-card .card-content .shirt-container .image {
           position: relative; }
         td-cards td-card .card-content .shirt-container img {
@@ -7997,8 +8002,8 @@ td-cards {
           justify-content: space-around;
           text-align: center; }
           td-cards td-card .card-content .shirt-container .home-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .home-team .away-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .away-shirt-icon {
-            width: 5rem !important;
-            margin: 0 auto 1.5rem auto; }
+            width: 24vw!important;
+            margin: 0 auto 0.5vh auto; }
   td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
     top: 17vh;
@@ -8706,6 +8711,8 @@ padding-left: 2vw!important;
     color: white;
     margin: 0px!important;
   }
+
+
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
