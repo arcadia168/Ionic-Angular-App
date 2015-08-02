@@ -7975,8 +7975,8 @@ td-cards {
         -ms-flex-align: center;
         align-items: center;
         /*padding: 0.5rem;*/
-      margin-right: 5vh;
-      margin-left: 5vh;
+      margin-right: 4vh;
+      margin-left: 4vh;
     }
         td-cards td-card .card-content .shirt-container .image {
           position: relative; }
@@ -7985,14 +7985,15 @@ td-cards {
           border-radius: 6px; }
         td-cards td-card .card-content .shirt-container h4 {
           text-align: center;
-          font-size: 0.8rem;
-          width: 60%;
-          margin: 0 auto 25px auto; }
+              font-size: 0.8rem;
+              width: 60%;
+              height: 40vh;
+              margin-top: 30vh;}
         td-cards td-card .card-content .shirt-container .home-team, td-cards td-card .card-content .shirt-container .away-team {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
-          width: 15rem;
+          width: 100vw;
           height: 100%;
           -webkit-flex-direction: column;
           -ms-flex-direction: column;
@@ -8007,8 +8008,8 @@ td-cards {
   td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
     top: 17vh;
-    right: 10vw;
-    left: 10vw;
+    right: 5vw;
+    left: 5vw;
     font-size: 1rem;
     opacity: 0; }
   td-cards .yes-text {
@@ -8034,6 +8035,13 @@ td-cards {
   td-cards .fade {
     transition: 0.2s opacity linear;
     opacity: 0; }
+
+/*em.home-team-label.ng-binding{
+      font-size: 13.5px;
+}
+em.away-team-label.ng-binding{
+      font-size: 13.5px;
+}*/
 
 .button-skip {
   margin: 1rem auto;
@@ -8069,7 +8077,7 @@ td-cards {
   -ms-flex-pack: justify;
   justify-content: space-between;
   /*height: 19rem;*/
-  height: 45vh;
+  height: 54vh;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
