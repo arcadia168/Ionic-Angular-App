@@ -8088,12 +8088,20 @@ em.away-team-label.ng-binding{
   .fix-pred-li .fix-pred-header {
     background-color: green;
     /*background-color: rgba(55, 138, 78, 0.9)!important;*/
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
     display: flex;
     width: 94.5vw!important;}
     .fix-pred-li .fix-pred-header p {
       text-align: center;
       color: white;
       font-size: 0.9rem;
+      /*-webkit-flex-basis: 90%;*/
+      -ms-flex-preferred-size: 90%;
       margin:0px!important;
       margin-top: 1vh!important;
       width: 36vw!important;
