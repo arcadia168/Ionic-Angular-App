@@ -13,7 +13,7 @@
                         <i class="icon ion-ios-help-empty" ng-click="showListFixFact(fixture)"></i>
                     </div>
                     <p>FIXTURE {{$index + 1}}</p>
-
+                    <p>{{fixture.fixSocial}}</p>
                     <div class="button-container">
                         <i ng-if="fixture.status != 'Complete'" class="icon ion-ios-close-empty"
                            ng-click="deleteSinglePrediction(fixture)"></i>
