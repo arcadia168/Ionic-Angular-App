@@ -7703,7 +7703,8 @@ ion-view.league-detail .league-live-table {
     align-items: flex-end; }
     .rulebook-content .points-table .title-row p {
       margin-bottom: 0rem;
-      margin-right: 10.7vw; }
+      margin-right: 0.5rem;
+    }
     .rulebook-content .points-table .title-row .title-container {
       -webkit-flex-basis: 48%;
       -ms-flex-preferred-size: 48%;
@@ -8745,10 +8746,14 @@ padding-left: 2vw!important;
     color: white;
     margin: 0px!important;
   }
+.prewin{
+margin-right: 7vw!important;
+}
 
 img.summary-predictions{
   width: 75vw;
 }
+
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
