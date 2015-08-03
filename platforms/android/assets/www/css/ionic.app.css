@@ -7703,7 +7703,7 @@ ion-view.league-detail .league-live-table {
     align-items: flex-end; }
     .rulebook-content .points-table .title-row p {
       margin-bottom: 0rem;
-      margin-right: 0.5rem; }
+      margin-right: 10.7vw; }
     .rulebook-content .points-table .title-row .title-container {
       -webkit-flex-basis: 48%;
       -ms-flex-preferred-size: 48%;
@@ -7975,8 +7975,8 @@ td-cards {
         -ms-flex-align: center;
         align-items: center;
         /*padding: 0.5rem;*/
-      margin-right: 4vh;
-      margin-left: 4vh;
+      margin-right: 3.5vh;
+      margin-left: 3.5vh;
     }
         td-cards td-card .card-content .shirt-container .image {
           position: relative; }
@@ -7986,9 +7986,9 @@ td-cards {
         td-cards td-card .card-content .shirt-container h4 {
           text-align: center;
               font-size: 0.8rem;
-              width: 60%;
-              height: 40vh;
-              margin-top: 30vh;}
+              width: 50vw;
+              height: 30vh;
+              margin-top: 20vh;}
         td-cards td-card .card-content .shirt-container .home-team, td-cards td-card .card-content .shirt-container .away-team {
           display: -webkit-flex;
           display: -ms-flexbox;
@@ -8004,7 +8004,8 @@ td-cards {
           text-align: center; }
           td-cards td-card .card-content .shirt-container .home-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .home-team .away-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .away-shirt-icon {
             width: 24vw!important;
-            margin: 0 auto 0.5vh auto; }
+            margin: 0;
+          margin-left: 3.3vw;}
   td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
     top: 17vh;
@@ -8036,12 +8037,14 @@ td-cards {
     transition: 0.2s opacity linear;
     opacity: 0; }
 
-/*em.home-team-label.ng-binding{
-      font-size: 13.5px;
+em.home-team-label.ng-binding{
+      font-size: 13px!important;
+      font-weight: bolder;
 }
 em.away-team-label.ng-binding{
-      font-size: 13.5px;
-}*/
+      font-size: 13px!important;
+      font-weight: bolder;
+}
 
 .button-skip {
   margin: 1rem auto;
@@ -8053,7 +8056,7 @@ em.away-team-label.ng-binding{
   display: table-cell;
   text-transform: uppercase; }
 
-.button-fact {
+button.icon.ion-ios-information-outline {
   position: absolute;
   /* z-index: -10000; */
   bottom: 5.5vh;
@@ -8063,7 +8066,17 @@ em.away-team-label.ng-binding{
   /* display: table-cell; */
   /* text-align: center!important; */
   left: 5vw;
-  text-transform: uppercase; }
+  text-transform: uppercase;
+  height:9vh;
+background-color: #FFF;
+border-radius: 2px;
+font-size: 4vh;
+font-weight: 500;
+font-family: 'Roboto', sans-serif !important;
+/*color: #3bb665 !important;*/
+color: #225F37 !important;
+border-radius: 5px!important;
+}
 
 /*Styling for the list view of fixture predictions*/
 .fix-pred-li {
@@ -8099,11 +8112,11 @@ em.away-team-label.ng-binding{
     .fix-pred-li .fix-pred-header p {
       text-align: center;
       color: white;
-      font-size: 0.9rem;
+      font-size: 2.75vh;
       /*-webkit-flex-basis: 90%;*/
       -ms-flex-preferred-size: 90%;
       margin:0px!important;
-      margin-top: 1vh!important;
+      margin-top: 1.3vh!important;
       width: 36vw!important;
   }
     .fix-pred-li .fix-pred-header .button-container {
@@ -8113,11 +8126,12 @@ em.away-team-label.ng-binding{
       -webkit-flex-direction: row;
       -ms-flex-direction: row;
       flex-direction: row;}
-      .fix-pred-li .fix-pred-header .button-container .ion-ios-close-empty, .fix-pred-li .fix-pred-header .button-container .ion-ios-help-empty {
+      .fix-pred-li .fix-pred-header .button-container .ion-ios-information-outline, .fix-pred-li .fix-pred-header .button-container .ion-ios-information-outline {
         right: inherit !important;
         left: inherit !important;
         color: white !important;
         position: relative;
+        height: 5.5vh;
         margin-left: 1.5vw;
         margin-right: 1.5vw;
 }
@@ -8617,7 +8631,7 @@ a.privacy {
 
   .FBimg{
     margin-top: 0.75vh;
-    width: 33vw;
+    width: 49vw;
   }
 
   .settings-content .list .item.FBsocial.item{
@@ -8625,22 +8639,22 @@ a.privacy {
     margin-left: 0.4vw!important;
     padding: 0px!important;
     border-width: 0px!important;
-    width:33vw;
+    width:49vw;
     position: absolute;
   }
 
   .TWimg{
     margin-top: 0.75vh;
-    width: 33vw;
+    width: 49vw;
   }
 
   .settings-content .list .item.TWsocial.item{
     margin: 0px!important;
-    margin-left: 33.3vw!important;
+    margin-left: 50vw!important;
     padding: 0px!important;
     border-width: 0px!important;
-    width:33vw;
-    position: absolute;
+    width:49vw;
+    /*position: absolute;*/
   }
 
   .GOimg{
@@ -8732,7 +8746,9 @@ padding-left: 2vw!important;
     margin: 0px!important;
   }
 
-
+img.summary-predictions{
+  width: 75vw;
+}
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {

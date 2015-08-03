@@ -1,6 +1,6 @@
 <ion-view view-title="PREDICT ROUND {{currentRound}}">
     <ion-nav-buttons side="secondary">
-        <button class="button how-to icon ion-ios-information-outline" ng-click="showTutorial()"></button>
+        <button class="button how-to icon ion-ios-help-outline" ng-click="showTutorial()"></button>
     </ion-nav-buttons>
     <ion-content scroll="false" ng-controller="RoundDetailCtrl" class="card-container padding">
         <td-cards>
@@ -19,7 +19,7 @@
                             'HH:mm'}}</p><p>{{fixture.fixStadium}}</p><p>{{fixture.fixSocial}}</p>
                     </div>
                                       <div class="shirt-container">
-                        <div class="home-team col-40">
+                        <div class="home-team col-45">
                             <img class="image home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
                             <em class="home-team-label">{{fixture.homeTeam | uppercase}}</em>
                                 <!-- TODO: team league pos here -->
@@ -36,7 +36,7 @@
 
                         <h4>VS</h4>
 
-                        <div class="away-team col-40">
+                        <div class="away-team col-45">
                             <img class="image away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
                             <em class="away-team-label">{{fixture.awayTeam | uppercase}}</em>
                                 <!-- TODO: team league pos here -->
@@ -58,6 +58,6 @@
                 </div>
             </td-card>
         </td-cards>
-        <button class="button button-fact" ng-click="showCardFixFact(fixture._id)">Did You Know?</button>
+        <button class="icon ion-ios-information-outline" ng-click="showCardFixFact(fixture._id)"> Did You Know</button>
     </ion-content>
 </ion-view>
