@@ -8091,7 +8091,7 @@ border-radius: 5px!important;
   -ms-flex-pack: justify;
   justify-content: space-between;
   /*height: 19rem;*/
-  height: 54vh;
+  height: 52vh;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -8223,14 +8223,15 @@ border-radius: 5px!important;
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
       justify-content: space-between;
-      margin-top: 0.4rem;
+      /*margin-top: 0.4rem;*/
       width: 100vw;
       margin-left: 2vw;
       margin-right: 2vw;}
       .fix-pred-li .fix-pred-li-shirts .fix-details .vs {
         text-align: center;
         font-size: x-large;
-      width:20vw;
+        margin-top: 5.5vh;
+      /*width:20vw;*/
 }
       .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away {
         display: -webkit-flex;
@@ -8241,7 +8242,7 @@ border-radius: 5px!important;
         flex-direction: column;
         text-align: center; }
         .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away img {
-          width: 6rem; }
+          width: 26vw; }
         .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away em {
           font-size: 0.75rem;
           font-weight: 700;
@@ -8252,6 +8253,28 @@ border-radius: 5px!important;
             opacity: 0.2 !important; }
           .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.slightlyfaded {
             opacity: 0.35; }
+            .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon-hwimg.ffaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon-awimg.ffaded{
+            opacity: 0.0!important;
+          }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon-hwimg.fffaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon-awimg.fffaded{
+          opacity: 0.0!important;
+        }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon-hwimg.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon-awimg.slightlyfaded{
+          opacity: 0.2  !important;
+        }
+        .list-away-shirt-icon-dimg{
+          width: 26vw!important;
+          height: 7.5vh;
+        }
+
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-draw .list-away-shirt-icon-dimg.faded{
+          opacity: 0.0!important;
+        }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-draw .list-away-shirt-icon-dimg.ffaded{
+          opacity: 0.0!important;
+        }
+
+
   .fix-pred-li .user-prediction {
     border-top: 1px solid #3bb665;
     display: -webkit-flex;
