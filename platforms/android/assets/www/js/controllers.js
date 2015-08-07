@@ -1938,7 +1938,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.teams =
             [
-                '-----Selet-----',
+                '-----Select-----',
                 'Arsenal',
                 'Aston Villa',
                 'Bournemouth',
