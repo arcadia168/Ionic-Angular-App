@@ -52,10 +52,11 @@
                             <em class="list-away-team-name">{{fixture.awayTeam | uppercase}}</em>
                         </div>
                     </div>
-                    <div class="prediction-label" ng-class="{correct: fixture.predictionOutcome == 'Correct', incorrect: fixture.predictionOutcome == 'Incorrect'}" ng-if="fixture.prediction != 'NONE'">
-                        <p>{{fixture.predictionOutcome | uppercase}}</p>
-                    </div>
                 </div>
+                <div class="prediction-label" ng-class="{correct: fixture.predictionOutcome == 'Correct', incorrect: fixture.predictionOutcome == 'Incorrect'}" ng-if="fixture.prediction != 'NONE'">
+                    <p>{{fixture.predictionOutcome | uppercase}}</p>
+                </div>
+
                 <div class="user-prediction">
                     <div>
                         <p>KICK OFF:</p>
@@ -86,7 +87,7 @@
             </ion-item>
         </ion-list>
         <button ng-if="!allComplete" class="button button-stable button-block button-submit" ng-click="sendPredictions()">
-            UPDATE PREDICTIONS
+            CHANGE PREDICTIONS
         </button>
     </ion-content>
 </ion-view>

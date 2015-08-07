@@ -8091,7 +8091,7 @@ border-radius: 5px!important;
   -ms-flex-pack: justify;
   justify-content: space-between;
   /*height: 19rem;*/
-  height: 52vh;
+  height: 58vh;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -8210,9 +8210,37 @@ border-radius: 5px!important;
     .fix-pred-li .fix-pred-li-shirts .correct p {
       color: green !important;
       border: 2px solid green; }
+
+    .prediction-label.correct p{
+      color: green !important;
+      border: 2px solid green;
+      background-color: white;
+    width: 50vw;
+    height: 5vh;
+    font-size: x-large;
+
+    margin-top: 1vh!important;
+    margin-bottom: 1vh!important;
+    margin-left: 22.5vw;
+      }
+
     .fix-pred-li .fix-pred-li-shirts .incorrect p {
       color: red !important;
       border: 2px solid red; }
+
+      .prediction-label.incorrect p{
+        color: red !important;
+        border: 2px solid red;
+        background-color: white;
+      width: 50vw;
+      height: 5vh;
+      font-size: x-large;
+      padding-top: 0.75vh;
+      margin-top: 1vh!important;
+      margin-bottom: 1vh!important;
+      margin-left: 22.5vw;
+      }
+
     .fix-pred-li .fix-pred-li-shirts .fix-details {
       display: -webkit-flex;
       display: -ms-flexbox;
