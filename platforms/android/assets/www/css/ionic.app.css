@@ -8407,7 +8407,7 @@ border-radius: 5px!important;
           align-items: center;
           height: 2rem;
           width: 10rem;
-          background-color: lightgrey;
+          background-color: rgb(245, 240, 240);
           border-radius: 3px;
           -webkit-justify-content: space-around;
           -ms-flex-pack: distribute;
