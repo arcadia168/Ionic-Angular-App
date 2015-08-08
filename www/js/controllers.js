@@ -2001,7 +2001,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //    + "\n\tPlatform: " + $cordovaDevice.getPlatform()
             //    + "\n\tCordova Version: " + $cordovaDevice.getCordova()
             //    +"(Insert your message below):",// Body
-            //    ["info@yesgetin.com"],    // To
+            //    ["support@yesgetin.com"],    // To
             //    null,                    // CC
             //    null,                    // BCC
             //    false,                   // isHTML
