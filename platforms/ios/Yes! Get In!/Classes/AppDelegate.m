@@ -63,6 +63,9 @@
  */
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
+    //registering for remote notifications
+   // [self registerForRemoteNotification];
+
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
 
 #if __has_feature(objc_arc)
@@ -90,6 +93,22 @@
 
     return YES;
 }
+
+//- (void)registerForRemoteNotification {
+  //  if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+  //      UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeBadge | UIUserNotificationTypeAlert;
+    //    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+    //    [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+   // } else {
+     //   [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert)];
+    //}
+//}
+
+//#ifdef __IPHONE_8_0
+//- (void)application:(UIApplication *)application didRegisterUserNotificationSettings:(UIUserNotificationSettings *)notificationSettings {
+//    [application registerForRemoteNotifications];
+//}
+//#endif
 
 // this happens while we are running ( in the background, or from within our own app )
 // only valid if Yes! Get In!-Info.plist specifies a protocol to handle
