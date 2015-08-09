@@ -8218,7 +8218,7 @@ border-radius: 5px!important;
     width: 50vw;
     height: 5vh;
     font-size: x-large;
-
+    padding-top: 0.85vh;
     margin-top: 1vh!important;
     margin-bottom: 1vh!important;
     margin-left: 22.5vw;
@@ -8235,7 +8235,7 @@ border-radius: 5px!important;
       width: 50vw;
       height: 5vh;
       font-size: x-large;
-      padding-top: 0.75vh;
+      padding-top: 0.85vh;
       margin-top: 1vh!important;
       margin-bottom: 1vh!important;
       margin-left: 22.5vw;

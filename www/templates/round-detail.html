@@ -21,9 +21,6 @@
                 </div>
                 <div class="fix-pred-li-shirts "
                      ng-class="{faded : fixture.fixResult.fixResult != 0 || fixture.predictionWindow == 'Fixture Finished'}">
-                    <div class="finished-label" ng-if="fixture.status == 'Complete'">
-                        <p>FIXTURE FINISHED</p>
-                    </div>
                     <div class="fix-details"
                          on-swipe-left="predictHomeWin(fixture)"
                          on-swipe-right="predictAwayWin(fixture)"
@@ -52,6 +49,9 @@
                             <em class="list-away-team-name">{{fixture.awayTeam | uppercase}}</em>
                         </div>
                     </div>
+                </div>
+                <div class="finished-label" ng-if="fixture.status == 'Complete'">
+                    <p>FULL TIME</p>
                 </div>
                 <div class="prediction-label" ng-class="{correct: fixture.predictionOutcome == 'Correct', incorrect: fixture.predictionOutcome == 'Incorrect'}" ng-if="fixture.prediction != 'NONE'">
                     <p>{{fixture.predictionOutcome | uppercase}}</p>
