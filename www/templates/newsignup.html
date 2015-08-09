@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Sign In with Auth0</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <body>
+
+    <div class="table">
+      <div class="cell">
+        <div class="content">
+          <!-- WIDGET -->
+          <div id="widget-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.auth0.com/js/lock-7.5.js"></script>
+
+    <script>
+      var config = JSON.parse(window.atob('@@config@@'));
+      var connection = config.connection;
+      var prompt = config.prompt;
+
+      var initializationOptions = {
+        assetsUrl:  config.assetsUrl,
+        cdn:        config.cdn
+      };
+
+      var lock = new Auth0Lock(Ny44FwyaGBQvKOV9FxIRDX6JvogUm80j, yesgetin.eu.auth0.com, initializationOptions);
+      lock.showSignup({
+        icon:            url('../img/Logov2.png'),
+        callbackURL:        config.callbackURL,
+        responseType:       config.callbackOnLocationHash ? 'token' : 'code',
+        dict:               config.dict,
+        connections:        connection ? [connection] : null,
+        rememberLastLogin:  !prompt,
+        container:          'widget-container',
+        authParams:         config.internalOptions
+      });
+    </script>
+
+  </body>
+
+</head>

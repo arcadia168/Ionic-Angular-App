@@ -118,7 +118,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
     })
 
-    .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
+        .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
         //function to check that user is ready to leave without saving changes
         $scope.makeUnsavedChanges = function () {
 
@@ -148,14 +148,26 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //stay in this view
                     }
                 });
-            } else {
-                //just go back
+            } else if (currentState == 'tab.round-cards') {
+                var confirmPopup = $ionicPopup.confirm({
+                    title: 'All fixtures need a prediction',
+                    template: 'To ensure your predictions are registered you need to give predictions for all fixtures in this round. Tap OK to go back or CANCEL to stay and complete your predictions for this round'
+                    });
+                    confirmPopup.then(function (res) {
+                    if (res) {
 
-                $ionicHistory.goBack();
+                                $ionicHistory.goBack();
+                    }else {
+                    //console.log('You are not sure');
+                    //stay in this view
+                    }
+                });
+            }else {
+              //just go back
+              $ionicHistory.goBack();
             }
-        };
-    })
-
+      };
+})
     .controller('RoundDetailCtrl', function ($scope, $state, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
                                              Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout, $ionicHistory) {
 
@@ -524,10 +536,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //////debugger;
             if (fixture.prediction && fixture.prediction != 'NONE') {
-                //Warn the user about the loss of 2 points for completely withdrawing a fixture prediction
+                //Warn the user about the loss of 6 points for completely withdrawing a fixture prediction
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'Confirm Delete',
-                    template: 'Are you sure you want to delete the prediction for this fixture? \n You\'ll lose 6 points if left unpredicted!'
+                    template: 'Are you sure you want to delete the prediction for this fixture? \n Remember, you\'ll lose 6 points if left unpredicted!'
                 });
 
                 confirmPopup.then(function (res) {
@@ -620,8 +632,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             else if (updatePredictions) {
                 //Warn user that updating will mean points get lost
                 $ionicPopup.confirm({
-                    title: 'Updating means less points!',
-                    template: 'Are you sure you want to update? Doing so will mean you earn less points. \n Remember: Fixtures without predictions lose 6 points!'
+                    title: 'Confirm updates to predictions',
+                    template: 'As the saying goes - change is good. Just tap OK to register your updates! Good luck :) \n Remember: Fixtures without predictions lose 6 points!'
                 }).then(function (res) {
                     if (res) {
 
@@ -697,6 +709,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 //Now load any predictions down from the server
                                 _getExistingPredictions();
                             }
+                            //Return to home screen
+                            $state.go('tab.rounds', {reload : true});
                         });
                     }
                 });
@@ -705,7 +719,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 //////debugger;
                 Rounds.makePredictions(user, $stateParams.roundId, $scope.UpdatedUserPredictions.predictions).then(function() {
                     $ionicPopup.alert({
-                        title: 'Your new predictions have been made!',
+                        title: 'Your predictions have been registered!',
                         template: 'Let\'s hope you do well!'
                     });
 
@@ -1768,7 +1782,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.shareLeague = function () {
             //console.log("Share functin invoked.");
-            $cordovaSocialSharing.share("The new way to play fantasy football. Download the app on Android and iOS and join my league with code: " + $scope.privateLeague.privateLeagueCode + "\n", "Join my Yes! Get In! Private League Using Code " + $scope.privateLeague.privateLeagueCode, null, "http://www.yesgetin.com");
+            $cordovaSocialSharing.share("Yes! Get In!  The new way to play fantasy football. Download the app, available on Android and iOS, to join my league with code: " + $scope.privateLeague.privateLeagueCode + "\n", null, null, "http://www.yesgetin.com");
         };
 
         $scope.memberRoundScore = function(memberIndex) {
@@ -1924,6 +1938,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         $scope.teams =
             [
+                '-----Select-----',
                 'Arsenal',
                 'Aston Villa',
                 'Bournemouth',
@@ -1972,7 +1987,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         }
 
         $scope.sendSupportEmail = function() {
-            console.log("Support link clicked");
+            //console.log("Support link clicked");
 
             //window.plugins.emailComposer.showEmailComposerWithCallback(
             //    function(result) {
@@ -1986,7 +2001,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //    + "\n\tPlatform: " + $cordovaDevice.getPlatform()
             //    + "\n\tCordova Version: " + $cordovaDevice.getCordova()
             //    +"(Insert your message below):",// Body
-            //    ["info@yesgetin.com"],    // To
+            //    ["support@yesgetin.com"],    // To
             //    null,                    // CC
             //    null,                    // BCC
             //    false,                   // isHTML
@@ -2084,4 +2099,3 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             $state.go('login');
         }
     });
-

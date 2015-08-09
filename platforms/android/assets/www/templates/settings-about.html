@@ -1,9 +1,32 @@
-<ion-view view-title="ABOUT & ACKNOWLEDGEMENTS">
-    <ion-content class="settings-content about-content">
+<ion-view view-title="ABOUT US">
+       <ion-content class="settings-content about-content" ng-controller="SettingsCtrl">
+        <br>
+        <div class="YGIimglink"><a href="#" onclick="window.open('https://www.yesgetin.com','_system','location=yes');return false;"><img class="YGIimg" ng-src="img\Logov2.png"/></a></div>
         <p>Version 1.0.1</p>
-        <p>Yes! Get In!TM and the Yes! Get In!TM logos are trademarks of YES GET IN Limited.</p>
+        <p>For support or to provide feedback, please email:</p>
+        <button class="button-feedbacksend" ng-click="sendSupportEmail()">support@yesgetin.com</button>
+
+        <p><div class="about item cookies">
+            <a class="about-cookies" href="#/tab/settings/cookies">COOKIE POLICY</a>
+        </div>
+        <div class="about item privacy">
+            <a class="about-privacy" href="#/tab/settings/privacy">PRIVACY POLICY</a>
+        </div>
+        <div class="about item terms">
+            <a class="about-terms" href="#/tab/settings/tcs">TERMS AND CONDITIONS</a>
+        </div>
+        </p>
+
+        <p>Yes! Get In!&trade; and the Yes! Get In!&trade; logos <br>
+        are trademarks of YES GET IN Limited.</p>
+        COMPANY DETAILS YES GET IN LIMITED is a company registered<br>
+        in England and Wales with company number 09489380.
+        <br>
+        <br>Headquarters<br>
+        231-233 Deansgate, Manchester, M3 4EN, England.
+        <br>
+        Registered address <br>
+        20-22, Wenlock Road, London, N1 7GU, England.</p>
         <p>&copy; 2015 YES GET IN Limited. All Rights reserved.</p>
-        <p>For support please email: info@yesgetin.com</p>
-        <div class="about-logo"></div>
     </ion-content>
 </ion-view>

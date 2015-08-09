@@ -1,6 +1,6 @@
 <ion-view view-title="PREDICT ROUND {{currentRound}}">
     <ion-nav-buttons side="secondary">
-        <button class="icon button how-to ion-ios-information-outline" ng-click="showListTutorial()"></button>
+        <button class="icon button how-to ion-ios-help-outline" ng-click="showListTutorial()"></button>
     </ion-nav-buttons>
     <ion-content scroll="true" ng-controller="RoundDetailCtrl" class="padding">
         <ion-list class="list" ng-if="!cardView">
@@ -10,42 +10,53 @@
                     >
                 <div class="fix-pred-header">
                     <div class="button-container">
-                        <i class="icon ion-ios-help-empty" ng-click="showListFixFact(fixture)"></i>
+                        <i class="icon ion-ios-information-outline" ng-click="showListFixFact(fixture)"></i>
                     </div>
                     <p>FIXTURE {{$index + 1}}</p>
-
-                    <div class="button-container">
+                    <p>{{fixture.fixSocial}}</p>
+                    <!--<div class="button-container">
                         <i ng-if="fixture.status != 'Complete'" class="icon ion-ios-close-empty"
-                           ng-click="deleteSinglePrediction(fixture)"></i>
+                           ng-click="deleteSinglePrediction(fixture)"></i>-->
                     </div>
                 </div>
                 <div class="fix-pred-li-shirts "
                      ng-class="{faded : fixture.fixResult.fixResult != 0 || fixture.predictionWindow == 'Fixture Finished'}">
-                    <div class="finished-label" ng-if="fixture.status == 'Complete'">
-                        <p>FIXTURE FINISHED</p>
-                    </div>
                     <div class="fix-details"
                          on-swipe-left="predictHomeWin(fixture)"
                          on-swipe-right="predictAwayWin(fixture)"
+                         on-click="predictDraw(fixture)"
                             >
                         <div class="fix-home-away">
-                            <img ng-class="{faded : fixture.prediction == 'AWAY WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
-                                 class="image list-home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
-                            <em class="list-home-team-name">{{fixture.homeTeam | uppercase}}</em>
+                          <img ng-click="predictHomeWin(fixture)" ng-class="{ffaded : fixture.prediction == 'AWAY WIN', fffaded: fixture.prediction == 'DRAW'}"
+                               class="list-home-shirt-icon-hwimg" ng-src="img/HWPre.png">
+                          <br>
+                          <img ng-click="predictHomeWin(fixture)" ng-class="{faded : fixture.prediction == 'AWAY WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
+                               class="image list-home-shirt-icon" ng-src="img/team_shirts/{{fixture.homeTeam}}.png">
+                          <em class="list-home-team-name">{{fixture.homeTeam | uppercase}}</em>
                         </div>
-
+                        <div class="fix-draw" ng-click="predictDraw(fixture)">
+                        <img ng-click="predictDraw(fixture)" ng-class="{faded : fixture.prediction == 'HOME WIN', ffaded : fixture.prediction == 'AWAY WIN'}"
+                             class="list-away-shirt-icon-dimg" ng-src="img/DPre.png">
+                        <br>
                         <h1 class="vs" ng-click="predictDraw(fixture)">vs</h1>
-
+                        </div>
                         <div class="fix-home-away">
-                            <img ng-class="{faded : fixture.prediction == 'HOME WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
+                          <img ng-click="predictAwayWin(fixture)" ng-class="{ffaded : fixture.prediction == 'HOME WIN', fffaded: fixture.prediction == 'DRAW'}"
+                               class="list-away-shirt-icon-awimg" ng-src="img/AWPre.png">
+                          <br>
+                            <img ng-click="predictAwayWin(fixture)" ng-class="{faded : fixture.prediction == 'HOME WIN', slightlyfaded: fixture.prediction == 'DRAW'}"
                                  class="image list-away-shirt-icon" ng-src="img/team_shirts/{{fixture.awayTeam}}.png">
                             <em class="list-away-team-name">{{fixture.awayTeam | uppercase}}</em>
                         </div>
                     </div>
-                    <div class="prediction-label" ng-class="{correct: fixture.predictionOutcome == 'Correct', incorrect: fixture.predictionOutcome == 'Incorrect'}" ng-if="fixture.prediction != 'NONE'">
-                        <p>{{fixture.predictionOutcome | uppercase}}</p>
-                    </div>
                 </div>
+                <div class="finished-label" ng-if="fixture.status == 'Complete'">
+                    <p>FULL TIME</p>
+                </div>
+                <div class="prediction-label" ng-class="{correct: fixture.predictionOutcome == 'Correct', incorrect: fixture.predictionOutcome == 'Incorrect'}" ng-if="fixture.prediction != 'NONE'">
+                    <p>{{fixture.predictionOutcome | uppercase}}</p>
+                </div>
+
                 <div class="user-prediction">
                     <div>
                         <p>KICK OFF:</p>
@@ -53,7 +64,7 @@
                         <p ng-model="fixture">{{fixture.kickOff | date:'h:mma dd.MM.yyyy'}}</p>
                     </div>
                     <div>
-                        <p>YOUR PREDICTION:</p>
+                        <p>MY PREDICTION:</p>
 
                         <p ng-model="fixture">{{fixture.prediction || "NONE"}}</p>
                     </div>
@@ -76,8 +87,7 @@
             </ion-item>
         </ion-list>
         <button ng-if="!allComplete" class="button button-stable button-block button-submit" ng-click="sendPredictions()">
-            UPDATE PREDICTIONS
+            CHANGE PREDICTIONS
         </button>
     </ion-content>
 </ion-view>
-                

@@ -4,13 +4,25 @@
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
+// 'starter.s' is found in controllers.js
+var appVersion = "1.0";
 var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'ionic.service.deploy',
     'ionic.service.analytics', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards']);
 
-app.constant('$ionicLoadingConfig', {
-    template: 'Loading...<ion-spinner></ion-spinner>'
-});
+    //app.controller('LoadingCtrl', function($scope, $ionicLoading) {
+      //  $scope.show = function() {
+        //    $ionicLoading.show({
+          //    template: '<ion-spinner></ion-spinner> Loading...'
+            //  });
+            //};
+            //$scope.hide = function(){
+              //$ionicLoading.hide();
+            //};
+          //});
+
+          app.constant('$ionicLoadingConfig', {
+            template: '<ion-spinner></ion-spinner> Loading...'
+          });
 
 app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider,
                      $ionicConfigProvider, $compileProvider, $ionicAppProvider) {
@@ -30,6 +42,9 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
     $ionicConfigProvider.tabs.position('bottom');
     $ionicConfigProvider.backButton.text('').previousTitleText(false);
     $ionicConfigProvider.views.transition('android');
+    $ionicConfigProvider.views.maxCache(1000);
+    //$ionicConfigProvider.views.forwardCache(true);
+    $ionicConfigProvider.platform.android.navBar.alignTitle('centre');
 
     //Attempting to configure the use of Auth0
     authProvider.init({
@@ -113,6 +128,13 @@ app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProv
             templateUrl: 'templates/signup.html',
             controller: 'SignUpCtrl'
         })
+
+        .state('newsignup', {
+            url: '/newsignup',
+            templateUrl: 'templates/newsignup.html',
+            controller: 'newSignUpCtrl'
+        })
+
         // setup an abstract state for the tabs directive
         .state('tab', {
             url: "/tab",
@@ -328,7 +350,7 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
         if (navigator.connection.type == Connection.NONE) {
             $ionicPopup.confirm({
                 title: "No internet connection",
-                content: "This app needs an internet connection, go get one then come back!"
+                content: "To experience full functionality, please connect to the internet!"
             })
                 .then(function (result) {
                     if (!result) {
@@ -356,13 +378,23 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
-            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
-        }
-        //ionic.Platform.fullscreen();
+          }
+      cordova.getAppVersion(function(version) {
+                appVersion = version;
+      });
+
+        document.addEventListener("offline",function() {
+        alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
+        },false);
+        //document.addEventListener("online",function() {
+        //alert("Yes! Get In! You're back online.");
+        //},false);
+      //ionic.Platform.fullscreen();
     });
 
     // Disable BACK button on home
@@ -532,5 +564,4 @@ app.controller('LoginCtrl', function ($scope, $location, store, auth, $state, $i
             // Oops something went wrong during login:
             console.log("There was an error logging in:" + JSON.stringify(error));
         });
-
 });
