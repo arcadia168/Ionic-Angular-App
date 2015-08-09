@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.s' is found in controllers.js
-var appVersion = "1.1.0";
+var appVersion = "1.0";
 var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'ionic.service.deploy',
     'ionic.service.analytics', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards']);
 
@@ -384,6 +384,10 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
           }
+      cordova.getAppVersion(function(version) {
+                appVersion = version;
+      });
+
         document.addEventListener("offline",function() {
         alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
         },false);
