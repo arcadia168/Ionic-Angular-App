@@ -65,6 +65,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 $http.get(SERVER + '/fixtures/' + roundId
                 ).success(function(data){
+                        debugger;
                         rounds = data;
                         ////debugger;
                         deferred.resolve(data);

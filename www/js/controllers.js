@@ -198,47 +198,6 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         $scope.fixCount = 0;
         $scope.currentRound = $stateParams.roundId;
 
-        //$scope.$on('$ionicView.enter', function(){
-        //    //if the scope says need to save set the global need to save after reentering the tab
-        //    console.log("Round detail view re-entered from other tab.");
-        //
-        //    var diffFlag = false;
-        //    debugger;
-        //
-        //    //before comparing lists of fixtures, sort by fixture id
-        //    if ($scope.existingPredictions && $scope.UpdatedUserPredictions) {
-        //        var existingPredictions = _sortByKey($scope.existingPredictions, "fixture");
-        //        var userPredictions = _sortByKey($scope.listFixtures, "_id");
-        //
-        //        console.log("Sorted existing predictions are: " + JSON.stringify(existingPredictions));
-        //        console.log("Sorted user predictions are: " + JSON.stringify(userPredictions));
-        //
-        //        //if the predictions array is different to the predictions on the server
-        //        for (var i = 0; i < userPredictions.length; i++) {
-        //            for (var j = 0; j < existingPredictions.length; j++) {
-        //                if (userPredictions[i]._id == existingPredictions[j].fixture){
-        //                    debugger;
-        //                    if (predictionMap[userPredictions[i].prediction] != existingPredictions[j].prediction) {
-        //                        debugger;
-        //
-        //                        //THIS CODE BLOCK IS NEVER ENTERED.
-        //
-        //                        SaveChanges.saveChangesNeeded();
-        //                        console.log("SAVE CHANGES NEEDED AT LINE 191");
-        //                        diffFlag = true;
-        //                        break;
-        //                    }
-        //                }
-        //
-        //                if (diffFlag) {
-        //                    break;
-        //                }
-        //            }
-        //        }
-        //    }
-        //});
-
-
         //////debugger;
         function _checkAndShowTutorials() {
             //check to see if this is a new user
@@ -468,6 +427,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 //Get the data for this particular round from the server
         Rounds.get($stateParams.roundId).then(function (data) {
 
+            debugger;
+            
             //when first loading the page, clear out any local existing predictions.
             $scope.UpdatedUserPredictions.predictions = [];
 
@@ -477,6 +438,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //console.log("fix count is " + $scope.fixCount);
             $scope.fixtures.reverse();
 
+            //clone into a separate array to use for the cards BEFORE DELETING FIXTURES --bugfix
+            $scope.listFixtures = angular.copy(data);
+
             for (var i = 0; i < $scope.fixtures.length; i++) {
                 $scope.fixtures[i].homeTeam = User.filterTeam($scope.fixtures[i].homeTeam);
                 $scope.fixtures[i].awayTeam = User.filterTeam($scope.fixtures[i].awayTeam);
@@ -485,28 +449,29 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 var fixtureDate = new Date($scope.fixtures[i].fixDate);
                 if (fixtureDate < today) {
+                    debugger;
                     $scope.fixtures.splice(i, 1); //delete from card view
                 }
             }
 
-            ////debugger;
+            //debugger;
             if ($scope.fixtures.length == 0) $scope.cardView = false;
 
-            //clone into a separate array to use for the cards
-            $scope.listFixtures = angular.copy(data);
             //$scope.listFixtures.reverse();
 
-            ////debugger;
+            debugger;
             var completeCount = 0;
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 $scope.listFixtures[i].homeTeam = User.filterTeam($scope.listFixtures[i].homeTeam);
                 $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
-                ////debugger;
+                
+                //debugger;
                 var today = new Date();
+
                 //used for testing the behaviour of past fixtures
                 //var today = new Date(2016, 11, 11);
 
-                var fixtureDate = new Date($scope.fixtures[i].fixDate);
+                var fixtureDate = new Date($scope.listFixtures[i].fixDate);
                 if (fixtureDate < today) {
                     //$scope.listFixtures.splice(i, 1); //delete from card view
                     ////debugger;

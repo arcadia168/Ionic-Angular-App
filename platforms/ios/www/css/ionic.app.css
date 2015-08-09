@@ -2129,7 +2129,22 @@ textarea {
   /* 2 */ }
 
 img {
-  -webkit-user-drag: none; }
+  -webkit-user-drag: none;
+  }
+
+.startupscreen img {
+  -webkit-user-drag: none;
+width: 100vw;
+position:absolute;
+}
+.startupscreen p {
+  position: relative;
+  text-align: center;
+  font-size: 13px!important;
+  color: white;
+  font-family: 'Roboto', sans-serif !important;
+  top: 1.75vh;
+}
 
 /* ==========================================================================
    Tables
@@ -4099,7 +4114,7 @@ ion-tabs.tabs-color-active-dark .tab-item {
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both; }
   .popup-container .popup {
-    width: 250px;
+    width: 85vw ;
     max-width: 100%;
     max-height: 90%;
     border-radius: 0px;
@@ -4989,7 +5004,7 @@ a.item-content {
   bottom: 20px;
   z-index: 1;
   width: 100%;
-  height: 15px;
+  height: 13px;
   text-align: center; }
   .slider-pager .slider-pager-page {
     display: inline-block;
@@ -6823,7 +6838,7 @@ a.button {
 
 .a0-active {
   /*Set the background image of the body here*/
-  background-color: #3bb665 !important; }
+  background-color: rgba(59, 182, 101, 0.80) !important}
   .a0-active .a0-centrix {
     height: 100%;
     display: -webkit-flex;
@@ -6842,7 +6857,8 @@ a.button {
       color: white !important; }
     .a0-active .a0-centrix .a0-onestep {
       margin-top: 5rem;
-      height: 60%;
+      height: 100vh;
+      top: 0vh;
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
@@ -6853,7 +6869,7 @@ a.button {
       -ms-flex-pack: center;
       justify-content: center; }
       .a0-active .a0-centrix .a0-onestep .a0-next {
-        background-color: #65ef80 !important; }
+        background-color: rgba(42, 111, 62, 0.9)!important; }
       .a0-active .a0-centrix .a0-onestep i {
         color: #3bb665 !important; }
       .a0-active .a0-centrix .a0-onestep .a0-header {
@@ -6872,13 +6888,20 @@ a.button {
       .a0-active .a0-centrix .a0-onestep .a0-footer a {
         pointer-events: none;
         cursor: default; }
-        .a0-active .a0-centrix .a0-onestep .a0-footer a i:before {
-          content: url('../img/Logov2.png') !important; }
+      .a0-active .a0-centrix .a0-onestep .a0-footer a i:before {
+      content: url('../img/Logov2.png') !important;}
+
+      #a0-lock.a0-theme-default .a0-popup .a0-centrix .a0-panel .a0-footer{
+        margin-top: 10px!important;
+      }
+      #a0-lock.a0-theme-default .a0-popup .a0-centrix .a0-panel .a0-mode{
+          padding:0 20px 10px!important;
+        }
 
 body {
   /*Set the background image of the body here*/
   background: url(../img/pitch_bg.png) fixed center;
-  background-position: -30rem -4rem; }
+  background-position: -30rem -3rem; }
   body .view-container.tab-content {
     background-color: transparent; }
   body .pane, body .menu, body .view, body .list, body .item {
@@ -7617,7 +7640,7 @@ ion-view.league-detail .league-live-table {
 .rulebook-content {
   background-color: white !important;
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 5.65rem;
   top: 0 !important; }
   .rulebook-content .rulebook-title {
     text-align: center; }
@@ -7680,7 +7703,8 @@ ion-view.league-detail .league-live-table {
     align-items: flex-end; }
     .rulebook-content .points-table .title-row p {
       margin-bottom: 0rem;
-      margin-right: 0.5rem; }
+      margin-right: 0.5rem;
+    }
     .rulebook-content .points-table .title-row .title-container {
       -webkit-flex-basis: 48%;
       -ms-flex-preferred-size: 48%;
@@ -7891,12 +7915,15 @@ td-cards {
   /* Fades the text for the prediction in but not out as the  is destroyed */ }
   td-cards td-card {
     position: absolute;
-    left: 50%;
-    margin-top: 4rem;
+    /*left: 50%;*/
+    left:5vw;
+    margin-top: 3vh;
     margin-bottom: 40px;
-    margin-left: -150px;
-    width: 300px;
-    height: 300px;
+    /*margin-left: -150px;*/
+    width: 90vw;
+    height: 50vh;
+    /*width: 300px;*/
+    /*height: 300px;*/
     border: 1px solid #999;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
@@ -7904,11 +7931,11 @@ td-cards {
     td-cards td-card .card-header {
       text-align: center;
       background-color: #3bb665;
-      height: 2.5rem;
+      height: 5vh;
       border-radius: 5px 5px 0px 0px !important;
       color: white; }
       td-cards td-card .card-header .fix-title {
-        padding-top: 0.5rem; }
+        padding-top: 0.3rem; }
     td-cards td-card .card-content {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -7935,8 +7962,10 @@ td-cards {
         align-items: center; }
       td-cards td-card .card-content .shirt-container {
         position: relative;
-        top: 1.5rem;
-        height: 10rem;
+        /*top: 1.5rem;*/
+        top:3.3vh;
+        /*height: 10rem;*/
+        height:20vh;
         display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
@@ -7946,7 +7975,10 @@ td-cards {
         -webkit-align-items: center;
         -ms-flex-align: center;
         align-items: center;
-        padding: 0.5rem; }
+        /*padding: 0.5rem;*/
+      margin-right: 3.5vh;
+      margin-left: 3.5vh;
+    }
         td-cards td-card .card-content .shirt-container .image {
           position: relative; }
         td-cards td-card .card-content .shirt-container img {
@@ -7954,14 +7986,15 @@ td-cards {
           border-radius: 6px; }
         td-cards td-card .card-content .shirt-container h4 {
           text-align: center;
-          font-size: 0.8rem;
-          width: 60%;
-          margin: 0 auto 25px auto; }
+              font-size: 0.8rem;
+              width: 50vw;
+              height: 30vh;
+              margin-top: 20vh;}
         td-cards td-card .card-content .shirt-container .home-team, td-cards td-card .card-content .shirt-container .away-team {
           display: -webkit-flex;
           display: -ms-flexbox;
           display: flex;
-          width: 15rem;
+          width: 100vw;
           height: 100%;
           -webkit-flex-direction: column;
           -ms-flex-direction: column;
@@ -7971,13 +8004,14 @@ td-cards {
           justify-content: space-around;
           text-align: center; }
           td-cards td-card .card-content .shirt-container .home-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .home-team .away-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .home-shirt-icon, td-cards td-card .card-content .shirt-container .away-team .away-shirt-icon {
-            top: 10px;
-            width: 7rem !important;
-            margin: 0 auto 1.5rem auto; }
+            width: 24vw!important;
+            margin: 0;
+          margin-left: 3.3vw;}
   td-cards .yes-text, td-cards .no-text, td-cards .draw-text {
     position: absolute;
-    top: 41%;
-    right: 23%;
+    top: 17vh;
+    right: 5vw;
+    left: 5vw;
     font-size: 1rem;
     opacity: 0; }
   td-cards .yes-text {
@@ -8004,6 +8038,15 @@ td-cards {
     transition: 0.2s opacity linear;
     opacity: 0; }
 
+em.home-team-label.ng-binding{
+      font-size: 13px!important;
+      font-weight: bolder;
+}
+em.away-team-label.ng-binding{
+      font-size: 13px!important;
+      font-weight: bolder;
+}
+
 .button-skip {
   margin: 1rem auto;
   left: 2rem !important;
@@ -8014,16 +8057,27 @@ td-cards {
   display: table-cell;
   text-transform: uppercase; }
 
-.button-fact {
-  position: relative;
-  z-index: -10000;
-  top: 24rem;
-  width: 100% !important;
+button.icon.ion-ios-information-outline {
+  position: absolute;
+  /* z-index: -10000; */
+  bottom: 5.5vh;
+  width: 90vw !important;
   font-weight: 600;
   border: 1px solid #3bb665 !important;
-  display: table-cell;
-  vertical-align: middle;
-  text-transform: uppercase; }
+  /* display: table-cell; */
+  /* text-align: center!important; */
+  left: 5vw;
+  text-transform: uppercase;
+  height:9vh;
+background-color: #FFF;
+border-radius: 2px;
+font-size: 4vh;
+font-weight: 500;
+font-family: 'Roboto', sans-serif !important;
+/*color: #3bb665 !important;*/
+color: #225F37 !important;
+border-radius: 5px!important;
+}
 
 /*Styling for the list view of fixture predictions*/
 .fix-pred-li {
@@ -8036,7 +8090,8 @@ td-cards {
   -webkit-justify-content: space-between;
   -ms-flex-pack: justify;
   justify-content: space-between;
-  height: 19rem;
+  /*height: 19rem;*/
+  height: 58vh;
   background-color: white !important;
   padding: 0rem;
   margin-bottom: 1rem; }
@@ -8046,35 +8101,41 @@ td-cards {
     font-weight: 800; }
   .fix-pred-li .fix-pred-header {
     background-color: green;
+    /*background-color: rgba(55, 138, 78, 0.9)!important;*/
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     -webkit-flex-direction: row;
     -ms-flex-direction: row;
-    flex-direction: row; }
+    flex-direction: row;
+    display: flex;
+    width: 94.5vw!important;}
     .fix-pred-li .fix-pred-header p {
       text-align: center;
       color: white;
-      font-size: 0.75rem;
-      -webkit-flex-basis: 90%;
+      font-size: 2.75vh;
+      /*-webkit-flex-basis: 90%;*/
       -ms-flex-preferred-size: 90%;
-      flex-basis: 90%; }
+      margin:0px!important;
+      margin-top: 1.3vh!important;
+      width: 36vw!important;
+  }
     .fix-pred-li .fix-pred-header .button-container {
       display: -webkit-flex;
       display: -ms-flexbox;
       display: flex;
       -webkit-flex-direction: row;
       -ms-flex-direction: row;
-      flex-direction: row;
-      margin-right: 0.1rem; }
-      .fix-pred-li .fix-pred-header .button-container .ion-ios-close-empty, .fix-pred-li .fix-pred-header .button-container .ion-ios-help-empty {
-        width: 1rem;
-        height: 1rem;
+      flex-direction: row;}
+      .fix-pred-li .fix-pred-header .button-container .ion-ios-information-outline, .fix-pred-li .fix-pred-header .button-container .ion-ios-information-outline {
         right: inherit !important;
         left: inherit !important;
         color: white !important;
         position: relative;
-        margin: auto 0.1rem; }
+        height: 5.5vh;
+        margin-left: 1.5vw;
+        margin-right: 1.5vw;
+}
   .fix-pred-li .fix-pred-li-shirts {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -8085,9 +8146,10 @@ td-cards {
     -webkit-justify-content: space-between;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    margin-top: 0.4rem;
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    /*margin-top: 0.4rem;*/
+    margin-top: 0vh;
+    padding-left: 2vw;
+    padding-right: 2vw;}
     .fix-pred-li .fix-pred-li-shirts.faded {
       opacity: 0.2 !important; }
     .fix-pred-li .fix-pred-li-shirts .finished-label {
@@ -8148,9 +8210,37 @@ td-cards {
     .fix-pred-li .fix-pred-li-shirts .correct p {
       color: green !important;
       border: 2px solid green; }
+
+    .prediction-label.correct p{
+      color: green !important;
+      border: 2px solid green;
+      background-color: white;
+    width: 50vw;
+    height: 5vh;
+    font-size: x-large;
+    padding-top: 0.85vh;
+    margin-top: 1vh!important;
+    margin-bottom: 1vh!important;
+    margin-left: 22.5vw;
+      }
+
     .fix-pred-li .fix-pred-li-shirts .incorrect p {
       color: red !important;
       border: 2px solid red; }
+
+      .prediction-label.incorrect p{
+        color: red !important;
+        border: 2px solid red;
+        background-color: white;
+      width: 50vw;
+      height: 5vh;
+      font-size: x-large;
+      padding-top: 0.85vh;
+      margin-top: 1vh!important;
+      margin-bottom: 1vh!important;
+      margin-left: 22.5vw;
+      }
+
     .fix-pred-li .fix-pred-li-shirts .fix-details {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8161,11 +8251,16 @@ td-cards {
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
       justify-content: space-between;
-      margin-top: 0.4rem;
-      width: 100%; }
+      /*margin-top: 0.4rem;*/
+      width: 100vw;
+      margin-left: 2vw;
+      margin-right: 2vw;}
       .fix-pred-li .fix-pred-li-shirts .fix-details .vs {
         text-align: center;
-        font-size: x-large; }
+        font-size: x-large;
+        margin-top: 5.5vh;
+      /*width:20vw;*/
+}
       .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away {
         display: -webkit-flex;
         display: -ms-flexbox;
@@ -8175,7 +8270,7 @@ td-cards {
         flex-direction: column;
         text-align: center; }
         .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away img {
-          width: 6rem; }
+          width: 26vw; }
         .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away em {
           font-size: 0.75rem;
           font-weight: 700;
@@ -8186,6 +8281,28 @@ td-cards {
             opacity: 0.2 !important; }
           .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon.slightlyfaded {
             opacity: 0.35; }
+            .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon-hwimg.ffaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon-awimg.ffaded{
+            opacity: 0.0!important;
+          }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon-hwimg.fffaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon-awimg.fffaded{
+          opacity: 0.0!important;
+        }
+          .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-home-shirt-icon-hwimg.slightlyfaded, .fix-pred-li .fix-pred-li-shirts .fix-details .fix-home-away .list-away-shirt-icon-awimg.slightlyfaded{
+          opacity: 0.2  !important;
+        }
+        .list-away-shirt-icon-dimg{
+          width: 26vw!important;
+          height: 7.5vh;
+        }
+
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-draw .list-away-shirt-icon-dimg.faded{
+          opacity: 0.0!important;
+        }
+        .fix-pred-li .fix-pred-li-shirts .fix-details .fix-draw .list-away-shirt-icon-dimg.ffaded{
+          opacity: 0.0!important;
+        }
+
+
   .fix-pred-li .user-prediction {
     border-top: 1px solid #3bb665;
     display: -webkit-flex;
@@ -8194,7 +8311,8 @@ td-cards {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
     flex-direction: column;
-    padding: 0 2rem; }
+    padding:0px;
+  }
     .fix-pred-li .user-prediction div {
       display: -webkit-flex;
       display: -ms-flexbox;
@@ -8204,7 +8322,9 @@ td-cards {
       flex-direction: row;
       -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
-      justify-content: space-between; }
+      justify-content: space-between;
+      margin-left:5vw;
+      margin-right:5vw;}
 
 .button-submit {
   margin: 0 !important;
@@ -8252,9 +8372,9 @@ td-cards {
       display: -ms-flexbox;
       display: flex;
       border-color: transparent !important;
-      font-size: 0.8rem;
-      width: 95%;
-      border-top: 1px solid #3bb665 !important;
+      font-size: 0.85rem;
+      width: 95vw;
+      border-top: 1px solid rgba(55, 138, 78, 0.9)!important;
       padding-left: 0;
       padding-right: 0; }
       .settings-content .list .item:first-child {
@@ -8287,7 +8407,7 @@ td-cards {
           align-items: center;
           height: 2rem;
           width: 10rem;
-          background-color: lightgrey;
+          background-color: rgb(245, 240, 240);
           border-radius: 3px;
           -webkit-justify-content: space-around;
           -ms-flex-pack: distribute;
@@ -8336,37 +8456,34 @@ td-cards {
           -ms-flex-align: center;
           align-items: center;
           width: 100%;
-          border-top: 1px solid #3bb665 !important; }
+          border-top: 1px solid rgba(55, 138, 78, 0.9) !important; }
           .settings-content .list .item.sign-out .sign-out-contents .sign-out-label {
             min-width: 4rem; }
           .settings-content .list .item.sign-out .sign-out-contents .ion-log-out {
             font-size: 2rem;
             position: relative; }
-    .settings-content .list .item-divider {
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-justify-content: center;
-      -ms-flex-pack: center;
-      justify-content: center;
-      background-color: #3bb665;
-      width: 100%;
-      padding-top: 4px;
-      padding-bottom: 3px; }
-      .settings-content .list .item-divider p {
-        margin-top: 0.15rem;
-        -webkit-align-self: center;
-        -ms-flex-item-align: center;
-        align-self: center;
-        color: white; }
+
+        .settings-content .list .item-divider{
+        display: flex;
+        background-color: rgba(55, 138, 78, 0.9)!important;
+        width: 100vw!important;
+        color: #FFF;
+        border-top: 0px!important;
+        }
+        .settings-content .list .item-divider p{
+        padding-left: 2vw!important;
+            color: white;
+            margin: 0px!important;
+          }
+
   .settings-content .button.button-block {
     width: 90%;
     margin: auto; }
 
 /*Stylins for the sign up/in screen */
 .slider {
-  height: 100% !important;
-  background-color: #3bb665 !important; }
+  height: 78vh !important;
+  background-color: rgba(59, 182, 101, 0.85) !important}
   .slider ion-slide {
     display: -webkit-flex;
     display: -ms-flexbox;
@@ -8396,16 +8513,298 @@ td-cards {
       -ms-flex-align: center;
       align-items: center; }
       .slider ion-slide .box img {
-        width: 65%;
+        width: 100vw;
         height: auto; }
       .slider ion-slide .box .signup-text {
         text-align: center;
-        color: white; }
+        color: white;
+      font-size: 28px!important;}
   .slider .slider-pager span {
     color: white !important; }
 
 .item-radio input:checked ~ .item-content {
   background: none !important; }
+
+  .signupbutton{
+    border-color: #b2b2b2;
+    background-color: rgba(220, 90, 38, 0.9);
+    color: #444;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 0 12px;
+    min-width: 52px;
+    min-height: 47px;
+    border-width: 1px;
+    border-style: solid;
+    vertical-align: top;
+    text-align: center;
+    text-overflow: ellipsis;
+    font-size: 16px;
+    line-height: 42px;
+    cursor: pointer; }
+
+    .button-signup {
+      margin: 0 !important;
+      font-weight: 700;
+      border: 1px solid #3bb665 !important;
+      display: table-cell;
+      vertical-align: middle;
+      width: 50vw !important;
+      height: 12.5vh !important;
+      padding: 0 0px!important;
+      margin-top: 0px!important;
+      font-size: 32px!important;
+      color: #FFF!important;
+      border-width: 0!important;
+      letter-spacing: 1.25px;
+    }
+
+      .signinbutton{
+        border-color: #b2b2b2;
+        background-color: rgba(42, 111, 62, 0.9);
+        color: #444;
+        position: relative;
+        display: inline-block;
+        margin: 0;
+        padding: 0 12px;
+        min-width: 52px;
+        min-height: 47px;
+        border-width: 1px;
+        border-style: solid;
+        vertical-align: top;
+        text-align: center;
+        text-overflow: ellipsis;
+        font-size: 16px;
+        line-height: 42px;
+        cursor: pointer;
+        //float: right; }
+
+  .button-signin {
+    margin: 0 !important;
+    font-weight: 700;
+    border: 1px solid #3bb665 !important;
+    display: table-cell;
+    vertical-align: middle;
+    width: 50vw !important;
+    height: 12.5vh !important;
+    padding: 0 0px!important;
+    margin-top: 0px!important;
+    font-size: 32px!important;
+    color: #FFF!important;
+    border-width: 0!important;
+    letter-spacing: 1.25px;
+  }
+
+a.terms {
+        color: #FFF;
+      }
+a.privacy {
+  color: #FFF
+}
+
+.p1signinbutton{
+  border-color: #b2b2b2;
+  /*background-color: rgba(220, 90, 38, 0.9);*/
+  background-color: rgba(42, 111, 62, 0.9);
+  color: #444;
+  position: relative;
+  display: inline-block;
+  margin: 0;
+  padding: 0 12px;
+  min-width: 52px;
+  min-height: 47px;
+  border-width: 1px;
+  border-style: solid;
+  vertical-align: top;
+  text-align: center;
+  text-overflow: ellipsis;
+  font-size: 16px;
+  line-height: 42px;
+  cursor: pointer; }
+
+  .button-p1signin {
+    margin: 0 !important;
+    font-weight: 700;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100vw !important;
+    height: 12.5vh !important;
+    padding: 0 0px!important;
+    margin-top: 0px!important;
+    font-size: 28px!important;
+    color: #FFF!important;
+    border-width: 0!important;
+    letter-spacing: 1.25px;
+  }
+
+  #a0-lock.a0-theme-default .a0-panel button.a0-primary.a0-next{
+    padding: 18px 0px!important;
+    margin-bottom: 10px!important;
+    margin-bottom: 10px!important;
+    border-radius: 0px!important;
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif !important;
+  }
+
+#a0-lock.a0-theme-default .a0-btn-small.a0-sign-up{
+    border: 0px!important;
+    background-color: rgba(220, 90, 38, 0.9)!important;
+    color: #fff;
+    border-radius: 0px!important;
+    margin-bottom: 20px !important;
+    margin-top: 0px!important;
+    margin-right: 0px!important;
+    margin-left: 0px!important;
+    font-weight: 700;
+    text-align: center;
+    position: relative;
+    font-weight: 700;
+    display: table-cell;
+    vertical-align: middle;
+    width: 100vw !important;
+    height: 11.5vh !important;
+    padding: 0 0px!important;
+    font-size: 26px;
+    font-family: 'Roboto', sans-serif !important;
+    color: #FFF!important;
+    letter-spacing: 1.25px;
+  }
+
+  #a0-lock.a0-theme-default .a0-btn-small.a0-forgot-pass{
+    margin-top: 20px!important;
+  }
+
+  .SOimg{
+    width: 100vw!important;
+    padding: 0px!important;
+    margin-top: 0.70vh;
+  }
+
+  .FBimg{
+    margin-top: 0.75vh;
+    width: 49vw;
+  }
+
+  .settings-content .list .item.FBsocial.item{
+    margin: 0px!important;
+    margin-left: 0.4vw!important;
+    padding: 0px!important;
+    border-width: 0px!important;
+    width:49vw;
+    position: absolute;
+  }
+
+  .TWimg{
+    margin-top: 0.75vh;
+    width: 49vw;
+  }
+
+  .settings-content .list .item.TWsocial.item{
+    margin: 0px!important;
+    margin-left: 50vw!important;
+    padding: 0px!important;
+    border-width: 0px!important;
+    width:49vw;
+    /*position: absolute;*/
+  }
+
+  .GOimg{
+    margin-top: 0.75vh;
+    width: 33vw;
+  }
+
+  .settings-content .list .item.GOsocial.item{
+    margin: 0px!important;
+    margin-left: 66vw!important;
+    margin-right:0.4vw!important;
+    padding: 0px!important;
+    border-width: 0px!important;
+    width:33vw;
+    text-align: right!important ;
+  }
+
+  .about.item.cookies {
+      border: transparent!important;
+      border-top: 1px solid #3bb665 !important;
+      width: 100vw;
+      text-align: center!important;
+      padding: 14px!important;
+    }
+    .about.item.cookies a{
+      color: #3bb665 !important;
+      text-decoration: none;
+    }
+
+    .about.item.privacy {
+      border: transparent!important;
+      border-top: 1px solid #3bb665 !important;
+      width: 100vw;
+      text-align: center!important;
+      padding: 14px!important;
+    }
+    .about.item.privacy a{
+      color: #3bb665 !important;
+      text-decoration: none;
+    }
+
+      .about.item.terms {
+        border: transparent!important;
+        border-top: 1px solid #3bb665 !important;
+        border-bottom: 1px solid #3bb665 !important;
+        width: 100vw;
+        text-align: center!important;
+        padding: 14px!important;
+      }
+      .about.item.terms a{
+        color: #3bb665 !important;
+        text-decoration: none;
+      }
+
+      .button-feedbacksend{
+        border: #3bb665 !important;
+        padding: 1.5vh;
+        background-color: #EFECEC;
+      }
+
+      .about-logo{
+        padding-top: 1.5vh;
+      }
+
+      /*.button.button.button-stable.button-block.button-submit {
+          vertical-align: bottom!Important;
+          position: fixed;
+          bottom: 13VW;
+        }*/
+
+        .card-fix-date p.ng-binding {
+    margin: 1vh!important;
+    margin-top: 0.3vh!important;
+    font-weight: 200;
+    font-size: medium;
+}
+
+.Settingsitem.item-divider{
+border-top: 0px!important;
+margin-top: 0.0vh!important;
+display: flex;
+background-color: rgba(55, 138, 78, 0.9);
+width: 100vw!important;
+color: #FFF;
+}
+.Settingsitem.item-divider p{
+padding-left: 2vw!important;
+    color: white;
+    margin: 0px!important;
+  }
+.prewin{
+margin-right: 7vw!important;
+}
+
+img.summary-predictions{
+  width: 75vw;
+}
+
 
 /*Disabling platform specific tweaks */
 .platform-ios.platform-cordova:not(.fullscreen) .bar-header {
@@ -8436,13 +8835,13 @@ td-cards {
   top: 5.5rem; }
 
 .platform-ios.platform-cordova:not(.fullscreen) .rulebook-content {
-  top: 10.5rem; }
+  top: 0rem!important; }
 
 @media only screen and (min-device-width: 320px) and (device-aspect-ratio: 2/3) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait) {
   td-card {
     margin-top: -0.25rem !important; }
   .button-fact {
-    top: 19rem; }
+    bottom:5.5vh; }
   .label-row .pos-points {
     min-width: 3.1rem !important; }
     .label-row .pos-points p {
@@ -8469,7 +8868,7 @@ td-cards {
   td-card {
     margin-top: 2.5rem !important; }
   .button-fact {
-    top: 22.5rem; }
+    bottom: 5.5vh; }
   .leaderboard-content ion-item .league-overview .leader-row .leader-pos .leader-no {
     right: 0.9rem !important; }
   ion-view.league-detail .league-live-table .row .leader-pos .leader-no {
