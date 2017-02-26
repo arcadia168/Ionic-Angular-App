@@ -1,7 +1,7 @@
 angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.service.push'])
 
-//Using a service to create  a globally accessible variable
-    .factory('RunMode', [function(){
+    //Using a service to create  a globally accessible variable
+    .factory('RunMode', [function () {
 
         //TO SET THE WHOLE APP TO RELEASE MODE CHANGE THIS HERE
         var debugRelease = 'release';//'debug'//'release';//'deviceDebug';
@@ -24,7 +24,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         }
 
         //Now assign the server being used to a property of the service
-        runMode.server = function() {
+        runMode.server = function () {
             return serverToUse;
         };
 
@@ -32,7 +32,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         return runMode;
     }])
 
-    .factory('Rounds', ['$http', '$q', 'RunMode', function($http, $q, RunMode) {
+    .factory('Rounds', ['$http', '$q', 'RunMode', function ($http, $q, RunMode) {
 
         var SERVER = RunMode.server();
         console.log(SERVER);
@@ -40,45 +40,45 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         var rounds = [];
 
         return {
-            all: function() {
+            all: function () {
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
                 // Make a call to ye olde server
                 $http.get(SERVER + '/rounds/'
-                ).success(function(data){
-                        rounds = data;
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                    });
+                ).success(function (data) {
+                    rounds = data;
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                });
                 return deferred.promise;
             },
-            remove: function(round) {
+            remove: function (round) {
                 rounds.splice(rounds.indexOf(round), 1);
             },
-            get: function(roundId) {
+            get: function (roundId) {
 
                 //TODO: Replace the use of http with resource
 
                 var deferred = $q.defer();
 
                 $http.get(SERVER + '/fixtures/' + roundId
-                ).success(function(data){
-                        debugger;
-                        rounds = data;
-                        ////debugger;
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    debugger;
+                    rounds = data;
+                    ////debugger;
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
 
             },
 
             //might need to take in the userid, although this may be global
-            makePredictions: function(userid, round, predictions) {
+            makePredictions: function (userid, round, predictions) {
                 //make a call to server to send predictions away
 
                 //prepend the predictions array with the necessary information
@@ -92,20 +92,20 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 //TODO: Implement getting the username from the session somehow
                 //use dummy user sillybilly for now
-                $http.post(SERVER + '/users/predictions/create/' + userid + '/' + round , predictions
-                ).success(function(response){
-                        console.log(response);
-                        deferred.resolve();
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        alert("Something went wrong");
-                        deferred.reject();
-                    });
+                $http.post(SERVER + '/users/predictions/create/' + userid + '/' + round, predictions
+                ).success(function (response) {
+                    console.log(response);
+                    deferred.resolve();
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    alert("Something went wrong");
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
 
             //might need to take in the userid, although this may be global
-            updatePredictions: function(userid, predictions) {
+            updatePredictions: function (userid, predictions) {
                 //make a call to server to send predictions away
 
                 //prepend the predictions array with the necessary information
@@ -118,18 +118,18 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 var deferred = $q.defer();
 
                 $http.post(SERVER + '/users/predictions/update/' + userid, predictions
-                ).success(function(response){
-                        console.log(response);
-                        deferred.resolve(); //TODO not sure this is necessary
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        //alert("Something went wrong");
-                        deferred.reject(); //todo: implement ionic popup errors if promises get rejected.
-                    });
+                ).success(function (response) {
+                    console.log(response);
+                    deferred.resolve(); //TODO not sure this is necessary
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    //alert("Something went wrong");
+                    deferred.reject(); //todo: implement ionic popup errors if promises get rejected.
+                });
                 return deferred.promise;
             },
 
-            getExistingPredictions: function(userid, round) {
+            getExistingPredictions: function (userid, round) {
 
                 //make a call to the server to get the existing predictions made by a user
                 //do this for a given round
@@ -138,15 +138,15 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 var deferred = $q.defer();
 
                 //TODO: Implement getting the username from the session somehow
-                $http.get(SERVER + '/users/predictions/' + userid +  '/' + round
-                ).success(function(response){
-                        console.log("CURRENT USER PREDICTIONS:" + JSON.stringify(response));
-                        deferred.resolve(response);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        alert("Something went wrong"); //TODO: Use an ionicPopUp for this
-                        deferred.reject();
-                    });
+                $http.get(SERVER + '/users/predictions/' + userid + '/' + round
+                ).success(function (response) {
+                    console.log("CURRENT USER PREDICTIONS:" + JSON.stringify(response));
+                    deferred.resolve(response);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    alert("Something went wrong"); //TODO: Use an ionicPopUp for this
+                    deferred.reject();
+                });
                 return deferred.promise;
             }//,
             //deleteRoundPredictions: function(userid, round) {
@@ -171,7 +171,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         }
     }])
 
-    .factory('Leaderboard', ['$http', '$q', 'RunMode', function($http, $q, RunMode, auth) {
+    .factory('Leaderboard', ['$http', '$q', 'RunMode', function ($http, $q, RunMode, auth) {
 
         //TODO: Sort out the formatting and indentation of these promise functions
 
@@ -184,102 +184,102 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         var currentRound;
 
         return {
-            overall: function(user_id, user_picture) {
+            overall: function (user_id, user_picture) {
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
                 // Make a call to ye olde server
                 $http.get(SERVER + '/leaderboard/'
-                ).success(function(data){
-                        //Process the data
-                        //debugger;
+                ).success(function (data) {
+                    //Process the data
+                    //debugger;
 
-                        globalLeagueData = data;
-                        currentRound = data[data.length - 2];
-                        console.log('current round is: ' + JSON.stringify(currentRound));
+                    globalLeagueData = data;
+                    currentRound = data[data.length - 2];
+                    console.log('current round is: ' + JSON.stringify(currentRound));
 
-                        roundDates = data[data.length - 1];
-                        roundDates.roundsList.unshift({roundNo: 'OVERALL SEASON'});
+                    roundDates = data[data.length - 1];
+                    roundDates.roundsList.unshift({roundNo: 'OVERALL SEASON'});
 
-                        //Prepend 'Round' to each element
-                        for (var i = 1; i < roundDates.roundsList.length; i++) {
-                            roundDates.roundsList[i].roundNo = "Round " + roundDates.roundsList[i].roundNo;
-                        }
-                        //debugger;
+                    //Prepend 'Round' to each element
+                    for (var i = 1; i < roundDates.roundsList.length; i++) {
+                        roundDates.roundsList[i].roundNo = "Round " + roundDates.roundsList[i].roundNo;
+                    }
+                    //debugger;
 
-                        console.log('roundDates are: ' + JSON.stringify(roundDates));
+                    console.log('roundDates are: ' + JSON.stringify(roundDates));
 
-                        data.splice(data.length -2, 2);
-                        console.log('now removed currentRound from private leagues, last list item is:' + JSON.stringify(data[data.length -1]));
-                        //roundDates = data[data.length - 1];
-                        //console.log("The list of round dates is: " + roundDates);
+                    data.splice(data.length - 2, 2);
+                    console.log('now removed currentRound from private leagues, last list item is:' + JSON.stringify(data[data.length - 1]));
+                    //roundDates = data[data.length - 1];
+                    //console.log("The list of round dates is: " + roundDates);
 
-                        //todo: sort the members based on their scores
+                    //todo: sort the members based on their scores
 
 
-                        deferred.resolve(globalLeagueData);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject(); //TODO: Remove these deferred.promise statements, not quite sure what they do.
-                    });
+                    deferred.resolve(globalLeagueData);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject(); //TODO: Remove these deferred.promise statements, not quite sure what they do.
+                });
                 return deferred.promise;
             },
-            all: function(user_id, user_picture) {
+            all: function (user_id, user_picture) {
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
                 // Make a call to ye olde server
                 $http.get(SERVER + '/users/private_leagues/list/' + user_id
-                ).success(function(data){
-                        ////debugger;
+                ).success(function (data) {
+                    ////debugger;
 
-                        userPrivateLeagues = data;
+                    userPrivateLeagues = data;
 
-                        //For each private league identify the user within that league and add details
-                        //For each league will have to add data pertaining to logged in user to scope manually
-                        for (var j = 0; j < userPrivateLeagues.length; j++) {
-                            for (var k = 0; k < userPrivateLeagues[j].members.length; k++) {
-                                if (userPrivateLeagues[j].members[k].user_id == user_id) {
-                                    //then we have found the currently logged in user, add key to this object
-                                    ////debugger;
-                                    userPrivateLeagues[j].thisUser = {
-                                        //need pts, username and pick
-                                        userSeasonPts: userPrivateLeagues[j].members[k].overallSeasonScore,  //todo: assign round pts
-                                        userPos: k + 1,
-                                        userPic: user_picture,
-                                        userCurrentRoundScore: userPrivateLeagues[j].members[k].currentRoundScore
-                                    };
-                                    break;
-                                }
+                    //For each private league identify the user within that league and add details
+                    //For each league will have to add data pertaining to logged in user to scope manually
+                    for (var j = 0; j < userPrivateLeagues.length; j++) {
+                        for (var k = 0; k < userPrivateLeagues[j].members.length; k++) {
+                            if (userPrivateLeagues[j].members[k].user_id == user_id) {
+                                //then we have found the currently logged in user, add key to this object
+                                ////debugger;
+                                userPrivateLeagues[j].thisUser = {
+                                    //need pts, username and pick
+                                    userSeasonPts: userPrivateLeagues[j].members[k].overallSeasonScore,  //todo: assign round pts
+                                    userPos: k + 1,
+                                    userPic: user_picture,
+                                    userCurrentRoundScore: userPrivateLeagues[j].members[k].currentRoundScore
+                                };
+                                break;
                             }
-
-                            //todo: sort the members in the league descending based on scores
-
-
                         }
 
-                        deferred.resolve(userPrivateLeagues);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                        //todo: sort the members in the league descending based on scores
+
+
+                    }
+
+                    deferred.resolve(userPrivateLeagues);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            get: function(user_id, privateLeagueId) {
+            get: function (user_id, privateLeagueId) {
                 var deferred = $q.defer();
 
                 //TODO: Replace the use of http with resource
                 $http.get(SERVER + '/users/private_leagues/get/' + user_id + '/' + privateLeagueId
-                ).success(function(data){
-                        console.log('\n Successfully retrieved private league info:' + JSON.stringify(data));
-                        deferred.resolve(data[0]);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    console.log('\n Successfully retrieved private league info:' + JSON.stringify(data));
+                    deferred.resolve(data[0]);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            getCurrentRound: function() {
+            getCurrentRound: function () {
                 if (currentRound) {
                     return currentRound.currentRound;
                 } else {
@@ -287,7 +287,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                     return 'error no current round'
                 }
             },
-            getRoundDates: function() {
+            getRoundDates: function () {
                 if (roundDates) {
                     //Prepend this value to the array
                     //debugger;
@@ -297,7 +297,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                     return 'error no current round dates list.';
                 }
             },
-            createNewLeague: function(user_id, private_league_name) {
+            createNewLeague: function (user_id, private_league_name) {
 
                 var deferred = $q.defer();
 
@@ -308,15 +308,15 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
 
                 $http.get(SERVER + '/users/private_leagues/create/' + user_id + '/' + private_league_name
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            deleteLeague: function(user_id, private_league_id) {
+            deleteLeague: function (user_id, private_league_id) {
 
                 var deferred = $q.defer();
 
@@ -327,16 +327,16 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
 
                 $http.delete(SERVER + '/users/private_leagues/delete/' + user_id + '/' + private_league_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
 
             },
-            leaveLeague: function(user_id, private_league_id) {
+            leaveLeague: function (user_id, private_league_id) {
                 //debugger;
 
                 var deferred = $q.defer();
@@ -348,15 +348,15 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
 
                 $http.get(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject(); //should actually be reject
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject(); //should actually be reject
+                });
                 return deferred.promise;
             },
-            deleteMembers: function(user_id, members_to_delete, private_league_id) {
+            deleteMembers: function (user_id, members_to_delete, private_league_id) {
 
                 var deferred = $q.defer();
 
@@ -367,16 +367,16 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 members_to_delete = JSON.stringify(members_to_delete);
 
                 $http.put(SERVER + '/users/private_leagues/remove/' + user_id + '/' + private_league_id, members_to_delete
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
 
             },
-            joinLeagueWithCode: function(joiningUser, privateLeagueCode) {
+            joinLeagueWithCode: function (joiningUser, privateLeagueCode) {
 
                 var deferred = $q.defer();
 
@@ -387,21 +387,21 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 //make the request to the server.
                 $http.get(SERVER + '/users/private_leagues/join/' + joiningUser + '/' + privateLeagueCode
-                ).success(function(data){
-                        //if $http promise is fulfilled, fulfill service promise
-                        deferred.resolve(data);
-                    }).error(function(error){
-                        console.log("Error while making HTTP call.");
+                ).success(function (data) {
+                    //if $http promise is fulfilled, fulfill service promise
+                    deferred.resolve(data);
+                }).error(function (error) {
+                    console.log("Error while making HTTP call.");
 
-                        //if an error occured, reject the promise todo: in front end use a popup to denote error
-                        deferred.reject(error); //todo: go and replace all $http rejects with this.
-                    });
+                    //if an error occured, reject the promise todo: in front end use a popup to denote error
+                    deferred.reject(error); //todo: go and replace all $http rejects with this.
+                });
 
                 //return a promise
                 return deferred.promise;
 
             },
-            renameLeague: function(user_id, new_league_name, private_league_id) {
+            renameLeague: function (user_id, new_league_name, private_league_id) {
 
                 var deferred = $q.defer();
 
@@ -412,15 +412,15 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
 
                 $http.get(SERVER + "/users/private_leagues/rename/" + user_id + "/" + private_league_id + "/" + new_league_name
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            changeCaptain: function(user_id, new_captain_id, private_league_id) {
+            changeCaptain: function (user_id, new_captain_id, private_league_id) {
 
                 //debugger;
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
@@ -434,15 +434,15 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
 
                 $http.get(SERVER + "/users/private_leagues/edit/captain/" + user_id + "/" + private_league_id + "/" + new_captain_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            changeViceCaptain: function(user_id, new_vice_captain_id, private_league_id) {
+            changeViceCaptain: function (user_id, new_vice_captain_id, private_league_id) {
 
                 ///api/users/private_leagues/edit/captain/:user_id/:private_league_id/:new_captain_id
                 //debugger;
@@ -455,35 +455,35 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
                 console.log("Now altering captain for league: " + private_league_id + " to " + new_vice_captain_id);
 
                 $http.get(SERVER + "/users/private_leagues/edit/vcaptain/" + user_id + "/" + private_league_id + "/" + new_vice_captain_id
-                ).success(function(data){
-                        deferred.resolve(data);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        deferred.reject();
-                    });
+                ).success(function (data) {
+                    deferred.resolve(data);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    deferred.reject();
+                });
 
                 return deferred.promise;
             }
         }
     }])
 
-    .factory('LeagueTable', ['$http', '$q', 'RunMode', function($http, $q, RunMode) {
+    .factory('LeagueTable', ['$http', '$q', 'RunMode', function ($http, $q, RunMode) {
 
         var SERVER = RunMode.server();
         console.log(SERVER);
 
         return {
-            all: function() {
+            all: function () {
                 var deferred = $q.defer();
 
                 //debugger;
 
                 //Retrieve the English Premiere League standings
                 $http.get(SERVER + '/standings').success(
-                    function(data) {
+                    function (data) {
                         deferred.resolve(data);
                     }).error(
-                    function(){
+                    function () {
                         console.log("Error while making HTTP call.");
                         deferred.reject();
                     });
@@ -492,7 +492,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         }
     }])
 
-    .factory('User', ['$http', '$q', 'RunMode', function($http, $q, RunMode){
+    .factory('User', ['$http', '$q', 'RunMode', function ($http, $q, RunMode) {
 
         var SERVER = RunMode.server();
 
@@ -504,7 +504,7 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         var tutorialSeenCount = 0;
 
         return {
-            sync: function(user) {
+            sync: function (user) {
 
                 //prepend the predictions array with the necessary information
                 console.log('CHECKING SERVER FOR USER:' + user.nickname);
@@ -516,53 +516,53 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 //use dummy user sillybilly for now
                 $http.post(SERVER + '/users/sync/', user
-                ).success(function(response){
-                        console.log(response);
-                        deferred.resolve(response); //TODO not sure this is necessary
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        alert("Something went wrong"); //TODO change this to be an ionic popup
-                        deferred.reject();
-                    });
+                ).success(function (response) {
+                    console.log(response);
+                    deferred.resolve(response); //TODO not sure this is necessary
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    alert("Something went wrong"); //TODO change this to be an ionic popup
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            getUserData: function(user_id) {
+            getUserData: function (user_id) {
 
                 //get the data for a particular user from the server
 
                 var deferred = $q.defer();
 
                 $http.get(SERVER + '/users/' + user_id
-                ).success(function(response){
-                        //console.log("function getUserData in the User service successfully synced data:");
-                        //console.log(response); //should be the newly loggied in user, not the old!
-                        ////assign the returned user data to the factory
-                        currentUserData = response[0];
-                        //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
-                        deferred.resolve(response);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        alert("Something went wrong"); //TODO: Replace this with an ionic popup
-                        deferred.reject();
-                    });
+                ).success(function (response) {
+                    //console.log("function getUserData in the User service successfully synced data:");
+                    //console.log(response); //should be the newly loggied in user, not the old!
+                    ////assign the returned user data to the factory
+                    currentUserData = response[0];
+                    //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
+                    deferred.resolve(response);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    alert("Something went wrong"); //TODO: Replace this with an ionic popup
+                    deferred.reject();
+                });
                 return deferred.promise;
             },
-            currentUser: function() {
+            currentUser: function () {
                 //simply return the user data of the user who is currently logged in
                 return currentUserData;
             },
-            registerDeviceToken: function(user_id, new_device_token) {
+            registerDeviceToken: function (user_id, new_device_token) {
                 //get the data for a particular user from the server
 
                 var deferred = $q.defer();
 
                 $http.get(SERVER + '/users/devices/register/' + user_id + '/' + new_device_token
                 ).success(
-                    function(response){
+                    function (response) {
                         deferred.resolve(response);
                     }
                 ).error(
-                    function(){
+                    function () {
                         console.log("Error while making HTTP call.");
                         deferred.reject();
                     }
@@ -570,55 +570,55 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
 
                 return deferred.promise;
             },
-            clearCurrentUser: function() {
+            clearCurrentUser: function () {
                 //for use when logging out
                 currentUserData = {};
                 return "Stored user data cleared.";
                 //to avoid having old user data after logging out and back in again
             },
-            showTutorials: function() {
+            showTutorials: function () {
                 showTutorials = true;
             },
-            hideTutorials: function() {
+            hideTutorials: function () {
                 showTutorials = false;
             },
-            setFirstTimeSignIn: function(){
+            setFirstTimeSignIn: function () {
                 firstTimeSignIn = true;
             },
-            firstTimeSignIn: function() {
+            firstTimeSignIn: function () {
                 return firstTimeSignIn;
             },
-            incrementTutorialSeenCount: function() {
+            incrementTutorialSeenCount: function () {
                 tutorialSeenCount++;
             },
-            tutorialSeenCount: function(){
+            tutorialSeenCount: function () {
                 return tutorialSeenCount;
             },
-            tutorialsActiveCheck: function() {
+            tutorialsActiveCheck: function () {
                 return showTutorials;
             },
-            updateTeam: function(user_id, new_team) {
+            updateTeam: function (user_id, new_team) {
 
                 //get the data for a particular user from the server
 
                 var deferred = $q.defer();
 
                 $http.get(SERVER + '/users/team/' + user_id + '/' + new_team
-                ).success(function(response){
-                        console.log(response); //should be the newly loggied in user, not the old!
-                        //assign the returned user data to the factory
-                        //currentUserData = response[0];
-                        //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
-                        deferred.resolve(response);
-                    }).error(function(){
-                        console.log("Error while making HTTP call.");
-                        alert("Something went wrong"); //TODO: Replace this with an ionic popup
-                        deferred.reject();
-                    });
+                ).success(function (response) {
+                    console.log(response); //should be the newly loggied in user, not the old!
+                    //assign the returned user data to the factory
+                    //currentUserData = response[0];
+                    //console.log("The app has now updated the stored user data: " + JSON.stringify(currentUserData));
+                    deferred.resolve(response);
+                }).error(function () {
+                    console.log("Error while making HTTP call.");
+                    alert("Something went wrong"); //TODO: Replace this with an ionic popup
+                    deferred.reject();
+                });
                 return deferred.promise;
 
             },
-            filterTeam: function(team) {
+            filterTeam: function (team) {
                 if (team.indexOf("United" > -1)) {
                     team = team.replace('United', 'Utd');
                     team = team.trim();
@@ -683,20 +683,20 @@ angular.module('starter.services', [])//'ionic', 'ionic.service.core', 'ionic.se
         }
     }])
 
-    .factory('SaveChanges', [function (){
+    .factory('SaveChanges', [function () {
         var saveChangesNeeded = false;
 
         //need to return an object to call objects on
         var saveChanges = {};
 
         //add functions
-        saveChanges.saveChangesNeeded = function() {
+        saveChanges.saveChangesNeeded = function () {
             //debugger;
             console.log("SAVE CHAGNES NEEDED SET TO TRUE IN SERVICE.");
             saveChangesNeeded = true;
         };
 
-        saveChanges.saveChangesNotNeeded = function() {
+        saveChanges.saveChangesNotNeeded = function () {
             console.log("Setting the save flag to be false");
             saveChangesNeeded = false;
         };

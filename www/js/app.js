@@ -9,20 +9,9 @@ var appVersion = "1.0";
 var app = angular.module('starter', ['ionic', 'ngCordova', 'ionic.service.core', 'ionic.service.push', 'ionic.service.deploy',
     'ionic.service.analytics', 'starter.controllers', 'starter.services', 'auth0', 'angular-storage', 'angular-jwt', 'ionic.contrib.ui.tinderCards']);
 
-    //app.controller('LoadingCtrl', function($scope, $ionicLoading) {
-      //  $scope.show = function() {
-        //    $ionicLoading.show({
-          //    template: '<ion-spinner></ion-spinner> Loading...'
-            //  });
-            //};
-            //$scope.hide = function(){
-              //$ionicLoading.hide();
-            //};
-          //});
-
-          app.constant('$ionicLoadingConfig', {
-            template: '<ion-spinner></ion-spinner> Loading...'
-          });
+app.constant('$ionicLoadingConfig', {
+    template: '<ion-spinner></ion-spinner> Loading...'
+});
 
 app.config(function ($stateProvider, $urlRouterProvider, authProvider, $httpProvider, jwtInterceptorProvider,
                      $ionicConfigProvider, $compileProvider, $ionicAppProvider) {
@@ -378,23 +367,23 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
         if (window.cordova && window.cordova.plugins.Keyboard) {
-          cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
         }
         if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
-          }
-      cordova.getAppVersion(function(version) {
-                appVersion = version;
-      });
+        }
+        cordova.getAppVersion(function (version) {
+            appVersion = version;
+        });
 
-        document.addEventListener("offline",function() {
-        alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
-        },false);
+        document.addEventListener("offline", function () {
+            alert("Your internet connecion seems to have dropped. Please reconnect to get full functionality");
+        }, false);
         //document.addEventListener("online",function() {
         //alert("Yes! Get In! You're back online.");
         //},false);
-      //ionic.Platform.fullscreen();
+        //ionic.Platform.fullscreen();
     });
 
     // Disable BACK button on home
@@ -455,13 +444,13 @@ app.run(function ($ionicPlatform, $rootScope, $ionicLoading, auth, User, store, 
 
     //debugger;;
     //should be triggered after registered with push notification server
-    $rootScope.$on('$cordovaPush:tokenReceived', function(event, data) {
+    $rootScope.$on('$cordovaPush:tokenReceived', function (event, data) {
         console.log('Got token', data.token, data.platform);
 
         //call backend token to register device token with user
         //debugger;;
-        User.registerDeviceToken(auth.profile.user_id, data.token).then(function(){
-           console.log("New device token was registered successfully registered against the user");
+        User.registerDeviceToken(auth.profile.user_id, data.token).then(function () {
+            console.log("New device token was registered successfully registered against the user");
         });
     });
 });

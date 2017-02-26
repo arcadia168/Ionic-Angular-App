@@ -28,10 +28,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         //Refresh the user data to account for updated predictions
         ////debugger;
         User.getUserData(auth.profile.user_id).then(
-            function(){
+            function () {
                 $scope.user = User.currentUser();
 
-                Rounds.all().then(function (data){
+                Rounds.all().then(function (data) {
 
                     var today = new Date();
 
@@ -66,7 +66,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                             ////debugger;
                             //fixed bug where round view would load in ALL fixtures from server.
-                            $scope.rounds[i].roundLink = i+1;
+                            $scope.rounds[i].roundLink = i + 1;
 
                         } else {
                             //else if there are fixtures in future still in round
@@ -85,7 +85,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                                         //Set this round to go into the card view, round index
                                         // + 1 because index is base 0
-                                        $scope.rounds[i].roundLink = i+1;
+                                        $scope.rounds[i].roundLink = i + 1;
 
                                         break
                                     }
@@ -96,13 +96,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                     //console.log(JSON.stringify($scope.rounds[i]));
 
                                     //Set the round link
-                                    $scope.rounds[i].roundLink = "cards/" + (i+1);
+                                    $scope.rounds[i].roundLink = "cards/" + (i + 1);
 
                                     break;
                                 } else {
                                     break;
                                 }
-                            };
+                            }
+                            ;
                         }
 
                         //todo: remove this, purely for testing complete round functionality
@@ -118,7 +119,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
     })
 
-        .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
+    .controller('SaveCtrl', function ($scope, $ionicPopup, $ionicHistory, SaveChanges) {
         //function to check that user is ready to leave without saving changes
         $scope.makeUnsavedChanges = function () {
 
@@ -152,22 +153,22 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 var confirmPopup = $ionicPopup.confirm({
                     title: 'All fixtures need a prediction',
                     template: 'To ensure your predictions are registered you need to give predictions for all fixtures in this round. Tap OK to go back or CANCEL to stay and complete your predictions for this round'
-                    });
-                    confirmPopup.then(function (res) {
+                });
+                confirmPopup.then(function (res) {
                     if (res) {
 
-                                $ionicHistory.goBack();
-                    }else {
-                    //console.log('You are not sure');
-                    //stay in this view
+                        $ionicHistory.goBack();
+                    } else {
+                        //console.log('You are not sure');
+                        //stay in this view
                     }
                 });
-            }else {
-              //just go back
-              $ionicHistory.goBack();
+            } else {
+                //just go back
+                $ionicHistory.goBack();
             }
-      };
-})
+        };
+    })
     .controller('RoundDetailCtrl', function ($scope, $state, $ionicPopup, $q, $stateParams, $timeout, $ionicActionSheet,
                                              Rounds, SaveChanges, auth, TDCardDelegate, User, $timeout, $ionicHistory) {
 
@@ -356,7 +357,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 //check to see if the prediction will actually be changed, if not, do nothing
 
-                $scope.UpdatedUserPredictions.predictions[existingPredictionPosition] = {fixture: fixture, prediction: prediction};
+                $scope.UpdatedUserPredictions.predictions[existingPredictionPosition] = {
+                    fixture: fixture,
+                    prediction: prediction
+                };
             } else { //else if a prediction for this fixture does not already exist...
                 if (prediction != 0) { //don't add none predictions to the list
                     $scope.UpdatedUserPredictions.predictions.push({fixture: fixture, prediction: prediction});
@@ -415,8 +419,9 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         }
 
         function _sortByKey(array, key) {
-            return array.sort(function(a, b) {
-                var x = a[key]; var y = b[key];
+            return array.sort(function (a, b) {
+                var x = a[key];
+                var y = b[key];
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
         };
@@ -428,7 +433,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         Rounds.get($stateParams.roundId).then(function (data) {
 
             debugger;
-            
+
             //when first loading the page, clear out any local existing predictions.
             $scope.UpdatedUserPredictions.predictions = [];
 
@@ -464,7 +469,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             for (var i = 0; i < $scope.listFixtures.length; i++) {
                 $scope.listFixtures[i].homeTeam = User.filterTeam($scope.listFixtures[i].homeTeam);
                 $scope.listFixtures[i].awayTeam = User.filterTeam($scope.listFixtures[i].awayTeam);
-                
+
                 //debugger;
                 var today = new Date();
 
@@ -639,12 +644,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                         //Send the predictions to be updated
                         //call the async function
                         //////debugger;
-                        Rounds.updatePredictions(auth.profile.user_id, predictionsToUpdate).then(function(){
+                        Rounds.updatePredictions(auth.profile.user_id, predictionsToUpdate).then(function () {
                             //Now send any predictions to be added
                             //once you have a list of predictions to update, async for loop and update
                             if (predictionsToAdd.length > 0) {
                                 //console.log('There have been completely new predictions made, sending these to server.');
-                                Rounds.makePredictions(auth.profile.user_id, $stateParams.roundId, predictionsToAdd).then(function(){
+                                Rounds.makePredictions(auth.profile.user_id, $stateParams.roundId, predictionsToAdd).then(function () {
                                     //mark changes as not being required.
                                     SaveChanges.saveChangesNotNeeded();
 
@@ -675,14 +680,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 _getExistingPredictions();
                             }
                             //Return to home screen
-                            $state.go('tab.rounds', {reload : true});
+                            $state.go('tab.rounds', {reload: true});
                         });
                     }
                 });
             }
             else { //there are no existing predictions so simply make a fresh set of new predictions
                 //////debugger;
-                Rounds.makePredictions(user, $stateParams.roundId, $scope.UpdatedUserPredictions.predictions).then(function() {
+                Rounds.makePredictions(user, $stateParams.roundId, $scope.UpdatedUserPredictions.predictions).then(function () {
                     $ionicPopup.alert({
                         title: 'Your predictions have been registered!',
                         template: 'Let\'s hope you do well!'
@@ -693,18 +698,18 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                     //////debugger;
                     //Before returning to this screen, get updated user info (new predictions)
-                    User.getUserData(user).then(function(){
+                    User.getUserData(user).then(function () {
                         //Now the round tab should reflect updated round predictions
 
                         //if user first time sign in - re-enable
                         ////debugger;
                         //console.log(User.tutorialSeenCount());
-                        if (User.firstTimeSignIn() && (User.tutorialSeenCount() < 2)){
+                        if (User.firstTimeSignIn() && (User.tutorialSeenCount() < 2)) {
                             User.showTutorials();
                         }
 
                         //Return to home screen
-                        $state.go('tab.rounds', {reload : true});
+                        $state.go('tab.rounds', {reload: true});
                     });
                 });
             }
@@ -721,7 +726,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             }
         };
 
-        $scope.predictAwayWin = function (fixture){
+        $scope.predictAwayWin = function (fixture) {
             ////debugger;
 
             var result = _getFixResult(fixture._id);
@@ -807,7 +812,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
         };
 
-        $scope.showTutorial = function() {
+        $scope.showTutorial = function () {
             //Show the tutorial pop up
             var tutorial = $ionicPopup.alert({
                 title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
@@ -816,7 +821,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             });
         };
 
-        $scope.showListTutorial = function() {
+        $scope.showListTutorial = function () {
             //Show the tutorial pop up
             var tutorial = $ionicPopup.alert({
                 title: "MAKING AND UPDATING PREDICTIONS, \n SIMPLE!",
@@ -860,9 +865,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 ////debugger;
                 //for debugging
                 console.log('\nOVERALL LEAGUE BEFORE SORTING: ');
-                for (var k = 0; k < $scope.overallLeague.length; k++){
+                for (var k = 0; k < $scope.overallLeague.length; k++) {
                     console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.overallLeague[k].overallSeasonScore);
-                };
+                }
+                ;
 
                 //Once iterated over all of the members, sort them based on score
                 ////debugger;
@@ -871,9 +877,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                 //for debugging
                 console.log('\nOVERALL LEAGUE AFTER SORTING: ');
-                for (var k = 0; k < $scope.overallLeague.length; k++){
+                for (var k = 0; k < $scope.overallLeague.length; k++) {
                     console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.overallLeague[k].overallSeasonScore);
-                };
+                }
+                ;
 
                 //////debugger;
                 Leaderboard.all(auth.profile.user_id, auth.profile.picture).then(function (data) {
@@ -888,9 +895,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                         //for debugging
                         console.log('\nLEAGUE ' + i + ' BEFORE SORTING: ');
-                        for (var k = 0; k < $scope.privateLeagues[i].members.length; k++){
+                        for (var k = 0; k < $scope.privateLeagues[i].members.length; k++) {
                             console.log('OverallSeasonScore for member ' + k + ' is: ' + $scope.privateLeagues[i].members[k].overallSeasonScore);
-                        };
+                        }
+                        ;
 
                         //Once iterated over all of the members, sort them based on score
                         ////debugger;
@@ -899,9 +907,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                         //for debugging
                         console.log('\nLEAGUE ' + i + ' AFTER SORTING: ');
-                        for (var k = 0; k < $scope.privateLeagues[i].members.length; k++){
+                        for (var k = 0; k < $scope.privateLeagues[i].members.length; k++) {
                             console.log('OverallSeasonScore for member ' + k + ' is: ' + $scope.privateLeagues[i].members[k].overallSeasonScore);
-                        };
+                        }
+                        ;
                     }
                 });
             })
@@ -916,18 +925,18 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             // Show the action sheet
             var hideSheet = $ionicActionSheet.show({
                 buttons: [
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-plus\'></i><p>Create New League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Join League (Use Code)</p></div>'},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-plus\'></i><p>Create New League</p></div>'},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trophy\'></i><p>Join League (Use Code)</p></div>'},
                 ],
                 titleText: 'Private Leagues',
                 cancelText: 'Cancel',
-                cancel: function() {
+                cancel: function () {
                     // add cancel code..
                 },
-                buttonClicked: function(index) {
+                buttonClicked: function (index) {
 
                     //0 index is to rename the league
-                    switch(index) {
+                    switch (index) {
                         case 0:
                             $scope.createNewLeague();
                             return true;
@@ -985,7 +994,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 title: 'New Private League',
                                 template: 'New league created!' //TODO: Alter the multiple uses of this
                             }).then(
-                                function(){
+                                function () {
                                     //reset flag
                                     cancelled = true;
 
@@ -1045,7 +1054,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     }
 
                     //todo: Check that the user has not already joined this league!
-                    for(var i = 0; i < $scope.privateLeagues.length; i++) {
+                    for (var i = 0; i < $scope.privateLeagues.length; i++) {
                         if ($scope.data.leagueToJoin == $scope.privateLeagues[i].privateLeagueCode) {
                             //then invalid code was entered
                             $ionicPopup.alert({
@@ -1088,15 +1097,16 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         function sortByKey(array, key) {
-            return array.sort(function(a, b) {
-                var x = a[key]; var y = b[key];
+            return array.sort(function (a, b) {
+                var x = a[key];
+                var y = b[key];
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
         };
     })
 
     .controller('LeaderboardLeagueDetailCtrl', function ($scope, auth, $stateParams, $ionicPopup, $state,
-                                                         $cordovaSocialSharing ,$ionicActionSheet, User, Leaderboard, SaveChanges) {
+                                                         $cordovaSocialSharing, $ionicActionSheet, User, Leaderboard, SaveChanges) {
         $scope.shouldShowDelete = false;
         $scope.currentRound = Leaderboard.getCurrentRound();
         //console.log($scope.currentRound);
@@ -1132,7 +1142,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
 
                     //iterate over members check if we are viewing overall season or round
-                    for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                    for (var i = 0; i < $scope.privateLeague.members.length; i++) {
                         //we are looking at a round, so organise
                         //iterate over round scores
                         if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
@@ -1141,7 +1151,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                             var roundScoreSet = false;
 
-                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++) {
                                 if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
                                     //assign the score for the round in the current view to the member
                                     $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
@@ -1160,9 +1170,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                     //for debugging
                     console.log('\nOVERALL LEAGUE BEFORE SORTING: ');
-                    for (var k = 0; k < $scope.privateLeague.members.length; k++){
+                    for (var k = 0; k < $scope.privateLeague.members.length; k++) {
                         console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.privateLeague.members[k].roundInViewScore);
-                    };
+                    }
+                    ;
 
                     //Once iterated over all of the members, sort them based on score
                     ////debugger;
@@ -1171,9 +1182,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
                     //for debugging
                     console.log('\nOVERALL LEAGUE AFTER SORTING: ');
-                    for (var k = 0; k < $scope.privateLeague.members.length; k++){
+                    for (var k = 0; k < $scope.privateLeague.members.length; k++) {
                         console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.privateLeague.members[k].roundInViewScore);
-                    };
+                    }
+                    ;
                 });
             } else {
                 Leaderboard.get(auth.profile.user_id, $stateParams.privateLeagueId).then(function (data) {
@@ -1186,14 +1198,14 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     //console.log('Retrieved private league:' + JSON.stringify($scope.privateLeague));
 
                     //iterate over members check if we are viewing overall season or round
-                    for (var i = 0; i < $scope.privateLeague.members.length; i++){
+                    for (var i = 0; i < $scope.privateLeague.members.length; i++) {
                         //we are looking at a round, so organise
                         //iterate over round scores
                         if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
                             $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
                         } else {
                             var roundScoreSet = false;
-                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                            for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++) {
                                 if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
                                     //assign the score for the round in the current view to the member
                                     $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
@@ -1217,9 +1229,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     $scope.privateLeague.members.reverse();
 
                     //for debugging
-                    for (var k = 0; k < $scope.privateLeague.members.length; k++){
+                    for (var k = 0; k < $scope.privateLeague.members.length; k++) {
                         console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.privateLeague.members[k].roundInViewScore);
-                    };
+                    }
+                    ;
                 });
             }
         }
@@ -1240,20 +1253,20 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             // Show the action sheet
             var hideSheet = $ionicActionSheet.show({
                 buttons: [
-                    { text: "<div class=\'league-edit-btn share-edit-btn\'><i class=\'icon ion-share\'></i><div class='share-text-container'><p class='share-label'>Invite Friends</p><p class='share-explanation'>*Friends can join this league using league code: " + $scope.privateLeague.privateLeagueCode + "</p></div></div>"},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-edit\'></i><p>Rename League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person\'></i><p>Choose Captain</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-stalker\'></i><p>Choose Vice Captain</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-log-out\'></i><p>Leave Private League</p></div>'},
-                    { text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trash-a\'></i><p>Delete Members</p></div>'},
+                    {text: "<div class=\'league-edit-btn share-edit-btn\'><i class=\'icon ion-share\'></i><div class='share-text-container'><p class='share-label'>Invite Friends</p><p class='share-explanation'>*Friends can join this league using league code: " + $scope.privateLeague.privateLeagueCode + "</p></div></div>"},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-edit\'></i><p>Rename League</p></div>'},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person\'></i><p>Choose Captain</p></div>'},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-person-stalker\'></i><p>Choose Vice Captain</p></div>'},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-log-out\'></i><p>Leave Private League</p></div>'},
+                    {text: '<div class=\'league-edit-btn\'><i class=\'icon ion-trash-a\'></i><p>Delete Members</p></div>'},
                 ],
                 destructiveText: 'Delete League',
                 titleText: 'Private League Options',
                 cancelText: 'Cancel',
-                cancel: function() {
+                cancel: function () {
                     // add cancel code..
                 },
-                destructiveButtonClicked: function() {
+                destructiveButtonClicked: function () {
                     if (auth.profile.user_id == $scope.privateLeague.captain) {
                         $scope.deleteLeague();
                     } else {
@@ -1265,11 +1278,11 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                     }
                     return true;
                 },
-                buttonClicked: function(index) {
+                buttonClicked: function (index) {
 
                     //0 index is to rename the league
                     ////debugger;
-                    switch(index) {
+                    switch (index) {
                         case 0:
                             $scope.shareLeague();
                             return true;
@@ -1469,7 +1482,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             });
         };
 
-        $scope.changeLeagueCaptain = function() {
+        $scope.changeLeagueCaptain = function () {
 
             ////debugger;
 
@@ -1539,7 +1552,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             });
         };
 
-        $scope.changeLeagueViceCaptain = function() {
+        $scope.changeLeagueViceCaptain = function () {
 
             ////debugger;
 
@@ -1612,7 +1625,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             });
         };
 
-        $scope.deleteMembers = function() {
+        $scope.deleteMembers = function () {
             //show the user a prompt to type in a username and
             var myPopup = $ionicPopup.show({
                 //templateUrl: '../templates/deleteMembers.html',
@@ -1623,7 +1636,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 buttons: [
                     {
                         text: 'Cancel',
-                        onTap: function(e){
+                        onTap: function (e) {
                             _membersToDelete = [];
                             return;
                         }
@@ -1685,17 +1698,17 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             });
         };
 
-        $scope.chooseMemberToDelete = function(memberUserId) {
+        $scope.chooseMemberToDelete = function (memberUserId) {
             //console.log("Adding user with id %s to list of members to delete", memberUserId);
             _membersToDelete.push(memberUserId);
             //console.log("List of members to delete is: " + JSON.stringify(_membersToDelete));
         };
 
-        $scope.chooseNewViceCaptain = function(newViceCaptainId) {
+        $scope.chooseNewViceCaptain = function (newViceCaptainId) {
             $scope.newViceCaptainId = newViceCaptainId;
         };
 
-        $scope.chooseNewCaptain = function(newCaptainId) {
+        $scope.chooseNewCaptain = function (newCaptainId) {
             $scope.newCaptainId = newCaptainId;
         };
 
@@ -1750,7 +1763,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             $cordovaSocialSharing.share("Yes! Get In!  The new way to play fantasy football. Download the app, available on Android and iOS, to join my league with code: " + $scope.privateLeague.privateLeagueCode + "\n", null, null, "http://www.yesgetin.com");
         };
 
-        $scope.memberRoundScore = function(memberIndex) {
+        $scope.memberRoundScore = function (memberIndex) {
             //console.log("ROUND IN VIEW IS: " + JSON.stringify($scope.roundInView));
             var i = 0;
             for (var i = 0; i < $scope.privateLeague.members[memberIndex].roundScores.length; i++) {
@@ -1764,19 +1777,19 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
         };
 
         //updated the round in view score on members to enable angular to sort it
-        $scope.reOrderMembers = function(){
+        $scope.reOrderMembers = function () {
 
             ////debugger;
 
             //iterate over members check if we are viewing overall season or round
-            for (var i = 0; i < $scope.privateLeague.members.length; i++){
+            for (var i = 0; i < $scope.privateLeague.members.length; i++) {
                 //we are looking at a round, so organise
                 //iterate over round scores
                 if ($scope.roundInView.roundNo == 'OVERALL SEASON') {
                     $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].overallSeasonScore;
                 } else {
                     var roundScoreSet = false;
-                    for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++){
+                    for (var j = 0; j < $scope.privateLeague.members[i].roundScores.length; j++) {
                         if ($scope.privateLeague.members[i].roundScores[j].roundNo == $scope.roundInView.roundNo.replace('Round ', '')) {
                             //assign the score for the round in the current view to the member
                             $scope.privateLeague.members[i].roundInViewScore = $scope.privateLeague.members[i].roundScores[j].roundScore;
@@ -1795,9 +1808,10 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //for debugging
             console.log('\nROUND VIEW BEFORE SORTING: ');
-            for (var k = 0; k < $scope.privateLeague.members.length; k++){
+            for (var k = 0; k < $scope.privateLeague.members.length; k++) {
                 console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.privateLeague.members[k].roundInViewScore);
-            };
+            }
+            ;
 
             //Once iterated over all of the members, sort them based on score
             ////debugger;
@@ -1806,20 +1820,22 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
 
             //for debugging
             console.log('\nROUND VIEW AFTER SORTING: ');
-            for (var k = 0; k < $scope.privateLeague.members.length; k++){
+            for (var k = 0; k < $scope.privateLeague.members.length; k++) {
                 console.log('RoundInViewScore for member ' + k + ' is: ' + $scope.privateLeague.members[k].roundInViewScore);
-            };
+            }
+            ;
         };
 
         function sortByKey(array, key) {
-            return array.sort(function(a, b) {
-                var x = a[key]; var y = b[key];
+            return array.sort(function (a, b) {
+                var x = a[key];
+                var y = b[key];
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
         };
     })
 
-    .controller('RulebookCtrl', function($scope, $state, SaveChanges) {
+    .controller('RulebookCtrl', function ($scope, $state, SaveChanges) {
 
         //$state.go('tab.rulebook.win');
         $state.go('tab.rulebook.summary');
@@ -1927,12 +1943,12 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                 'z0ther'
             ];
 
-        $scope.updateTeam = function() {
+        $scope.updateTeam = function () {
             User.updateTeam(auth.profile.user_id, $scope.userData.userTeam).then(
-                function(response, error) {
+                function (response, error) {
                     if (error) {
                         $ionicPopup.alert({
-                            title : 'Something went wrong, try again',
+                            title: 'Something went wrong, try again',
                             template: 'Oops!'
                         });
                     } else {
@@ -1941,7 +1957,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             template: 'Your team has now been updated!'
                         });
 
-                        User.getUserData(auth.profile.user_id).then(function() {
+                        User.getUserData(auth.profile.user_id).then(function () {
                             $scope.userData = User.currentUser();
 
                             $state.go('tab.settings', {refresh: true})
@@ -1951,7 +1967,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             );
         }
 
-        $scope.sendSupportEmail = function() {
+        $scope.sendSupportEmail = function () {
             //console.log("Support link clicked");
 
             //window.plugins.emailComposer.showEmailComposerWithCallback(
@@ -1974,8 +1990,8 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             //    null                    // Attachment Data
             //);
 
-            if(window.plugins && window.plugins.emailComposer) {
-                window.plugins.emailComposer.showEmailComposerWithCallback(function(result) {
+            if (window.plugins && window.plugins.emailComposer) {
+                window.plugins.emailComposer.showEmailComposerWithCallback(function (result) {
                         console.log("Response -> " + result);
                     },
                     "Feedback for your App", // Subject
@@ -1989,19 +2005,19 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
             }
         }
 
-        $scope.checkForUpdates = function() {
+        $scope.checkForUpdates = function () {
             // Check Ionic Deploy for new code
             console.log('Ionic Deploy: Checking for updates');
             $ionicDeploy.check().then(
-                function(hasUpdate) {
+                function (hasUpdate) {
                     console.log('Ionic Deploy: Update available: ' + hasUpdate);
 
                     $ionicPopup.confirm({
                         title: 'Updates Available',
                         template: 'Would you like to apply the updates?'
                     }).then(
-                        function(res) {
-                            if(res) {
+                        function (res) {
+                            if (res) {
                                 console.log('Attempting to update.');
 
                                 $ionicLoading.show(
@@ -2011,7 +2027,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                 );
 
                                 $ionicDeploy.update().then(
-                                    function(res) {
+                                    function (res) {
                                         console.log('Ionic Deploy: Update Success! ', res);
 
                                         $ionicLoading.hide();
@@ -2023,7 +2039,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                             }
                                         );
                                     },
-                                    function(err) {
+                                    function (err) {
                                         console.log('Ionic Deploy: Update error! ', err);
 
                                         $ionicPopup.alert(
@@ -2033,7 +2049,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                                             }
                                         );
                                     },
-                                    function(prog) {
+                                    function (prog) {
                                         console.log('Ionic Deploy: Progress... ', prog);
 
                                     }
@@ -2043,7 +2059,7 @@ angular.module('starter.controllers', ['ionic.service.core', 'ionic.service.push
                             }
                         }
                     );
-                }, function(err) {
+                }, function (err) {
                     console.error('Ionic Deploy: Unable to check for updates', err);
 
                     $ionicPopup.alert(
