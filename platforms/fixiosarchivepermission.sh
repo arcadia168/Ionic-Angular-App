@@ -7,5 +7,5 @@ yesgetinapp
 cd platforms
 
 echo "Now setting the correct permissions on the iOS platform."
-sudo chown -R ***REMOVED*** ./ios
+sudo chown -R Erin ./ios
 

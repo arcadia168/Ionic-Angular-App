@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'ionic.contrib.ui.tinderCards'])
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
   var cardTypes = [
     { image: 'max.jpg' },
-    { image: '***REMOVED***.png' },
+    { image: 'erin.png' },
     { image: 'perry.jpg' },
   ];
 
