@@ -857,7 +857,7 @@ function shouldBundleCommandJson() {
         for (var i = 0; i < commandQueue.length; ++i) {
             payloadLength += commandQueue[i].length;
         }
-        // The value here was determined using the ***REMOVED***chmark within CordovaLibApp on an iPad 3.
+        // The value here was determined using the benchmark within CordovaLibApp on an iPad 3.
         return payloadLength < 4500;
     }
     return false;

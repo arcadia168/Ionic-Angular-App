@@ -197,7 +197,7 @@ Legt die Hintergrundfarbe der Statusbar von eine hexadezimale Zeichenfolge fest.
     StatusBar.backgroundColorByHexString("#C0C0C0");
     
 
-CSS-Kurzschrift-Eigenschaften werden e***REMOVED***falls unterstützt.
+CSS-Kurzschrift-Eigenschaften werden ebenfalls unterstützt.
 
     StatusBar.backgroundColorByHexString("#333"); // => #333333
     StatusBar.backgroundColorByHexString("#FAB"); // => #FFAABB
@@ -205,7 +205,7 @@ CSS-Kurzschrift-Eigenschaften werden e***REMOVED***falls unterstützt.
 
 Auf iOS 7 Wenn Sie StatusBar.statusBarOverlaysWebView auf False festlegen, können Sie die Hintergrundfarbe der Statusbar von eine hexadezimale Zeichenfolge (#RRGGBB) festlegen.
 
-Auf WP7 und WP8 können Sie auch Werte wie #AARRGGBB, ange***REMOVED*** wo AA einen alpha-Wert ist
+Auf WP7 und WP8 können Sie auch Werte wie #AARRGGBB, angeben wo AA einen alpha-Wert ist
 
 ## Unterstützte Plattformen
 

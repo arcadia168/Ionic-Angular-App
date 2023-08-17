@@ -58,7 +58,7 @@ namespace Cordova.Extension.Commands
         }
 
         /// </summary>
-        /// Erstellt den Email-Composer und fügt die überge***REMOVED***en Eigenschaften ein.
+        /// Erstellt den Email-Composer und fügt die übergebenen Eigenschaften ein.
         /// </summary>
         private EmailComposeTask GetDraftWithProperties(Options options)
         {

@@ -6,7 +6,7 @@
  * A powerful HTML5 mobile app framework.
  * http://ionicframework.com/
  *
- * By @maxlynch, @***REMOVED***jsperry, @adamdbradley <3
+ * By @maxlynch, @benjsperry, @adamdbradley <3
  *
  * Licensed under the MIT license. Please see LICENSE for more information.
  *
@@ -1035,7 +1035,7 @@ function($rootScope, $timeout) {
      * down 1-3 items at a time.
      *
      * While this is not as efficient as it could be, optimizing it gives no noticeable
-     * ***REMOVED***efit.  We would have to use a new memory-intensive data structure for dimensions
+     * benefit.  We would have to use a new memory-intensive data structure for dimensions
      * to fully optimize it.
      */
     getIndexForScrollValue: function(i, scrollValue) {
@@ -9752,7 +9752,7 @@ IonicModule
  * As a user navigates throughout your app, Ionic is able to keep track of their
  * navigation history. By knowing their history, transitions between views
  * correctly enter and exit using the platform's transition style. An additional
- * ***REMOVED***efit to Ionic's navigation system is its ability to manage multiple
+ * benefit to Ionic's navigation system is its ability to manage multiple
  * histories. For example, each tab can have it's own navigation history stack.
  *
  * Ionic uses the AngularUI Router module so app interfaces can be organized
@@ -9960,7 +9960,7 @@ IonicModule
       });
     });
 
-    // Hack for iOS Safari's ***REMOVED***efit. It goes searching for onclick handlers and is liable to click
+    // Hack for iOS Safari's benefit. It goes searching for onclick handlers and is liable to click
     // something else nearby.
     element.onclick = function(event) { };
   };

@@ -13569,7 +13569,7 @@ function $SceDelegateProvider() {
  *
  * ## Can I disable SCE completely?
  *
- * Yes, you can.  However, this is strongly discouraged.  SCE gives you a lot of security ***REMOVED***efits
+ * Yes, you can.  However, this is strongly discouraged.  SCE gives you a lot of security benefits
  * for little coding overhead.  It will be much harder to take an SCE disabled application and
  * either secure it on your own or enable SCE at a later stage.  It might make sense to disable SCE
  * for cases where you have a lot of existing code that was written before SCE was introduced and

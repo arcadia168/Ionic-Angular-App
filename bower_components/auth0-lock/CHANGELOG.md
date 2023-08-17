@@ -32,7 +32,7 @@
 
 ### Changed
 
- - [font] Font family changed to Helvetica. (`***REMOVED***eliflo`)
+ - [font] Font family changed to Helvetica. (`beneliflo`)
   https://github.com/auth0/lock/commit/299460259cb8f8635f5134194d8ead07813132da
 
 ## 7.4.0 - (April 16, 2015)

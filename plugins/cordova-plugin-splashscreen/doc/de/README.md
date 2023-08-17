@@ -58,9 +58,9 @@ Sie müssen in Ihrem `"config.xml"`fügen Sie die folgenden Einstellungen:
 
 Wo Foo ist der Name der Datei Splashscreen, vorzugsweise eine 9-Patch-Datei. Stellen Sie sicher, Splashcreen Dateien zu Ihrem res/xml-Verzeichnis unter den entsprechenden Ordnern hinzuzufügen. Der zweite Parameter stellt dar, wie lange das Splashscreen in Millisekunden angezeigt werden. Es wird standardmäßig auf 3000 ms. Weitere Informationen finden Sie unter [Symbole und Splash-Screens](http://cordova.apache.org/docs/en/edge/config_ref_images.md.html).
 
-"SplashMaintainAspectRatio" Präferenz ist optional. Wenn wahr, Splash-Screen zeichenbaren nicht gestreckt wird, um den Bildschirm passen, sondern stattdessen einfach "" den Bildschirm, wie CSS abdeckt "Hintergrund-Größe: Schutz vor". Dies ist sehr nützlich, wenn Splash-Bildschirm Bilder können nicht, in keiner Weise, zum Beispiel verzerrt werden wenn sie Landschaft oder Text enthalten. Diese Einstellung funktioniert am besten mit Bildern, die große Margen (sichere Bereiche) ha***REMOVED***, die sicher auf Bildschirme mit unterschiedlichen Seitenverhältnissen zugeschnitten werden können.
+"SplashMaintainAspectRatio" Präferenz ist optional. Wenn wahr, Splash-Screen zeichenbaren nicht gestreckt wird, um den Bildschirm passen, sondern stattdessen einfach "" den Bildschirm, wie CSS abdeckt "Hintergrund-Größe: Schutz vor". Dies ist sehr nützlich, wenn Splash-Bildschirm Bilder können nicht, in keiner Weise, zum Beispiel verzerrt werden wenn sie Landschaft oder Text enthalten. Diese Einstellung funktioniert am besten mit Bildern, die große Margen (sichere Bereiche) haben, die sicher auf Bildschirme mit unterschiedlichen Seitenverhältnissen zugeschnitten werden können.
 
-Das Plugin lädt platsch zeichenbaren wenn Ausrichtung ändert, sodass Sie verschiedene Drawables für hoch- und Querformat Ausrichtungen ange***REMOVED*** können.
+Das Plugin lädt platsch zeichenbaren wenn Ausrichtung ändert, sodass Sie verschiedene Drawables für hoch- und Querformat Ausrichtungen angeben können.
 
 ### Browser-Eigenheiten
 

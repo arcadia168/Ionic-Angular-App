@@ -30,12 +30,12 @@ public class NativeToJsMessageQueue {
     private static final String LOG_TAG = "JsMessageQueue";
 
     // Set this to true to force plugin results to be encoding as
-    // JS instead of the custom format (useful for ***REMOVED***chmarking).
+    // JS instead of the custom format (useful for benchmarking).
     // Doesn't work for multipart messages.
     private static final boolean FORCE_ENCODE_USING_EVAL = false;
 
     // Disable sending back native->JS messages during an exec() when the active
-    // exec() is asynchronous. Set this to true when running bridge ***REMOVED***chmarks.
+    // exec() is asynchronous. Set this to true when running bridge benchmarks.
     static final boolean DISABLE_EXEC_CHAINING = false;
 
     // Arbitrarily chosen upper limit for how much data to send to JS in one shot.

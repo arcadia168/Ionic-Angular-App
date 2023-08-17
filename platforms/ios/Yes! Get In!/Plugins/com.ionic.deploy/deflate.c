@@ -1164,7 +1164,7 @@ local uInt longest_match(s, cur_match)
     uInt wmask = s->w_mask;
 
 #ifdef UNALIGNED_OK
-    /* Compare two bytes at a time. Note: this is not always ***REMOVED***eficial.
+    /* Compare two bytes at a time. Note: this is not always beneficial.
      * Try with and without -DUNALIGNED_OK to check.
      */
     register Bytef *strend = s->window + s->strstart + MAX_MATCH - 1;

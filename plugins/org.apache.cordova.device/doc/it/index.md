@@ -19,7 +19,7 @@
 
 # org.apache.cordova.device
 
-Questo plugin definisce un global `device` oggetto che descrive il dispositivo hardware e software. Seb***REMOVED***e l'oggetto sia in ambito globale, non è disponibile fino a dopo il `deviceready` evento.
+Questo plugin definisce un global `device` oggetto che descrive il dispositivo hardware e software. Sebbene l'oggetto sia in ambito globale, non è disponibile fino a dopo il `deviceready` evento.
 
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
@@ -158,7 +158,7 @@ I dettagli di come viene generato un UUID sono determinati dal produttore del di
 
 ### Esempio rapido
 
-    / / Android: restituisce un intero casuale di 64 bit (come stringa, ancora una volta!) / / il numero intero è generato al primo avvio del dispositivo / / / / BlackBerry: restituisce il numero PIN del dispositivo / / questo è un valore integer univoco a nove cifre (come stringa, ***REMOVED***chè!) / / / / iPhone: (parafrasato dalla documentazione della classe UIDevice) / / restituisce una stringa di valori hash creata dall'hardware più identifica.
+    / / Android: restituisce un intero casuale di 64 bit (come stringa, ancora una volta!) / / il numero intero è generato al primo avvio del dispositivo / / / / BlackBerry: restituisce il numero PIN del dispositivo / / questo è un valore integer univoco a nove cifre (come stringa, benchè!) / / / / iPhone: (parafrasato dalla documentazione della classe UIDevice) / / restituisce una stringa di valori hash creata dall'hardware più identifica.
     / / È garantito per essere unica per ogni dispositivo e non può essere legato / / per l'account utente.
     / / Windows Phone 7: restituisce un hash dell'utente corrente, + dispositivo / / se l'utente non è definito, un guid generato e persisterà fino a quando l'applicazione viene disinstallata / / Tizen: restituisce il dispositivo IMEI (International Mobile Equipment Identity o IMEI è un numero / / unico per ogni cellulare GSM e UMTS.
     var deviceID = device.uuid;

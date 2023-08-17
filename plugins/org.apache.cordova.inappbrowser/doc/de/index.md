@@ -57,7 +57,7 @@ Dieses Plugin bietet eine Web-Browser-Ansicht, die beim Aufruf angezeigt`window.
     Nur Android:
     
     *   **Closebuttoncaption**: Legen Sie auf eine Zeichenfolge als Beschriftung der **fertig** -Schaltfläche verwenden.
-    *   **versteckte**: Legen Sie auf `yes` um den Browser zu erstellen und laden Sie die Seite, aber nicht zeigen. Das Loadstop-Ereignis wird ausgelöst, wenn der Ladevorgang abgeschlossen ist. Weglassen oder auf `no` (Standard), den Browser öffnen und laden normalerweise zu ha***REMOVED***.
+    *   **versteckte**: Legen Sie auf `yes` um den Browser zu erstellen und laden Sie die Seite, aber nicht zeigen. Das Loadstop-Ereignis wird ausgelöst, wenn der Ladevorgang abgeschlossen ist. Weglassen oder auf `no` (Standard), den Browser öffnen und laden normalerweise zu haben.
     *   **ClearCache**: Legen Sie auf `yes` , der Browser ist Cookiecache gelöscht, bevor das neue Fenster geöffnet wird
     *   **Clearsessioncache**: Legen Sie auf `yes` , der Sitzungs-Cookie Cache gelöscht, bevor das neue Fenster geöffnet wird
     
@@ -65,7 +65,7 @@ Dieses Plugin bietet eine Web-Browser-Ansicht, die beim Aufruf angezeigt`window.
     
     *   **Closebuttoncaption**: Legen Sie auf eine Zeichenfolge als Beschriftung der **fertig** -Schaltfläche verwenden. Beachten Sie, dass Sie diesen Wert selbst zu lokalisieren müssen.
     *   **Disallowoverscroll**: Legen Sie auf `yes` oder `no` (Standard ist `no` ). Aktiviert/deaktiviert die UIWebViewBounce-Eigenschaft.
-    *   **versteckte**: Legen Sie auf `yes` um den Browser zu erstellen und laden Sie die Seite, aber nicht zeigen. Das Loadstop-Ereignis wird ausgelöst, wenn der Ladevorgang abgeschlossen ist. Weglassen oder auf `no` (Standard), den Browser öffnen und laden normalerweise zu ha***REMOVED***.
+    *   **versteckte**: Legen Sie auf `yes` um den Browser zu erstellen und laden Sie die Seite, aber nicht zeigen. Das Loadstop-Ereignis wird ausgelöst, wenn der Ladevorgang abgeschlossen ist. Weglassen oder auf `no` (Standard), den Browser öffnen und laden normalerweise zu haben.
     *   **ClearCache**: Legen Sie auf `yes` , der Browser ist Cookiecache gelöscht, bevor das neue Fenster geöffnet wird
     *   **Clearsessioncache**: Legen Sie auf `yes` zu der Session Cookie Cache gelöscht, bevor das neue Fenster geöffnet wird
     *   **Symbolleiste**: Legen Sie auf `yes` oder `no` Aktivieren Sie die Symbolleiste ein- oder Ausschalten für InAppBrowser (Standard:`yes`)
@@ -73,14 +73,14 @@ Dieses Plugin bietet eine Web-Browser-Ansicht, die beim Aufruf angezeigt`window.
     *   **MediaPlaybackRequiresUserAction**: Legen Sie auf `yes` oder `no` , HTML5 audio oder video von automatisches Abspielen (standardmäßig zu verhindern`no`).
     *   **AllowInlineMediaPlayback**: Legen Sie auf `yes` oder `no` Inline-HTML5-Media-Wiedergabe, Darstellung im Browser-Fenster, sondern in eine gerätespezifische Wiedergabe-Schnittstelle ermöglichen. Des HTML `video` Element muss auch die `webkit-playsinline` Attribut (Standard:`no`)
     *   **KeyboardDisplayRequiresUserAction**: Legen Sie auf `yes` oder `no` um die Tastatur zu öffnen, wenn Formularelemente Fokus per JavaScript erhalten `focus()` Anruf (Standard:`yes`).
-    *   **SuppressesIncrementalRendering**: Legen Sie auf `yes` oder `no` zu warten, bis alle neuen anzeigen-Inhalte empfangen wird, bevor Sie wiedergege***REMOVED*** wird (standardmäßig`no`).
+    *   **SuppressesIncrementalRendering**: Legen Sie auf `yes` oder `no` zu warten, bis alle neuen anzeigen-Inhalte empfangen wird, bevor Sie wiedergegeben wird (standardmäßig`no`).
     *   **Presentationstyle**: Legen Sie auf `pagesheet` , `formsheet` oder `fullscreen` [Präsentationsstil][1] (standardmäßig fest`fullscreen`).
     *   **Transitionstyle**: Legen Sie auf `fliphorizontal` , `crossdissolve` oder `coververtical` [Übergangsstil][2] (standardmäßig fest`coververtical`).
     *   **Toolbarposition**: Legen Sie auf `top` oder `bottom` (Standard ist `bottom` ). Bewirkt, dass die Symbolleiste am oberen oder unteren Rand des Fensters sein.
     
     Nur Windows:
     
-    *   **versteckte**: Legen Sie auf `yes` um den Browser zu erstellen und laden Sie die Seite, aber nicht zeigen. Das Loadstop-Ereignis wird ausgelöst, wenn der Ladevorgang abgeschlossen ist. Weglassen oder auf `no` (Standard), den Browser öffnen und laden normalerweise zu ha***REMOVED***.
+    *   **versteckte**: Legen Sie auf `yes` um den Browser zu erstellen und laden Sie die Seite, aber nicht zeigen. Das Loadstop-Ereignis wird ausgelöst, wenn der Ladevorgang abgeschlossen ist. Weglassen oder auf `no` (Standard), den Browser öffnen und laden normalerweise zu haben.
 
  [1]: http://developer.apple.com/library/ios/documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalPresentationStyle
  [2]: http://developer.apple.com/library/ios/#documentation/UIKit/Reference/UIViewController_Class/Reference/Reference.html#//apple_ref/occ/instp/UIViewController/modalTransitionStyle
@@ -133,7 +133,7 @@ Als Plugin jedes Design erzwingen nicht besteht die Notwendigkeit, einige CSS-Re
 
 ## InAppBrowser
 
-Aus einem Aufruf zurückgege***REMOVED***en Objekts`window.open`.
+Aus einem Aufruf zurückgegebenen Objekts`window.open`.
 
 ### Methoden
 
@@ -160,7 +160,7 @@ Aus einem Aufruf zurückgege***REMOVED***en Objekts`window.open`.
     *   **LoadError**: Ereignis wird ausgelöst, wenn der `InAppBrowser` ein Fehler auftritt, wenn Sie eine URL zu laden.
     *   **Ausfahrt**: Ereignis wird ausgelöst, wenn das `InAppBrowser` -Fenster wird geschlossen.
 
-*   **Rückruf**: die Funktion, die ausgeführt wird, wenn das Ereignis ausgelöst wird. Die Funktion überge***REMOVED*** wird ein `InAppBrowserEvent` -Objekt als Parameter.
+*   **Rückruf**: die Funktion, die ausgeführt wird, wenn das Ereignis ausgelöst wird. Die Funktion übergeben wird ein `InAppBrowserEvent` -Objekt als Parameter.
 
 ### InAppBrowserEvent Eigenschaften
 
@@ -202,7 +202,7 @@ Aus einem Aufruf zurückgege***REMOVED***en Objekts`window.open`.
     *   **LoadError**: Ereignis wird ausgelöst, wenn die `InAppBrowser` trifft einen Fehler beim Laden einer URLs.
     *   **Ausfahrt**: Ereignis wird ausgelöst, wenn das `InAppBrowser` -Fenster wird geschlossen.
 
-*   **Rückruf**: die Funktion ausgeführt, wenn das Ereignis ausgelöst wird. Die Funktion überge***REMOVED*** wird ein `InAppBrowserEvent` Objekt.
+*   **Rückruf**: die Funktion ausgeführt, wenn das Ereignis ausgelöst wird. Die Funktion übergeben wird ein `InAppBrowserEvent` Objekt.
 
 ### Unterstützte Plattformen
 
@@ -276,7 +276,7 @@ Aus einem Aufruf zurückgege***REMOVED***en Objekts`window.open`.
 
 *   **Ref**: Bezugnahme auf die `InAppBrowser` Fenster. *(InAppBrowser)*
 
-*   **InjectDetails**: Informationen über das Skript ausgeführt, ange***REMOVED***, entweder ein `file` oder `code` Schlüssel. *(Objekt)*
+*   **InjectDetails**: Informationen über das Skript ausgeführt, angeben, entweder ein `file` oder `code` Schlüssel. *(Objekt)*
     
     *   **Datei**: URL des Skripts zu injizieren.
     *   **Code**: Text des Skripts zu injizieren.
@@ -309,7 +309,7 @@ Aus einem Aufruf zurückgege***REMOVED***en Objekts`window.open`.
 
 *   **Ref**: Bezugnahme auf die `InAppBrowser` Fenster *(InAppBrowser)*
 
-*   **InjectDetails**: Informationen über das Skript ausgeführt, ange***REMOVED***, entweder ein `file` oder `code` Schlüssel. *(Objekt)*
+*   **InjectDetails**: Informationen über das Skript ausgeführt, angeben, entweder ein `file` oder `code` Schlüssel. *(Objekt)*
     
     *   **Datei**: URL des Stylesheets zu injizieren.
     *   **Code**: Text des Stylesheets zu injizieren.

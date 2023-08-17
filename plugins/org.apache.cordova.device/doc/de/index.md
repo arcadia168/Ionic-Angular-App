@@ -93,7 +93,7 @@ Die `device.model` gibt den Namen der Modell- oder des Geräts zurück. Der Wert
 
 ### Windows Phone 7 und 8 Eigenarten
 
-*   Gibt das vom Hersteller angege***REMOVED***en Gerätemodell zurück. Beispielsweise gibt der Samsung-Fokus`SGH-i917`.
+*   Gibt das vom Hersteller angegebenen Gerätemodell zurück. Beispielsweise gibt der Samsung-Fokus`SGH-i917`.
 
 ## device.platform
 
@@ -159,8 +159,8 @@ Die Details wie eine UUID generiert wird werden vom Gerätehersteller und bezieh
 ### Kurzes Beispiel
 
     / / Android: wird eine zufällige 64-Bit-Ganzzahl (als Zeichenfolge, wieder!) / / die ganze Zahl wird beim ersten Start des Geräts erzeugt / / / / BlackBerry: gibt die PIN-Nummer des Gerätes / / Dies ist eine neunstellige eindeutige Ganzzahl (als String, obwohl!) / / / / iPhone: (paraphrasiert aus der Dokumentation zur UIDevice-Klasse) / / liefert eine Reihe von Hash-Werte, die aus mehreren Hardware erstellt identifiziert.
-    / / Es ist gewährleistet, dass für jedes Gerät eindeutig sein und kann nicht gebunden werden / / an den ***REMOVED***utzer weitergeleitet.
-    / / Windows Phone 7: gibt einen Hash des Gerät + aktueller ***REMOVED***utzer, / / wenn der ***REMOVED***utzer nicht definiert ist, eine Guid generiert und wird weiter bestehen, bis die app deinstalliert wird / / Tizen: gibt das Gerät IMEI (International Mobile Equipment Identity oder IMEI ist eine Zahl / / einzigartig für jedes GSM- und UMTS-Handy.
+    / / Es ist gewährleistet, dass für jedes Gerät eindeutig sein und kann nicht gebunden werden / / an den Benutzer weitergeleitet.
+    / / Windows Phone 7: gibt einen Hash des Gerät + aktueller Benutzer, / / wenn der Benutzer nicht definiert ist, eine Guid generiert und wird weiter bestehen, bis die app deinstalliert wird / / Tizen: gibt das Gerät IMEI (International Mobile Equipment Identity oder IMEI ist eine Zahl / / einzigartig für jedes GSM- und UMTS-Handy.
     var deviceID = device.uuid;
     
 

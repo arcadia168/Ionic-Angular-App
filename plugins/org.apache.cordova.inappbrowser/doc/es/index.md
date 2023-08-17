@@ -50,7 +50,7 @@ Se abre una dirección URL en una nueva instancia de `InAppBrowser`, la instanci
 
 *   **options**: opciones para el `InAppBrowser`. Opcional, contumaz a: `location=yes`. *(String)*
     
-    La cadena de `options` no debe contener ningún espacio en blanco, y los pares de nombre y valor de cada característica de***REMOVED*** estar separados por una coma. Los nombres de función son minúsculas. Todas las plataformas admiten el valor siguiente:
+    La cadena de `options` no debe contener ningún espacio en blanco, y los pares de nombre y valor de cada característica deben estar separados por una coma. Los nombres de función son minúsculas. Todas las plataformas admiten el valor siguiente:
     
     *   **location**: se establece en `yes` o `no` para activar o desactivar la barra de ubicación de la `InAppBrowser`.
     
@@ -72,7 +72,7 @@ Se abre una dirección URL en una nueva instancia de `InAppBrowser`, la instanci
     *   **enableViewportScale**: Set a `yes` o `no` para evitar viewport escalar a través de una etiqueta meta (por defecto a `no`).
     *   **mediaPlaybackRequiresUserAction**: Set a `yes` o `no` para evitar HTML5 audio o vídeo de reproducción automática (por defecto a `no`).
     *   **allowInlineMediaPlayback**: A `yes` o `no` para permitir la reproducción de los medios de comunicación en línea HTML5, mostrando en la ventana del navegador en lugar de una interfaz específica del dispositivo de reproducción. Elemento `video` de HTML también debe incluir el atributo de `webkit-playsinline` (por defecto a `no`)
-    *   **keyboardDisplayRequiresUserAction**: se establece en `yes` o `no` para abrir el teclado cuando elementos de formulario reci***REMOVED*** el foco mediante llamada de JavaScript de `focus()` (por defecto a `yes`).
+    *   **keyboardDisplayRequiresUserAction**: se establece en `yes` o `no` para abrir el teclado cuando elementos de formulario reciben el foco mediante llamada de JavaScript de `focus()` (por defecto a `yes`).
     *   **suppressesIncrementalRendering**: se establece en `yes` o `no` para esperar hasta que todos los nuevos contenidos de vista se recibieron antes de ser prestados (por defecto a `no`).
     *   **presentationstyle**: se establece en `pagesheet`, `formsheet` o `fullscreen` para definir el [estilo de la presentación][1] (por defecto a `fullscreen`).
     *   **transitionstyle**: se establece en `fliphorizontal`, `crossdissolve` o `coververtical` para definir el [estilo de transición][2] (por defecto `coververtical`).

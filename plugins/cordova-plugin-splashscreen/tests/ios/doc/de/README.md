@@ -32,7 +32,7 @@ Installieren Sie Cordova-Ios zum ersten Mal:
 
   1. Starten Sie die Datei `CDVSplashScreenTest.xcworkspace` .
   2. Wählen Sie im Dropdown-Schema "CDVSplashScreenLibTests"
-  3. Klicken Sie und halten Sie auf den `Play` -Button und wählen Sie das `Schrau***REMOVED***schlüssel` -Symbol zum Ausführen der tests
+  3. Klicken Sie und halten Sie auf den `Play` -Button und wählen Sie das `Schraubenschlüssel` -Symbol zum Ausführen der tests
 
 # Tests von der Befehlszeile aus
 
